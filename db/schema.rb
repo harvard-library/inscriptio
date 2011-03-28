@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20110328133159) do
   create_table "floors", :force => true do |t|
     t.integer  "library_id"
     t.string   "name"
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

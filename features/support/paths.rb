@@ -11,6 +11,9 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
 
+    when /the new library page/
+      new_library_path
+
     when /library\/(.+)/
       library_path($1)
 

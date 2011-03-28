@@ -1,7 +1,15 @@
 Inscriptio::Application.routes.draw do
-  resources :floors
 
-  resources :libraries
+  resources :libraries do
+    resources :floors do
+      member do
+        post 'move_higher'
+        post 'move_lower'
+      end
+    end
+  end
+
+  root :to => 'libraries#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

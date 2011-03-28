@@ -65,6 +65,14 @@ When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
   fill_in(field, :with => value)
 end
 
+Then 'display the page' do
+  puts "\n\n\n#{page.body.to_s}\n\n\n"
+end
+
+Then /^display "([^"]*)"$/ do |selector|
+  puts "\n\n\n#{find(selector).native.to_html}\n\n\n"
+end
+
 # Use this to fill in an entire form with data from a table. Example:
 #
 #   When I fill in the following:

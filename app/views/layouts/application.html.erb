@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Inscriptio</title>
-  <%= stylesheet_link_tag :all %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
+  <head>
+    <title>Inscriptio</title>
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag 'jquery.min', 'rails.js' %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
 
-<%= yield %>
+    <% if flash[:alert] %>
+      <div class="alert"><%= flash[:alert] %></div>
+    <% end %>
 
-</body>
+    <% if flash[:error] %>
+      <div class="error"><%= flash[:error] %></div>
+    <% end %>
+
+    <%= yield %>
+
+  </body>
 </html>

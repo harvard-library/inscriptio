@@ -4,6 +4,8 @@ class CreateFloors < ActiveRecord::Migration
       t.references :library
       t.string :name
 
+      t.integer :position
+
       t.timestamps
     end
   end

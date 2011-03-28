@@ -2,3 +2,15 @@ floor1:
   id: 1
   library_id: 1
   name: Floor 1
+floor2:
+  id: 2
+  library_id: 1
+  name: Floor 2
+floor3:
+  id: 3
+  library_id: 1
+  name: Floor 3
+floor4:
+  id: 4
+  library_id: 1
+  name: Floor 4

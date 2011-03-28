@@ -1,0 +1,7 @@
+<div class="floors collection-list">
+  <% unless @floors.blank? %>
+    <%= render :partial => 'shared/lines/floor', :collection => @floors %>
+  <% else %>
+    <h2>No floors for this library yet.</h2>
+  <% end %>
+</div>

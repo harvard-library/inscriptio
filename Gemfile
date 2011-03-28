@@ -1,9 +1,15 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.5'
+gem 'pg'
+gem 'formtastic', '1.2.3'
+gem 'acts_as_list', '0.1.2'
+gem 'jquery-rails', '0.2.7' 
+gem 'devise', '1.2.1'
 
 group :development,:test do
   gem 'rspec-rails'
+  gem 'launchy'
 end
 
 group :test do
@@ -13,10 +19,6 @@ group :test do
   gem 'shoulda', '2.11.3'
 end
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'pg'
 
 # Use unicorn as the web server
 # gem 'unicorn'
