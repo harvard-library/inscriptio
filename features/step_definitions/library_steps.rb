@@ -3,5 +3,5 @@ Given /^a library with an id of (\d+)$/ do |arg1|
 end
 
 Then /^the library should have a floor named "([^"]*)"$/ do |arg1|
-  @library.floors.find(:first,:conditions => {:name => arg})
+  @library.floors.find(:first,:conditions => {:name => arg1})
 end

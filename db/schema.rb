@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110325184518) do
+ActiveRecord::Schema.define(:version => 20110328133159) do
+
+  create_table "floors", :force => true do |t|
+    t.integer  "library_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "libraries", :force => true do |t|
     t.string   "name"

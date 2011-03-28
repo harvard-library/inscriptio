@@ -1,0 +1,2 @@
+class FloorsController < ApplicationController
+end

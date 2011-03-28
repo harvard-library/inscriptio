@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :floors
+
   resources :libraries
 
   # The priority is based upon order of creation:
