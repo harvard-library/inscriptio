@@ -1,0 +1,2 @@
+class CallNumbersController < ApplicationController
+end

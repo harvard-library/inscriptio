@@ -1,5 +1,7 @@
 Inscriptio::Application.routes.draw do
 
+  resources :call_numbers
+
   resources :libraries do
     resources :floors do
       member do
