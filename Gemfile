@@ -6,6 +6,8 @@ gem 'formtastic', '1.2.3'
 gem 'acts_as_list', '0.1.2'
 gem 'jquery-rails', '0.2.7' 
 gem 'devise', '1.2.1'
+gem 'carrierwave', '0.5.3'
+gem 'mini_magick', '3.2'
 
 group :development,:test do
   gem 'rspec-rails'
@@ -17,6 +19,7 @@ group :test do
   gem 'capybara', '0.4.1.2'
   gem 'database_cleaner', '0.6.6'
   gem 'shoulda', '2.11.3'
+  gem 'sqlite3'
 end
 
 

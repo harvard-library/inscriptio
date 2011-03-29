@@ -14,11 +14,16 @@ ActiveRecord::Schema.define(:version => 20110328133159) do
 
   create_table "floors", :force => true do |t|
     t.integer  "library_id"
-    t.string   "name"
+    t.string   "name",       :null => false
     t.integer  "position"
+    t.string   "floor_map"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "floors", ["floor_map"], :name => "index_floors_on_floor_map"
+  add_index "floors", ["library_id"], :name => "index_floors_on_library_id"
+  add_index "floors", ["position"], :name => "index_floors_on_position"
 
   create_table "libraries", :force => true do |t|
     t.string   "name"
