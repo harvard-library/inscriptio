@@ -1,9 +1,11 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 one:
-  call_number: MyString
-  description: MyString
+  call_number: CN-1
+  description: Call Number 1
 
 two:
-  call_number: MyString
-  description: MyString
+  call_number: CN-2
+  description: Call Number 2
+
+three:
+  call_number: CN-3
+  description: Call Number 3

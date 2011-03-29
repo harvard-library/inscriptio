@@ -1,0 +1,15 @@
+one:
+  call_number_id: 1
+  floor_id: 1
+
+two:
+  call_number_id: 1
+  floor_id: 2
+
+three:
+  call_number_id: 3
+  floor_id: 1
+
+four: 
+  call_number_id: 2
+  floor_id: 1
