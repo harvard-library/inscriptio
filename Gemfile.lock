@@ -128,6 +128,7 @@ GEM
       railties (~> 3.0)
       rspec (~> 2.5.0)
     rubyzip (0.9.4)
+    selenium-client (1.2.18)
     selenium-webdriver (0.1.4)
       childprocess (>= 0.1.7)
       ffi (>= 1.0.7)
@@ -160,8 +161,10 @@ DEPENDENCIES
   jquery-rails (= 0.2.7)
   launchy
   mini_magick (= 3.2)
-  pg
+  pg (= 0.10.1)
   rails (= 3.0.5)
   rspec-rails
+  selenium-client (= 1.2.18)
+  selenium-webdriver (= 0.1.4)
   shoulda (= 2.11.3)
   sqlite3

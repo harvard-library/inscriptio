@@ -17,7 +17,25 @@ class FloorsController < ApplicationController
         flash[:notice] = 'Added that floor'
         format.html {render :action => :show}
       else
-        flash[:error] = 'Deleted that floor'
+        flash[:error] = 'Could not add that floor'
+        format.html {render :action => :new}
+      end
+    end
+  end
+
+  def edit
+    @floor = Floor.find(params[:id])
+  end
+
+  def update
+    @floor = Floor.find(params[:id])
+    @floor.attributes = params[:floor]
+    respond_to do|format|
+      if @floor.save
+        flash[:notice] = %Q|#{@floor.name} updated|
+        format.html {render :action => :show}
+      else
+        flash[:error] = 'Could not update that floor'
         format.html {render :action => :new}
       end
     end

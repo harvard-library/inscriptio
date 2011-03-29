@@ -4,6 +4,10 @@ class Floor < ActiveRecord::Base
   acts_as_list :scope => :library
   belongs_to :library
 
-  validates_presence_of :name
+  validates_presence_of :name, :library_id, :floor_map
+
+  def to_s
+    %Q|#{name}|
+  end
 
 end

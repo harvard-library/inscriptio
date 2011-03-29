@@ -5,10 +5,6 @@ Given /^a library named "([^"]*)"$/ do |arg1|
   @library = Library.find_or_create_by_name(arg1)
 end
 
-Given /^(?:|I )am on the new library_floor page$/ do
-  visit(new_library_floor_path(@library))
-end
-
 When /^I delete the floor named "([^"]*)"$/ do |arg1|
   floor = @library.floors.find(:first, :conditions => {:name => arg1})
   visit library_floors_path(@library)
@@ -17,8 +13,19 @@ When /^I delete the floor named "([^"]*)"$/ do |arg1|
   end
 end
 
-When /^I am on the library_floor index page/ do
-  visit(library_floors_path(@library))
+Given /^a library_floor named "([^"]*)"$/ do |arg1|
+  @floor = @library.floors.find(:first, :conditions => {:name => arg1})
+end
+
+When /^(?:|I )am on the library_floor "([^"]*)" page$/ do|page_name|
+  case page_name
+  when 'index'
+    visit(library_floors_path(@library))
+  when 'new'
+    visit(new_library_floor_path(@library))
+  when 'edit'
+    visit(edit_library_floor_path(@library, @floor))
+  end
 end
 
 Given /^the floors have been deleted$/ do

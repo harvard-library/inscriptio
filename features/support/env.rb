@@ -50,8 +50,22 @@ DatabaseCleaner.strategy = :transaction
 Before do
   #Load fixtures before running cucumber.
   Fixtures.reset_cache
-  fixtures_folder = File.join(Rails.root.to_s, 'test', 'fixtures')
+  fixtures_folder = File.join(Rails.root.to_s, 'spec', 'fixtures')
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
   Fixtures.create_fixtures(fixtures_folder, fixtures)
 end
+
+#TODO - figure out multiple profiles for running cucumber tasks.
+
+#require 'capybara'
+#require 'capybara/dsl'
+#require "capybara/cucumber"
+
+#Capybara.default_driver = :selenium
+#Capybara.app_host = "http://127.0.0.1:3000"
+#Capybara.register_driver :selenium do |app|
+#  Capybara::Driver::Selenium.new(app, :browser => :chrome)
+#end
+
+#World(Capybara)
 

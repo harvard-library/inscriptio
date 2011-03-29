@@ -1,0 +1,12 @@
+<%= semantic_form_for([@library,@floor], :html => {:multipart => true}) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :library %>
+    <%= f.input :name %>
+    <% unless f.object.floor_map.blank? %>
+      <h3>Current Map</h3>
+      <%= image_tag(f.object.floor_map.url) %>
+    <% end %>
+    <%= f.input :floor_map, :as => :file, :label => 'Upload a Floor Map' %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
