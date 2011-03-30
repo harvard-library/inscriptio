@@ -19,12 +19,11 @@ Feature: Manage call_numbers
     When I am on the library_floor "show" page for "Floor 1"
     Then I should see "CN-5"
 
-@wip
   Scenario: View a call number page.
     Given a library named "Widener"
     And an administrator
     And I am on the call_number "show" page for "CN-1"
-    Then show me the page
+    Then I should see "Floor 4"
 
   Scenario: Register a new call_number without a floor
     Given a library named "Widener"
