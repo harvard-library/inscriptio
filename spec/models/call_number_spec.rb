@@ -5,6 +5,7 @@ describe CallNumber do
   context 'has basic attributes' do
     it { should have_and_belong_to_many(:floors) }
     it { should validate_presence_of(:call_number) }
+    it { should validate_uniqueness_of(:call_number) }
     it { should have_db_index(:call_number) }
   end
 

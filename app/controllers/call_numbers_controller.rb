@@ -17,4 +17,8 @@ class CallNumbersController < ApplicationController
     end
   end
 
+  def show
+    @call_number = CallNumber.find(params[:id])
+  end
+
 end

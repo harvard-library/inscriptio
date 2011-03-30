@@ -4,18 +4,21 @@ floor1:
   name: Floor 1
   position: 1
   floor_map: public/uploads/floor/floor_map/2/rails.png
+
 floor2:
   id: 2
   library_id: 1
   name: Floor 2
   position: 2
   floor_map: public/uploads/floor/floor_map/2/rails.png
+
 floor3:
   id: 3
   library_id: 1
   name: Floor 3
   position: 3
   floor_map: public/uploads/floor/floor_map/2/rails.png
+
 floor4:
   id: 4
   library_id: 1

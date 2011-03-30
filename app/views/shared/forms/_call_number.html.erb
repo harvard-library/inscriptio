@@ -1,4 +1,8 @@
 <%= semantic_form_for(@call_number) do |f| %>
-  <%= f.inputs %>
+  <%= f.inputs do %>
+    <%= f.input :call_number %>
+    <%= f.input :description %>
+    <%= f.input :floors, :hint => 'Hint: use <control> or <shift> click to select multiple floors' %>
+  <% end %>
   <%= f.buttons %>
 <% end %>

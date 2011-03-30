@@ -60,6 +60,7 @@ class FloorsController < ApplicationController
   end
 
   def show
+    @floor = Floor.find(params[:id])
   end
 
   def destroy

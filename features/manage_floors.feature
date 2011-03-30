@@ -24,9 +24,11 @@ Feature: Manage floors
     When I fill in "Name" with "Floor 5"
     And I select "Widener" from "Library"
     And I attach the file "public/images/rails.png" to "Upload a Floor Map"
+    And I select "CN-1" from "Call numbers"
     And I press "Create"
     Then I should see "Floor 5"
     And I should see "in Widener"
+    And I should see "CN-1"
 
   Scenario: Move a floor up within library
     Given a library named "Widener"

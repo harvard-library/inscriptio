@@ -1,7 +1,13 @@
 <div class="floor show-object">
   <h1><%= @floor %> in <%= @floor.library.name %></h1>
-  <% unless @floor.floor_map.blank? %>
-    <h3>Map</h3>
-    <%= image_tag(@floor.floor_map.url) %>
-  <% end %>
+  <dl>
+    <dt>Call numbers:</dt>
+    <dd><%= @floor.call_numbers.join(', ') %></dd>
+
+    <% unless @floor.floor_map.blank? %>
+      <dt>Map</dt>
+      <dd><%= image_tag(@floor.floor_map.url) %></dd>
+    <% end %>
+
+  </dl>
 </div>

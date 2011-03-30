@@ -1,0 +1,9 @@
+<div class="call_number show-object">
+  <h1><%= @call_number %></h1>
+  <dl>
+    <dt>Description:</dt>
+    <dd><%= @call_number.description %></dd>
+    <dt>Floors:</dt>
+    <dd><%= @call_number.floors.join(', ') %></dd>
+  </dl>
+</div>

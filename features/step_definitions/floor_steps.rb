@@ -24,7 +24,18 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
   when 'new'
     visit(send('new_' + object_type + '_path',@library))
   when 'edit'
-    visit(send('edit_' + library_floor + '_path', @library, @floor))
+    visit(send('edit_' + object_type + '_path', @library, @floor))
+  end
+end
+
+When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, object_name|
+  case object_type
+  when 'library_floor'
+    floor = @library.floors.find(:first, :conditions => {:name => object_name})
+    visit(library_floor_path(@library,floor))
+  when 'call_number'
+    call_number = CallNumber.find(:first, :conditions => { :call_number => object_name })
+    visit(call_number_path(call_number))
   end
 end
 
