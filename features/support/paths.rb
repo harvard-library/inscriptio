@@ -10,6 +10,9 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
+    when /the new call_number page/
+      new_call_number_path
+
 
     when /the new library page/
       new_library_path

@@ -17,14 +17,14 @@ Given /^a library_floor named "([^"]*)"$/ do |arg1|
   @floor = @library.floors.find(:first, :conditions => {:name => arg1})
 end
 
-When /^(?:|I )am on the library_floor "([^"]*)" page$/ do|page_name|
+When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
   case page_name
   when 'index'
-    visit(library_floors_path(@library))
+    visit(send(object_type.pluralize + '_path', @library))
   when 'new'
-    visit(new_library_floor_path(@library))
+    visit(send('new_' + object_type + '_path',@library))
   when 'edit'
-    visit(edit_library_floor_path(@library, @floor))
+    visit(send('edit_' + library_floor + '_path', @library, @floor))
   end
 end
 
