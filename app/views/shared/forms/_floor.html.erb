@@ -2,7 +2,7 @@
   <%= f.inputs do %>
     <%= f.input :library %>
     <%= f.input :name %>
-    <%= f.input :call_numbers, :hint => 'Hint: use <control> or <shift> click to select multiple call numbers' %>
+    <%= f.input :call_numbers, :as => :check_boxes, :hint => 'Hint: use <control> or <shift> click to select multiple call numbers' %>
     <% unless f.object.floor_map.blank? %>
       <h3>Current Map</h3>
       <%= image_tag(f.object.floor_map.url) %>

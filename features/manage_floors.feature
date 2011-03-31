@@ -25,12 +25,12 @@ Feature: Manage floors
     When I fill in "Name" with "Floor 5"
     And I select "Widener" from "Library"
     And I attach the file "public/images/rails.png" to "Upload a Floor Map"
-    And I select "CN-1" from "Call numbers"
-    And I select "CN-3" from "Call numbers"
+    And I check "CN-2"
+    And I check "CN-3"
     And I press "Create"
     Then I should see "Floor 5"
     And I should see "in Widener"
-    And I should see "CN-1"
+    And I should see "CN-2"
     And I should see "CN-3"
 
   Scenario: Move a floor up within library
@@ -53,11 +53,9 @@ Feature: Manage floors
     And an administrator
     And I am on the library_floor "edit" page
     When I attach the file "public/images/rails.png" to "Upload a Floor Map"
-    And show me the page
     And I press "Update"
     Then I should see "Floor 1 updated"
     And I should see "Map"
     And I am on the library_floor "edit" page
     Then I should see "Current Map"
-
 

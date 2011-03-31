@@ -56,15 +56,13 @@ Before do
 end
 
 #TODO - figure out multiple profiles for running cucumber tasks.
-
-#require 'capybara'
-#require 'capybara/dsl'
-#require "capybara/cucumber"
+# It seems that selenium is unable to attach files in chrome.
+# That kind of makes sense, but also makes testing more annoying.
 
 #Capybara.default_driver = :selenium
 #Capybara.app_host = "http://127.0.0.1:3000"
 #Capybara.register_driver :selenium do |app|
-#  Capybara::Driver::Selenium.new(app, :browser => :chrome)
+#  Capybara::Driver::Selenium.new(app, :browser => :firefox)
 #end
 
 #World(Capybara)

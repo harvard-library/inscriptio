@@ -1,5 +1,4 @@
 floor1:
-  id: 1
   library: widener
   name: Floor 1
   floor_map: public/images/rails.png
@@ -7,7 +6,6 @@ floor1:
   position: 1
 
 floor2:
-  id: 2
   library: widener
   name: Floor 2
   floor_map: public/images/rails.png
@@ -15,7 +13,6 @@ floor2:
   position: 2
 
 floor3:
-  id: 3
   library: widener
   name: Floor 3
   floor_map: public/images/rails.png
@@ -23,7 +20,6 @@ floor3:
   position: 3
 
 floor4:
-  id: 4
   library: widener
   name: Floor 4
   floor_map: public/images/rails.png

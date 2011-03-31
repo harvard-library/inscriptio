@@ -1,19 +1,15 @@
 cn1:
-  id: 1
   call_number: CN-1
   description: Call Number 1
 
 cn2:
-  id: 2
   call_number: CN-2
   description: Call Number 2
 
 cn3:
-  id: 3
   call_number: CN-3
   description: Call Number 3
 
 cn4:
-  id: 4
   call_number: CN-4
   description: Call Number 4
