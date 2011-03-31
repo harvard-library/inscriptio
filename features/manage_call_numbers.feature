@@ -7,8 +7,8 @@ Feature: Manage call_numbers
     And an administrator
     And I am on the call_number "new" page
     When I fill in "Description" with "Call Number 5"
-    And I select "Floor 1" from "Floors"
-    And I select "Floor 3" from "Floors"
+    And I check "Floor 1"
+    And I check "Floor 3"
     And I press "Create"
     Then I should see "Could not add that Call Number"
     When I fill in "Call number" with "CN-5"
@@ -19,11 +19,19 @@ Feature: Manage call_numbers
     When I am on the library_floor "show" page for "Floor 1"
     Then I should see "CN-5"
 
-  Scenario: View a call number page.
+@wip
+  Scenario: View a call number page and make an edit
     Given a library named "Widener"
+    And a call_number of "CN-1"
     And an administrator
     And I am on the call_number "show" page for "CN-1"
-    Then I should see "Floor 4"
+    Then I should see "Floor 1"
+    When I am on the call_number "edit" page
+    And I check "Floor 1"
+    And I check "Floor 2"
+    And I press "Update"
+    Then I should see "Floor 1"
+    And I should see "Floor 2"
 
   Scenario: Register a new call_number without a floor
     Given a library named "Widener"

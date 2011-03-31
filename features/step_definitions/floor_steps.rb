@@ -17,14 +17,27 @@ Given /^a library_floor named "([^"]*)"$/ do |arg1|
   @floor = @library.floors.find(:first, :conditions => {:name => arg1})
 end
 
+Given /^a call_number of "([^"]*)"$/ do |arg1|
+  @call_number = CallNumber.find_by_call_number(arg1)
+end
+
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
-  case page_name
-  when 'index'
-    visit(send(object_type.pluralize + '_path', @library))
-  when 'new'
-    visit(send('new_' + object_type + '_path',@library))
-  when 'edit'
-    visit(send('edit_' + object_type + '_path', @library, @floor))
+  if object_type == 'library_floor'
+    case page_name
+    when 'index'
+      visit(library_floors_path(@library))
+    when 'new'
+      visit(new_library_floor_path(@library))
+    when 'edit'
+      visit(edit_library_floor_path(@library, @floor))
+    end
+  elsif object_type == 'call_number'
+    case page_name
+    when 'new'
+      visit(new_call_number_path)
+    when 'edit'
+      visit(edit_call_number_path(@call_number))
+    end
   end
 end
 

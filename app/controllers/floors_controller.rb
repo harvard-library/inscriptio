@@ -29,7 +29,6 @@ class FloorsController < ApplicationController
 
   def update
     @floor = Floor.find(params[:id])
-    logger.warn("params from the frontend:" + params[:floor].inspect)
     @floor.attributes = params[:floor]
     respond_to do|format|
       if @floor.save

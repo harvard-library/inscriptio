@@ -17,7 +17,6 @@ Feature: Manage floors
     Then I should see "Deleted floor Floor 2"
     And I should see "Floor 3"
 
-@wip
   Scenario: Register new floor
     Given a library named "Widener"
     And an administrator
@@ -47,7 +46,7 @@ Feature: Manage floors
     When I click the "Move Down" link on "Floor 3"
     Then I should see "Moved Floor 3 down"
 
-  Scenario: Attach a map to a library, save it, and then confirm it's there on the edit form.
+  Scenario: Attach a map to a floor, save it, and then confirm it's there on the edit form.
     Given a library named "Widener"
     And a library_floor named "Floor 1"
     And an administrator
