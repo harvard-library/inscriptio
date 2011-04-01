@@ -1,3 +1,19 @@
 <div class="library-details" id="library-details-<%= @library.id %>">
-  <h1><%= @library.name %></h1>
+  <h1><%= @library.name %> - <%= link_to('link', @library.url, :class=> 'external_link' ) %></h1>
+
+  <h2 class="collapsable address">Address</h2>
+  <div class="address-target vcard">
+    <%= render :partial => 'shared/microformats/adr', :object => @library %>
+  </div>
+
+  <h2 class="collapsable contact_info">Contact</h2>
+  <div class="contact_info contact_info-target">
+    <%= @library.contact_info %>
+  </div>
+
+  <h2 class="collapsable description">About</h2>
+  <div class="description description-target">
+    <%= @library.description %>
+  </div>
+
 </div>

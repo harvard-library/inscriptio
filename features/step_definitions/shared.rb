@@ -5,11 +5,19 @@ Given /^a library named "([^"]*)"$/ do |arg1|
   @library = Library.find_or_create_by_name(arg1)
 end
 
-When /^I delete the floor named "([^"]*)"$/ do |arg1|
-  floor = @library.floors.find(:first, :conditions => {:name => arg1})
-  visit library_floors_path(@library)
-  within("#floor-#{floor.id}") do
-    click_link "delete-#{floor.id}"
+When 'I delete the $object_type named "$name"' do |object_type,name|
+  case object_type
+  when "floor"
+    floor = @library.floors.find(:first, :conditions => {:name => name})
+    within("#floor-#{floor.id}") do
+      click_link "delete-#{floor.id}"
+    end
+
+  when "library"
+    click_link "delete-#{@library.id}"
+
+  when "call_number"
+    click_link "delete-#{@library.id}"
   end
 end
 
@@ -31,17 +39,25 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'edit'
       visit(edit_library_floor_path(@library, @floor))
     end
+
   elsif object_type == 'call_number'
     case page_name
+    when 'index'
+      visit(call_numbers_path)
     when 'new'
       visit(new_call_number_path)
     when 'edit'
       visit(edit_call_number_path(@call_number))
     end
+
   elsif object_type == 'library'
     case page_name
+    when 'index'
+      visit(libraries_path)
     when 'new'
       visit(new_library_path)
+    when 'edit'
+      visit(edit_library_path(@library))
     end
   end
 end
@@ -67,3 +83,7 @@ When /^I click the "([^"]*)" link on "([^"]*)"$/ do |link_name, item_name|
     click_link(link_name)
   end
 end                                                                                                                 
+
+Then /^I should see a link to "([^"]*)"$/ do |link_href|
+  page.should have_xpath(%Q|//a[@href="#{link_href}"]|)
+end

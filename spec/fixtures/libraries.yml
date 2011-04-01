@@ -1,5 +1,25 @@
 widener:
   name: Widener
+  url: http://www.example.com
+  address_1: Harvard Yard
+  address_2:
+  city: Cambridge
+  state: MA
+  zip: 02138
+  latitude: 42.374466
+  longitude: -71.117557
+  contact_info: Telegraph or electronic mail. Interpretive dance works, too.
+  description: A library. A REALLY nice one.
 
 pusey:
   name: Pusey
+  url: http://www.example.com
+  address_1: Harvard Yard
+  address_2:
+  city: Cambridge
+  state: MA
+  zip: 02138
+  latitude: 42.374466
+  longitude: -71.117557
+  contact_info: Unlike our heathen sister above, we prefer singing telegrams.
+  description: A library.

@@ -1,5 +1,9 @@
 class LibrariesController < ApplicationController
 
+  def index
+    @libraries = Library.all
+  end
+
   def new
     @library = Library.new
   end
@@ -9,11 +13,29 @@ class LibrariesController < ApplicationController
     @library.attributes = params[:library]
     respond_to do|format|
       if @library.save
-        flash[:notice] = 'Added that Library'
+        flash[:notice] = 'Added that library'
         format.html { render :action => :show }
       else 
-        flash[:error] = 'Could not add that Library'
+        flash[:error] = 'Could not create that library'
         format.html { render :action => :new }
+      end
+    end
+  end
+
+  def edit
+    @library = Library.find(params[:id])
+  end
+
+  def update
+    @library = Library.find(params[:id])
+    @library.attributes = params[:library]
+    respond_to do|format|
+      if @library.save
+        flash[:notice] = %Q|#{@library} updated|
+        format.html {render :action => :show}
+      else
+        flash[:error] = 'Could not update that library'
+        format.html {render :action => :new}
       end
     end
   end
@@ -21,4 +43,14 @@ class LibrariesController < ApplicationController
   def show
     @library = Library.find(params[:id])
   end
+
+  def destroy
+    @library = Library.find(params[:id])
+    library_name = @library.name
+    if @library.destroy
+      flash[:notice] = %Q|Deleted #{library_name}|
+      redirect_to :action => :index
+    end
+  end
+
 end

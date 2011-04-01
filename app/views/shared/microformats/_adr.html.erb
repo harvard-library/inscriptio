@@ -1,0 +1,13 @@
+<div class="adr">
+  <div class="street-address"><%= adr.address_1 %></div>
+  <% unless adr.address_2.blank? %>
+    <div class="extended-address"><%= adr.address_2 %></div>
+  <% end %>
+  <span class="locality"><%= adr.city %></span>,
+  <span class="region"><%= adr.state %></span>
+  <span class="postal-code"><%= adr.zip %></span>
+  <div class="country-name">US</div>
+</div>
+<div class="geo">
+  Latitude: <span class="latitude"><%= adr.latitude %></span>, Longitude: <span class="longitude"><%= adr.longitude %></span>
+</div>

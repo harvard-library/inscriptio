@@ -13,6 +13,7 @@ Feature: Manage floors
   Scenario: Delete floor
     Given a library named "Widener"
     And an administrator
+    And I am on the library_floor "index" page
     When I delete the floor named "Floor 2"
     Then I should see "Deleted floor Floor 2"
     And I should see "Floor 3"

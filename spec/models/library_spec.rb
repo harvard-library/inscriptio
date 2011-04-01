@@ -1,8 +1,28 @@
 require 'spec_helper'
 
 describe Library do
-  it "should have some basic attributes" do
-    should validate_presence_of :name
-    should have_many(:floors)
+  context 'has basic attributes' do
+    [:name, :address_1, :city, :state, :zip].each do|col|
+      it { should validate_presence_of(col) }
+    end
+    it { should have_many(:floors) }
+    it { should validate_format_of(:url).with('http://foo.com') }
+    it { should validate_format_of(:url).with('') }
+    it { should validate_format_of(:url).not_with('foo.com').with_message(/is invalid/) }
+    it { should ensure_length_of(:description).is_at_least(0).is_at_most(16.kilobytes) }
+    it { should ensure_length_of(:contact_info).is_at_least(0).is_at_most(16.kilobytes) }
   end
+end
+
+describe 'A library' do
+  fixtures :all
+  before :each do
+    @library = Library.find_by_name('Widener')
+  end
+  context do 
+    it "talks about itself" do
+      @library.to_s.should == 'Widener'
+    end
+  end
+
 end
