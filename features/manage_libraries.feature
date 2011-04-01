@@ -1,10 +1,11 @@
 Feature: Manage libraries
-  In order to [goal]
-  [stakeholder]
-  wants [behaviour]
-  
+  In order to provide a container for floors and call numbers
+  And administrator
+  wants to be able to add, edit, delete, and otherwise manage floors.
+
+  @wip
   Scenario: Register new library
-    Given I am on the new library page
+    Given I am on the library "new" page
     When I fill in "Name" with "name 1"
     And I fill in "Url" with "url 1"
     And I fill in "Address 1" with "address_1 1"
