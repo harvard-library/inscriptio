@@ -1,0 +1,7 @@
+<div class="call_numbers collection-list">
+  <% unless @call_numbers.blank? %>
+    <%= render :partial => 'shared/lines/call_number', :collection => @call_numbers %>
+  <% else %>
+    <h2>No call numbers yet.</h2>
+  <% end %>
+</div>

@@ -17,7 +17,8 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
     click_link "delete-#{@library.id}"
 
   when "call_number"
-    click_link "delete-#{@library.id}"
+    call_number = CallNumber.find_by_call_number(name)
+    click_link "delete-#{call_number.id}"
   end
 end
 

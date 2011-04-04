@@ -2,7 +2,7 @@ class CreateCallNumbers < ActiveRecord::Migration
   def self.up
 
     create_table :call_numbers do |t|
-      t.string :call_number
+      t.string :call_number, :null => false, :limit => 50
       t.string :description
 
       t.timestamps

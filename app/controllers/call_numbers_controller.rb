@@ -1,5 +1,9 @@
 class CallNumbersController < ApplicationController
 
+  def index
+    @call_numbers = CallNumber.all
+  end
+
   def new
     @call_number = CallNumber.new
   end
@@ -19,6 +23,17 @@ class CallNumbersController < ApplicationController
         flash[:error] = 'Could not add that Call Number'
         format.html {render :action => :new}
       end
+    end
+  end
+
+  def destroy
+    @call_number = CallNumber.find(params[:id])
+    call_number = @call_number.call_number
+    if @call_number.destroy
+      flash[:notice] = %Q|Deleted call number #{call_number}|
+      redirect_to :action => :index
+    else
+
     end
   end
 
