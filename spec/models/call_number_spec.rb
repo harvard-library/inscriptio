@@ -28,10 +28,11 @@ describe 'a call_number object' do
 
   context do
     it 'has floors' do
-      #FIXME
       @call_number.floors.should == [Floor.find_by_name('Floor 1'),Floor.find_by_name('Floor 3'),Floor.find_by_name('Floor 4')]
+      @call_number.floors.first.destroy
+      @call_number.reload
+      @call_number.floors.should == [Floor.find_by_name('Floor 3'),Floor.find_by_name('Floor 4')]
     end
   end
-
   
 end
