@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(:version => 20110504203806) do
   add_index "floors", ["library_id"], :name => "index_floors_on_library_id"
   add_index "floors", ["position"], :name => "index_floors_on_position"
 
+  create_table "floors_subject_areas", :id => false, :force => true do |t|
+    t.integer "subject_area_id"
+    t.integer "floor_id"
+  end
+
+  add_index "floors_subject_areas", ["floor_id"], :name => "index_floors_subject_areas_on_floor_id"
+  add_index "floors_subject_areas", ["subject_area_id"], :name => "index_floors_subject_areas_on_subject_area_id"
+
   create_table "libraries", :force => true do |t|
     t.string   "name",         :null => false
     t.string   "url"
@@ -68,13 +76,5 @@ ActiveRecord::Schema.define(:version => 20110504203806) do
   end
 
   add_index "subject_areas", ["name"], :name => "index_subject_areas_on_name"
-
-  create_table "subject_areas_floors", :id => false, :force => true do |t|
-    t.integer "subject_area_id"
-    t.integer "floor_id"
-  end
-
-  add_index "subject_areas_floors", ["floor_id"], :name => "index_subject_areas_floors_on_floor_id"
-  add_index "subject_areas_floors", ["subject_area_id"], :name => "index_subject_areas_floors_on_subject_area_id"
 
 end

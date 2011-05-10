@@ -42,6 +42,9 @@ class LibrariesController < ApplicationController
 
   def show
     @library = Library.find(params[:id])
+    @subject_areas = []
+    @library.floors.collect{|f| @subject_areas << f.subject_areas}
+    @subject_areas.flatten!
   end
 
   def destroy

@@ -21,6 +21,7 @@
 	</div>
 	
 	<div id="content-right">  
+	  <h2>Floors</h2>
 	  <% unless @library.floors.blank? %>
 	    <%= render :partial => 'shared/lines/floor', :collection => @library.floors %>
 	  <% else %>
@@ -29,5 +30,15 @@
 	  <!-- If authorized to edit -->
 	  <p><%= link_to('New Floor', new_library_floor_path(@library)) %></p>
 	
+	  <h2>Subject Areas</h2>
+	  
+	  <% unless @subject_areas.blank? %>
+	    <%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
+	  <% else %>
+	    <h2>No subject areas yet.</h2>
+	  <% end %>
+	  
+	  <!-- If authorized to edit -->
+	  <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
 	</div>
 </div>
