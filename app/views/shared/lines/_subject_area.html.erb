@@ -1,0 +1,7 @@
+<div class="subject_area line" id="floor-<%= subject_area.id %>">
+  <h3><%= link_to(subject_area.name, subject_area ) %></h3>
+  
+  <!-- If authorized to edit -->
+  <%= link_to('Edit', edit_subject_area_path(subject_area)) %> |
+  <%= link_to('Delete', subject_area_path(subject_area), :method => :delete, :id => "delete-#{subject_area.id}") %>
+</div>

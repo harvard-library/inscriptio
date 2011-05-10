@@ -1,0 +1,10 @@
+<div class="subject_areas collection-list">
+  <% unless @subject_areas.blank? %>
+	<%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
+  <% else %>
+	<h2>No subject areas yet.</h2>
+  <% end %>
+</div>
+
+<!-- If authorized to edit -->
+<p><%= link_to('New Subject Area', new_subject_area_path) %></p>
