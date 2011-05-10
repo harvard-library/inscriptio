@@ -2,13 +2,16 @@ class CreateCallNumbers < ActiveRecord::Migration
   def self.up
 
     create_table :call_numbers do |t|
+      t.references :subject_area
       t.string :call_number, :null => false, :limit => 50
       t.string :description
 
       t.timestamps
     end
-
-    add_index :call_numbers, :call_number
+    
+    [:subject_area_id, :call_number].each do|col|
+      add_index :call_numbers, col
+    end
 
     create_table(:call_numbers_floors, :id => false) do|t|
       t.references :call_number

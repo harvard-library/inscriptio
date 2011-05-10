@@ -1,5 +1,5 @@
 <div class="floor show-object">
-  <h1><%= @floor %> in <%= @floor.library.name %></h1>
+  <h1><%= @floor %> in <%= link_to @floor.library.name, @floor.library %></h1>
   <dl>
     <dt>Call numbers:</dt>
     <dd><%= @floor.call_numbers.join(', ') %></dd>

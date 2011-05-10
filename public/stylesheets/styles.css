@@ -1,0 +1,13 @@
+#heading {
+	width: 100%;
+}
+
+#content-left {
+	float: left;
+	width: 25%;
+}
+
+#content-right {
+	float:left;
+	width: 75%;
+}

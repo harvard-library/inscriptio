@@ -1,5 +1,5 @@
 <div class="library line" id="library-<%= library.id %>">
   <h3><%= library %></h3>
-  
+  <%= link_to 'Show', library %>
   <%= link_to('Delete', library_path(library), :method => :delete, :id => "delete-#{library.id}") %>
 </div>
