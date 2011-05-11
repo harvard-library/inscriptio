@@ -1,7 +1,11 @@
+<!--
 <div class="floor show-object">
   <h1><%= @floor %> in <%= link_to @floor.library.name, @floor.library %></h1>
   <dl>
-    <dt>Call numbers:</dt>
+  	<dt>Subject Areas:</dt>
+    <dd><%= @floor.subject_areas.join(', ') %></dd>
+	
+    <dt>Call Numbers:</dt>
     <dd><%= @floor.call_numbers.join(', ') %></dd>
 
     <% unless @floor.floor_map.blank? %>
@@ -10,4 +14,45 @@
     <% end %>
 
   </dl>
+</div>
+-->
+
+<div class="floor show-object" id="floor-details-<%= @floor.id %>">
+  	<div id="heading">
+      <h1><%= @floor %> in <%= link_to @floor.library.name, @floor.library %></h1>
+	</div>
+	
+	<div id="content-left">
+	  <h2 class="collapsable description">Assets</h2>
+	  <div class="description description-target">
+	    Insert asset list here.
+	  </div>
+	
+	  <h2 class="collapsable description">All <%= @floor.library %> Floors</h2>
+	  <% unless @floor.library.floors.blank? %>
+	    <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
+	  <% else %>
+	    <h2>No floors yet.</h2>
+	  <% end %>
+	  <!-- If authorized to edit -->
+	  <p><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></p>
+	</div>
+	
+	<div id="content-right">  
+	  
+	  <h2>Map</h2>
+	  <% unless @floor.floor_map.blank? %>
+        <%= image_tag(@floor.floor_map.url) %>
+      <% end %>
+	  
+	  <h2>Subject Areas</h2>
+	  <% unless @floor.subject_areas.blank? %>
+	    <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
+	  <% else %>
+	    <h2>No subject areas yet.</h2>
+	  <% end %>
+	  
+	  <!-- If authorized to edit -->
+	  <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+	</div>
 </div>

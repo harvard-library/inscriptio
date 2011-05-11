@@ -1,0 +1,2 @@
+class ReservableAssetsController < ApplicationController
+end
