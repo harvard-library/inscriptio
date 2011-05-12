@@ -6,9 +6,7 @@ class CreateBulletinBoards < ActiveRecord::Migration
       t.timestamps
     end
     
-    [:reservable_asset_id].each do|col|
-      add_index :bulletin_boards, col
-    end
+      add_index :bulletin_boards, :reservable_asset_id
   end
 
   def self.down

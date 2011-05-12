@@ -2,7 +2,7 @@ widener:
   name: Widener
   url: http://www.example.com
   address_1: Harvard Yard
-  address_2:
+  address_2: Harvard University
   city: Cambridge
   state: MA
   zip: 02138
@@ -15,7 +15,7 @@ pusey:
   name: Pusey
   url: http://www.example.com
   address_1: Harvard Yard
-  address_2:
+  address_2: Harvard University
   city: Cambridge
   state: MA
   zip: 02138

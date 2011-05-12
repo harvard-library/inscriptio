@@ -6,7 +6,7 @@ class CreateReservations < ActiveRecord::Migration
       t.string :code, :null => false
       t.datetime :start_date
       t.datetime :end_date
-      t.boolean :approved
+      t.boolean :approved, :default => false
       t.timestamps
     end
     

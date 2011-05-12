@@ -1,14 +1,10 @@
 Inscriptio::Application.routes.draw do
 
-  resources :authentication_sources
-
   resources :moderator_flags
 
   resources :posts
 
   resources :bulletin_boards
-
-  resources :users
 
   resources :user_types
 

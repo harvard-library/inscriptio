@@ -5,7 +5,7 @@ class CreateUserTypes < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :reservations, :name
+    add_index :user_types, :name
   end
 
   def self.down

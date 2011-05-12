@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110504203806) do
+ActiveRecord::Schema.define(:version => 20110511210203) do
+
+  create_table "bulletin_boards", :force => true do |t|
+    t.integer  "reservable_asset_id"
+    t.string   "post_lifetime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bulletin_boards", ["reservable_asset_id"], :name => "index_bulletin_boards_on_reservable_asset_id"
 
   create_table "call_numbers", :force => true do |t|
     t.integer  "subject_area_id"
@@ -68,6 +77,86 @@ ActiveRecord::Schema.define(:version => 20110504203806) do
     t.datetime "updated_at"
   end
 
+  create_table "moderator_flags", :force => true do |t|
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.string   "reason",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "moderator_flags", ["post_id"], :name => "index_moderator_flags_on_post_id"
+  add_index "moderator_flags", ["reason"], :name => "index_moderator_flags_on_reason"
+  add_index "moderator_flags", ["user_id"], :name => "index_moderator_flags_on_user_id"
+
+  create_table "posts", :force => true do |t|
+    t.integer  "bulletin_board_id"
+    t.integer  "user_id"
+    t.datetime "creation_time"
+    t.text     "message"
+    t.string   "media"
+    t.boolean  "public",            :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "posts", ["bulletin_board_id"], :name => "index_posts_on_bulletin_board_id"
+  add_index "posts", ["creation_time"], :name => "index_posts_on_creation_time"
+  add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
+
+  create_table "reservable_asset_types", :force => true do |t|
+    t.integer  "library_id"
+    t.string   "name",                                          :null => false
+    t.string   "min_reservation_time"
+    t.string   "max_reservation_time"
+    t.integer  "max_concurrent_users"
+    t.string   "reservation_time_increment"
+    t.boolean  "has_code"
+    t.text     "welcome_message"
+    t.string   "expiration_extension_time"
+    t.boolean  "requires_moderation",        :default => true
+    t.text     "moderation_held_message"
+    t.boolean  "has_bulletin_board",         :default => false
+    t.string   "photo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reservable_asset_types", ["library_id"], :name => "index_reservable_asset_types_on_library_id"
+  add_index "reservable_asset_types", ["name"], :name => "index_reservable_asset_types_on_name"
+
+  create_table "reservable_assets", :force => true do |t|
+    t.integer  "floor_id"
+    t.integer  "reservable_asset_type_id"
+    t.string   "location"
+    t.string   "min_reservation_time"
+    t.string   "max_reservation_time"
+    t.integer  "max_concurrent_users"
+    t.string   "reservation_time_increment"
+    t.text     "general_info"
+    t.string   "photo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reservable_assets", ["floor_id"], :name => "index_reservable_assets_on_floor_id"
+  add_index "reservable_assets", ["reservable_asset_type_id"], :name => "index_reservable_assets_on_reservable_asset_type_id"
+
+  create_table "reservations", :force => true do |t|
+    t.integer  "reservable_asset_id"
+    t.integer  "user_id"
+    t.string   "code",                                   :null => false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "approved",            :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reservations", ["code"], :name => "index_reservations_on_code"
+  add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"
+  add_index "reservations", ["user_id"], :name => "index_reservations_on_user_id"
+
   create_table "subject_areas", :force => true do |t|
     t.string   "name",        :null => false
     t.string   "description"
@@ -76,5 +165,13 @@ ActiveRecord::Schema.define(:version => 20110504203806) do
   end
 
   add_index "subject_areas", ["name"], :name => "index_subject_areas_on_name"
+
+  create_table "user_types", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_types", ["name"], :name => "index_user_types_on_name"
 
 end

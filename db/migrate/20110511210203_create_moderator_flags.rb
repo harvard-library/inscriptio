@@ -8,7 +8,7 @@ class CreateModeratorFlags < ActiveRecord::Migration
     end
     
     [:post_id, :user_id, :reason].each do|col|
-      add_index :reservations, col
+      add_index :moderator_flags, col
     end
   end
 

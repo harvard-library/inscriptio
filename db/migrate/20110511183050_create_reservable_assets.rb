@@ -4,15 +4,12 @@ class CreateReservableAssets < ActiveRecord::Migration
       t.references :floor
       t.references :reservable_asset_type
       t.string :location
-      t.string :section
-      t.string :number
       t.string :min_reservation_time
       t.string :max_reservation_time
       t.integer :max_concurrent_users
       t.string :reservation_time_increment
-      t.string :code
       t.text :general_info
-      t.integer :current_users
+      t.string :photo
       t.timestamps
     end
     
