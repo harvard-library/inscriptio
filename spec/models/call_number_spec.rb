@@ -7,6 +7,7 @@ describe CallNumber do
     it { should validate_presence_of(:call_number) }
     it { should validate_uniqueness_of(:call_number) }
     it { should have_db_index(:call_number) }
+    it { should have_db_index(:subject_area_id) }
     it { should ensure_length_of(:call_number).is_at_least(1).is_at_most(50) }
     it { should ensure_length_of(:description).is_at_least(0).is_at_most(16.kilobytes) }
   end

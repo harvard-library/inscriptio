@@ -5,4 +5,8 @@ class SubjectArea < ActiveRecord::Base
   
   validates_presence_of :name
   validates_length_of :description, :maximum => 16.kilobytes, :allow_blank => true
+  
+  def to_s
+    %Q|#{name}|
+  end
 end

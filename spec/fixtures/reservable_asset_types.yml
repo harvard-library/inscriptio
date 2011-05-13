@@ -1,0 +1,22 @@
+rat1:
+  library: widener
+  name: carrel
+  min_reservation_time: 1 month 
+  max_reservation_time: 3 months
+  max_concurrent_users: 4
+  reservation_time_increment: 1 week
+  has_code: false
+  welcome_message: this is a carrel
+  expiration_extension_time: 1 week
+  
+
+rat2:
+  library: widener
+  name: book
+  min_reservation_time: 1 month 
+  max_reservation_time: 3 months
+  max_concurrent_users: 4
+  reservation_time_increment: 1 week
+  has_code: false
+  welcome_message: this is a book
+  expiration_extension_time: 1 week

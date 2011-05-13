@@ -27,6 +27,16 @@
 	  <div class="description description-target">
 	    Insert asset list here.
 	  </div>
+	  
+	  <h2 class="collapsable description">Subject Areas</h2>
+	  <% unless @floor.subject_areas.blank? %>
+	    <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
+	  <% else %>
+	    <h2>No subject areas yet.</h2>
+	  <% end %>
+	  
+	  <!-- If authorized to edit -->
+	  <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
 	
 	  <h2 class="collapsable description">All <%= @floor.library %> Floors</h2>
 	  <% unless @floor.library.floors.blank? %>
@@ -45,14 +55,5 @@
         <%= image_tag(@floor.floor_map.url) %>
       <% end %>
 	  
-	  <h2>Subject Areas</h2>
-	  <% unless @floor.subject_areas.blank? %>
-	    <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
-	  <% else %>
-	    <h2>No subject areas yet.</h2>
-	  <% end %>
-	  
-	  <!-- If authorized to edit -->
-	  <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
 	</div>
 </div>

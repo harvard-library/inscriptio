@@ -1,0 +1,7 @@
+<div class="reservable_asset_type line" id="floor-<%= reservable_asset_type.id %>">
+  <h3><%= link_to(reservable_asset_type.name, reservable_asset_type ) %></h3>
+  
+  <!-- If authorized to edit -->
+  <%= link_to('Edit', edit_reservable_asset_type_path(subject_area)) %> |
+  <%= link_to('Delete', reservable_asset_type_path(reservable_asset_type), :method => :delete, :id => "delete-#{reservable_asset_type.id}") %>
+</div>

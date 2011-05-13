@@ -1,15 +1,19 @@
 cn1:
   call_number: CN-1
   description: Call Number 1
+  subject_area: subject_area_1
 
 cn2:
   call_number: CN-2
   description: Call Number 2
+  subject_area: subject_area_1
 
 cn3:
   call_number: CN-3
   description: Call Number 3
+  subject_area: subject_area_1
 
 cn4:
   call_number: CN-4
   description: Call Number 4
+  subject_area: subject_area_2

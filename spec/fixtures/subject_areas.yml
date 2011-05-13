@@ -1,0 +1,15 @@
+subject_area_1:
+  name: Archeology
+  description: Bones and stuff.
+
+subject_area_2:
+  name: Biology
+  description: Cells and stuff.
+
+subject_area_3:
+  name: Finance
+  description: Money and stuff.
+
+subject_area_4:
+  name: Engineering
+  description: Circuits and stuff.

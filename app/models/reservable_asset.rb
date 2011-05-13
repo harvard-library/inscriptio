@@ -5,4 +5,6 @@ class ReservableAsset < ActiveRecord::Base
   has_many :users, :through => :reservations
   has_one :bulletin_board
   
+  scope :current_users, joins(:reservations).where('reservations.end_date > current_date()')
+  
 end

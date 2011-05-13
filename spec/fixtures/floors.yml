@@ -3,6 +3,7 @@ floor1:
   name: Floor 1
   floor_map: public/images/rails.png
   call_numbers: cn1, cn2
+  subject_areas: subject_area_1, subject_area_4
   position: 1
 
 floor2:
@@ -10,6 +11,7 @@ floor2:
   name: Floor 2
   floor_map: public/images/rails.png
   call_numbers: cn2, cn3
+  subject_areas: subject_area_3, subject_area_4
   position: 2
 
 floor3:
@@ -17,6 +19,7 @@ floor3:
   name: Floor 3
   floor_map: public/images/rails.png
   call_numbers: cn1, cn3
+  subject_areas: subject_area_1, subject_area_4, subject_area_2
   position: 3
 
 floor4:
@@ -24,4 +27,5 @@ floor4:
   name: Floor 4
   floor_map: public/images/rails.png
   call_numbers: cn1, cn3
+  subject_areas: subject_area_2, subject_area_1
   position: 4

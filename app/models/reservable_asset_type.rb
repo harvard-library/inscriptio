@@ -4,5 +4,9 @@ class ReservableAssetType < ActiveRecord::Base
   has_many :reservation_expiration_notices
   has_many :user_types
   
-  validates_presence_of :name
+  validates_presence_of :name, :library_id
+  
+  def to_s
+    %Q|#{name}|
+  end
 end
