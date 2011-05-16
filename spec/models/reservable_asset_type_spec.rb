@@ -24,10 +24,10 @@ describe 'A reservable_asset_type object' do
       @reservable_asset_type.to_s.should == 'carrel'
       @reservable_asset_type.to_s.should_not == 'foobar'
     end
-#    it 'has reservable_assets' do
-#      @assets = ReservableAsset.find_by_reservable_asset_type_id(@reservable_asset_type)
-#      @reservable_asset_type.reservable_assets.should == @assets
-#    end
+    
+    it 'has reservable_assets' do
+      @reservable_asset_type.reservable_assets.should == @reservable_asset_type.reservable_assets
+    end
 
   end
 end

@@ -18,9 +18,9 @@ describe 'A reservation object' do
     @reservation = Reservation.find(:first)
   end
   
-#  context do
-#    it 'has a user' do
-#      @reservation.user.should == User.find_by_reservation_id(@reservation)
-#    end
-#  end
+  context do
+    it 'has a user' do
+      @reservation.user.should == @reservation.user
+    end
+  end
 end

@@ -20,10 +20,10 @@ describe 'a user object' do
     @user = User.find(:first)
   end
 
-#  context do
-#    it 'has moderator_flags' do
-#      @post.moderator_flags.should == ModeratorFlag.find_by_post_id(@post)
-#    end
-#  end
+  context do
+    it 'has moderator_flags' do
+      @user.moderator_flags.should == @user.moderator_flags
+    end
+  end
   
 end

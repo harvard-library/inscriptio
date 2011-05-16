@@ -18,5 +18,4 @@ describe 'a moderator_flag object' do
     @moderator_flag = ModeratorFlag.find(:first)
   end
 
-  
 end

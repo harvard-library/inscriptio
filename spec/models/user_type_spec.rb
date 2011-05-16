@@ -22,10 +22,10 @@ describe 'a user_type object' do
     end
   end
 
-#  context do
-#    it 'has users' do
-#      
-#    end
-#  end
+  context do
+    it 'has users' do
+      @user_type.users.should == @user_type.users
+    end
+  end
   
 end

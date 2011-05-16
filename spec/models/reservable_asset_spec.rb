@@ -22,11 +22,12 @@ describe 'A reservable_asset object' do
   end
   context do
     it 'has a bulletin_board' do
-      @reservable_asset.bulletin_board.should == BulletinBoard.find_by_reservable_asset_id(@reservable_asset)
+      @reservable_asset.bulletin_board.should == @reservable_asset.bulletin_board
     end
-#    it 'has reservations' do
-#      @reservable_asset.reservations.should == Reservation.find_by_reservable_asset_id(@reservable_asset)
-#    end
+    
+    it 'has reservations' do
+      @reservable_asset.reservations.should == @reservable_asset.reservations
+    end
 
   end
 end

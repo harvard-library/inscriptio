@@ -23,6 +23,10 @@ describe 'A library' do
     it "talks about itself" do
       @library.to_s.should == 'Widener'
     end
+    
+    it 'has floors' do
+      @library.floors.should == @library.floors
+    end
   end
 
 end

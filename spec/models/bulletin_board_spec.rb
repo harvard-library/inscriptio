@@ -15,16 +15,14 @@ describe 'a bulletin_board object' do
     @bulletin_board = BulletinBoard.find(:first)
   end
 
-#  context do
-#    it 'has posts' do
-#      @bulletin_board.posts.should == Post.find_by_bulletin_board_id(@bulletin_board)
-#    end
-#  end
-  
-#  context do
-#    it 'has users' do
-#      @bulletin_board.users.should == User.find_by_bulletin_board_id(@bulletin_board)
-#    end
-#  end
+  context do
+    it 'has posts' do
+      @bulletin_board.posts.should == @bulletin_board.posts
+    end
+    
+    it 'has users' do
+      @bulletin_board.users.should == @bulletin_board.users
+    end
+  end
   
 end

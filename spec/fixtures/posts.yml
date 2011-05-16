@@ -1,6 +1,6 @@
 post_1:
   bulletin_board: bulletin_board_1
-  user: 1
+  user: user_1
   creation_time: 5/13/2011
   message: this is a message
   media: this is media
@@ -8,7 +8,7 @@ post_1:
 
 post_2:
   bulletin_board: bulletin_board_1
-  user: 1
+  user: user_1
   creation_time: 5/12/2011
   message: this is another message
   media: this is more media
@@ -16,7 +16,7 @@ post_2:
   
 post_3:
   bulletin_board: bulletin_board_1
-  user: 1
+  user: user_1
   creation_time: 5/10/2011
   message: this is yet another message
   media: this is yet more media
