@@ -1,4 +1,4 @@
-rat1:
+reservable_asset_type_1:
   library: widener
   name: carrel
   min_reservation_time: 1 month 
@@ -10,7 +10,7 @@ rat1:
   expiration_extension_time: 1 week
   
 
-rat2:
+reservable_asset_type_2:
   library: widener
   name: book
   min_reservation_time: 1 month 

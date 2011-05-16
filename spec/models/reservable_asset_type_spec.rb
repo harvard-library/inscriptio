@@ -25,10 +25,8 @@ describe 'A reservable_asset_type object' do
       @reservable_asset_type.to_s.should_not == 'foobar'
     end
 #    it 'has reservable_assets' do
-#      @reservable_asset_type.reservable_assets.should == [ReservableAsset.find_by_id(1),ReservableAsset.find_by_id(2),ReservableAsset.find_by_id(3)]
-#      @reservable_asset_type.reservable_assets.first.destroy
-#      @reservable_asset_type.reload
-#      @reservable_asset_type.reservable_assets.should == [ReservableAsset.find_by_id(2),ReservableAsset.find_by_id(3)]
+#      @assets = ReservableAsset.find_by_reservable_asset_type_id(@reservable_asset_type)
+#      @reservable_asset_type.reservable_assets.should == @assets
 #    end
 
   end

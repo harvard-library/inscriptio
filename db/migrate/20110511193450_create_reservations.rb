@@ -10,7 +10,7 @@ class CreateReservations < ActiveRecord::Migration
       t.timestamps
     end
     
-    [:reservable_asset_id, :user_id, :code].each do|col|
+    [:reservable_asset_id, :user_id].each do|col|
       add_index :reservations, col
     end
   end
