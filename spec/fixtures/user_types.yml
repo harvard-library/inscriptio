@@ -1,0 +1,5 @@
+user_type_1:
+  name: admin
+
+user_type_2:
+  name: student

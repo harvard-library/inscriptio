@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Post do
   context 'has basic attributes' do
     it { should have_many(:moderator_flags) }
-#    it { should belong_to(:user) }
+    it { should belong_to(:user) }
     it { should belong_to(:bulletin_board) }
     it { should validate_presence_of(:message) }
     

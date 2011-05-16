@@ -1,0 +1,14 @@
+moderator_flag_1:
+  post: post_1
+  user:
+  reason: bad
+
+moderator_flag_2:
+  post: post_1
+  user:
+  reason: mean
+  
+moderator_flag_3:
+  post: post_2
+  user:
+  reason: evil

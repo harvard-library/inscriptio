@@ -1,0 +1,14 @@
+reservation_1:
+  reservable_asset: reservable_asset_1
+  user: 
+  code: carrelA
+  start_date: 5/16/2011
+  end_date: 6/16/2011
+  approved: true
+
+reservation_2:
+  reservable_asset: reservable_asset_1
+  code: carrelB
+  start_date: 5/16/2011
+  end_date: 7/20/2011
+  approved: true

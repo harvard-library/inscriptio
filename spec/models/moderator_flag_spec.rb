@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ModeratorFlag do
   context 'has basic attributes' do
-#    it { should belong_to(:user) }
+    it { should belong_to(:user) }
     it { should belong_to(:post) }
     it { should validate_presence_of(:reason) }
     
@@ -15,7 +15,7 @@ end
 describe 'a moderator_flag object' do
   fixtures :all
   before :each do
-    @moderator_flag = ModeratorFlag.find_by_id(1)
+    @moderator_flag = ModeratorFlag.find(:first)
   end
 
   

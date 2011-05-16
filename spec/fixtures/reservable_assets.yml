@@ -1,0 +1,19 @@
+reservable_asset_1:
+  floor: floor1
+  reservable_asset_type: reservable_asset_type_1
+  location: left
+  min_reservation_time: 1 months
+  max_reservation_time: 3 months
+  max_concurrent_users: 4
+  reservation_time_increment: 1 week
+  general_info: this is a carrel on a floor
+
+reservable_asset_2:
+  floor: floor2
+  reservable_asset_type: reservable_asset_type_1
+  location: right
+  min_reservation_time: 1 months
+  max_reservation_time: 3 months
+  max_concurrent_users: 4
+  reservation_time_increment: 1 week
+  general_info: this is a carrel on a floor

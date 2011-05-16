@@ -3,7 +3,7 @@ require 'spec_helper'
 describe BulletinBoard do
   context 'has basic attributes' do
     it { should have_many(:posts) }
-#    it { should have_many(:users) }
+    it { should have_many(:users) }
     it { should belong_to(:reservable_asset) }
     it { should have_db_index(:reservable_asset_id) }
   end
@@ -23,7 +23,7 @@ describe 'a bulletin_board object' do
   
 #  context do
 #    it 'has users' do
-#      @bulletin_board.users.should == [User.find_by_id(1),Post.find_by_id(2),Post.find_by_id(3)]
+#      @bulletin_board.users.should == User.find_by_bulletin_board_id(@bulletin_board)
 #    end
 #  end
   

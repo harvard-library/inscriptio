@@ -1,0 +1,7 @@
+user_1:
+  email: apatel@cyber.law.harvard.edu
+  user_type: user_type_1
+
+user_2:
+  email: student@email.com
+  user_type: user_type_2

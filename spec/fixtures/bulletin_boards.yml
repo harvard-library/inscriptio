@@ -1,0 +1,7 @@
+bulletin_board_1:
+  reservable_asset: reservable_asset_1
+  post_lifetime: 3 months
+
+bulletin_board_2:
+  reservable_asset: reservable_asset_2
+  post_lifetime: 3 months
