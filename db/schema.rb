@@ -125,6 +125,14 @@ ActiveRecord::Schema.define(:version => 20110516171222) do
   add_index "reservable_asset_types", ["library_id"], :name => "index_reservable_asset_types_on_library_id"
   add_index "reservable_asset_types", ["name"], :name => "index_reservable_asset_types_on_name"
 
+  create_table "reservable_asset_types_user_types", :id => false, :force => true do |t|
+    t.integer "reservable_asset_type_id"
+    t.integer "user_type_id"
+  end
+
+  add_index "reservable_asset_types_user_types", ["reservable_asset_type_id"], :name => "reservable_asset_type_index"
+  add_index "reservable_asset_types_user_types", ["user_type_id"], :name => "user_type_index"
+
   create_table "reservable_assets", :force => true do |t|
     t.integer  "floor_id"
     t.integer  "reservable_asset_type_id"
@@ -153,7 +161,6 @@ ActiveRecord::Schema.define(:version => 20110516171222) do
     t.datetime "updated_at"
   end
 
-  add_index "reservations", ["code"], :name => "index_reservations_on_code"
   add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"
   add_index "reservations", ["user_id"], :name => "index_reservations_on_user_id"
 

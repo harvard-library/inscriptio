@@ -8,6 +8,7 @@ reservable_asset_type_1:
   has_code: false
   welcome_message: this is a carrel
   expiration_extension_time: 1 week
+  photo: public/images/rails.png
   
 
 reservable_asset_type_2:
@@ -20,3 +21,4 @@ reservable_asset_type_2:
   has_code: false
   welcome_message: this is a book
   expiration_extension_time: 1 week
+  photo: public/images/rails.png

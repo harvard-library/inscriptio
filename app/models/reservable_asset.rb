@@ -1,4 +1,6 @@
 class ReservableAsset < ActiveRecord::Base
+  mount_uploader :photo, AssetPhotoUploader
+  
   belongs_to :floor
   belongs_to :reservable_asset_type
   has_many :reservations

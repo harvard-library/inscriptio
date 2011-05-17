@@ -6,7 +6,7 @@ describe ReservableAsset do
     it { should belong_to(:reservable_asset_type) }
     it { should have_many(:reservations) }
     it { should have_one(:bulletin_board) }
-#    it { should have_many(:users) }
+    it { should have_many(:users) }
     it { should validate_presence_of(:floor_id) }
     it { should validate_presence_of(:reservable_asset_type_id) }
 
@@ -27,6 +27,17 @@ describe 'A reservable_asset object' do
     
     it 'has reservations' do
       @reservable_asset.reservations.should == @reservable_asset.reservations
+    end
+    
+    it 'has users' do
+      @reservable_asset.users.should == @reservable_asset.users
+    end
+    
+    it "has a photo" do
+      @reservable_asset.photo = File.open('public/images/rails.png')
+      assert @reservable_asset.save
+      assert ! @reservable_asset.photo.blank?
+      @reservable_asset.photo.size.should > 0
     end
 
   end
