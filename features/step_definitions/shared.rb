@@ -22,6 +22,9 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
   when "subject_area"
     subject_area = SubjectArea.find_by_name(name)
     click_link "delete-#{subject_area.id}"
+  when "reservable_asset_type"
+    reservable_asset_type = ReservableAssetType.find_by_name(name)
+    click_link "delete-#{reservable_asset_type.id}"
   end
 end
 
@@ -31,6 +34,10 @@ end
 
 Given /^a call_number of "([^"]*)"$/ do |arg1|
   @call_number = CallNumber.find_by_call_number(arg1)
+end
+
+Given /^a reservable_asset_type of "([^"]*)"$/ do |arg1|
+  @reservable_asset_type = ReservableAssetType.find_by_name(arg1)
 end
 
 Given /^a subject_area of "([^"]*)"$/ do |arg1|
@@ -66,7 +73,17 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
       visit(new_subject_area_path)
     when 'edit'
       visit(edit_subject_area_path(@subject_area))
-    end  
+    end 
+    
+  elsif object_type == 'reservable_asset_type'
+    case page_name
+    when 'index'
+      visit(reservable_asset_types_path)
+    when 'new'
+      visit(new_reservable_asset_type_path)
+    when 'edit'
+      visit(edit_reservable_asset_type_path(@reservable_asset_type))
+    end   
 
   elsif object_type == 'library'
     case page_name
@@ -91,6 +108,9 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
   when 'subject_area'
     subject_area = SubjectArea.find(:first, :conditions => { :name => object_name })
     visit(subject_area_path(subject_area))
+  when 'reservable_asset_type'
+    reservable_asset_type = ReservableAssetType.find(:first, :conditions => { :name => object_name })
+    visit(reservable_asset_type_path(reservable_asset_type))
   end
 end
 
