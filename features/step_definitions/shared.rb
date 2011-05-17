@@ -19,6 +19,9 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
   when "call_number"
     call_number = CallNumber.find_by_call_number(name)
     click_link "delete-#{call_number.id}"
+  when "subject_area"
+    subject_area = SubjectArea.find_by_name(name)
+    click_link "delete-#{subject_area.id}"
   end
 end
 
@@ -28,6 +31,10 @@ end
 
 Given /^a call_number of "([^"]*)"$/ do |arg1|
   @call_number = CallNumber.find_by_call_number(arg1)
+end
+
+Given /^a subject_area of "([^"]*)"$/ do |arg1|
+  @subject_area = SubjectArea.find_by_name(arg1)
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
@@ -50,6 +57,16 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'edit'
       visit(edit_call_number_path(@call_number))
     end
+    
+  elsif object_type == 'subject_area'
+    case page_name
+    when 'index'
+      visit(subject_areas_path)
+    when 'new'
+      visit(new_subject_area_path)
+    when 'edit'
+      visit(edit_subject_area_path(@subject_area))
+    end  
 
   elsif object_type == 'library'
     case page_name
@@ -71,6 +88,9 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
   when 'call_number'
     call_number = CallNumber.find(:first, :conditions => { :call_number => object_name })
     visit(call_number_path(call_number))
+  when 'subject_area'
+    subject_area = SubjectArea.find(:first, :conditions => { :name => object_name })
+    visit(subject_area_path(subject_area))
   end
 end
 

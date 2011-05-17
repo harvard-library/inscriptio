@@ -33,7 +33,7 @@ class SubjectAreasController < ApplicationController
     @subject_area = SubjectArea.find(params[:id])
     subject_area = @subject_area.name
     if @subject_area.destroy
-      flash[:notice] = %Q|Deleted subject area: #{subject_area}|
+      flash[:notice] = %Q|Deleted subject area #{subject_area}|
       redirect_to :action => :index
     else
 
