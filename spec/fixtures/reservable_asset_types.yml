@@ -1,6 +1,6 @@
 reservable_asset_type_1:
   library: widener
-  name: carrel
+  name: Carrel
   min_reservation_time: 1 month 
   max_reservation_time: 3 months
   max_concurrent_users: 4
@@ -8,12 +8,13 @@ reservable_asset_type_1:
   has_code: false
   welcome_message: this is a carrel
   expiration_extension_time: 1 week
+  moderation_held_message: moderation held
   photo: public/images/rails.png
   
 
 reservable_asset_type_2:
   library: widener
-  name: book
+  name: Book
   min_reservation_time: 1 month 
   max_reservation_time: 3 months
   max_concurrent_users: 4

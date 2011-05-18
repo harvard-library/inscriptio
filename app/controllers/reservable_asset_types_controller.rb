@@ -18,7 +18,7 @@ class ReservableAssetTypesController < ApplicationController
   
   def create
     @reservable_asset_type = ReservableAssetType.new
-    @reservable_asset_type.attributes = params[:subject_area]
+    @reservable_asset_type.attributes = params[:reservable_asset_type]
     respond_to do|format|
       if @reservable_asset_type.save
         flash[:notice] = 'Added that Reservable Asset Type'
@@ -34,7 +34,7 @@ class ReservableAssetTypesController < ApplicationController
     @reservable_asset_type = ReservableAssetType.find(params[:id])
     reservable_asset_type = @reservable_asset_type.name
     if @reservable_asset_type.destroy
-      flash[:notice] = %Q|Deleted subject area: #{reservable_asset_type}|
+      flash[:notice] = %Q|Deleted reservable asset type #{reservable_asset_type}|
       redirect_to :action => :index
     else
 

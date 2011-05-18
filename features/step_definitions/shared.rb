@@ -36,12 +36,12 @@ Given /^a call_number of "([^"]*)"$/ do |arg1|
   @call_number = CallNumber.find_by_call_number(arg1)
 end
 
-Given /^a reservable_asset_type of "([^"]*)"$/ do |arg1|
-  @reservable_asset_type = ReservableAssetType.find_by_name(arg1)
-end
-
 Given /^a subject_area of "([^"]*)"$/ do |arg1|
   @subject_area = SubjectArea.find_by_name(arg1)
+end
+
+Given /^a reservable_asset_type of "([^"]*)"$/ do |arg1|
+  @reservable_asset_type = ReservableAssetType.find_by_name(arg1)
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|

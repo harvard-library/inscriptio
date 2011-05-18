@@ -1,6 +1,6 @@
 <div class="floors collection-list">
   <% unless @reservable_asset_types.blank? %>
-    <%= render :partial => 'shared/lines/reservable_asset_types', :collection => @reservable_asset_types %>
+    <%= render :partial => 'shared/lines/reservable_asset_type', :collection => @reservable_asset_types %>
   <% else %>
     <h2>No reservable asset types for this library yet.</h2>
   <% end %>
