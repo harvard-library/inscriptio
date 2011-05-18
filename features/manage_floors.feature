@@ -22,13 +22,13 @@ Feature: Manage floors
     Given a library named "Widener"
     And an administrator
     And I am on the library_floor "new" page
-    When I fill in "Name" with "Floor 5"
+    When I fill in "Name" with "Floor 4"
     And I select "Widener" from "Library"
     And I attach the file "public/images/rails.png" to "Upload a Floor Map"
     And I check "CN-2"
     And I check "CN-3"
     And I press "Create"
-    Then I should see "Floor 5"
+    Then I should see "Floor 4"
     And I should see "in Widener"
     And I should see "CN-2"
     And I should see "CN-3"

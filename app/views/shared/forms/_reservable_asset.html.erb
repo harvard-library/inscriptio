@@ -1,0 +1,19 @@
+<%= semantic_form_for(@reservable_asset, :html => {:multipart => true}) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :floor %>
+    <%= f.input :reservable_asset_type %>
+    <%= f.input :min_reservation_time %>
+    <%= f.input :max_reservation_time %>
+    <%= f.input :max_concurrent_users %>
+    <%= f.input :reservation_time_increment %>
+    <%= f.input :location %>
+    <%= f.input :general_info %>
+
+  	<% unless f.object.photo.blank? %>
+      <h3>Current Photo</h3>
+      <%= image_tag(f.object.photo.url) %>
+    <% end %>
+    <%= f.input :photo, :as => :file, :label => 'Upload a Photo' %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>

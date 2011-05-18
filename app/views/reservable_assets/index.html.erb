@@ -1,0 +1,8 @@
+<div class="reservable_assets collection-list">
+  <% unless @reservable_assets.blank? %>
+    <%= render :partial => 'shared/lines/reservable_asset', :collection => @reservable_assets %>
+  <% else %>
+    <h2>No reservable assets for this floor yet.</h2>
+  <% end %>
+  <p></p>
+</div>

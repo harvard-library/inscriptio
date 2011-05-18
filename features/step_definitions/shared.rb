@@ -25,6 +25,9 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
   when "reservable_asset_type"
     reservable_asset_type = ReservableAssetType.find_by_name(name)
     click_link "delete-#{reservable_asset_type.id}"
+  when "reservable_asset"
+    reservable_asset = ReservableAsset.find(name.to_i)
+    click_link "delete-#{reservable_asset.id}"
   end
 end
 
@@ -44,6 +47,10 @@ Given /^a reservable_asset_type of "([^"]*)"$/ do |arg1|
   @reservable_asset_type = ReservableAssetType.find_by_name(arg1)
 end
 
+Given /^a reservable_asset of "([^"]*)"$/ do |arg1|
+  @reservable_asset = ReservableAsset.find(arg1.to_i)
+end
+
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
   if object_type == 'library_floor'
     case page_name
@@ -54,6 +61,16 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'edit'
       visit(edit_library_floor_path(@library, @floor))
     end
+    
+  elsif object_type == 'library'
+    case page_name
+    when 'index'
+      visit(libraries_path)
+    when 'new'
+      visit(new_library_path)
+    when 'edit'
+      visit(edit_library_path(@library))
+    end  
 
   elsif object_type == 'call_number'
     case page_name
@@ -85,15 +102,16 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
       visit(edit_reservable_asset_type_path(@reservable_asset_type))
     end   
 
-  elsif object_type == 'library'
+  elsif object_type == 'reservable_asset'
     case page_name
     when 'index'
-      visit(libraries_path)
+      visit(reservable_assets_path)
     when 'new'
-      visit(new_library_path)
+      visit(new_reservable_asset_path)
     when 'edit'
-      visit(edit_library_path(@library))
+      visit(edit_reservable_asset_path(@reservable_asset))
     end
+      
   end
 end
 
@@ -111,11 +129,18 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
   when 'reservable_asset_type'
     reservable_asset_type = ReservableAssetType.find(:first, :conditions => { :name => object_name })
     visit(reservable_asset_type_path(reservable_asset_type))
+  when 'reservable_asset'
+    reservable_asset = ReservableAsset.find(object_name.to_i)
+    visit(reservable_asset_path(reservable_asset))
   end
 end
 
 Given /^the floors have been deleted$/ do
   @library.floors.destroy_all
+end
+
+Given /^the reservable_assets have been deleted$/ do
+  @floor.reservable_assets.destroy_all
 end
 
 When /^I click the "([^"]*)" link on "([^"]*)"$/ do |link_name, item_name|

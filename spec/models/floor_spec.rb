@@ -5,6 +5,7 @@ describe Floor do
   context 'has basic attributes' do
     it { should belong_to(:library) }
     it { should have_and_belong_to_many(:call_numbers) }
+    it { should have_many(:reservable_assets) }
     it { should validate_presence_of(:library_id) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:floor_map) }

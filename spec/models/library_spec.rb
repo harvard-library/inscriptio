@@ -6,6 +6,7 @@ describe Library do
       it { should validate_presence_of(col) }
     end
     it { should have_many(:floors) }
+    it { should have_many(:reservable_asset_types) }
     it { should validate_format_of(:url).with('http://foo.com') }
     it { should validate_format_of(:url).with('') }
     it { should validate_format_of(:url).not_with('foo.com').with_message(/is invalid/) }

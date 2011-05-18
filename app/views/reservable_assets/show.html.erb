@@ -1,0 +1,23 @@
+<div class="reservable_asset show-object">
+  	<div id="heading">
+      <h1><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %></h1>
+	</div>
+  <dl>
+    <dt>Minimum Reservation Time:</dt>
+    <dd><%= @reservable_asset.min_reservation_time %></dd>
+	<dt>Maximum Reservation Time:</dt>
+    <dd><%= @reservable_asset.max_reservation_time %></dd>
+	<dt>Maximum Concurrent Users:</dt>
+    <dd><%= @reservable_asset.max_concurrent_users %></dd>
+	<dt>Reservation Time Increment:</dt>
+    <dd><%= @reservable_asset.reservation_time_increment %></dd>
+	<dt>Location:</dt>
+    <dd><%= @reservable_asset.location %></dd>
+    <dt>General Information:</dt>
+    <dd><%= @reservable_asset.general_info %></dd>
+  </dl>
+	<h2>Photo</h2>
+	<% unless @reservable_asset.photo.blank? %>
+      <%= image_tag(@reservable_asset.photo.url) %>
+    <% end %>
+</div>

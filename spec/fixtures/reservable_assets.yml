@@ -1,8 +1,9 @@
 reservable_asset_1:
+  id: 1
   floor: floor1
   reservable_asset_type: reservable_asset_type_1
   location: left
-  min_reservation_time: 1 months
+  min_reservation_time: 1 month
   max_reservation_time: 3 months
   max_concurrent_users: 4
   reservation_time_increment: 1 week
@@ -10,6 +11,7 @@ reservable_asset_1:
   photo: public/images/rails.png
 
 reservable_asset_2:
+  id: 2
   floor: floor2
   reservable_asset_type: reservable_asset_type_1
   location: right
