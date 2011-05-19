@@ -1,4 +1,5 @@
 class CallNumbersController < ApplicationController
+  before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
 
   def index
     @call_numbers = CallNumber.all

@@ -1,5 +1,8 @@
 user_type_1:
-  name: admin
+  name: Undergraduate
 
 user_type_2:
-  name: student
+  name: Graduate
+
+user_type_:
+  name: Post-Doc

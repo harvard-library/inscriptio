@@ -1,0 +1,10 @@
+<div class="user_types collection-list">
+  <% unless @user_types.blank? %>
+	<%= render :partial => 'shared/lines/user_type', :collection => @user_types %>
+  <% else %>
+	<h2>No user types yet.</h2>
+  <% end %>
+</div>
+
+<!-- If authorized to edit -->
+<p><%= link_to('New User Type', new_user_type_path) %></p>

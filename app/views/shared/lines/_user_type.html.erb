@@ -1,0 +1,7 @@
+<div class="user_type line" id="user_type-<%= user_type.id %>">
+  <h3><%= link_to(user_type.name, user_type ) %></h3>
+  
+  <!-- If authorized to edit -->
+  <%= link_to('Edit', edit_user_type_path(user_type)) %> |
+  <%= link_to('Delete', user_type_path(user_type), :method => :delete, :id => "delete-#{user_type.id}") %>
+</div>

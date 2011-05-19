@@ -31,6 +31,9 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
   when "reservation"
     reservation = Reservation.find(name.to_i)
     click_link "delete-#{reservation.id}"
+  when "user_type"
+    user_type = UserType.find_by_name(name)
+    click_link "delete-#{user_type.id}"
   end
 end
 
@@ -56,6 +59,10 @@ end
 
 Given /^a reservation of "([^"]*)"$/ do |arg1|
   @reservation = Reservation.find(arg1.to_i)
+end
+
+Given /^a user_type of "([^"]*)"$/ do |arg1|
+  @user_type = UserType.find_by_name(arg1)
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
@@ -127,7 +134,17 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
       visit(new_reservation_path)
     when 'edit'
       visit(edit_reservation_path(@reservation))
-    end  
+    end 
+    
+  elsif object_type == 'user_type'
+    case page_name
+    when 'index'
+      visit(user_types_path)
+    when 'new'
+      visit(new_user_type_path)
+    when 'edit'
+      visit(edit_user_type_path(@user_type))
+    end   
       
   end
 end
@@ -152,6 +169,9 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
   when 'reservation'
     reservation = Reservation.find(object_name.to_i)
     visit(reservation_path(reservation))
+  when 'user_type'
+    user_type = UserType.find(:first, :conditions => { :name => object_name })
+    visit(user_type_path(user_type))
   end
 end
 

@@ -1,4 +1,6 @@
 class SubjectAreasController < ApplicationController
+  before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
+  
   def index
     @subject_areas = SubjectArea.all
   end
@@ -21,7 +23,7 @@ class SubjectAreasController < ApplicationController
     respond_to do|format|
       if @subject_area.save
         flash[:notice] = 'Added that Subject Area'
-        format.html {render :action => :show}
+        format.html {render :action => :index}
       else
         flash[:error] = 'Could not add that Subject Area'
         format.html {render :action => :new}
@@ -46,7 +48,7 @@ class SubjectAreasController < ApplicationController
     respond_to do|format|
       if @subject_area.save
         flash[:notice] = %Q|#{@subject_area} updated|
-        format.html {render :action => :show}
+        format.html {render :action => :index}
       else
         flash[:error] = 'Could not update that Subject Area'
         format.html {render :action => :new}

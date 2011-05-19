@@ -1,5 +1,6 @@
 class FloorsController < ApplicationController
   before_filter :load_library
+  before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
 
   def index
     @floors = @library.floors

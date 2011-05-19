@@ -1,4 +1,6 @@
 class ReservationsController < ApplicationController
+  before_filter :authenticate_admin!, :except => [:edit, :update, :destroy]
+  
   def index
     @reservations = Reservation.all
   end
