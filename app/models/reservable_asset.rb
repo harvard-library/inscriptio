@@ -12,4 +12,7 @@ class ReservableAsset < ActiveRecord::Base
   
   scope :current_users, joins(:reservations).where('reservations.end_date > current_date()')
   
+  def to_s
+    %Q|#{id}|
+  end
 end

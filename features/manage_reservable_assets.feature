@@ -2,13 +2,13 @@ Feature: Manage Reservable Asset
     In order to allow for users to select and reserve reservable resources,
     we allow administrators to manage reservable_assets.
 
-		#   	Scenario: No Reservable Assets Defined.
-		#     	Given a library named "Widener"
-		# And a library_floor named "Floor 1"
-		#     	And an administrator
-		#     	And the reservable_assets have been deleted
-		#     	And I am on the reservable_asset "index" page
-		#     	Then I should see "No reservable assets for this floor yet."
+  	Scenario: No Reservable Assets Defined.
+	   	Given a library named "Widener"
+		And a library_floor named "Floor 1"
+	   	And an administrator
+	   	And the reservable_assets have been deleted
+	   	And I am on the reservable_asset "index" page
+	   	Then I should see "No reservable assets for this floor yet."
 
 	Scenario: Register new reservable_asset
 	    Given a library named "Widener"

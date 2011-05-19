@@ -1,0 +1,7 @@
+<div class="reservation line" id="reservation-<%= reservation.id %>">
+  <h3><%= link_to(reservation.reservable_asset.reservable_asset_type.name, reservation ) %></h3>
+  
+  <!-- If authorized to edit -->
+  <%= link_to('Edit', edit_reservation_path(reservation)) %> |
+  <%= link_to('Delete', reservation_path(reservation), :method => :delete, :id => "delete-#{reservation.id}") %>
+</div>

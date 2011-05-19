@@ -1,0 +1,8 @@
+<div class="reservations collection-list">
+  <% unless @reservations.blank? %>
+    <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
+  <% else %>
+    <h2>No reservations for this floor yet.</h2>
+  <% end %>
+  <p></p>
+</div>

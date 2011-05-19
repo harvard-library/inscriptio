@@ -1,0 +1,17 @@
+<div class="reservation show-object">
+  	<div id="heading">
+      <h1><%= @reservation.reservable_asset.reservable_asset_type.name %> on <%= link_to @reservation.reservable_asset.floor.name, library_floor_path(@reservation.reservable_asset.floor.library,@reservation.reservable_asset.floor) %></h1>
+	</div>
+  <dl>
+	<dt><%= @reservation.reservable_asset.reservable_asset_type.name %> ID:</dt>
+    <dd><%= link_to @reservation.id, reservable_asset_path(@reservation.reservable_asset) %></dd>
+    <dt>Start Date:</dt>
+    <dd><%= @reservation.start_date %></dd>
+	<dt>End Date:</dt>
+    <dd><%= @reservation.end_date %></dd>
+  </dl>
+	<h2>Photo</h2>
+	<% unless @reservation.reservable_asset.photo.blank? %>
+      <%= image_tag(@reservation.reservable_asset.photo.url) %>
+    <% end %>
+</div>

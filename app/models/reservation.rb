@@ -4,4 +4,8 @@ class Reservation < ActiveRecord::Base
   
   validates_presence_of :code
   validates_uniqueness_of :code
+  
+  def to_s
+    %Q|#{id}|
+  end
 end

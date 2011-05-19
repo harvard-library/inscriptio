@@ -28,6 +28,9 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
   when "reservable_asset"
     reservable_asset = ReservableAsset.find(name.to_i)
     click_link "delete-#{reservable_asset.id}"
+  when "reservation"
+    reservation = Reservation.find(name.to_i)
+    click_link "delete-#{reservation.id}"
   end
 end
 
@@ -49,6 +52,10 @@ end
 
 Given /^a reservable_asset of "([^"]*)"$/ do |arg1|
   @reservable_asset = ReservableAsset.find(arg1.to_i)
+end
+
+Given /^a reservation of "([^"]*)"$/ do |arg1|
+  @reservation = Reservation.find(arg1.to_i)
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
@@ -111,6 +118,16 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'edit'
       visit(edit_reservable_asset_path(@reservable_asset))
     end
+    
+  elsif object_type == 'reservation'
+    case page_name
+    when 'index'
+      visit(reservations_path)
+    when 'new'
+      visit(new_reservation_path)
+    when 'edit'
+      visit(edit_reservation_path(@reservation))
+    end  
       
   end
 end
@@ -132,6 +149,9 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
   when 'reservable_asset'
     reservable_asset = ReservableAsset.find(object_name.to_i)
     visit(reservable_asset_path(reservable_asset))
+  when 'reservation'
+    reservation = Reservation.find(object_name.to_i)
+    visit(reservation_path(reservation))
   end
 end
 

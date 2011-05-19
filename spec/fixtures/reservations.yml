@@ -1,4 +1,5 @@
 reservation_1:
+  id: 1
   reservable_asset: reservable_asset_1
   user: user_1
   code: carrelA
@@ -7,6 +8,7 @@ reservation_1:
   approved: true
 
 reservation_2:
+  id: 2    
   reservable_asset: reservable_asset_1
   user: user_1
   code: carrelB
