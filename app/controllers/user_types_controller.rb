@@ -1,8 +1,10 @@
 class UserTypesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
+  #before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
   
   def index
     @user_types = UserType.all
+    p "user types"
+    p @user_types
   end
 
   def new
@@ -23,7 +25,7 @@ class UserTypesController < ApplicationController
     respond_to do|format|
       if @user_type.save
         flash[:notice] = 'Added that User Type'
-        format.html {render :action => :index}
+        format.html {redirect_to :action => :index}
       else
         flash[:error] = 'Could not add that User Type'
         format.html {render :action => :new}
@@ -48,7 +50,7 @@ class UserTypesController < ApplicationController
     respond_to do|format|
       if @user_type.save
         flash[:notice] = %Q|#{@user_type} updated|
-        format.html {render :action => :index}
+        format.html {redirect_to :action => :index}
       else
         flash[:error] = 'Could not update that User Type'
         format.html {render :action => :new}

@@ -5,9 +5,10 @@ Feature: Manage User Types
 	Scenario: Fail to register a user_type
 	    Given an administrator
 	    And I am on the user_type "new" page
-	    When I fill in "Name" with "user foo"
+	    When I fill in "Name" with ""
 	    And I press "Create"
 	    Then I should see "Could not add that User Type"
+		And show me the page
 
 	Scenario: Register new user_type successfully
 	    Given an administrator

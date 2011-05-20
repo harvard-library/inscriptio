@@ -6,19 +6,16 @@ Feature: Manage Reservation
 	    Given a library named "Widener"
 		And a library_floor named "Floor 1"
 	    And I am on the reservation "new" page
-	    And I select "2011" from "Year"
-		And I select "May" from "Month"
-		And I select "19" from "Day"
-		And I select "2011" from "Year"
-		And I select "June" from "Month"
-		And I select "19" from "Day"
+	    And I select "2011/05/19" as the reservation "start_date" date
+		And I select "2011/06/19" as the reservation "end_date" date
 	    And I press "Create"
 		And I should see "Floor 1"
 		And I should see "Carrel"
 	    And I should see "1"
-	    And I should see "5/19/2011"
-		And I should see "6/19/2011"
+	    And I should see "2011-05-19"
+		And I should see "2011-06-19"
 	    And I should see "Added that Reservation"
+		And show me the page
 
 	Scenario: View a reservation page
 	    Given a library named "Widener"
@@ -28,8 +25,8 @@ Feature: Manage Reservation
 		And I should see "Floor 1"
 		And I should see "Carrel"
 	    And I should see "1"
-	    And I should see "5/16/2011"
-		And I should see "6/16/2011"
+	    And I should see "2011-05-16"
+		And I should see "2011-06-16"
 
 	Scenario: Edit a reservation
 	    Given a library named "Widener"
@@ -37,11 +34,9 @@ Feature: Manage Reservation
 	    And a reservation of "1"
 	    And an administrator
 	    When I am on the reservation "edit" page
-	    And I select "2011" from "Year"
-		And I select "May" from "Month"
-		And I select "19" from "Day"	
+		And I select "2011/05/19" as the reservation "start_date" date	
 	    And I press "Update"
-	    Then I should see "5/19/2011"
+	    Then I should see "2011-05-19"
 
 	Scenario: Delete a reservation
 	    Given a library named "Widener"

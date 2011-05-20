@@ -1,8 +1,7 @@
 <%= semantic_form_for(@reservation) do |f| %>
   <%= f.inputs do %>
 	<%= f.input :reservable_asset, :as => :hidden, :value => ReservableAsset.find(:first) %>
-	<%= f.input :user, :as => :hidden %>
-	<%= f.input :code, :as => :hidden %>
+	<%= f.input :code, :as => :hidden, :value => "A" %>
     <%= f.input :start_date, :as => :date %>
     <%= f.input :end_date, :as => :date %>
   <% end %>
