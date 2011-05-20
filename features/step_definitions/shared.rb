@@ -194,57 +194,24 @@ Then /^I should see a link to "([^"]*)"$/ do |link_href|
   page.should have_xpath(%Q|//a[@href="#{link_href}"]|)
 end
 
-# Date time checks
-
-# DATE_TIME_SUFFIXES = {
-#   :year   => '1i',
-#   :month  => '2i',
-#   :day    => '3i',
-#   :hour   => '4i',
-#   :minute => '5i'
-# }
-# 
-# def select_date(date_to_select, options = {})
-#   date = Date.parse(date_to_select)
-#   id_prefix = id_prefix_for(options)
-# 
-#   select date.year.to_s,      :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:year]}"
-#   select date.day.to_s,       :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:day]}"
-#   select date.strftime('%B'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:month]}"
-# end
-# 
-# def select_time(time_to_select, options = {})
-#   time = Time.parse(time_to_select)
-#   id_prefix = id_prefix_for(options)
-# 
-#   select time.hour.to_s, :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:hour]}"
-#   select time.min.to_s,  :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:minute]}"
-# end
-# 
-# def select_datetime(datetime_to_select, options = {})
-#   select_date(datetime_to_select, options)
-#   select_time(datetime_to_select, options)
-# end
-# 
-# def id_prefix_for(options = {})
-#   find('label', :text => options[:on])[:for]
-# end
-# 
-# When /^(?:|I )select "([^\"]*)" as the "([^\"]*)" date$/ do |date, field|
-#   select_date(date, :on => field)
-# end
-# 
-# When /^(?:|I )select "([^\"]*)" as the "([^\"]*)" time/ do |time, field|
-#   select_time(time, :on => field)
-# end
-
-# capybara step definition for a quick and dirty date select
-# For example:
-# When I select "May 7, 2010" as the post "published_on" date
-
 When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector|
   date = Date.parse(date)
   select(date.year.to_s, :from => "#{model}[#{selector}(1i)]")
   select(date.strftime("%B"), :from => "#{model}[#{selector}(2i)]")
   select(date.day.to_s, :from => "#{model}[#{selector}(3i)]")
+end
+
+Given 'a logged in user of type "$user_type"' do |user_type|
+  case user_type
+  when 'user'
+    visit('/users/sign_in')
+    fill_in('Email', :with => "apatel@cyber.law.harvard.edu")
+    fill_in('Password', :with => "123456")
+    click_button('Sign in')
+  when 'admin'
+    visit('/admins/sign_in')
+    fill_in('Email', :with => "admin@email.com")
+    fill_in('Password', :with => "123456")
+    click_button('Sign in')
+  end
 end

@@ -5,6 +5,7 @@ Feature: Manage Reservation
 	Scenario: Register new reservation
 	    Given a library named "Widener"
 		And a library_floor named "Floor 1"
+		And a logged in user of type "user"
 	    And I am on the reservation "new" page
 	    And I select "2011/05/19" as the reservation "start_date" date
 		And I select "2011/06/19" as the reservation "end_date" date
