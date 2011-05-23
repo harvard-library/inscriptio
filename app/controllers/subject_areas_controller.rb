@@ -1,5 +1,5 @@
 class SubjectAreasController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
+  before_filter :authenticate_admin!, :except => [:index, :show]
   
   def index
     @subject_areas = SubjectArea.all

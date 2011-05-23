@@ -1,5 +1,5 @@
 class ReservableAssetsController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:new, :create, :edit, :update, :destroy]
+  before_filter :authenticate_admin!, :except => [:index, :show]
   
   def index
     @reservable_assets = ReservableAsset.all

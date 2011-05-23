@@ -3,7 +3,7 @@ Feature: Manage User Types
     we allow administrators to manage user_types.
 
 	Scenario: Fail to register a user_type
-	    Given an administrator
+	    Given a logged in user of type "admin"
 	    And I am on the user_type "new" page
 	    When I fill in "Name" with ""
 	    And I press "Create"

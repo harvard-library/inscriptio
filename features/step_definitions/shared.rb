@@ -205,7 +205,7 @@ Given 'a logged in user of type "$user_type"' do |user_type|
   case user_type
   when 'user'
     visit('/users/sign_in')
-    fill_in('Email', :with => "apatel@cyber.law.harvard.edu")
+    fill_in('Email', :with => "user@email.com")
     fill_in('Password', :with => "123456")
     click_button('Sign in')
   when 'admin'

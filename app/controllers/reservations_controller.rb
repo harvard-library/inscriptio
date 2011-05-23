@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  #before_filter :authenticate_admin!, :except => [:edit, :update, :destroy]
+  before_filter :authenticate_admin!, :except => [:edit, :update, :destroy]
   
   def index
     @reservations = Reservation.all
@@ -20,7 +20,6 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
-    params[:reservation][:user] = User.find(:first)
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save
