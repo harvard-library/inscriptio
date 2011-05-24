@@ -1,22 +1,3 @@
-<!--
-<div class="floor show-object">
-  <h1><%= @floor %> in <%= link_to @floor.library.name, @floor.library %></h1>
-  <dl>
-  	<dt>Subject Areas:</dt>
-    <dd><%= @floor.subject_areas.join(', ') %></dd>
-	
-    <dt>Call Numbers:</dt>
-    <dd><%= @floor.call_numbers.join(', ') %></dd>
-
-    <% unless @floor.floor_map.blank? %>
-      <dt>Map</dt>
-      <dd><%= image_tag(@floor.floor_map.url) %></dd>
-    <% end %>
-
-  </dl>
-</div>
--->
-
 <div class="floor show-object" id="floor-details-<%= @floor.id %>">
   	<div id="heading">
       <h1><%= @floor %> in <%= link_to @floor.library.name, @floor.library %></h1>
@@ -25,27 +6,35 @@
 	<div id="content-left">
 	  <h2 class="collapsable description">Assets</h2>
 	  <div class="description description-target">
-	    Insert asset list here.
+	  <% unless @floor.reservable_assets.blank? %>
+		<%= render :partial => 'shared/lines/reservable_asset', :collection => @floor.reservable_assets %>
+	  <% else %>
+	    <h3>No reservable assets yet.</h3>
+	  <% end %>
+	  <% if admin_signed_in? %>
+	    <p><%= link_to('New Reservable Asset', new_reservable_asset_path) %></p>
+	  <% end %>
 	  </div>
 	  
 	  <h2 class="collapsable description">Subject Areas</h2>
 	  <% unless @floor.subject_areas.blank? %>
 	    <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
 	  <% else %>
-	    <h2>No subject areas yet.</h2>
+	    <h3>No subject areas yet.</h3>
 	  <% end %>
-	  
-	  <!-- If authorized to edit -->
-	  <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+	  <% if admin_signed_in? %>
+	    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+	  <% end %>
 	
 	  <h2 class="collapsable description">All <%= @floor.library %> Floors</h2>
 	  <% unless @floor.library.floors.blank? %>
 	    <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
 	  <% else %>
-	    <h2>No floors yet.</h2>
+	    <h3>No floors yet.</h3>
 	  <% end %>
-	  <!-- If authorized to edit -->
-	  <p><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></p>
+	  <% if admin_signed_in? %>
+	    <p><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></p>
+	  <% end %>
 	</div>
 	
 	<div id="content-right">  

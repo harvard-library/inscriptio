@@ -1,9 +1,11 @@
 <div class="floor line" id="floor-<%= floor.id %>">
   <h3><%= link_to(floor.name, library_floor_path(@library,floor) ) %></h3>
   
-  <!-- If authorized to edit -->
-  <%= link_to('Move Up', move_higher_library_floor_path(@library,floor), :method => :post, :id => "move_up-#{floor.id}") %> |
-  <%= link_to('Move Down', move_lower_library_floor_path(@library,floor), :method => :post, :id => "move_down-#{floor.id}") %> |
-  <%= link_to('Edit', edit_library_floor_path(@library,floor)) %> |
-  <%= link_to('Delete', library_floor_path(@library,floor), :method => :delete, :id => "delete-#{floor.id}") %>
+  <% if admin_signed_in? %>
+    <%= link_to('Move Up', move_higher_library_floor_path(@library,floor), :method => :post, :id => "move_up-#{floor.id}") %> |
+    <%= link_to('Move Down', move_lower_library_floor_path(@library,floor), :method => :post, :id => "move_down-#{floor.id}") %> |
+    <%= link_to('Edit', edit_library_floor_path(@library,floor)) %> |
+    <%= link_to('Delete', library_floor_path(@library,floor), :method => :delete, :id => "delete-#{floor.id}") %>
+  <% end %>
+  
 </div>

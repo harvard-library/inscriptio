@@ -8,7 +8,6 @@ gem 'jquery-rails', '0.2.7'
 gem 'devise', '1.2.1'
 gem 'carrierwave', '0.5.3'
 gem 'mini_magick', '3.2'
-gem 'mysql2', "0.2.7" # v0.3 requires rails 3
 
 group :development,:test do
   gem 'cucumber-rails', '0.4.0'

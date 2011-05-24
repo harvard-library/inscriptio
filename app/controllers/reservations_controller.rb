@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:edit, :update, :destroy]
+  before_filter :authenticate_admin!, :only => [:index, :show, :edit, :update, :destroy]
+  before_filter :verify_credentials, :only => [:index, :new, :show, :create]
   
   def index
     @reservations = Reservation.all
@@ -7,6 +8,7 @@ class ReservationsController < ApplicationController
 
   def new
     @reservation = Reservation.new
+    @reservable_asset = params[:reservable_asset]
   end
 
   def show
@@ -20,6 +22,7 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
+    params[:reservation][:user] = User.find(current_user)
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save

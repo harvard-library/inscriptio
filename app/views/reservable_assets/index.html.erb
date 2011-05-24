@@ -4,5 +4,8 @@
   <% else %>
     <h2>No reservable assets for this floor yet.</h2>
   <% end %>
+  <% if admin_signed_in? %>
+    <p><%= link_to('New Reservable Asset', new_reservable_asset_path) %></p>
+  <% end %>  
   <p></p>
 </div>

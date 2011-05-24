@@ -91,7 +91,6 @@ GEM
     mime-types (1.16)
     mini_magick (3.2)
       subexec (~> 0.0.4)
-    mysql2 (0.2.7)
     nokogiri (1.4.4)
     orm_adapter (0.0.4)
     pg (0.10.1)
@@ -162,7 +161,6 @@ DEPENDENCIES
   jquery-rails (= 0.2.7)
   launchy
   mini_magick (= 3.2)
-  mysql2 (= 0.2.7)
   pg (= 0.10.1)
   rails (= 3.0.5)
   rspec-rails

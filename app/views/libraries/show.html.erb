@@ -25,20 +25,21 @@
 	  <% unless @library.floors.blank? %>
 	    <%= render :partial => 'shared/lines/floor', :collection => @library.floors %>
 	  <% else %>
-	    <h2>No floors yet.</h2>
+	    <h3>No floors yet.</h3>
 	  <% end %>
-	  <!-- If authorized to edit -->
-	  <p><%= link_to('New Floor', new_library_floor_path(@library)) %></p>
+	  <% if admin_signed_in? %>
+	    <p><%= link_to('New Floor', new_library_floor_path(@library)) %></p>
+	  <% end %>
 	
 	  <h2>Subject Areas</h2>
 	  
 	  <% unless @subject_areas.blank? %>
 	    <%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
 	  <% else %>
-	    <h2>No subject areas yet.</h2>
+	    <h3>No subject areas yet.</h3>
 	  <% end %>
-	  
-	  <!-- If authorized to edit -->
-	  <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+	  <% if admin_signed_in? %>
+	    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+	  <% end %>
 	</div>
 </div>

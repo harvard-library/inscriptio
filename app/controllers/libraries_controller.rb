@@ -1,5 +1,5 @@
 class LibrariesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show]
+  before_filter :authenticate_admin!, :only => [:new, :create, :edit, :update, :destroy]
 
   def index
     @libraries = Library.all

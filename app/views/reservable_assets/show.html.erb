@@ -3,6 +3,10 @@
       <h1><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %></h1>
 	</div>
   <dl>
+	<dt>Name:</dt>
+    <dd><%= @reservable_asset.name %></dd>
+	<dt>Description:</dt>
+    <dd><%= @reservable_asset.description %></dd>
     <dt>Minimum Reservation Time:</dt>
     <dd><%= @reservable_asset.min_reservation_time %></dd>
 	<dt>Maximum Reservation Time:</dt>
@@ -13,11 +17,11 @@
     <dd><%= @reservable_asset.reservation_time_increment %></dd>
 	<dt>Location:</dt>
     <dd><%= @reservable_asset.location %></dd>
-    <dt>General Information:</dt>
-    <dd><%= @reservable_asset.general_info %></dd>
   </dl>
 	<h2>Photo</h2>
 	<% unless @reservable_asset.photo.blank? %>
       <%= image_tag(@reservable_asset.photo.url) %>
     <% end %>
 </div>
+
+<p><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></p>

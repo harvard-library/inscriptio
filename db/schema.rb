@@ -153,12 +153,14 @@ ActiveRecord::Schema.define(:version => 20110517141717) do
   create_table "reservable_assets", :force => true do |t|
     t.integer  "floor_id"
     t.integer  "reservable_asset_type_id"
+    t.string   "name"
+    t.text     "description"
     t.string   "location"
     t.string   "min_reservation_time"
     t.string   "max_reservation_time"
     t.integer  "max_concurrent_users"
     t.string   "reservation_time_increment"
-    t.text     "general_info"
+    t.string   "access_code"
     t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -170,7 +172,6 @@ ActiveRecord::Schema.define(:version => 20110517141717) do
   create_table "reservations", :force => true do |t|
     t.integer  "reservable_asset_id"
     t.integer  "user_id"
-    t.string   "code",                                   :null => false
     t.datetime "start_date"
     t.datetime "end_date"
     t.boolean  "approved",            :default => false

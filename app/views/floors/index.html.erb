@@ -4,5 +4,8 @@
   <% else %>
     <h2>No floors for this library yet.</h2>
   <% end %>
+  <% if admin_signed_in? %>
+    <p><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></p>
+  <% end %>
   <p><%= link_to("Back to " + @library.name, @library ) %></p>
 </div>
