@@ -30,6 +30,15 @@
 	    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
 	  <% end %>
 	</div>
+	
+	<div id="site_nav">
+	  <%= link_to "Reservations", reservations_path %>
+	  <% if admin_signed_in? %>
+        <%= link_to "Reservable Asset Types", reservable_asset_types_path %>
+		<%= link_to "Reservable Assets", reservable_assets_path %>
+		<%= link_to "User Types", user_types_path %>
+      <% end %>
+	</div>	
 
     <%= yield %>
 

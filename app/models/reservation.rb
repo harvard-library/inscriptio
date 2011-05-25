@@ -5,4 +5,8 @@ class Reservation < ActiveRecord::Base
   def to_s
     %Q|#{id}|
   end
+  
+  def allow_edit?(current_user)
+    self.user_id == current_user.id
+  end
 end

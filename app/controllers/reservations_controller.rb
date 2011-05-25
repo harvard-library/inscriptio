@@ -1,9 +1,15 @@
 class ReservationsController < ApplicationController
-  before_filter :authenticate_admin!, :only => [:index, :show, :edit, :update, :destroy]
-  before_filter :verify_credentials, :only => [:index, :new, :show, :create]
+  before_filter :verify_credentials, :only => [:index, :new, :show, :create, :update, :destroy]
   
   def index
     @reservations = Reservation.all
+    if admin_signed_in?
+      @reservations = Reservation.all
+    else
+      @reservations = Reservation.find(:all, :conditions => {:user_id => current_user.id})
+    end 
+    p "reservations" 
+    p @reservations
   end
 
   def new
@@ -17,6 +23,7 @@ class ReservationsController < ApplicationController
 
   def edit
     @reservation = Reservation.find(params[:id])
+    @reservable_asset = @reservation.reservable_asset_id
   end
   
   def create
@@ -48,6 +55,7 @@ class ReservationsController < ApplicationController
 
   def update
     @reservation = Reservation.find(params[:id])
+    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save

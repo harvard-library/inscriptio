@@ -10,9 +10,15 @@ class ReservableAsset < ActiveRecord::Base
   validates_presence_of :floor_id
   validates_presence_of :reservable_asset_type_id
   
-  scope :current_users, joins(:reservations).where('reservations.end_date > current_date()')
-  
   def to_s
     %Q|#{id}|
   end
+  
+  def current_users
+    self.users.where('reservations.end_date > current_date')
+  end  
+  
+  def allow_reservation?(current_user)
+    !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length
+  end  
 end

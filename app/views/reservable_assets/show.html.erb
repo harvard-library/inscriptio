@@ -24,4 +24,8 @@
     <% end %>
 </div>
 
-<p><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></p>
+<% if @reservable_asset.allow_reservation?(current_user) %>
+  <p><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></p>
+<% else %>
+  <p>Asset is currently full.</p>
+<% end %>
