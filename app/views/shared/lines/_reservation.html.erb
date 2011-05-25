@@ -2,7 +2,7 @@
 <h3><%= link_to("Reservation ID-#{reservation.id}", reservation ) %></h3>
   
   <p><%= link_to("#{reservation.reservable_asset.reservable_asset_type.name}-#{reservation.reservable_asset.name}", reservation.reservable_asset) %><p>
-  <% if reservation.allow_edit?(current_user) || admin_signed_in? %>
+  <% if admin_signed_in? || reservation.allow_edit?(current_user) %>
     <%= link_to('Edit', edit_reservation_path(reservation)) %> |
 	<%= link_to('Delete', reservation_path(reservation), :method => :delete, :id => "delete-#{reservation.id}") %>
   <% end %>

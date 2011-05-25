@@ -24,8 +24,9 @@
 	<dt>Has Bulletin Board:</dt>
     <dd><%= @reservable_asset_type.has_bulletin_board %></dd>
   </dl>
-	<h2>Photo</h2>
+	
 	<% unless @reservable_asset_type.photo.blank? %>
+	  <h2>Photo</h2>
       <%= image_tag(@reservable_asset_type.photo.url) %>
     <% end %>
 </div>

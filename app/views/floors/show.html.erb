@@ -26,6 +26,16 @@
 	    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
 	  <% end %>
 	
+	  <h2 class="collapsable description">Call Numbers</h2>
+	  <% unless @floor.call_numbers.blank? %>
+	    <%= render :partial => 'shared/lines/call_number', :collection => @floor.call_numbers %>
+	  <% else %>
+	    <h3>No call numbers yet.</h3>
+	  <% end %>
+	  <% if admin_signed_in? %>
+	    <p><%= link_to('New Call Number', new_call_number_path) %></p>
+	  <% end %>
+	
 	  <h2 class="collapsable description">All <%= @floor.library %> Floors</h2>
 	  <% unless @floor.library.floors.blank? %>
 	    <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>

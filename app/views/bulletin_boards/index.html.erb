@@ -1,0 +1,11 @@
+<div class="bulletin_boards collection-list">
+  <% unless @bulletin_boards.blank? %>
+	<%= render :partial => 'shared/lines/bulletin_board', :collection => @bulletin_boards %>
+  <% else %>
+	<h2>No bulletin boards yet.</h2>
+  <% end %>
+</div>
+
+  <% if admin_signed_in? %>
+    <p><%= link_to('New Bulletin Board', new_bulletin_board_path) %></p>
+  <% end %>

@@ -18,14 +18,22 @@
 	<dt>Location:</dt>
     <dd><%= @reservable_asset.location %></dd>
   </dl>
-	<h2>Photo</h2>
+	
 	<% unless @reservable_asset.photo.blank? %>
-      <%= image_tag(@reservable_asset.photo.url) %>
+      <h2>Photo</h2>
+	  <%= image_tag(@reservable_asset.photo.url) %>
     <% end %>
 </div>
 
 <% if @reservable_asset.allow_reservation?(current_user) %>
   <p><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></p>
-<% else %>
-  <p>Asset is currently full.</p>
+<% end %>
+
+<% if admin_signed_in? %>
+  <h2>Current Reservations</h2>
+  <% unless @reservable_asset.reservations.blank? %>
+    <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations %>
+  <% else %>
+    <h2>No reservations for this asset yet.</h2>
+  <% end %>
 <% end %>

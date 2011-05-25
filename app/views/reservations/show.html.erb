@@ -10,8 +10,14 @@
 	<dt>End Date:</dt>
     <dd><%= @reservation.end_date.to_date() %></dd>
   </dl>
-	<h2>Photo</h2>
+
+    <h2>Photo</h2>
 	<% unless @reservation.reservable_asset.photo.blank? %>
       <%= image_tag(@reservation.reservable_asset.photo.url) %>
+    <% end %>
+
+	<h2>Bulletin Board</h2>
+	<% unless @reservation.reservable_asset.bulletin_board.nil? %>
+      <%= link_to "Access Board", bulletin_board_path(@reservation.reservable_asset.bulletin_board) %>
     <% end %>
 </div>

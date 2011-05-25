@@ -8,8 +8,6 @@ class ReservationsController < ApplicationController
     else
       @reservations = Reservation.find(:all, :conditions => {:user_id => current_user.id})
     end 
-    p "reservations" 
-    p @reservations
   end
 
   def new

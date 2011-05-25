@@ -31,7 +31,7 @@
 	    <p><%= link_to('New Floor', new_library_floor_path(@library)) %></p>
 	  <% end %>
 	
-	  <h2>Subject Areas</h2>
+	  <h2>All Subject Areas</h2>
 	  
 	  <% unless @subject_areas.blank? %>
 	    <%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
