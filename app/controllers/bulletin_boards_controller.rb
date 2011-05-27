@@ -11,6 +11,7 @@ class BulletinBoardsController < ApplicationController
 
   def show
     @bulletin_board = BulletinBoard.find(params[:id])
+    @posts = Post.find(:all, :conditions => {:bulletin_board_id => @bulletin_board.id})
   end
 
   def edit

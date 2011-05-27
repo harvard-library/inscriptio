@@ -1,7 +1,7 @@
 <div class="bulletin_board line" id="bulletin_board-<%= bulletin_board.id %>">
   <h3><%= link_to(bulletin_board.id, bulletin_board ) %></h3>
   
-  <% if admin_signed_in? %>
+  <% if current_user.admin? %>
     <%= link_to('Edit', edit_bulletin_board_path(bulletin_board)) %> |
     <%= link_to('Delete', bulletin_board_path(bulletin_board), :method => :delete, :id => "delete-#{bulletin_board.id}") %>
   <% end %>

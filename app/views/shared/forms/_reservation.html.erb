@@ -3,6 +3,9 @@
 	<%= f.input :reservable_asset, :as => :hidden, :value => @reservable_asset %>
     <%= f.input :start_date, :as => :date %>
     <%= f.input :end_date, :as => :date %>
+    <% if current_user.admin? %>
+      <%= f.input :user %>
+	<% end %>
   <% end %>
   <%= f.buttons %>
 <% end %>

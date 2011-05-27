@@ -19,8 +19,6 @@ class ReservableAsset < ActiveRecord::Base
   end  
   
   def allow_reservation?(current_user)
-    if !current_user.nil?
-      !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length
-    end  
+    !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length
   end  
 end

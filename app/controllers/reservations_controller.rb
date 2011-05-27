@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
   
   def index
     @reservations = Reservation.all
-    if admin_signed_in?
+    if current_user.admin?
       @reservations = Reservation.all
     else
       @reservations = Reservation.find(:all, :conditions => {:user_id => current_user.id})
@@ -27,7 +27,12 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
-    params[:reservation][:user] = User.find(current_user)
+    if current_user.admin?
+      params[:reservation][:user] = User.find(params[:reservation][:user_id])
+    else
+      params[:reservation][:user] = User.find(current_user)
+    end
+    
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save
@@ -42,7 +47,7 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
-    reservable_asset = @reservation.id
+    reservation = @reservation.id
     if @reservation.destroy
       flash[:notice] = %Q|Deleted reservation #{reservation}|
       redirect_to :action => :index

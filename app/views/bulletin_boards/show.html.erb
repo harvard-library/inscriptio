@@ -1,7 +1,14 @@
 <div class="bulletin_board show-object">
-  <h1><%= @bulletin_board.id %></h1>
-  <dl>
-    <dt>Post Lifetime:</dt>
-    <dd><%= @bulletin_board.post_lifetime %></dd>
-  </dl>
+  <h1>Bulletin Board for <%= @bulletin_board.reservable_asset.name %></h1>
+
+  <p>Post Lifetime: <%= @bulletin_board.post_lifetime %></p>
+
+  <% unless @posts.blank? %>
+	<%= render :partial => 'shared/lines/post', :collection => @posts %>
+  <% else %>
+	<h2>No posts yet.</h2>
+  <% end %>
+  
+  <p><%= link_to('New Post', new_post_path(:bulletin_board => @bulletin_board)) %></p>
+
 </div>

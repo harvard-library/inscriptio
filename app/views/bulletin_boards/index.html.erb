@@ -6,6 +6,6 @@
   <% end %>
 </div>
 
-  <% if admin_signed_in? %>
+  <% if current_user.admin? %>
     <p><%= link_to('New Bulletin Board', new_bulletin_board_path) %></p>
   <% end %>

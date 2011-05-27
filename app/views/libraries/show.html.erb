@@ -27,7 +27,7 @@
 	  <% else %>
 	    <h3>No floors yet.</h3>
 	  <% end %>
-	  <% if admin_signed_in? %>
+	  <% if current_user.admin? %>
 	    <p><%= link_to('New Floor', new_library_floor_path(@library)) %></p>
 	  <% end %>
 	
@@ -38,7 +38,7 @@
 	  <% else %>
 	    <h3>No subject areas yet.</h3>
 	  <% end %>
-	  <% if admin_signed_in? %>
+	  <% if current_user.admin? %>
 	    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
 	  <% end %>
 	</div>

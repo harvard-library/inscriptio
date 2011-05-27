@@ -1,0 +1,8 @@
+<%= semantic_form_for(@moderator_flag) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :post, :as => :hidden, :value => @post %>
+    <%= f.input :reason %>
+    
+  <% end %>
+  <%= f.buttons %>
+<% end %>

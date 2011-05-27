@@ -1,0 +1,13 @@
+<div class="post line" id="post-<%= post.id %>">
+  <h3><%= link_to("Post #{post.id}", post) %></h3>
+  <p>
+    created on <%= post.created_at %> <br /><br />
+	<%= post.message %>
+	
+  </p>
+  <%= link_to('Flag', new_moderator_flag_path(:post => post)) %>	
+  <% if current_user.admin? %>
+    | <%= link_to('Edit', edit_post_path(post)) %>
+    | <%= link_to('Delete', post_path(post), :method => :delete, :id => "delete-#{post.id}") %>
+  <% end %>
+</div>

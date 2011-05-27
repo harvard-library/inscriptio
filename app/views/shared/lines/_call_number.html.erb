@@ -1,7 +1,7 @@
 <div class="call_number line" id="library-<%= call_number.id %>">
   <h3><%= link_to(call_number.call_number, call_number ) %></h3>
   
-  <% if admin_signed_in? %>
+  <% if current_user.admin? %>
     <%= link_to('Edit', edit_call_number_path(call_number)) %> |
     <%= link_to('Delete', call_number_path(call_number), :method => :delete, :id => "delete-#{call_number.id}") %>
   <% end %>  

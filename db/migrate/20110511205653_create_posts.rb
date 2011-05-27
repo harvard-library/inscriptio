@@ -3,7 +3,6 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |t|
       t.references :bulletin_board
       t.references :user
-      t.datetime :creation_time
       t.text :message
       t.string :media
       t.boolean :public, :default => true

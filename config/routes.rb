@@ -1,8 +1,6 @@
 Inscriptio::Application.routes.draw do
   devise_for :users
   
-  devise_for :admins
-
   resources :moderator_flags
 
   resources :posts

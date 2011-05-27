@@ -1,0 +1,13 @@
+<div class="moderator_flag line" id="moderator_flag-<%= moderator_flag.id %>">
+  <h3><%= link_to("Flag #{moderator_flag.id}", moderator_flag) %></h3>
+  <p>
+    created on <%= moderator_flag.created_at %> <br /><br />
+	<%= moderator_flag.reason %>
+	
+  </p>
+  <%= link_to('Flag', new_moderator_flag_path(post)) %>	
+  <% if current_user.admin? %>
+    | <%= link_to('Edit', edit_moderator_flag_path(moderator_flag)) %>
+    | <%= link_to('Delete', moderator_flag_path(moderator_flag), :method => :delete, :id => "delete-#{moderator_flag.id}") %>
+  <% end %>
+</div>
