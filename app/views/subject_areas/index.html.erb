@@ -6,5 +6,6 @@
   <% end %>
 </div>
 
-<!-- If authorized to edit -->
-<p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+  <% if current_user.admin? %>
+    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+  <% end %>

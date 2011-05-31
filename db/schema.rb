@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110527175411) do
+ActiveRecord::Schema.define(:version => 20110531191153) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                             :default => "", :null => false
@@ -168,6 +168,18 @@ ActiveRecord::Schema.define(:version => 20110527175411) do
 
   add_index "reservable_assets", ["floor_id"], :name => "index_reservable_assets_on_floor_id"
   add_index "reservable_assets", ["reservable_asset_type_id"], :name => "index_reservable_assets_on_reservable_asset_type_id"
+
+  create_table "reservation_expiration_notices", :force => true do |t|
+    t.string   "type"
+    t.integer  "days_before_expiration"
+    t.string   "subject",                :limit => 250
+    t.text     "message"
+    t.string   "reply_to"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reservation_expiration_notices", ["type"], :name => "index_reservation_expiration_notices_on_type"
 
   create_table "reservations", :force => true do |t|
     t.integer  "reservable_asset_id"

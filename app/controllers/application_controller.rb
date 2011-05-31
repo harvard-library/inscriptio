@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   private 
+  def authenticate_admin!
+    current_user.admin?  
+  end
+    
   def verify_credentials
     user_signed_in?
   end 

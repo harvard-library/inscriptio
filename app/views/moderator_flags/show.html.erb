@@ -1,16 +1,12 @@
-<div class="post show-object">
-  <h1>Post for <%= @post.bulletin_board.reservable_asset.name %></h1>
+<div class="moderator_flag show-object">
+  <h1>Flag for <%= @moderator_flag.post.id %></h1>
   <dl>
-    <dt>Posted By:</dt>
-    <dd><%= @post.user.email %></dd>
+    <dt>Flagged By:</dt>
+    <dd><%= @moderator_flag.user.email %></dd>
 	<dt>Creation Time:</dt>
-    <dd><%= @post.created_at %></dd>
-	<dt>Message:</dt>
-    <dd><%= @post.message %></dd>
-	<dt>Public?</dt>
-    <dd><%= @post.public %></dd>
-	<dt>Moderator Flags:</dt>
-    <dd><%= @post.moderator_flags %></dd>
+    <dd><%= @moderator_flag.created_at %></dd>
+	<dt>Reason:</dt>
+    <dd><%= @moderator_flag.reason %></dd>
     
   </dl>
 

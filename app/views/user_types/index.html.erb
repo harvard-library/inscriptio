@@ -6,5 +6,6 @@
   <% end %>
 </div>
 
-<!-- If authorized to edit -->
-<p><%= link_to('New User Type', new_user_type_path) %></p>
+  <% if current_user.admin? %>
+    <p><%= link_to('New User Type', new_user_type_path) %></p>
+  <% end %>

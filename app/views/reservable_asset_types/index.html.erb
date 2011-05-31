@@ -6,3 +6,7 @@
   <% end %>
   <p></p>
 </div>
+
+  <% if current_user.admin? %>
+    <p><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></p>
+  <% end %>

@@ -1,0 +1,8 @@
+<div class="reservation_expiration_notice line" id="reservation_expiration_notice-<%= reservation_expiration_notice.id %>">
+  <h3><%= link_to(reservation_expiration_notice.type, reservation_expiration_notice ) %></h3>
+  
+  <% if current_user.admin? %>
+    <%= link_to('Edit', edit_reservation_expiration_notice_path(reservation_expiration_notice)) %> |
+    <%= link_to('Delete', reservation_expiration_notice_path(reservation_expiration_notice), :method => :delete, :id => "delete-#{reservation_expiration_notice.id}") %>
+  <% end %>
+</div>

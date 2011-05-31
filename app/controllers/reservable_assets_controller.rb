@@ -19,6 +19,20 @@ class ReservableAssetsController < ApplicationController
   
   def create
     @reservable_asset = ReservableAsset.new
+    
+    #setting the attributes from the associated reservable asset type if not specified for the reservable asset
+    if params[:reservable_asset][:min_reservation_time].blank? || params[:reservable_asset][:min_reservation_time].nil?
+      params[:reservable_asset][:min_reservation_time] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).min_reservation_time
+    end
+    if params[:reservable_asset][:max_reservation_time].blank? || params[:reservable_asset][:max_reservation_time].nil?
+      params[:reservable_asset][:max_reservation_time] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).max_reservation_time
+    end
+    if params[:reservable_asset][:max_concurrent_users].blank? || params[:reservable_asset][:max_concurrent_users].nil?
+      params[:reservable_asset][:max_concurrent_users] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).max_concurrent_users
+    end
+    if params[:reservable_asset][:reservation_time_increment].blank? || params[:reservable_asset][:reservation_time_increment].nil?
+      params[:reservable_asset][:reservation_time_increment] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).reservation_time_increment
+    end  
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
       if @reservable_asset.save

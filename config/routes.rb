@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :reservation_expiration_notices
+
   devise_for :users
   
   resources :moderator_flags

@@ -1,0 +1,2 @@
+module ReservationExpirationNoticesHelper
+end
