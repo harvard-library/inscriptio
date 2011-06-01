@@ -1,7 +1,7 @@
 class CreateReservationExpirationNotices < ActiveRecord::Migration
   def self.up
     create_table :reservation_expiration_notices do |t|
-      t.string :type
+      t.string :notice_type
       t.integer :days_before_expiration
       t.string :subject, :limit => 250
       t.text :message
@@ -9,7 +9,7 @@ class CreateReservationExpirationNotices < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :reservation_expiration_notices, :type
+    add_index :reservation_expiration_notices, :notice_type
   end
 
   def self.down
