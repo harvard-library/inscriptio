@@ -9,7 +9,13 @@
     <dd><%= @reservation.start_date.to_date() %></dd>
 	<dt>End Date:</dt>
     <dd><%= @reservation.end_date.to_date() %></dd>
+    <dt>Reservation Approved?</dt>
+    <dd><%= @reservation.approved ? "Yes" : "No" %></dd>
   </dl>
+
+    <% if current_user.admin? || @reservation.allow_edit?(current_user) %>
+      <%= link_to('Edit', edit_reservation_path(@reservation)) %>
+	<% end %>
 
     <h2>Photo</h2>
 	<% unless @reservation.reservable_asset.photo.blank? %>

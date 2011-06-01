@@ -36,6 +36,7 @@ class ReservationsController < ApplicationController
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save
+        Notification.reservation_requested(@reservation).deliver
         flash[:notice] = 'Added that Reservation'
         format.html {render :action => :show}
       else

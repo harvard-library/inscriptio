@@ -5,6 +5,7 @@
     <%= f.input :end_date, :as => :date %>
     <% if current_user.admin? %>
       <%= f.input :user %>
+      <%= f.input :approved %>
 	<% end %>
   <% end %>
   <%= f.buttons %>
