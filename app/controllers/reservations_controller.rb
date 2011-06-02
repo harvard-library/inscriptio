@@ -59,10 +59,14 @@ class ReservationsController < ApplicationController
 
   def update
     @reservation = Reservation.find(params[:id])
+    approval = @reservation.approved
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save
+        if !approval and @reservation.approved
+          Notification.reservation_approved(@reservation).deliver
+        end  
         flash[:notice] = %Q|#{@reservation} updated|
         format.html {render :action => :show}
       else
