@@ -48,9 +48,10 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
-    reservation = @reservation.id
+    reservation = @reservation
     if @reservation.destroy
-      flash[:notice] = %Q|Deleted reservation #{reservation}|
+      Notification.reservation_canceled(reservation).deliver
+      flash[:notice] = %Q|Deleted reservation #{reservation.id}|
       redirect_to :action => :index
     else
 

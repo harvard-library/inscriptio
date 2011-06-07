@@ -24,6 +24,7 @@ class PostsController < ApplicationController
     @post.attributes = params[:post]
     respond_to do|format|
       if @post.save
+        Notification.bulletin_board_posted(@post).deliver
         flash[:notice] = 'Added that post'
         format.html {redirect_to bulletin_board_path(params[:post][:bulletin_board])}
       else
