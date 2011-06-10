@@ -2,7 +2,7 @@ class CreateBulletinBoards < ActiveRecord::Migration
   def self.up
     create_table :bulletin_boards do |t|
       t.references :reservable_asset
-      t.string :post_lifetime
+      t.integer :post_lifetime
       t.timestamps
     end
     

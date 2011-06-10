@@ -4,6 +4,10 @@
     <dt>Description:</dt>
     <dd><%= @subject_area.description %></dd>
     <dt>Floors:</dt>
-    <dd><%= @subject_area.floors.join(', ') %></dd>
+    <dd>
+	  <% @subject_area.floors.each do |floor| %>
+	    <%= link_to floor.name, library_floor_path(floor.library,floor) %>
+	  <% end %>
+	</dd>
   </dl>
 </div>

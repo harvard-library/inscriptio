@@ -1,7 +1,7 @@
 <%= semantic_form_for(@reservation_expiration_notice) do |f| %>
   <%= f.inputs do %>
     <%= f.input :notice_type, :as => :radio, :collection => ReservationExpirationNotice::NOTICE_TYPE %>
-    <%= f.input :days_before_expiration %>
+    <%= f.input :days_before_expiration, :label => "Days before expiration in days" %>
     <%= f.input :subject %>
 	<%= f.input :message %>
 	<%= f.input :reply_to %>
