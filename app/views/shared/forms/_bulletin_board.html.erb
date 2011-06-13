@@ -1,7 +1,7 @@
 <%= semantic_form_for(@bulletin_board) do |f| %>
   <%= f.inputs do %>
     <%= f.input :reservable_asset %>
-    <%= f.input :post_lifetime %>
+    <%= f.input :post_lifetime, :label => "Post lifetime in days" %>
   <% end %>
   <%= f.buttons %>
 <% end %>

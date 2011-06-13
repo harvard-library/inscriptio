@@ -2,13 +2,13 @@
   <%= f.inputs do %>
     <%= f.input :library %>
     <%= f.input :name %>
-    <%= f.input :min_reservation_time %>
-    <%= f.input :max_reservation_time %>
+    <%= f.input :min_reservation_time, :label => "Minimum reservation time in days" %>
+    <%= f.input :max_reservation_time, :label => "Maximum reservation time in days" %>
     <%= f.input :max_concurrent_users %>
-    <%= f.input :reservation_time_increment %>
+    <%= f.input :reservation_time_increment, :label => "Reservation time increment in days" %>
     <%= f.input :has_code %>
     <%= f.input :welcome_message %>
-    <%= f.input :expiration_extension_time %>
+    <%= f.input :expiration_extension_time, :label => "Expiration extension time in days" %>
     <%= f.input :requires_moderation %>
     <%= f.input :moderation_held_message %>
     <%= f.input :has_bulletin_board %>

@@ -1,5 +1,5 @@
 <div class="reservable_asset line" id="reservable_asset-<%= reservable_asset.id %>">
-  <h3><%= link_to("#{reservable_asset.reservable_asset_type.name}-#{reservable_asset.name}", reservable_asset ) %> on <%= link_to reservable_asset.floor.name, library_floor_path(reservable_asset.floor.library,reservable_asset.floor) %></h3>
+  <h3><%= link_to("#{reservable_asset.reservable_asset_type.name}-#{reservable_asset.name}", reservable_asset ) %></h3>
   
   <% if current_user.admin? %>
     <%= link_to('Edit', edit_reservable_asset_path(reservable_asset)) %> |
