@@ -55,14 +55,14 @@
 	<%= javascript_include_tag('jquery.bt.min') %>
 	<%= javascript_include_tag('excanvas-compressed.js') %>
 	<%= stylesheet_link_tag('map') %>
-	<%= stylesheet_link_tag('jquery.bt.css') %>
 	<script type="text/javascript">
-		floorMap.assets = [{'id': '1', 'name': 'Carrel 1'}, {'id': '2', 'name': 'Carrel 2'}];
-		floorMap.subjects = [{'id': '1', 'name': 'Mid-East'}, {'id': '2', 'name': 'Hebrew'}];
+		floorMap.assets = [
+			{'id': '1', 'name': 'Carrel 1', 'location': [100, 100, 200, 200]},
+			{'id': '2', 'name': 'Carrel 2', 'location': []}, 
+			{'id': '3', 'name': 'Carrel 3', 'location': [400, 400, 500, 500]}
+		];
 	</script>
 	<div id="map" style="background-image: url('<%= image_path(@floor.floor_map.url) %>');"></div>
-	<div id="tooltip">
-	</div>
       <% end %>
 	  
 	</div>

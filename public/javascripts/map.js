@@ -1,83 +1,96 @@
-floorMap = {
+var floorMap = {
 	overlays: [],
-	overlay: function (type, x1, y1, x2, y2, width, height) {
-		var type	= type || 'asset',
+	overlay: function (x1, y1, x2, y2, assignedId) {
 		id		= 'overlay' + floorMap.overlays.length,
 		x1		= x1 || 0,
 		y1		= y1 || 0,
-		x2		= x2 || this.x1,
-		y2		= y2 || this.y1,
-		assignedTo	= null;
+		x2		= x2 || x1,
+		y2		= y2 || y1,
+		assignedId	= assignedId || null;
 
-		var newOverlay = $('<div id="overlay' + floorMap.overlays.length + '" class="overlay ' + type + '"' 
+
+		var newOverlay = '<div id="overlay' + floorMap.overlays.length + '" class="overlay"' 
 			+ ' style="z-index: ' + floorMap.overlays.length + ';' 
 			+ ' left: ' + x1 + 'px;'
-			+ ' top: ' + y1 + 'px;'
-			+ ' right: ' + ($(window).width() - x2) + 'px;'
-			+ ' bottom: ' + ($(window).height() - y2) + 'px;'
-			+ '"></div>').data({
-			'type': type,
-			'assignedTo': assignedTo
-			});
-
+			+ ' top: ' + y1 + 'px;';
+		
+		if (x2 != x1 || y2 != y1) {
+			newOverlay += ' width: ' + (x2 - x1) + 'px;' + ' height: ' + (y2 - y1) + 'px;'
+		}
+	
+		newOverlay += '"></div>';
+		newOverlay = $(newOverlay).data({
+		       	'assignedId': assignedId 
+		}).bt({
+			trigger: 'click',
+			contentSelector: "floorMap.tooltip", 
+			fill: '#FFF',
+			strokeWidth: 4, 
+			padding: 20,
+			cornerRadius: 15,
+			cssClass: 'tooltip',
+			closeWhenOthersOpen: true,
+			postShow: function() {
+				$('#overlayId').val($(this).data('assignedId'));
+			}
+		});
+		
 		floorMap.overlays.push(newOverlay);
 		return newOverlay;
 	},
-	tooltip: 
-		'<div> <label for="subject">Type: </label> <select id="overlayType" name="overlayType"> <option value="asset">Asset</option> <option value="subject">Subject Area</option> </select> </div> <div> <label for="overlayId" id="overlayIdLabel">Asset: </label> <select id="overlayId"> <option value="1">Carrel 1</option> <option value="2">Carrel 2</option> <option value="3">Carrel 3</option> </select> </div> <button id="removeOverlay">Remove</button> <button id="applyOverlay">Apply</button> <button id="closeTooltip">X</button>',
-	updateOverlayDropdown: function() {
-		var tipBits = {};
-		if ($('#overlayType').val() == 'asset') {
-		       	tipBits = {
-				'typeVal': 'asset', 
-				'typeName': 'Assets',
-				'typeCollection': floorMap.assets,
-				'oldTypeVal': 'subject'
-			};
-		} else {
-			tipBits = {
-				'typeVal': 'subject', 
-				'typeName': 'Subjects',
-				'typeCollection': floorMap.subjects,
-				'oldTypeVal': 'asset'
-			};
-		}
-		$('.bt-active').removeClass(tipBits.oldTypeVal).addClass(tipBits.typeVal);
-		$('#overlayIdLabel').html(tipBits.typeName + ': ');
-		$('#overlayId').empty();
-		for (i in tipBits.typeCollection) {
-			$('#overlayId').append(
-				'<option value="' + tipBits.typeCollection[i].id + '">' 
-				+ tipBits.typeCollection[i].name 
-				+ '</option>');
-		}
-	}
 };
+
 $(function() {
+	floorMap.tooltip = '<div><div><label for="overlayId" id="overlayIdLabel">Asset: </label><select id="overlayId">';
+	$.each(floorMap.assets, function(i, val) {
+		if (val.location.length > 0) {
+			$(new floorMap.overlay(
+				val.location[0], 
+				val.location[1], 
+				val.location[2], 
+				val.location[3])
+			).appendTo('#map').data('assignedId', val.id);
+		}
+		floorMap.tooltip += '<option value="' + val.id + '">' + val.name + '</option>';
+	});
+       	floorMap.tooltip += '</select></div><button id="removeOverlay">Remove</button>';
+	floorMap.tooltip += '<button id="applyOverlay">Apply</button><button id="closeTooltip">X</button></div>';
+
 	$('#closeTooltip').live('click', function() {
 		$('.overlay').btOff();
 	});
 
-	$('#overlayType').live('change', function() {
-		floorMap.updateOverlayDropdown();
-	});
-
 	$('#removeOverlay').live('click', function() {
+		/* Ajax stuff */
 		$('.overlay.bt-active').btOff().remove();
 	});
 
 	$('#applyOverlay').live('click', function() {
 		/* Ajax stuff */
 		$('.overlay.bt-active').data({
-			type: $('#overlayType').val(),
 			assignedId: $('#overlayId').val()
 		});
 		$('.overlay').btOff();
 	});
 
+	$('.overlay').live({
+		drag: function(event) {
+			$(this).css({
+				top: event.pageY - $(this).data('diffY'),
+				left: event.pageX - $(this).data('diffX')
+			});
+		},
+		draginit: function(event) {
+			$(this).data({
+				diffX: event.pageX - $(this).offset().left,
+				diffY: event.pageY - $(this).offset().top
+			});
+		}
+	});
+
 	$('#map').mousedown(function(event) {
 		if (event.target == this) {
-			var newOverlay = new floorMap.overlay( $('#overlayType').val(), event.pageX, event.pageY );
+			var newOverlay = new floorMap.overlay( event.pageX, event.pageY );
 
 			$(this).append($(newOverlay)).mousemove(function(event) { 
 				/* TODO: Make this work properly. */
@@ -98,32 +111,6 @@ $(function() {
 				});
 			});
 
-			$(newOverlay).drag(function(event) {
-				$(this).css({
-					top: event.pageY - $(this).data('diffY'),
-					left: event.pageX - $(this).data('diffX')
-				});
-			}).bind('draginit', function(event) {
-				$(this).data({
-					diffX: event.pageX - $(this).offset().left,
-				       	diffY: event.pageY - $(this).offset().top
-				});
-			}).click(function() {
-			}).bt({
-				trigger: 'click',
-				contentSelector: "floorMap.tooltip", 
-				fill: '#FFF',
-				strokeWidth: 4, 
-				padding: 20,
-				cornerRadius: 15,
-				cssClass: 'tooltip',
-				closeWhenOthersOpen: true,
-				postShow: function() {
-					$('#overlayType').val($(this).data('type'));
-					floorMap.updateOverlayDropdown();
-					$('#overlayId').val($(this).data('assignedId'));
-				}
-			});
 		}
 	}).mouseup(function() {
 		$(this).unbind('mousemove');	
