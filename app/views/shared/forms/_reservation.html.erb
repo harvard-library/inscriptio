@@ -1,11 +1,13 @@
 <%= semantic_form_for(@reservation) do |f| %>
   <%= f.inputs do %>
-	<%= f.input :reservable_asset, :as => :hidden, :value => @reservable_asset %>
     <%= f.input :start_date, :as => :date %>
     <%= f.input :end_date, :as => :date %>
     <% if current_user.admin? %>
+      <%= f.input :reservable_asset, :selected => @reservable_asset %>
       <%= f.input :user %>
       <%= f.input :approved %>
+    <% else %>
+      <%= f.input :reservable_asset, :as => :hidden, :value => @reservable_asset %>
 	<% end %>
   <% end %>
   <%= f.buttons %>

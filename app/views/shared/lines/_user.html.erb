@@ -1,0 +1,8 @@
+<div class="user line" id="user-<%= user.id %>">
+  <h3><%= link_to(user.email, user ) %></h3>
+  
+  <% if current_user.admin? %>
+    <%= link_to('Edit', edit_user_path(user)) %> |
+    <%= link_to('Delete', user_path(user), :method => :delete, :id => "delete-#{user.id}") %>
+  <% end %>
+</div>

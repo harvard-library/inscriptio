@@ -4,4 +4,8 @@
   <% else %>
     <h2>No reservations for this floor yet.</h2>
   <% end %>
+
+  <% if current_user.admin? %>
+    <p><%= link_to('New Reservation', new_reservation_path) %></p>
+  <% end %>
 </div>
