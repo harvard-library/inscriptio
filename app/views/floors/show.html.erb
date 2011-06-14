@@ -52,31 +52,16 @@
 	  <% unless @floor.floor_map.blank? %>
 	<%= javascript_include_tag('map') %>
 	<%= javascript_include_tag('jquery.drag.min') %>
+	<%= javascript_include_tag('jquery.bt.min') %>
+	<%= javascript_include_tag('excanvas-compressed.js') %>
 	<%= stylesheet_link_tag('map') %>
+	<%= stylesheet_link_tag('jquery.bt.css') %>
 	<script type="text/javascript">
 		floorMap.assets = [{'id': '1', 'name': 'Carrel 1'}, {'id': '2', 'name': 'Carrel 2'}];
 		floorMap.subjects = [{'id': '1', 'name': 'Mid-East'}, {'id': '2', 'name': 'Hebrew'}];
 	</script>
 	<div id="map" style="background-image: url('<%= image_path(@floor.floor_map.url) %>');"></div>
 	<div id="tooltip">
-		<div>
-			<label for="subject">Type: </label>
-			<select id="overlayType" name="overlayType">
-				<option value="asset">Asset</option>
-				<option value="subject">Subject Area</option>
-			</select>
-		</div>
-		<div>
-			<label for="overlayId" id="overlayIdLabel">Asset: </label>
-			<select id="overlayId">
-				<option value="1">Carrel 1</option>
-				<option value="2">Carrel 2</option>
-				<option value="3">Carrel 3</option>
-			</select>
-		</div>
-		<button id="removeOverlay">Remove</button>
-		<button id="applyOverlay">Apply</button>
-		<button id="closeTooltip">X</button>
 	</div>
       <% end %>
 	  

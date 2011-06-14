@@ -22,24 +22,57 @@ floorMap = {
 
 		floorMap.overlays.push(newOverlay);
 		return newOverlay;
+	},
+	tooltip: 
+		'<div> <label for="subject">Type: </label> <select id="overlayType" name="overlayType"> <option value="asset">Asset</option> <option value="subject">Subject Area</option> </select> </div> <div> <label for="overlayId" id="overlayIdLabel">Asset: </label> <select id="overlayId"> <option value="1">Carrel 1</option> <option value="2">Carrel 2</option> <option value="3">Carrel 3</option> </select> </div> <button id="removeOverlay">Remove</button> <button id="applyOverlay">Apply</button> <button id="closeTooltip">X</button>',
+	updateOverlayDropdown: function() {
+		var tipBits = {};
+		if ($('#overlayType').val() == 'asset') {
+		       	tipBits = {
+				'typeVal': 'asset', 
+				'typeName': 'Assets',
+				'typeCollection': floorMap.assets,
+				'oldTypeVal': 'subject'
+			};
+		} else {
+			tipBits = {
+				'typeVal': 'subject', 
+				'typeName': 'Subjects',
+				'typeCollection': floorMap.subjects,
+				'oldTypeVal': 'asset'
+			};
+		}
+		$('.bt-active').removeClass(tipBits.oldTypeVal).addClass(tipBits.typeVal);
+		$('#overlayIdLabel').html(tipBits.typeName + ': ');
+		$('#overlayId').empty();
+		for (i in tipBits.typeCollection) {
+			$('#overlayId').append(
+				'<option value="' + tipBits.typeCollection[i].id + '">' 
+				+ tipBits.typeCollection[i].name 
+				+ '</option>');
+		}
 	}
 };
 $(function() {
-	$('#closeTooltip').click(function() {
-		$('#tooltip').hide();
+	$('#closeTooltip').live('click', function() {
+		$('.overlay').btOff();
 	});
 
-	$('#removeOverlay').click(function() {
-		$('#' + $('#tooltip').data('currentOverlay')).remove();
-		$('#tooltip').hide();
+	$('#overlayType').live('change', function() {
+		floorMap.updateOverlayDropdown();
 	});
 
-	$('#applyOverlay').click(function() {
+	$('#removeOverlay').live('click', function() {
+		$('.overlay.bt-active').btOff().remove();
+	});
+
+	$('#applyOverlay').live('click', function() {
 		/* Ajax stuff */
-		$('#' + $('#tooltip').data('currentOverlay')).data({
+		$('.overlay.bt-active').data({
 			type: $('#overlayType').val(),
 			assignedId: $('#overlayId').val()
 		});
+		$('.overlay').btOff();
 	});
 
 	$('#map').mousedown(function(event) {
@@ -47,6 +80,7 @@ $(function() {
 			var newOverlay = new floorMap.overlay( $('#overlayType').val(), event.pageX, event.pageY );
 
 			$(this).append($(newOverlay)).mousemove(function(event) { 
+				/* TODO: Make this work properly. */
 				if (event.pageY > parseInt($(newOverlay).css('top')))
 					$(newOverlay).css('bottom', $(window).height() - event.pageY);
 				else
@@ -63,7 +97,6 @@ $(function() {
 					bottom: 'auto'
 				});
 			});
-			$('#tooltip').data({ 'currentoverlay': $(newOverlay).attr('id') });
 
 			$(newOverlay).drag(function(event) {
 				$(this).css({
@@ -76,44 +109,24 @@ $(function() {
 				       	diffY: event.pageY - $(this).offset().top
 				});
 			}).click(function() {
-				$('#tooltip').data({ 'currentOverlay': $(this).attr('id') });
-				$('#overlayType').val($(this).data('type'));
-				$('#overlayId').val($(this).data('assignedId'));
-				$('#tooltip').css({
-					left: $(this).offset().left + 10 + $(this).outerWidth(),
-					top: $(this).offset().top
-				}).show();
+			}).bt({
+				trigger: 'click',
+				contentSelector: "floorMap.tooltip", 
+				fill: '#FFF',
+				strokeWidth: 4, 
+				padding: 20,
+				cornerRadius: 15,
+				cssClass: 'tooltip',
+				closeWhenOthersOpen: true,
+				postShow: function() {
+					$('#overlayType').val($(this).data('type'));
+					floorMap.updateOverlayDropdown();
+					$('#overlayId').val($(this).data('assignedId'));
+				}
 			});
-;
 		}
 	}).mouseup(function() {
 		$(this).unbind('mousemove');	
 	});
 
-
-	$('#overlayType').change(function() {
-		var tipBits = {
-			'typeVal': 'asset', 
-			'typeName': 'Assets',
-			'typeCollection': floorMap.assets,
-			'oldTypeVal': 'subject'
-		};
-		if ($(this).val() == 'subject') {
-			tipBits = {
-				'typeVal': 'subject', 
-				'typeName': 'Subjects',
-				'typeCollection': floorMap.subjects,
-				'oldTypeVal': 'asset'
-			};
-		}
-		$('#' + $('#tooltip').data('currentOverlay')).removeClass(tipBits.oldTypeVal).addClass(tipBits.typeVal);
-		$('#overlayIdLabel').html(tipBits.typeName + ': ');
-		$('#overlayId').empty();
-		for (i in tipBits.typeCollection) {
-			$('#overlayId').append(
-				'<option value="' + tipBits.typeCollection[i].id + '">' 
-				+ tipBits.typeCollection[i].name 
-				+ '</option>');
-		}
-	});
 });

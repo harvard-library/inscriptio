@@ -33,3 +33,13 @@
 	position: absolute;
 	z-index: 999;
 }
+.bt-content {
+	font-size: small;
+	color: #000;
+	line-height: normal;
+}
+.bt-active {
+  /* example:
+  background-color: yellow !important;
+  */
+}
