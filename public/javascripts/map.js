@@ -2,20 +2,23 @@ var floorMap = {
 	overlays: [],
 	overlay: function (x1, y1, x2, y2, assignedId) {
 		id		= 'overlay' + floorMap.overlays.length,
+		mapOffset	= $('#map').offset();
 		x1		= x1 || 0,
 		y1		= y1 || 0,
 		x2		= x2 || x1,
 		y2		= y2 || y1,
 		assignedId	= assignedId || null;
 
-
 		var newOverlay = '<div id="overlay' + floorMap.overlays.length + '" class="overlay"' 
 			+ ' style="z-index: ' + floorMap.overlays.length + ';' 
-			+ ' left: ' + x1 + 'px;'
-			+ ' top: ' + y1 + 'px;';
+			+ ' left: ' + (x1 + mapOffset.left) + 'px;'
+			+ ' top: ' + (y1 + mapOffset.top) + 'px;';
 		
 		if (x2 != x1 || y2 != y1) {
 			newOverlay += ' width: ' + (x2 - x1) + 'px;' + ' height: ' + (y2 - y1) + 'px;'
+		} else {
+			newOverlay += ' right: ' + $(window).width() - (x1 + mapOffset.left) + 'px;'
+			+ ' bottom: ' + $(window).height() - (y1 + mapOffset.top) + 'px;';
 		}
 	
 		newOverlay += '"></div>';
@@ -25,36 +28,69 @@ var floorMap = {
 			trigger: 'click',
 			contentSelector: "floorMap.tooltip", 
 			fill: '#FFF',
-			strokeWidth: 4, 
-			padding: 20,
-			cornerRadius: 15,
+			strokeWidth: 3, 
 			cssClass: 'tooltip',
 			closeWhenOthersOpen: true,
-			postShow: function() {
+			preShow: function() {
+				var allAssigned = true;
 				$('#overlayId').val($(this).data('assignedId'));
+				$.each(floorMap.assets, function(id, asset) {
+					if (asset.location.length > 0) {
+						$('#overlayId option[value=' + id + ']').attr('disabled', true);
+					} else {
+						$('#overlayId option[value=' + id + ']').removeAttr('disabled');
+						allAssigned = false;
+					}
+					if (allAssigned) 
+						$('#overlayId').attr('disabled', true);
+					else 
+						$('#overlayId').removeAttr('disabled');
+				});
 			}
 		});
 		
 		floorMap.overlays.push(newOverlay);
 		return newOverlay;
 	},
+	buildAssets: function() {
+		$.each(floorMap.assets, function(i, asset) {
+			asset.location = [];
+		});
+
+		$('.overlay').each(function(i, overlay) {
+			if ($(overlay).data('assignedId')) {
+				var mapOffset 	= $('#map').offset(),
+				overlay		= $(overlay),
+				x1		= overlay.offset().left - mapOffset.left,
+				y1		= overlay.offset().top - mapOffset.top,
+				x2		= overlay.offset().left + overlay.innerWidth() - mapOffset.left,
+				y2		= overlay.offset().top + overlay.innerHeight() - mapOffset.top;
+
+				floorMap.assets[$(overlay).data('assignedId')].location = [x1, y1, x2, y2];
+			}
+		});
+	}
 };
 
 $(function() {
 	floorMap.tooltip = '<div><div><label for="overlayId" id="overlayIdLabel">Asset: </label><select id="overlayId">';
-	$.each(floorMap.assets, function(i, val) {
-		if (val.location.length > 0) {
-			$(new floorMap.overlay(
-				val.location[0], 
-				val.location[1], 
-				val.location[2], 
-				val.location[3])
-			).appendTo('#map').data('assignedId', val.id);
+	$.each(floorMap.assets, function(id, asset) {
+		floorMap.tooltip += '<option value="' + id + '"';
+		if (asset.location.length > 0) {
+			$('#content-right').append(
+				new floorMap.overlay(
+					asset.location[0], 
+					asset.location[1], 
+					asset.location[2], 
+					asset.location[3],
+					id
+				)
+			);
 		}
-		floorMap.tooltip += '<option value="' + val.id + '">' + val.name + '</option>';
+		floorMap.tooltip += '>' + asset.name + '</option>';
 	});
        	floorMap.tooltip += '</select></div><button id="removeOverlay">Remove</button>';
-	floorMap.tooltip += '<button id="applyOverlay">Apply</button><button id="closeTooltip">X</button></div>';
+	floorMap.tooltip += '<button id="applyOverlay">Apply</button><button id="closeTooltip">Close</button></div>';
 
 	$('#closeTooltip').live('click', function() {
 		$('.overlay').btOff();
@@ -62,15 +98,27 @@ $(function() {
 
 	$('#removeOverlay').live('click', function() {
 		/* Ajax stuff */
+		floorMap.assets[$('.overlay.bt-active').data('assignedId')].location = [];
 		$('.overlay.bt-active').btOff().remove();
 	});
 
 	$('#applyOverlay').live('click', function() {
 		/* Ajax stuff */
-		$('.overlay.bt-active').data({
-			assignedId: $('#overlayId').val()
-		});
+		/* var mapOffset 	= $('#map').offset(),
+		overlay		= $('.overlay.bt-active'),
+		x1		= overlay.offset().left - mapOffset.left,
+		y1		= overlay.offset().top - mapOffset.top,
+		x2		= overlay.offset().left + overlay.innerWidth() - mapOffset.left,
+		y2		= overlay.offset().top + overlay.innerHeight() - mapOffset.top; */
+
+
+		//floorMap.assets[$('#overlayId').val()].location = [x1, y1, x2, y2];
+		$('.overlay.bt-active').data({ assignedId: $('#overlayId').val() });
+		floorMap.buildAssets();
 		$('.overlay').btOff();
+	});
+
+	$(window).resize(function() {
 	});
 
 	$('.overlay').live({
@@ -90,15 +138,22 @@ $(function() {
 
 	$('#map').mousedown(function(event) {
 		if (event.target == this) {
-			var newOverlay = new floorMap.overlay( event.pageX, event.pageY );
+			event.preventDefault();
+			var newOverlay	= new floorMap.overlay(
+				event.pageX - $(this).offset().left,
+				event.pageY - $(this).offset().top
+			),
+			startX		= event.pageX,
+			startY		= event.pageY;
 
-			$(this).append($(newOverlay)).mousemove(function(event) { 
-				/* TODO: Make this work properly. */
-				if (event.pageY > parseInt($(newOverlay).css('top')))
+			$('#content-right').append( $(newOverlay) );
+
+			$(this).add(newOverlay).mousemove(function(event) { 
+				if (event.pageY > startY)
 					$(newOverlay).css('bottom', $(window).height() - event.pageY);
 				else
 					$(newOverlay).css('top', event.pageY);
-				if (event.pageX > parseInt($(newOverlay).css('left')))
+				if (event.pageX > startX)
 					$(newOverlay).css('right', $(window).width() - event.pageX);
 				else
 					$(newOverlay).css('left', event.pageX);
@@ -110,10 +165,8 @@ $(function() {
 					bottom: 'auto'
 				});
 			});
-
 		}
-	}).mouseup(function() {
-		$(this).unbind('mousemove');	
+	}).add('.overlay').mouseup(function() {
+		$(this).unbind('mousemove');
 	});
-
 });

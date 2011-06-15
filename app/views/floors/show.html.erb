@@ -50,19 +50,21 @@
 	<div id="content-right">  
 	  <h2>Map</h2>
 	  <% unless @floor.floor_map.blank? %>
-	<%= javascript_include_tag('map') %>
+	<%= javascript_include_tag('excanvas.compiled') %>
 	<%= javascript_include_tag('jquery.drag.min') %>
 	<%= javascript_include_tag('jquery.bt.min') %>
-	<%= javascript_include_tag('excanvas-compressed.js') %>
+	<%= javascript_include_tag('map') %>
 	<%= stylesheet_link_tag('map') %>
 	<script type="text/javascript">
-		floorMap.assets = [
-			{'id': '1', 'name': 'Carrel 1', 'location': [100, 100, 200, 200]},
-			{'id': '2', 'name': 'Carrel 2', 'location': []}, 
-			{'id': '3', 'name': 'Carrel 3', 'location': [400, 400, 500, 500]}
-		];
+		//This is a stub object to be replaced with the real assets
+		floorMap.assets = {
+			'1': {'name': 'Carrel 1', 'location': [184, 12, 204, 32]},
+			'2': {'name': 'Carrel 2', 'location': [184, 39, 204, 60]}, 
+			'3': {'name': 'Carrel 3', 'location': []}
+		};
 	</script>
-	<div id="map" style="background-image: url('<%= image_path(@floor.floor_map.url) %>');"></div>
+	<!-- <div id="map" style="background-image: url('<%= image_path(@floor.floor_map.url) %>');"></div> -->
+	<%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
       <% end %>
 	  
 	</div>
