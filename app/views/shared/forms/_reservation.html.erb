@@ -1,7 +1,7 @@
 <%= semantic_form_for(@reservation) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :start_date, :as => :date %>
-    <%= f.input :end_date, :as => :date %>
+    <%= f.input :start_date %>
+    <%= f.input :end_date %>
     <% if current_user.admin? %>
       <%= f.input :reservable_asset, :selected => @reservable_asset %>
       <%= f.input :user %>

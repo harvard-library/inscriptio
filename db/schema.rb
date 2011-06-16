@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110531191153) do
+ActiveRecord::Schema.define(:version => 20110615154614) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                             :default => "", :null => false
@@ -184,11 +184,11 @@ ActiveRecord::Schema.define(:version => 20110531191153) do
   create_table "reservations", :force => true do |t|
     t.integer  "reservable_asset_id"
     t.integer  "user_id"
-    t.datetime "start_date"
-    t.datetime "end_date"
     t.boolean  "approved",            :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "start_date"
+    t.date     "end_date"
   end
 
   add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"

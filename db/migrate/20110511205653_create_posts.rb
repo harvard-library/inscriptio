@@ -9,7 +9,7 @@ class CreatePosts < ActiveRecord::Migration
       t.timestamps
     end
     
-    [:bulletin_board_id, :user_id, :creation_time].each do|col|
+    [:bulletin_board_id, :user_id].each do|col|
       add_index :posts, col
     end
   end

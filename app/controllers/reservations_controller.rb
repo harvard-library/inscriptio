@@ -26,7 +26,7 @@ class ReservationsController < ApplicationController
   
   def create
     @reservation = Reservation.new
-    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
+    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
     if current_user.admin?
       params[:reservation][:user] = User.find(params[:reservation][:user_id])
     else
@@ -34,6 +34,7 @@ class ReservationsController < ApplicationController
     end
     
     @reservation.attributes = params[:reservation]
+    days = date_diff(@reservation.start_date, @reservation.end_date)
     respond_to do|format|
       if @reservation.save
         Notification.reservation_requested(@reservation).deliver
@@ -52,7 +53,7 @@ class ReservationsController < ApplicationController
     if @reservation.destroy
       Notification.reservation_canceled(reservation).deliver
       flash[:notice] = %Q|Deleted reservation #{reservation.id}|
-      redirect_to :action => :index
+      redirect_to :back
     else
 
     end
