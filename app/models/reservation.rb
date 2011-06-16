@@ -2,6 +2,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :reservable_asset
   belongs_to :user
   
+  validates_presence_of :user, :reservable_asset
+  
   def to_s
     %Q|#{id}|
   end

@@ -22,8 +22,8 @@
       <%= image_tag(@reservation.reservable_asset.photo.url) %>
     <% end %>
 
-	<h2>Bulletin Board</h2>
-	<% unless @reservation.reservable_asset.bulletin_board.nil? %>
+	<% unless @reservation.reservable_asset.bulletin_board.nil? || !@reservation.approved %>
+      <h2>Bulletin Board</h2>
       <%= link_to "Access Board", bulletin_board_path(@reservation.reservable_asset.bulletin_board) %>
     <% end %>
 </div>

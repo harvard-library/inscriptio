@@ -36,4 +36,9 @@
   <% else %>
     <h2>No reservations for this asset yet.</h2>
   <% end %>
+
+  <% unless @reservable_asset.bulletin_board.nil? %>
+    <h2>Bulletin Board</h2>
+    <%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %>
+  <% end %>
 <% end %>

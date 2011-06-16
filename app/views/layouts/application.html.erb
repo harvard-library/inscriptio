@@ -30,7 +30,7 @@
 	
 	<div id="site_nav">
 	  <%= link_to "Libraries", libraries_path %>
-	  <% if user_signed_in? %>
+	  <% if user_signed_in? && !current_user.try(:admin?) %>
 	    | <%= link_to "Reservations", reservations_path %>
 	  <% end %>
 	  <% if current_user.try(:admin?) %>
