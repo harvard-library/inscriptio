@@ -26,7 +26,7 @@ class ReservationsController < ApplicationController
   
   def create
     @reservation = Reservation.new
-    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
+    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
     if current_user.admin?
       params[:reservation][:user] = User.find(params[:reservation][:user_id])
     else
@@ -34,15 +34,23 @@ class ReservationsController < ApplicationController
     end
     
     @reservation.attributes = params[:reservation]
+    days = @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
+    p days
     respond_to do|format|
-      if @reservation.save
-        Notification.reservation_requested(@reservation).deliver
-        flash[:notice] = 'Added that Reservation'
-        format.html {render :action => :show}
+      if @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
+      
+        if @reservation.save
+          Notification.reservation_requested(@reservation).deliver
+          flash[:notice] = 'Added that Reservation'
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not add that Reservation'
+          format.html {render :action => :new}
+        end
       else
-        flash[:error] = 'Could not add that Reservation'
+        flash[:error] = 'Dates selected are not valid'
         format.html {render :action => :new}
-      end
+      end    
     end
   end
 
@@ -52,7 +60,7 @@ class ReservationsController < ApplicationController
     if @reservation.destroy
       Notification.reservation_canceled(reservation).deliver
       flash[:notice] = %Q|Deleted reservation #{reservation.id}|
-      redirect_to :action => :index
+      redirect_to :back
     else
 
     end

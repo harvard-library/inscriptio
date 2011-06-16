@@ -3,8 +3,6 @@ class UserTypesController < ApplicationController
   
   def index
     @user_types = UserType.all
-    p "user types"
-    p @user_types
   end
 
   def new
