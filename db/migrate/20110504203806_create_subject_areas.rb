@@ -2,6 +2,7 @@ class CreateSubjectAreas < ActiveRecord::Migration
   def self.up
     create_table :subject_areas do |t|
       t.string :name, :null => false
+      t.string :long_name
       t.string :description
       t.timestamps
     end

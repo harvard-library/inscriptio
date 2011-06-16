@@ -1,6 +1,7 @@
 <%= semantic_form_for(@call_number) do |f| %>
   <%= f.inputs do %>
     <%= f.input :call_number %>
+	<%= f.input :long_name %>
     <%= f.input :description %>
     <%= f.input :subject_area %>
     <%= f.input :floors, :as => :check_boxes %>

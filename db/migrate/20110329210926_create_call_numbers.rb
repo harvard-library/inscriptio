@@ -4,6 +4,7 @@ class CreateCallNumbers < ActiveRecord::Migration
     create_table :call_numbers do |t|
       t.references :subject_area
       t.string :call_number, :null => false, :limit => 50
+      t.string :long_name
       t.string :description
 
       t.timestamps
