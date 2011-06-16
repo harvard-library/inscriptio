@@ -10,9 +10,12 @@ class Reservation < ActiveRecord::Base
     self.user_id == current_user.id
   end
   
-  def date_diff(start_date, end_date)
-    p "date difference in days"
-    p (end_date - start_date).to_i
-    (end_date - start_date).to_i
+  def date_valid?(start_date, end_date)
+    time_in_days = (end_date - start_date).to_i
+    if time_in_days > 0 && time_in_days > self.reservable_asset.min_reservation_time.to_i && time_in_days < self.reservable_asset.max_reservation_time.to_i
+      true
+    else
+      false
+    end    
   end  
 end

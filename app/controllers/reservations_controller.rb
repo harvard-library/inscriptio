@@ -34,16 +34,23 @@ class ReservationsController < ApplicationController
     end
     
     @reservation.attributes = params[:reservation]
-    days = date_diff(@reservation.start_date, @reservation.end_date)
+    days = @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
+    p days
     respond_to do|format|
-      if @reservation.save
-        Notification.reservation_requested(@reservation).deliver
-        flash[:notice] = 'Added that Reservation'
-        format.html {render :action => :show}
+      if @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
+      
+        if @reservation.save
+          Notification.reservation_requested(@reservation).deliver
+          flash[:notice] = 'Added that Reservation'
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not add that Reservation'
+          format.html {render :action => :new}
+        end
       else
-        flash[:error] = 'Could not add that Reservation'
+        flash[:error] = 'Dates selected are not valid'
         format.html {render :action => :new}
-      end
+      end    
     end
   end
 
