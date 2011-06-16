@@ -35,7 +35,7 @@ class ReservationsController < ApplicationController
     
     @reservation.attributes = params[:reservation]
     days = @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
-    p days
+
     respond_to do|format|
       if @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
       
@@ -45,11 +45,11 @@ class ReservationsController < ApplicationController
           format.html {render :action => :show}
         else
           flash[:error] = 'Could not add that Reservation'
-          format.html {render :action => :new}
+          format.html {render :action => :new, :reservable_asset => params[:reservation][:reservable_asset]}
         end
       else
         flash[:error] = 'Dates selected are not valid'
-        format.html {render :action => :new}
+        format.html {render :action => :new, :reservable_asset => params[:reservation][:reservable_asset]}
       end    
     end
   end
@@ -69,7 +69,7 @@ class ReservationsController < ApplicationController
   def update
     @reservation = Reservation.find(params[:id])
     approval = @reservation.approved
-    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset])
+    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
     @reservation.attributes = params[:reservation]
     respond_to do|format|
       if @reservation.save

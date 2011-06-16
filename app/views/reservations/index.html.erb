@@ -2,7 +2,7 @@
   <% unless @reservations.blank? %>
     <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
   <% else %>
-    <h2>No reservations for this floor yet.</h2>
+    <h2>No reservations yet.</h2>
   <% end %>
 
   <% if current_user.admin? %>

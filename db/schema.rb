@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
-    t.string   "post_lifetime"
+    t.integer  "post_lifetime"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
   create_table "call_numbers", :force => true do |t|
     t.integer  "subject_area_id"
     t.string   "call_number",     :limit => 50, :null => false
+    t.string   "long_name"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -109,7 +110,6 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
   create_table "posts", :force => true do |t|
     t.integer  "bulletin_board_id"
     t.integer  "user_id"
-    t.datetime "creation_time"
     t.text     "message"
     t.string   "media"
     t.boolean  "public",            :default => true
@@ -118,19 +118,18 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
   end
 
   add_index "posts", ["bulletin_board_id"], :name => "index_posts_on_bulletin_board_id"
-  add_index "posts", ["creation_time"], :name => "index_posts_on_creation_time"
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
   create_table "reservable_asset_types", :force => true do |t|
     t.integer  "library_id"
     t.string   "name",                                          :null => false
-    t.string   "min_reservation_time"
-    t.string   "max_reservation_time"
+    t.integer  "min_reservation_time"
+    t.integer  "max_reservation_time"
     t.integer  "max_concurrent_users"
-    t.string   "reservation_time_increment"
+    t.integer  "reservation_time_increment"
     t.boolean  "has_code"
     t.text     "welcome_message"
-    t.string   "expiration_extension_time"
+    t.integer  "expiration_extension_time"
     t.boolean  "requires_moderation",        :default => true
     t.text     "moderation_held_message"
     t.boolean  "has_bulletin_board",         :default => false
@@ -156,12 +155,17 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
     t.string   "name"
     t.text     "description"
     t.string   "location"
-    t.string   "min_reservation_time"
-    t.string   "max_reservation_time"
+    t.integer  "min_reservation_time"
+    t.integer  "max_reservation_time"
     t.integer  "max_concurrent_users"
-    t.string   "reservation_time_increment"
+    t.integer  "reservation_time_increment"
     t.string   "access_code"
     t.string   "photo"
+    t.text     "notes"
+    t.integer  "x1"
+    t.integer  "y1"
+    t.integer  "x2"
+    t.integer  "y2"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -184,11 +188,11 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
   create_table "reservations", :force => true do |t|
     t.integer  "reservable_asset_id"
     t.integer  "user_id"
+    t.date     "start_date"
+    t.date     "end_date"
     t.boolean  "approved",            :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "start_date"
-    t.date     "end_date"
   end
 
   add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"
@@ -196,6 +200,7 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
 
   create_table "subject_areas", :force => true do |t|
     t.string   "name",        :null => false
+    t.string   "long_name"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"

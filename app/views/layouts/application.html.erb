@@ -30,7 +30,7 @@
 	
 	<div id="site_nav">
 	  <%= link_to "Libraries", libraries_path %>
-	  <% if user_signed_in? %>
+	  <% if user_signed_in? && !current_user.try(:admin?) %>
 	    | <%= link_to "Reservations", reservations_path %>
 	  <% end %>
 	  <% if current_user.try(:admin?) %>
@@ -38,7 +38,6 @@
 	    | <%= link_to "User Types", user_types_path %>
         | <%= link_to "Reservable Asset Types", reservable_asset_types_path %>
 		| <%= link_to "Reservable Assets", reservable_assets_path %>
-		| <%= link_to "Bulletin Boards", bulletin_boards_path %>
 		| <%= link_to "Reservation Expiration Notices", reservation_expiration_notices_path %>
       <% end %>
 	</div>	

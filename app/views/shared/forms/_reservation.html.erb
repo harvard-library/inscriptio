@@ -7,7 +7,7 @@
       <%= f.input :user %>
       <%= f.input :approved %>
     <% else %>
-      <%= f.input :reservable_asset, :as => :hidden, :value => @reservable_asset %>
+      <%= f.input :reservable_asset_id, :as => :hidden, :value => @reservable_asset %>
 	<% end %>
   <% end %>
   <%= f.buttons %>
