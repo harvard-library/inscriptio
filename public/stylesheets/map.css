@@ -11,9 +11,12 @@
 	opacity: 0.8;
 	filter: alpha(opacity=80);
 	background-color: #1B77E0;
-	border: 2px solid #0C3666;
+	/*border: 2px solid #0C3666;*/
 }
 .bt-content {
 }
 .bt-active {
+	background-color: #1F87FF;
+	opacity: 1;
+	filter: alpha(opacity=100);
 }

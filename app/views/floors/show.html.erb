@@ -53,13 +53,19 @@
 	<%= javascript_include_tag('excanvas.compiled') %>
 	<%= javascript_include_tag('jquery.drag.min') %>
 	<%= javascript_include_tag('jquery.bt') %>
-	<%= javascript_include_tag('map') %>
-	<%= stylesheet_link_tag('map') %>
+	<%= stylesheet_link_tag 'map' %>
+	<% if current_user.admin? %>
+		<%= javascript_include_tag('map_admin') %>
+	<% else %>
+		<%= javascript_include_tag('map') %>
+		<%= stylesheet_link_tag('map_user') %>
+	<% end %>
 	<script type="text/javascript">
 		//This is a stub object to be replaced with the real assets
+	var assets = $.parseJSON('<%= @floor.reservable_assets.to_json.html_safe %>');
 		floorMap.assets = {
-			'1': {'name': 'Carrel 1', 'location': [184, 12, 204, 32]},
-			'2': {'name': 'Carrel 2', 'location': [184, 39, 204, 60]}, 
+			'1': {'name': 'Carrel 1', 'location': [184, 13, 207, 36], 'slotsLeft': 1},
+			'2': {'name': 'Carrel 2', 'location': [184, 40, 207, 63], 'slotsLeft': 0}, 
 			'3': {'name': 'Carrel 3', 'location': []}
 		};
 	</script>
