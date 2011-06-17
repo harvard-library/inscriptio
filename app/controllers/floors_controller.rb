@@ -75,6 +75,16 @@ class FloorsController < ApplicationController
     end
   end
 
+  def assets
+    floor = Floor.find(params[:id])
+    assets = floor.reservable_assets
+    respond_to do |format|
+      format.json {
+        render :json => assets.to_json(:only => [:id, :name, :x1, :y1, :x2, :y2])
+      }
+    end
+  end
+
   private
 
   def load_library

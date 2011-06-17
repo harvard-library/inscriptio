@@ -38,20 +38,31 @@ var floorMap = {
 };
 
 $(function() {
-	$.each(floorMap.assets, function(id, asset) {
-		if (asset.location.length > 0) {
-			$('#content-right').append(
-				new floorMap.overlay(
-					$('#map').offset(),
-					asset.location[0], 
-					asset.location[1], 
-					asset.location[2], 
-					asset.location[3],
-					id
-				)
-			);
+	$.ajax({
+		type: 'GET',
+		url: window.location.href + '/assets',
+		dataType: 'json',
+		error: function(){},
+		success: function(data) {
+			floorMap.assets = data;
+			$.each(floorMap.assets, function(index, asset) {
+				asset = asset.reservable_asset;
+				if (asset.x1 && asset.y1 && asset.x2 && asset.y2) {
+					$('#content-right').append(
+						new floorMap.overlay(
+							$('#map').offset(),
+							asset.x1, 
+							asset.y1, 
+							asset.x2, 
+							asset.y2,
+							asset.id
+						)
+					);
+				}
+			});
 		}
 	});
+
 	$('#closeTooltip').live('click', function() {
 		$('.overlay').btOff();
 	});

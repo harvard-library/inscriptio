@@ -18,5 +18,7 @@
 .bt-active {
 	background-color: #1F87FF;
 	opacity: 1;
-	filter: alpha(opacity=100);
+}
+#tooltip {
+	display: none;
 }

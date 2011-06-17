@@ -28,6 +28,7 @@ Inscriptio::Application.routes.draw do
       member do
         post 'move_higher'
         post 'move_lower'
+        get 'assets'
       end
     end
   end

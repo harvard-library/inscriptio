@@ -62,16 +62,37 @@
 	<% end %>
 	<script type="text/javascript">
 		//This is a stub object to be replaced with the real assets
-	var assets = $.parseJSON('<%= @floor.reservable_assets.to_json.html_safe %>');
-		floorMap.assets = {
+		/*floorMap.assets = {
 			'1': {'name': 'Carrel 1', 'location': [184, 13, 207, 36], 'slotsLeft': 1},
 			'2': {'name': 'Carrel 2', 'location': [184, 40, 207, 63], 'slotsLeft': 0}, 
 			'3': {'name': 'Carrel 3', 'location': []}
-		};
+		};*/
 	</script>
 	<!-- <div id="map" style="background-image: url('<%= image_path(@floor.floor_map.url) %>');"></div> -->
 	<%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
       <% end %>
 	  
 	</div>
+  <div id="tooltip">
+    <div>
+      <label for="overlayId" id="overlayIdLabel">Asset: </label>
+      <select id="overlayId"></select>
+    </div>
+    <div>
+      <button id="moveLeft">&#9664</button>
+      <button id="narrow">-</button>
+      <button id="widen">+</button>
+      <button id="moveRight">&#9654</button>
+    </div>
+    <div>
+      <button id="moveDown">&#9660</button>
+      <button id="shorten">-</button>
+      <button id="heighten">+</button>
+      <button id="moveUp">&#9650</button>
+    </div>
+      <button id="removeOverlay">Remove</button>
+      <button id="applyOverlay">Apply</button>
+      <button id="closeTooltip">Close</button>
+    </div>
+  </div>
 </div>
