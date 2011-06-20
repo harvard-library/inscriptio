@@ -1,4 +1,4 @@
-<%= semantic_form_for(@reservable_asset, :html => {:multipart => true}) do |f| %>
+<%= semantic_form_for(@reservable_asset, :html => {:multipart => true}, :remote => request.xhr?) do |f| %>
   <%= f.inputs do %>
     <%= f.input :floor %>
     <%= f.input :reservable_asset_type %>
@@ -16,6 +16,10 @@
       <%= image_tag(f.object.photo.url) %>
     <% end %>
     <%= f.input :photo, :as => :file, :label => 'Upload a Photo' %>
+    <%= f.input :x1, :as => :hidden %>
+    <%= f.input :y1, :as => :hidden %>
+    <%= f.input :x2, :as => :hidden %>
+    <%= f.input :y2, :as => :hidden %>
   <% end %>
   <%= f.buttons %>
 <% end %>

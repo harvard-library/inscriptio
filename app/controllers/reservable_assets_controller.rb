@@ -7,6 +7,9 @@ class ReservableAssetsController < ApplicationController
 
   def new
     @reservable_asset = ReservableAsset.new
+    if (request.xhr?)
+      render :partial => 'shared/forms/reservable_asset'
+    end
   end
 
   def show
@@ -15,6 +18,9 @@ class ReservableAssetsController < ApplicationController
 
   def edit
     @reservable_asset = ReservableAsset.find(params[:id])
+    if (request.xhr?)
+      render :partial => 'shared/forms/reservable_asset'
+    end
   end
   
   def create
@@ -66,13 +72,13 @@ class ReservableAssetsController < ApplicationController
     @reservable_asset = ReservableAsset.find(params[:id])
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-      if @reservable_asset.save
-        flash[:notice] = %Q|#{@reservable_asset} updated|
-        format.html {render :action => :show}
-      else
-        flash[:error] = 'Could not update that Reservable Asset'
-        format.html {render :action => :new}
-      end
+        if @reservable_asset.save
+          flash[:notice] = %Q|#{@reservable_asset} updated|
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not update that Reservable Asset'
+          format.html {render :action => :new}
+        end
     end
   end
 end

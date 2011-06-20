@@ -24,11 +24,7 @@ var floorMap = {
 			'assignedId': assignedId 
 		}).bt({
 			trigger: 'click',
-			contentSelector: function() { 
-				var html = $('#tooltip').html(); 
-				$('#tooltip').empty();
-				return html;
-			}, 
+			contentSelector: 'floorMap.contentSelector',
 			fill: '#FFF',
 			strokeWidth: 3, 
 			cssClass: 'tooltip',
@@ -46,16 +42,22 @@ var floorMap = {
 		return newOverlay;
 	},
 
+	contentSelector: function() { 
+		var html = $('#tooltip').html(); 
+		$('#tooltip').empty();
+		return html;
+	}, 
+
 	buildTooltipOptions: function(activeOverlay) {
 		activeOverlay = activeOverlay || '.overlay.bt-active';
 		var newOptions = '';
 		$.each(floorMap.assets, function(index, asset) {
-			if (asset.reservable_asset.x1 && $(activeOverlay).data('assignedId') == asset.reservable_asset.id) {
-				newOptions += '<option selected="selected" value="' + asset.reservable_asset.id + '">' 
-					+ asset.reservable_asset.name + '</option>';
-			} else if (!asset.reservable_asset.x1) {
-				newOptions += '<option value="' + asset.reservable_asset.id + '">' 
-					+ asset.reservable_asset.name + '</option>';
+			if (asset.x1 && $(activeOverlay).data('assignedId') == asset.id) {
+				newOptions += '<option selected="selected" value="' + asset.id + '">' 
+					+ asset.name + '</option>';
+			} else if (!asset.x1) {
+				newOptions += '<option value="' + asset.id + '">' 
+					+ asset.name + '</option>';
 			}
 		});
 		$('#overlayId').html(newOptions);
@@ -69,18 +71,18 @@ var floorMap = {
 	/* This is so goddamned ugly */
 	syncOverlaysToAssets: function() {
 		$.each(floorMap.assets, function(i, asset) {
-			floorMap.assets[i].reservable_asset.x1 = null;
-			floorMap.assets[i].reservable_asset.y1 = null;
-			floorMap.assets[i].reservable_asset.x2 = null;
-			floorMap.assets[i].reservable_asset.y2 = null;
+			floorMap.assets[i].x1 = null;
+			floorMap.assets[i].y1 = null;
+			floorMap.assets[i].x2 = null;
+			floorMap.assets[i].y2 = null;
 			$('.overlay').each(function(j, overlay) {
-				if ($(overlay).data('assignedId') == asset.reservable_asset.id) {
+				if ($(overlay).data('assignedId') == asset.id) {
 					var mapOffset = $('#map').offset(), overlay = $(overlay);
-					floorMap.assets[i].reservable_asset.x1 = overlay.offset().left - mapOffset.left;
-					floorMap.assets[i].reservable_asset.y1 = overlay.offset().top - mapOffset.top;
-					floorMap.assets[i].reservable_asset.x2 = 
+					floorMap.assets[i].x1 = overlay.offset().left - mapOffset.left;
+					floorMap.assets[i].y1 = overlay.offset().top - mapOffset.top;
+					floorMap.assets[i].x2 = 
 						overlay.offset().left + overlay.innerWidth() - mapOffset.left;
-					floorMap.assets[i].reservable_asset.y2 = 
+					floorMap.assets[i].y2 = 
 						overlay.offset().top + overlay.innerHeight() - mapOffset.top;
 				}
 			});
@@ -105,7 +107,6 @@ $(function() {
 		success: function(data) {
 			floorMap.assets = data;
 			$.each(floorMap.assets, function(index, asset) {
-				asset = asset.reservable_asset;
 				if (asset.x1 && asset.y1 && asset.x2 && asset.y2) {
 					$('#content-right').append(
 						new floorMap.overlay(
@@ -144,14 +145,50 @@ $(function() {
 
 	$('#removeOverlay').live('click', function() {
 		/* Ajax stuff */
-		$('.overlay.bt-active').btOff().remove();
+		if ($('.overlay.bt-active').data('assignedId')) {
+			$.ajax({
+				url: '/reservable_assets/' + $('.overlay.bt-active').data('assignedId') + '/edit',
+				success: function(data) {
+					var mapOffset = $('#map').offset(), overlay = $('.overlay.bt-active');
+					$('.bt-content').append(data);
+					$('#reservable_asset_x1').val('');
+					$('#reservable_asset_y1').val('');
+					$('#reservable_asset_x2').val('');
+					$('#reservable_asset_y2').val('');
+					$('#edit_reservable_asset_' + $('.overlay.bt-active').data('assignedId')).submit();
+					$('.overlay.bt-active').btOff().remove();
+					$('#loading').hide();
+					$('#tooltipTools').show();
+				}
+			});
+		}
 		floorMap.syncOverlaysToAssets();
 	});
 
 	$('#applyOverlay').live('click', function() {
-		/* Ajax stuff */
-		$('.overlay.bt-active').data({ assignedId: $('#overlayId').val() }).btOff();
+		$('.overlay.bt-active').data({ assignedId: $('#overlayId').val() });
 		floorMap.syncOverlaysToAssets();
+		$('#tooltipTools').hide();
+		$('#loading').show();
+
+		$.ajax({
+			url: '/reservable_assets/' + $('.overlay.bt-active').data('assignedId') + '/edit',
+			success: function(data) {
+				var mapOffset = $('#map').offset(), overlay = $('.overlay.bt-active');
+				$('.bt-content').append(data);
+				$('#reservable_asset_x1').val(overlay.offset().left - mapOffset.left);
+				$('#reservable_asset_y1').val(overlay.offset().top - mapOffset.top);
+				$('#reservable_asset_x2').val(overlay.offset().left + overlay.width() - mapOffset.left);
+				$('#reservable_asset_y2').val(overlay.offset().top + overlay.height() - mapOffset.top);
+				$('#edit_reservable_asset_' + $('.overlay.bt-active').data('assignedId')).submit();
+				$('.overlay').btOff();
+				$('#loading').hide();
+				$('#tooltipTools').show();
+			}
+
+		});
+
+		//$('.overlay').btOff();
 	});
 
 	$(window).resize(function() {

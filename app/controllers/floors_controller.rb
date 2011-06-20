@@ -80,7 +80,18 @@ class FloorsController < ApplicationController
     assets = floor.reservable_assets
     respond_to do |format|
       format.json {
-        render :json => assets.to_json(:only => [:id, :name, :x1, :y1, :x2, :y2])
+        output = assets.map { |asset| 
+          {
+            :id => asset.id,
+            :name => asset.name,
+            :x1 => asset.x1,
+            :y1 => asset.y1,
+            :x2 => asset.x2,
+            :y2 => asset.y2,
+            :allow_reservation => asset.allow_reservation?(current_user)
+          }
+        }
+        render :json => output
       }
     end
   end
