@@ -56,7 +56,7 @@
 		/* I put this here instead of in the view so if javascript is off
 		 * the user doesn't get useless markup. */
 		addHtml: function() {
-			$(opts.containerSelector).append(
+			$(opts.parentSelector).append(
 				'<div id="tooltip">' + 
 					'<div id="loading">' + 
 						'<img src="/images/ajax-loader.gif" alt="Loading" />' + 
@@ -234,7 +234,7 @@
 					}
 				});
 			});
-		},
+		}
 	},
 
 	overlay = {
