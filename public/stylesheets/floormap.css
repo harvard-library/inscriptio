@@ -10,13 +10,16 @@
 	border-radius: 0px;
 	opacity: 0.8;
 	filter: alpha(opacity=80);
-	background-color: #1B77E0;
+	background-color: #8DF02B;
 	/*border: 2px solid #0C3666;*/
+}
+.full {
+	background-color: red;
+	background-image: url('/images/crosshatch.png');
 }
 .bt-content {
 }
 .bt-active {
-	background-color: #1F87FF;
 	opacity: 1;
 }
 #tooltip {

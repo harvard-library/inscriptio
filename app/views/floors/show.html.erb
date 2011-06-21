@@ -53,12 +53,13 @@
 	<%= javascript_include_tag('excanvas.compiled') %>
 	<%= javascript_include_tag('jquery.drag.min') %>
 	<%= javascript_include_tag('jquery.bt') %>
-	<%= stylesheet_link_tag 'map' %>
+	<%= javascript_include_tag('jquery.floormap') %>
+	<%= stylesheet_link_tag 'floormap' %>
 	<% if current_user.admin? %>
-		<%= javascript_include_tag('map_admin') %>
+		<%= javascript_include_tag('floormap.admin') %>
 	<% else %>
-		<%= javascript_include_tag('map') %>
-		<%= stylesheet_link_tag('map_user') %>
+		<%= javascript_include_tag('floormap') %>
+		<%= stylesheet_link_tag('floormap-user') %>
 	<% end %>
 	<script type="text/javascript">
 	</script>

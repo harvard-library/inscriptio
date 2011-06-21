@@ -5,6 +5,7 @@
 		origin: {left: 0, top: 0},
 		parentSelector: '#content-right',
 		overlayClass: 'overlay',
+		notReservableClass: 'full',
 		activeOverlaySelector: '.bt-active',
 		admin: false,
 		assets: []
@@ -14,6 +15,7 @@
 		/**** Start this whole business ****/
 		init: function(options) {
 
+			/* Overwrite any default options with those passed in */
 			$.extend(opts, options);
 
 			return this.each(function() {
@@ -22,12 +24,16 @@
 						initialized: true
 					});
 
-					if ($(opts.containerSelector + ' #tooltip').length == 0) {
+					/* Drop the HTML into the document if it's not there already */
+					if (opts.admin) {
 						methods.addHtml();
 					}
+					methods.bindEventHandlers();
 
+					/* Set the origin to create the overlays against */
 					opts.origin = $(opts.containerSelector).offset();
 
+					/* Get the asset info and create the overlays */
 					$.ajax({
 						type: 'GET',
 						url: window.location.href + '/assets',
@@ -37,12 +43,11 @@
 							opts.assets = data;
 							$.each(data, function(index, asset) {
 								if (asset.x1 && asset.y1 && asset.x2 && asset.y2) 
-									overlay.create(opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id);
+									overlay.create(opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id, asset.allow_reservation);
 							});
 						}
 					});
 
-					methods.bindEventHandlers();
 				}
 			});
 		},
@@ -87,104 +92,106 @@
 				$(opts.activeOverlaySelector).btOff();
 			});
 
-			$('#removeOverlay').live('click.floormap', function() {
-				overlay.destroy();
-			});
+			if (opts.admin) {
+				$('#removeOverlay').live('click.floormap', function() {
+					overlay.destroy();
+				});
 
-			$('#applyOverlay').live('click.floormap', function() {
-				overlay.update($('#overlayId').val());
-			});
+				$('#applyOverlay').live('click.floormap', function() {
+					overlay.update($('#overlayId').val());
+				});
 
-			$.each( [
-				['#moveUp', 'top', -1],
-				['#moveRight', 'left', 1],
-				['#moveDown', 'top', 1],
-				['#moveLeft', 'left', -1],
-				['#widen', 'width', 1],
-				['#narrow', 'width', -1],
-				['#heighten', 'height', 1],
-				['#shorten', 'height', -1]],
+				$.each( [
+					['#moveUp', 'top', -1],
+					['#moveRight', 'left', 1],
+					['#moveDown', 'top', 1],
+					['#moveLeft', 'left', -1],
+					['#widen', 'width', 1],
+					['#narrow', 'width', -1],
+					['#heighten', 'height', 1],
+					['#shorten', 'height', -1]],
 
-				function(index, value) {
-					var button = value[0], attr = value[1], delta = value[2];
-					$(button).live('click.floormap', function() {
-						$(opts.activeOverlaySelector).css(attr, function(index, value) {
-							return parseInt(value) + delta;
-						});
-					});
-				}
-			);
-
-			/* TODO: add window resizing support */
-			$(window).resize(function() {
-			});
-
-
-			/* These are the handlers for the overlays */
-			$('.' + opts.overlayClass).live({
-				'drag.floormap': function(event) {
-					$(this).css({
-						top: event.pageY - $(this).data('diffY'),
-						left: event.pageX - $(this).data('diffX')
-					});
-				},
-				'draginit.floormap': function(event) {
-					$(this).data({
-						diffX: event.pageX - $(this).offset().left,
-						diffY: event.pageY - $(this).offset().top
-					});
-				},
-				'mouseup.floormap': function() {
-					$(this).add('#map').unbind('mousemove');
-				},
-				'dblclick.floormap': function(event) {
-					overlay.create(
-						$(event.target).offset(),
-						parseInt($(event.target).width() * 0.25),
-						parseInt($(event.target).height() * 0.25),
-						parseInt($(event.target).width() * 1.25),
-						parseInt($(event.target).height() * 1.25)
-					);
-				}
-			});
-
-			/* These are the handlers for the "map" */
-			$(opts.containerSelector).bind({
-				'mousedown.floormap': function(event) {
-					if (event.target == this) {
-						event.preventDefault();
-
-						var newOverlay = overlay.create(
-							{left: 0, top: 0},
-							event.pageX,
-							event.pageY
-						),
-						startX = event.pageX,
-						startY = event.pageY;
-
-						$(this).add(newOverlay).bind('mousemove.floormap', function(event) { 
-							if (event.pageY > startY)
-								$(newOverlay).css('bottom', $(window).height() - event.pageY);
-							else
-								$(newOverlay).css('top', event.pageY);
-							if (event.pageX > startX)
-								$(newOverlay).css('right', $(window).width() - event.pageX);
-							else
-								$(newOverlay).css('left', event.pageX);
-						}).one('mouseup.floormap', function() {
-							$(newOverlay).css({
-								width: parseInt($(newOverlay).innerWidth()) + 'px',
-								height: parseInt($(newOverlay).innerHeight()) + 'px',
-								right: 'auto',
-								bottom: 'auto'
+					function(index, value) {
+						var button = value[0], attr = value[1], delta = value[2];
+						$(button).live('click.floormap', function() {
+							$(opts.activeOverlaySelector).css(attr, function(index, value) {
+								return parseInt(value) + delta;
 							});
 						});
 					}
-				},
-				'mouseup.floormap': function() {
-					$(opts.containerSelector + ', .' + opts.overlayClass).unbind('mousemove.floormap');
-				}
-			});
+				);
+
+				/* TODO: add window resizing support */
+				$(window).resize(function() {
+				});
+
+
+				/* These are the handlers for the overlays */
+				$('.' + opts.overlayClass).live({
+					'drag.floormap': function(event) {
+						$(this).css({
+							top: event.pageY - $(this).data('diffY'),
+							left: event.pageX - $(this).data('diffX')
+						});
+					},
+					'draginit.floormap': function(event) {
+						$(this).data({
+							diffX: event.pageX - $(this).offset().left,
+							diffY: event.pageY - $(this).offset().top
+						});
+					},
+					'mouseup.floormap': function() {
+						$(this).add('#map').unbind('mousemove');
+					},
+					'dblclick.floormap': function(event) {
+						overlay.create(
+							$(event.target).offset(),
+							parseInt($(event.target).width() * 0.25),
+							parseInt($(event.target).height() * 0.25),
+							parseInt($(event.target).width() * 1.25),
+							parseInt($(event.target).height() * 1.25)
+						);
+					}
+				});
+
+				/* These are the handlers for the "map" */
+				$(opts.containerSelector).bind({
+					'mousedown.floormap': function(event) {
+						if (event.target == this) {
+							event.preventDefault();
+
+							var newOverlay = overlay.create(
+								{left: 0, top: 0},
+								event.pageX,
+								event.pageY
+							),
+							startX = event.pageX,
+							startY = event.pageY;
+
+							$(this).add(newOverlay).bind('mousemove.floormap', function(event) { 
+								if (event.pageY > startY)
+									$(newOverlay).css('bottom', $(window).height() - event.pageY);
+								else
+									$(newOverlay).css('top', event.pageY);
+								if (event.pageX > startX)
+									$(newOverlay).css('right', $(window).width() - event.pageX);
+								else
+									$(newOverlay).css('left', event.pageX);
+							}).one('mouseup.floormap', function() {
+								$(newOverlay).css({
+									width: parseInt($(newOverlay).innerWidth()) + 'px',
+									height: parseInt($(newOverlay).innerHeight()) + 'px',
+									right: 'auto',
+									bottom: 'auto'
+								});
+							});
+						}
+					},
+					'mouseup.floormap': function() {
+						$(opts.containerSelector + ', .' + opts.overlayClass).unbind('mousemove.floormap');
+					}
+				});
+			}
 		},
 
 		/**** Build the option list for the Asset ID dropdown in the tooltip ****/
@@ -233,7 +240,7 @@
 	overlay = {
 		/**** Create an overlay ****/
 		/* The origin argument is only used for real when an admin drags on the map */
-		create: function (origin, x1, y1, x2, y2, assignedAssetId) {
+		create: function (origin, x1, y1, x2, y2, assignedAssetId, reservable) {
 			var id = 'overlay' + $('.' + opts.overlayClass).length,
 			origin = origin || opts.origin,
 			x1 = x1 || 0,
@@ -242,7 +249,13 @@
 			y2 = y2 || y1,
 			assignedAssetId = assignedAssetId || null,
 
-			newOverlay = '<div id="' + id + '" class="' + opts.overlayClass + '"' 
+			newOverlay = '<div id="' + id + '" class="' + opts.overlayClass;
+
+			/* Add a class if the asset is not reservable (full or whatever) */
+			if (reservable === false) 
+				newOverlay += ' ' + opts.notReservableClass;
+
+			newOverlay += '"'
 				+ ' style="z-index: ' + $('.' + opts.overlayClass).length + ';' 
 				+ ' left: ' + (x1 + origin.left) + 'px;'
 				+ ' top: ' + (y1 + origin.top) + 'px;';
@@ -262,28 +275,45 @@
 				'y1': y1,
 				'x2': x2,
 				'y2': y2
-			}).bt({
+			});
+			
+			/* Change the tooltip depending on user role */
+			if (opts.admin) {
+				var contentSelector = function() {
+					var html = $('#tooltip').html();
+					$('#tooltip').empty();
+					return html;
+				},
+				ajaxPath = null,
+				/* These shenanigans go on so we don't end up with two elements with the same ID */
+				preShow = function() {
+					opts.activeOverlaySelector = '#' + $(this).attr('id');
+					methods.buildTooltipAssetOptions();
+				},
+				preHide = function() {
+					if ($('.bt-content').html()) {
+						$('#tooltip').html($('.bt-content').html());
+					}
+					opts.activeOverlaySelector = '.bt-active';
+				};
+			}
+			else {
+				var contentSelector = null,
+				ajaxPath = '/reservable_assets/' + assignedAssetId + ' div.reservable_asset.show-object dl, p',
+				preShow = function(){},
+				preHide = function(){};
+			}
+
+			newOverlay.bt({
 				trigger: 'click',
 				fill: '#FFF',
 				strokeWidth: 3, 
 				cssClass: 'tooltip',
 				closeWhenOthersOpen: true,
-				contentSelector: function() {
-					var html = $('#tooltip').html();
-					$('#tooltip').empty();
-					return html;
-				},
-				/* These shenanigans go on so we don't end up with two elements with the same ID */
-				preBuild: function() {
-					opts.activeOverlaySelector = '#' + $(this).attr('id');
-					methods.buildTooltipAssetOptions();
-				},
-				preHide: function() {
-					if ($('.bt-content').html()) {
-						$('#tooltip').html($('.bt-content').html());
-					}
-					opts.activeOverlaySelector = '.bt-active';
-				},
+				'ajaxPath': ajaxPath,
+				'contentSelector': contentSelector,
+				'preShow': preShow,
+				'preHide': preHide
 			});
 			
 			return newOverlay.appendTo(opts.parentSelector);
@@ -360,7 +390,3 @@
 	};
 
 })(jQuery);
-
-$(function() {
-	$('#map').floormap();
-});

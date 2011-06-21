@@ -1,0 +1,4 @@
+$(function() {
+	$('#map').floormap();
+});
+
