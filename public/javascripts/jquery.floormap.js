@@ -1,5 +1,10 @@
 (function ($) {
 
+	/* TODO: submit all overlays everytime "Apply" is clicked
+	 * or something else to handle the event where an overlay
+	 * is changed from one assigned asset id to another
+	 */
+
 	var opts = {
 		containerSelector: '#map',
 		origin: {left: 0, top: 0},
@@ -40,7 +45,8 @@
 						dataType: 'json',
 						error: function(response) {
 							alert('Error retrieving assets: ' + response.status);
-							console.log(response.responseText);
+							if (console.log)
+								console.log(response.responseText);
 						},
 						success: function(data) {
 							opts.assets = data;
@@ -309,6 +315,10 @@
 				preShow = function() {
 					opts.activeOverlaySelector = '#' + $(this).attr('id');
 					methods.buildTooltipAssetOptions();
+					if ($('#overlayId').attr('disabled'))
+						$('#applyOverlay').attr('disabled', true);
+					else
+						$('#applyOverlay').removeAttr('disabled');
 				},
 				preHide = function() {
 					if ($('.bt-content').html()) {
@@ -347,7 +357,7 @@
 		/**** Update an overlay (assign it an asset ID) ****/
 		update: function(assignedAssetId) {
 			var overlay = $(opts.activeOverlaySelector);
-			overlay.data('assignedAssetId', assignedAssetId);
+			$(opts.activeOverlaySelector).data('assignedAssetId', assignedAssetId);
 			methods.syncAssetsToOverlays();
 			$('#tooltipTools').hide();
 			$('#loading').show();
@@ -367,7 +377,8 @@
 				},
 				error: function(response) {
 					$('.bt-content').html('Error updating asset: ' + response.status);
-					console.log(response.responseText);
+					if (console.log) 
+						console.log(response.responseText);
 				}
 			});
 		},
@@ -376,6 +387,8 @@
 		destroy: function() {
 			var overlay = $(opts.activeOverlaySelector);
 			if (overlay.data('assignedAssetId')) {
+				if (console.log)
+					console.log('Removing overlay with assigned asset ID: ' + overlay.data('assignedAssetId'));
 				$('#tooltipTools').hide();
 				$('#loading').show();
 				$.ajax({
@@ -387,17 +400,18 @@
 						overlay.btOff().remove();
 						$('#loading').hide();
 						$('#tooltipTools').show();
+						methods.syncAssetsToOverlays();
 					},
 					error: function(response) {
 						$('.bt-content').html('Error removing asset location: ' + response.status);
-						console.log(response.responseText);
+						if (console.log) 
+							console.log(response.responseText);
 					}
 				});
 			}
 			else {
 				overlay.btOff().remove();
 			}
-			methods.syncAssetsToOverlays();
 		}
 	}
 
