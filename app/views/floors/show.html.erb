@@ -64,33 +64,5 @@
 	</script>
 	<%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
       <% end %>
-	  
 	</div>
-  <div id="tooltip">
-    <div id="loading">
-      <%= image_tag('ajax-loader.gif') %>
-    </div>
-    <div id="tooltipTools">
-      <div>
-        <label for="overlayId" id="overlayIdLabel">Asset: </label>
-        <select id="overlayId"></select>
-      </div>
-      <div>
-        <button id="moveLeft">&#9664</button>
-        <button id="narrow">-</button>
-        <button id="widen">+</button>
-        <button id="moveRight">&#9654</button>
-      </div>
-      <div>
-        <button id="moveDown">&#9660</button>
-        <button id="shorten">-</button>
-        <button id="heighten">+</button>
-        <button id="moveUp">&#9650</button>
-      </div>
-        <button id="removeOverlay">Remove</button>
-        <button id="applyOverlay">Apply</button>
-        <button id="closeTooltip">Close</button>
-      </div>
-    </div>
-  </div>
 </div>

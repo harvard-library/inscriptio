@@ -11,6 +11,7 @@
 	},
 
 	methods = {
+		/**** Start this whole business ****/
 		init: function(options) {
 
 			$.extend(opts, options);
@@ -20,6 +21,10 @@
 					$(this).data('floormap', {
 						initialized: true
 					});
+
+					if ($(opts.containerSelector + ' #tooltip').length == 0) {
+						methods.addHtml();
+					}
 
 					opts.origin = $(opts.containerSelector).offset();
 
@@ -32,7 +37,7 @@
 							opts.assets = data;
 							$.each(data, function(index, asset) {
 								if (asset.x1 && asset.y1 && asset.x2 && asset.y2) 
-									overlay.create( opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id);
+									overlay.create(opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id);
 							});
 						}
 					});
@@ -42,8 +47,54 @@
 			});
 		},
 
+		/**** Add all the required HTML ****/
+		/* I put this here instead of in the view so if javascript is off
+		 * the user doesn't get useless markup. */
+		addHtml: function() {
+			$(opts.containerSelector).append(
+				'<div id="tooltip">' + 
+					'<div id="loading">' + 
+						'<img src="/images/ajax-loader.gif" alt="Loading" />' + 
+					'</div>' + 
+					'<div id="tooltipTools">' + 
+						'<label for="overlayId" id="overlayIdLabel">Asset: </label>' + 
+						'<select id="overlayId"></select>' + 
+						'<br />' + 
+						'<button id="moveLeft">&#9664</button>' + 
+						'<button id="narrow">-</button>' + 
+						'<button id="widen">+</button>' + 
+						'<button id="moveRight">&#9654</button>' + 
+						'<br />' + 
+						'<button id="moveDown">&#9660</button>' + 
+						'<button id="shorten">-</button>' + 
+						'<button id="heighten">+</button>' + 
+						'<button id="moveUp">&#9650</button>' + 
+						'<br />' + 
+						'<button id="removeOverlay">Remove</button>' + 
+						'<button id="applyOverlay">Apply</button>' + 
+						'<button id="closeTooltip">Close</button>' + 
+					'</div>' + 
+				'</div>' 
+			);
+		},
+
+		/**** Bind all the event handlers ****/
+		/* This just broken out for clarity */
 		bindEventHandlers: function() {
-			/**** These are all the tooltip buttons ****/
+			/* These are all the tooltip buttons */
+
+			$('#closeTooltip').live('click.floormap', function() {
+				$(opts.activeOverlaySelector).btOff();
+			});
+
+			$('#removeOverlay').live('click.floormap', function() {
+				overlay.destroy();
+			});
+
+			$('#applyOverlay').live('click.floormap', function() {
+				overlay.update($('#overlayId').val());
+			});
+
 			$.each( [
 				['#moveUp', 'top', -1],
 				['#moveRight', 'left', 1],
@@ -64,23 +115,12 @@
 				}
 			);
 
-			$('#closeTooltip').live('click.floormap', function() {
-				$(opts.activeOverlaySelector).btOff();
-			});
-
-			$('#removeOverlay').live('click.floormap', function() {
-				overlay.destroy();
-			});
-
-			$('#applyOverlay').live('click.floormap', function() {
-				overlay.update($('#overlayId').val());
-			});
-
 			/* TODO: add window resizing support */
 			$(window).resize(function() {
 			});
 
-			/**** These are the handlers for the overlays ****/
+
+			/* These are the handlers for the overlays */
 			$('.' + opts.overlayClass).live({
 				'drag.floormap': function(event) {
 					$(this).css({
@@ -108,7 +148,7 @@
 				}
 			});
 
-			/**** These are the handlers for the "map" ****/
+			/* These are the handlers for the "map" */
 			$(opts.containerSelector).bind({
 				'mousedown.floormap': function(event) {
 					if (event.target == this) {
@@ -147,6 +187,8 @@
 			});
 		},
 
+		/**** Build the option list for the Asset ID dropdown in the tooltip ****/
+		/* This makes sure an asset can't be assigned to two physical locations */
 		buildTooltipAssetOptions: function() {
 			var newOptions = '';
 			$.each(opts.assets, function(index, asset) {
@@ -166,7 +208,9 @@
 			}
 		},
 
+		/**** This keeps the "assets" object in sync with the overlays ****/
 		/* This is so goddamned ugly */
+		/* TODO: Factor this function out of existence */
 		syncAssetsToOverlays: function() {
 			$.each(opts.assets, function(i, asset) {
 				opts.assets[i].x1 = null;
@@ -187,6 +231,8 @@
 	},
 
 	overlay = {
+		/**** Create an overlay ****/
+		/* The origin argument is only used for real when an admin drags on the map */
 		create: function (origin, x1, y1, x2, y2, assignedAssetId) {
 			var id = 'overlay' + $('.' + opts.overlayClass).length,
 			origin = origin || opts.origin,
@@ -209,6 +255,7 @@
 			}
 		
 			newOverlay += '"></div>';
+			/* These location values aren't being used anywhere yet */
 			newOverlay = $(newOverlay).data({
 				'assignedAssetId': assignedAssetId,
 				'x1': x1,
@@ -226,6 +273,7 @@
 					$('#tooltip').empty();
 					return html;
 				},
+				/* These shenanigans go on so we don't end up with two elements with the same ID */
 				preBuild: function() {
 					opts.activeOverlaySelector = '#' + $(this).attr('id');
 					methods.buildTooltipAssetOptions();
@@ -241,10 +289,12 @@
 			return newOverlay.appendTo(opts.parentSelector);
 		},
 
+		/**** Get the coordinates of an overlay ****/
 		getCoords: function() {
 
 		},
 
+		/**** Update an overlay (assign it an asset ID) ****/
 		update: function(assignedAssetId) {
 			var overlay = $(opts.activeOverlaySelector);
 			overlay.data('assignedAssetId', assignedAssetId);
@@ -264,10 +314,13 @@
 					overlay.btOff();
 					$('#loading').hide();
 					$('#tooltipTools').show();
+				},
+				error: function(response) {
 				}
 			});
 		},
 
+		/**** Make an overlay go away ****/
 		destroy: function() {
 			var overlay = $(opts.activeOverlaySelector);
 			if (overlay.data('assignedAssetId')) {
@@ -295,6 +348,7 @@
 		}
 	}
 
+	/**** Register the floormap plugin ****/
 	$.fn.floormap = function( method ) {
 		if ( methods[method] ) {
 		  return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
