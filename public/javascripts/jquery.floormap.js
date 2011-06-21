@@ -353,7 +353,7 @@
 			$('#loading').show();
 
 			$.ajax({
-				url: '/reservable_asssets/' + overlay.data('assignedAssetId') + '/edit',
+				url: '/reservable_assets/' + overlay.data('assignedAssetId') + '/edit',
 				success: function(data) {
 					$('.bt-content').append(data);
 					$('#reservable_asset_x1').val(overlay.offset().left - opts.origin.left);
