@@ -72,17 +72,13 @@ class ReservableAssetsController < ApplicationController
     @reservable_asset = ReservableAsset.find(params[:id])
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-        if @reservable_asset.save
-          if !request.xhr?
+          if @reservable_asset.save
             flash[:notice] = %Q|#{@reservable_asset} updated|
-          end
-          format.html {render :action => :show}
-        else
-          if !request.xhr?
+            format.html {render :action => :show}
+          else
             flash[:error] = 'Could not update that Reservable Asset'
+            format.html {render :action => :new}
           end
-          format.html {render :action => :new}
-        end
     end
   end
 end

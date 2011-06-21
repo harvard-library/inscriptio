@@ -15,7 +15,11 @@ Inscriptio::Application.routes.draw do
 
   resources :reservations
 
-  resources :reservable_assets
+  resources :reservable_assets do
+    member do
+      get 'update'
+    end
+  end
 
   resources :reservable_asset_types
 

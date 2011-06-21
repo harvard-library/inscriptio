@@ -52,7 +52,7 @@
 							opts.assets = data;
 							$.each(data, function(index, asset) {
 								if (asset.x1 && asset.y1 && asset.x2 && asset.y2) 
-									overlay.create(opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id, asset.allow_reservation);
+									overlays.create(opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id, asset.allow_reservation);
 							});
 						}
 					});
@@ -103,11 +103,11 @@
 
 			if (opts.admin) {
 				$('#removeOverlay').live('click.floormap', function() {
-					overlay.destroy();
+					overlays.destroy();
 				});
 
 				$('#applyOverlay').live('click.floormap', function() {
-					overlay.update($('#overlayId').val());
+					overlays.update($('#overlayId').val());
 				});
 
 				$.each( [
@@ -154,23 +154,26 @@
 
 				/* These are the handlers for the overlays */
 				$('.' + opts.overlayClass).live({
-					'drag.floormap': function(event) {
-						$(this).css({
-							top: event.pageY - $(this).data('diffY'),
-							left: event.pageX - $(this).data('diffX')
-						});
-					},
 					'draginit.floormap': function(event) {
 						$(this).data({
 							diffX: event.pageX - $(this).offset().left,
 							diffY: event.pageY - $(this).offset().top
 						});
 					},
+					'drag.floormap': function(event) {
+						$(this).css({
+							top: event.pageY - $(this).data('diffY'),
+							left: event.pageX - $(this).data('diffX')
+						});
+					},
+					'dragend.floormap': function(event) {
+						$(this).data(overlays.getCoords(this));
+					},
 					'mouseup.floormap': function() {
-						$(this).add('#map').unbind('mousemove');
+						$(this).add(opts.containerSelector).unbind('mousemove');
 					},
 					'dblclick.floormap': function(event) {
-						overlay.create(
+						overlays.create(
 							$(event.target).offset(),
 							parseInt($(event.target).width() * 0.25),
 							parseInt($(event.target).height() * 0.25),
@@ -186,7 +189,7 @@
 						if (event.target == this) {
 							event.preventDefault();
 
-							var newOverlay = overlay.create(
+							var newOverlay = overlays.create(
 								{left: 0, top: 0},
 								event.pageX,
 								event.pageY
@@ -243,7 +246,7 @@
 
 		/**** This keeps the "assets" object in sync with the overlays ****/
 		/* This is so goddamned ugly */
-		/* TODO: Factor this function out of existence */
+		/* TODO: Do this a better way */
 		syncAssetsToOverlays: function() {
 			$.each(opts.assets, function(i, asset) {
 				opts.assets[i].x1 = null;
@@ -252,18 +255,18 @@
 				opts.assets[i].y2 = null;
 				$('.' + opts.overlayClass).each(function(j, overlay) {
 					if ($(overlay).data('assignedAssetId') == asset.id) {
-						var overlay = $(overlay);
-						opts.assets[i].x1 = overlay.offset().left - opts.origin.left;
-						opts.assets[i].y1 = overlay.offset().top - opts.origin.top;
-						opts.assets[i].x2 = overlay.offset().left + overlay.innerWidth() - opts.origin.left;
-						opts.assets[i].y2 = overlay.offset().top + overlay.innerHeight() - opts.origin.top;
+						var coords = overlays.getCoords($(overlay));
+						opts.assets[i].x1 = coords.x1;
+						opts.assets[i].y1 = coords.y1;
+						opts.assets[i].x2 = coords.x2;
+						opts.assets[i].y2 = coords.y2;
 					}
 				});
 			});
 		}
 	},
 
-	overlay = {
+	overlays = {
 		/**** Create an overlay ****/
 		/* The origin argument is only used for real when an admin drags on the map */
 		create: function (origin, x1, y1, x2, y2, assignedAssetId, reservable) {
@@ -350,36 +353,48 @@
 		},
 
 		/**** Get the coordinates of an overlay ****/
-		getCoords: function() {
+		getCoords: function(overlay) {
+			overlay = overlay || $(opts.activeOverlaySelector);
+			if (!overlay.jquery)
+				overlay = $(overlay);
 
+			return {
+				x1: overlay.offset().left - opts.origin.left,
+				y1: overlay.offset().top - opts.origin.top,
+				x2: overlay.offset().left + overlay.width() - opts.origin.left,
+				y2: overlay.offset().top + overlay.height() - opts.origin.top
+			}
 		},
 
 		/**** Update an overlay (assign it an asset ID) ****/
 		update: function(assignedAssetId) {
-			var overlay = $(opts.activeOverlaySelector);
 			$(opts.activeOverlaySelector).data('assignedAssetId', assignedAssetId);
 			methods.syncAssetsToOverlays();
-			$('#tooltipTools').hide();
-			$('#loading').show();
 
-			$.ajax({
-				url: '/reservable_assets/' + overlay.data('assignedAssetId') + '/edit',
-				success: function(data) {
-					$('.bt-content').append(data);
-					$('#reservable_asset_x1').val(overlay.offset().left - opts.origin.left);
-					$('#reservable_asset_y1').val(overlay.offset().top - opts.origin.top);
-					$('#reservable_asset_x2').val(overlay.offset().left + overlay.width() - opts.origin.left);
-					$('#reservable_asset_y2').val(overlay.offset().top + overlay.height() - opts.origin.top);
-					$('#edit_reservable_asset_' + overlay.data('assignedAssetId')).submit();
-					overlay.btOff();
-					$('#loading').hide();
-					$('#tooltipTools').show();
-				},
-				error: function(response) {
-					$('.bt-content').html('Error updating asset: ' + response.status);
-					if (console.log) 
-						console.log(response.responseText);
-				}
+			$.each(opts.assets, function(i, asset) {
+
+				$('#tooltipTools').hide();
+				$('#loading').show();
+
+				$.ajax({
+					url: '/reservable_assets/' + asset.id,
+					data: {
+						'reservable_asset[x1]': asset.x1,
+						'reservable_asset[y1]': asset.y1,
+						'reservable_asset[x2]': asset.x2,
+						'reservable_asset[y2]': asset.y2 
+					},
+					success: function(data) {
+						$('.' + opts.overlayClass).btOff();
+						$('#loading').hide();
+						$('#tooltipTools').show();
+					},
+					error: function(response) {
+						$('.bt-content').html('Error updating asset: ' + response.status);
+						if (console.log) 
+							console.log(response.responseText);
+					}
+				});
 			});
 		},
 
