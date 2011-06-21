@@ -121,6 +121,23 @@
 					}
 				);
 
+				/* Add a few keypress handlers to make it easier to move overlays around */
+				$(document).keypress(function(event) {
+					switch (event.which) {
+						case 119:
+							$('#moveUp').click();
+							break;
+						case 97:
+							$('#moveLeft').click();
+							break;
+						case 100:
+							$('#moveRight').click();
+							break;
+						case 115:
+							$('#moveDown').click();
+					}
+				});
+
 				/* TODO: add window resizing support */
 				$(window).resize(function() {
 				});
