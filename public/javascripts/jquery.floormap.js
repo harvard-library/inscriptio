@@ -38,7 +38,10 @@
 						type: 'GET',
 						url: window.location.href + '/assets',
 						dataType: 'json',
-						error: function(){},
+						error: function(response) {
+							alert('Error retrieving assets: ' + response.status);
+							console.log(response.responseText);
+						},
 						success: function(data) {
 							opts.assets = data;
 							$.each(data, function(index, asset) {
@@ -350,7 +353,7 @@
 			$('#loading').show();
 
 			$.ajax({
-				url: '/reservable_assets/' + overlay.data('assignedAssetId') + '/edit',
+				url: '/reservable_asssets/' + overlay.data('assignedAssetId') + '/edit',
 				success: function(data) {
 					$('.bt-content').append(data);
 					$('#reservable_asset_x1').val(overlay.offset().left - opts.origin.left);
@@ -363,6 +366,8 @@
 					$('#tooltipTools').show();
 				},
 				error: function(response) {
+					$('.bt-content').html('Error updating asset: ' + response.status);
+					console.log(response.responseText);
 				}
 			});
 		},
@@ -384,7 +389,8 @@
 						$('#tooltipTools').show();
 					},
 					error: function(response) {
-						$('.bt-content').html(response.responseText);
+						$('.bt-content').html('Error removing asset location: ' + response.status);
+						console.log(response.responseText);
 					}
 				});
 			}
