@@ -7,9 +7,6 @@ class ReservableAssetsController < ApplicationController
 
   def new
     @reservable_asset = ReservableAsset.new
-    if (request.xhr?)
-      render :partial => 'shared/forms/reservable_asset'
-    end
   end
 
   def show
@@ -18,9 +15,6 @@ class ReservableAssetsController < ApplicationController
 
   def edit
     @reservable_asset = ReservableAsset.find(params[:id])
-    if (request.xhr?)
-      render :partial => 'shared/forms/reservable_asset'
-    end
   end
   
   def create
