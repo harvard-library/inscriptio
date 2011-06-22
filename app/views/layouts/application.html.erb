@@ -7,42 +7,58 @@
     <%= csrf_meta_tag %>
   </head>
   <body>
-    <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
-    <% end %>
+    <div id="container">
+      <div id="header">
+        <div id="logo">
+          <span>
+            <div id="home-logo"></div>
+          <span>
+        </div>
+      </div>
 
-    <% if flash[:alert] %>
-      <div class="alert"><%= flash[:alert] %></div>
-    <% end %>
-
-    <% if flash[:error] %>
-      <div class="error"><%= flash[:error] %></div>
-    <% end %>
-
-	<div id="user_nav">
-	  <% if user_signed_in? %>
-	    Signed in as <%= current_user.email %>. Not you?
-	    <%= link_to "Sign out", destroy_user_session_path %>
-	  <% else %>
-	    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
-	  <% end %>
-	</div>
-	
-	<div id="site_nav">
-	  <%= link_to "Libraries", libraries_path %>
-	  <% if user_signed_in? && !current_user.try(:admin?) %>
-	    | <%= link_to "Reservations", reservations_path %>
-	  <% end %>
-	  <% if current_user.try(:admin?) %>
-	    | <%= link_to "Users", users_path %>
-	    | <%= link_to "User Types", user_types_path %>
-        | <%= link_to "Reservable Asset Types", reservable_asset_types_path %>
-		| <%= link_to "Reservable Assets", reservable_assets_path %>
-		| <%= link_to "Reservation Expiration Notices", reservation_expiration_notices_path %>
+      <% if flash[:notice] %>
+        <div class="notice"><%= flash[:notice] %></div>
       <% end %>
-	</div>	
 
-    <%= yield %>
+      <% if flash[:alert] %>
+        <div class="alert"><%= flash[:alert] %></div>
+      <% end %>
 
+      <% if flash[:error] %>
+        <div class="error"><%= flash[:error] %></div>
+      <% end %>
+
+      <div id="user_nav">
+        <% if user_signed_in? %>
+          Signed in as <%= current_user.email %>. Not you?
+          <%= link_to "Sign out", destroy_user_session_path %>
+        <% else %>
+          <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
+        <% end %>
+      </div>
+    
+      <div id="site_nav">
+        <ul id="navlist">
+          <li><%= link_to "Libraries", libraries_path %></li>
+          <% if user_signed_in? && !current_user.try(:admin?) %>
+            <li><%= link_to "Reservations", reservations_path %></li>
+          <% end %>
+          <% if current_user.try(:admin?) %>
+            <li><%= link_to "Users", users_path %></li>
+            <li><%= link_to "User Types", user_types_path %></li>
+            <li><%= link_to "Reservable Asset Types", reservable_asset_types_path %></li>
+            <li><%= link_to "Reservable Assets", reservable_assets_path %></li>
+            <li><%= link_to "Reservation Expiration Notices", reservation_expiration_notices_path %></li>
+          <% end %>
+        </ul>
+      </div>	
+
+      <div id="content">
+        <%= yield %>
+      </div>
+
+      <div id="footer">
+      </div>
+    </div>
   </body>
 </html>

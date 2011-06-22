@@ -70,7 +70,14 @@ class ReservableAssetsController < ApplicationController
 
   def update
     @reservable_asset = ReservableAsset.find(params[:id])
-    @reservable_asset.attributes = params[:reservable_asset]
+    if request.post?
+      @reservable_asset.attributes = params[:reservable_asset]
+    else
+      @reservable_asset.x1 = params[:reservable_asset][:x1]
+      @reservable_asset.y1 = params[:reservable_asset][:y1]
+      @reservable_asset.x2 = params[:reservable_asset][:x2]
+      @reservable_asset.y2 = params[:reservable_asset][:y2]
+    end
     respond_to do|format|
           if @reservable_asset.save
             flash[:notice] = %Q|#{@reservable_asset} updated|
