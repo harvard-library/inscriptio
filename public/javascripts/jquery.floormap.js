@@ -1,10 +1,5 @@
 (function ($) {
 
-	/* TODO: submit all overlays everytime "Apply" is clicked
-	 * or something else to handle the event where an overlay
-	 * is changed from one assigned asset id to another
-	 */
-
 	var opts = {
 		containerSelector: '#map',
 		origin: {left: 0, top: 0},
@@ -51,8 +46,17 @@
 						success: function(data) {
 							opts.assets = data;
 							$.each(data, function(index, asset) {
-								if (asset.x1 && asset.y1 && asset.x2 && asset.y2) 
-									overlays.create(opts.origin, asset.x1, asset.y1, asset.x2, asset.y2, asset.id, asset.allow_reservation);
+								if (asset.x1 && asset.y1 && asset.x2 && asset.y2) {
+									overlays.create(
+										opts.origin,
+									   	asset.x1,
+									   	asset.y1,
+									   	asset.x2,
+									   	asset.y2,
+									   	asset.id,
+									   	asset.allow_reservation
+									);
+								}
 							});
 						}
 					});
@@ -131,7 +135,7 @@
 				);
 
 				/* Add a few keypress handlers to make it easier to move overlays around */
-				$(document).keypress(function(event) {
+				$(window).keypress(function(event) {
 					switch (event.which) {
 						case 119:
 							$('#moveUp').click();
@@ -147,8 +151,15 @@
 					}
 				});
 
-				/* TODO: add window resizing support */
+				/* Make sure the overlays stay in place when the window is resized */
 				$(window).resize(function() {
+					opts.origin = $(opts.containerSelector).offset();
+					$('.' + opts.overlayClass).each(function() {
+						$(this).css({
+							top: $(this).data('y1') + opts.origin.top,
+							left: $(this).data('x1') + opts.origin.left
+						});
+					});
 				});
 
 
@@ -402,8 +413,6 @@
 		destroy: function() {
 			var overlay = $(opts.activeOverlaySelector);
 			if (overlay.data('assignedAssetId')) {
-				if (console.log)
-					console.log('Removing overlay with assigned asset ID: ' + overlay.data('assignedAssetId'));
 				$('#tooltipTools').hide();
 				$('#loading').show();
 				$.ajax({
