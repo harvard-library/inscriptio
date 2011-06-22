@@ -88,7 +88,7 @@ p {
 
 /* Navigation */
 
-#site_nav {
+#content-left {
 	background-color: #bac5c6;
 	float: left;
 	margin-left: 15px;
@@ -96,7 +96,7 @@ p {
 	width: 210px;	
 }
 
-#site_nav ul {
+#content-left ul {
 	list-style-type: none;
 	margin: 0px;
 	padding-left: 0px;
@@ -106,7 +106,7 @@ ul#navlist {
 	margin-bottom: 20px;
 }
 
-#site_nav a {
+#content-left a {
 	display: block;
 	font-weight: bold;
 	padding: 6px 3px 6px 15px;
@@ -114,52 +114,52 @@ ul#navlist {
 	background-color: #bac5c6;
 }
 
-#site_nav a:link, #navlist a:visited {
+#content-left a:link, #navlist a:visited {
 	color: #1e1e1e;
 	text-decoration: none;
 }
 
-#site_nav a:hover, #site_nav li#active a {
+#content-left a:hover, #content-left li#active a {
 	background-color: #f3f3f1;
 }
 
-#site_nav li#active a {
+#content-left li#active a {
 	background: url(/images/menu_arrow.png) #f3f3f1 right center no-repeat;
 }
 
-#site_nav ul ul li {
+#content-left ul ul li {
 	text-indent: 15px;
 }
 
-#site_nav ul ul a {
+#content-left ul ul a {
 	font-weight: normal;
 }
 
-#site_nav h4 {
+#content-left h4 {
 	display: inline;
 	font-size: 16px;
 	padding: 20px 0px 0px 15px;	
 	margin: 0px;
 }
 
-#site_nav p {
+#content-left p {
 	margin: 0px;
 }
 
-#site_nav p a:link {
+#content-left p a:link {
 	font-weight: normal;
 	margin: 0px;
 	text-decoration: underline;
 }
 
-#site_nav p a:hover {
+#content-left p a:hover {
 	background-color: none;
 }
 
 
 /* Body */
 
-#content {
+#content-right {
 	margin: 0px 0px 0px 240px;
 	width: 705px;
 }	
