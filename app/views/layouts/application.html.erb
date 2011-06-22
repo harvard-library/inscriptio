@@ -7,15 +7,25 @@
     <%= csrf_meta_tag %>
   </head>
   <body>
-    <div id="container">
-      <div id="header">
-        <div id="logo">
-          <span>
-            <div id="home-logo"></div>
-          <span>
-        </div>
+    <div id="header">
+      <div id="logo">
+        <span>
+          <a href="/" title="Inscriptio" id="home-logo">Inscriptio</a>
+        <span>
       </div>
 
+      <div id="utility">
+        <% if user_signed_in? %>
+          Signed in as <%= current_user.email %>. Not you?
+          <%= link_to "Sign out", destroy_user_session_path %>
+        <% else %>
+          <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
+        <% end %>
+      </div>
+      <!-- <h1>Sample Page Heading</h1> -->
+    </div>
+
+    <div id="container">
       <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>
       <% end %>
@@ -28,37 +38,31 @@
         <div class="error"><%= flash[:error] %></div>
       <% end %>
 
-      <div id="utility">
-        <div id="user_nav">
-          <% if user_signed_in? %>
-            Signed in as <%= current_user.email %>. Not you?
-            <%= link_to "Sign out", destroy_user_session_path %>
-          <% else %>
-            <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
-          <% end %>
-        </div>
-      </div>
-    
-      <div id="global-links">
-        <ul id="navlist">
-          <li><%= link_to "Libraries", libraries_path %></li>
-          <% if user_signed_in? && !current_user.try(:admin?) %>
-            <li><%= link_to "Reservations", reservations_path %></li>
-          <% end %>
-          <% if current_user.try(:admin?) %>
-            <li><%= link_to "Users", users_path %></li>
-            <li><%= link_to "User Types", user_types_path %></li>
-            <li><%= link_to "Reservable Asset Types", reservable_asset_types_path %></li>
-            <li><%= link_to "Reservable Assets", reservable_assets_path %></li>
-            <li><%= link_to "Reservation Expiration Notices", reservation_expiration_notices_path %></li>
-          <% end %>
-        </ul>
-      </div>	
-
       <%= yield %>
-
-      <div id="footer">
-      </div>
+      <div style="clear:both;"></div>
     </div>
+    
+    <div id="global-links">
+      <ul>
+        <li><%= link_to "Libraries", libraries_path %></li>
+        <% if user_signed_in? && !current_user.try(:admin?) %>
+          <li><%= link_to "Reservations", reservations_path %></li>
+        <% end %>
+        <% if current_user.try(:admin?) %>
+          <li><%= link_to "Users", users_path %></li>
+          <li><%= link_to "User Types", user_types_path %></li>
+          <li><%= link_to "Reservable Asset Types", reservable_asset_types_path %></li>
+          <li><%= link_to "Reservable Assets", reservable_assets_path %></li>
+          <li><%= link_to "Reservation Expiration Notices", reservation_expiration_notices_path %></li>
+        <% end %>
+      </ul>
+    </div>	
+
+    <div id="footer">
+    <p>© 2011 President and Fellows of Harvard College<br>
+      <a href="http://www.harvard.edu/siteguide/privacy.php" target="_blank">Privacy Statement</a> •  
+      <a href="http://www.harvard.edu/siteguide/copyright.php" target="_blank">Reporting Copyright Infringements</a> • <a href="http://www.trademark.harvard.edu/trademark_protection/notice.php" target="_blank">Trademark Notice</a></p>
+    </div>
+
   </body>
 </html>

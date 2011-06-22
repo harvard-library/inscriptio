@@ -1,9 +1,11 @@
-<div class="reservable_asset line" id="reservable_asset-<%= reservable_asset.id %>">
-  <h3><%= link_to("#{reservable_asset.reservable_asset_type.name}-#{reservable_asset.name}", reservable_asset ) %></h3>
+<li class="reservable_asset line" id="reservable_asset-<%= reservable_asset.id %>">
+  <%= link_to("#{reservable_asset.reservable_asset_type.name}-#{reservable_asset.name}", reservable_asset ) %>
   
   <% if current_user.admin? %>
-    <%= link_to('Edit', edit_reservable_asset_path(reservable_asset)) %> |
-    <%= link_to('Delete', reservable_asset_path(reservable_asset), :method => :delete, :id => "delete-#{reservable_asset.id}") %>
+	<ul class="actions">
+		<li><%= link_to('Edit', edit_reservable_asset_path(reservable_asset)) %></li>
+    <li><%= link_to('Delete', reservable_asset_path(reservable_asset), :method => :delete, :id => "delete-#{reservable_asset.id}") %></li>
+	</ul>
   <% end %>
   
-</div>
+</li>

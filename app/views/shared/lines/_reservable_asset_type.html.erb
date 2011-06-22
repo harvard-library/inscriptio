@@ -1,5 +1,5 @@
 <div class="reservable_asset_type line" id="reservable_asset_type-<%= reservable_asset_type.id %>">
-  <h3><%= link_to(reservable_asset_type.name, reservable_asset_type ) %></h3>
+  <%= link_to(reservable_asset_type.name, reservable_asset_type ) %>
   
   <% if current_user.admin? %>
     <%= link_to('Edit', edit_reservable_asset_type_path(reservable_asset_type)) %> |

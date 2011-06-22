@@ -15,7 +15,7 @@
 	<%= f.input :user_types %>
 
   	<% unless f.object.photo.blank? %>
-      <h3>Current Photo</h3>
+      <h4>Current Photo</h4>
       <%= image_tag(f.object.photo.url) %>
     <% end %>
     <%= f.input :photo, :as => :file, :label => 'Upload a Photo' %>

@@ -1,11 +1,14 @@
 <div class="user_types collection-list">
+  <h1>User Types</h1>
+  <div id="content-right">
   <% unless @user_types.blank? %>
 	<%= render :partial => 'shared/lines/user_type', :collection => @user_types %>
   <% else %>
 	<h2>No user types yet.</h2>
   <% end %>
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New User Type', new_user_type_path) %></h2>
+  <% end %>
+</div>
 </div>
 
-  <% if current_user.admin? %>
-    <p><%= link_to('New User Type', new_user_type_path) %></p>
-  <% end %>

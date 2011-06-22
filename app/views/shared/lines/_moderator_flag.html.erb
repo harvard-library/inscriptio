@@ -1,5 +1,5 @@
 <div class="moderator_flag line" id="moderator_flag-<%= moderator_flag.id %>">
-  <h3><%= link_to("Flag #{moderator_flag.id}", moderator_flag) %></h3>
+  <%= link_to("Flag #{moderator_flag.id}", moderator_flag) %>
   <p>
     created on <%= moderator_flag.created_at %> <br /><br />
 	<%= moderator_flag.reason %>

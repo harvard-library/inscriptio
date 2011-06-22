@@ -1,8 +1,10 @@
-<div class="subject_area line" id="subject_area-<%= subject_area.id %>">
-  <h3><%= link_to(subject_area.name, subject_area ) %></h3>
+<li class="subject_area line" id="subject_area-<%= subject_area.id %>">
+  <%= link_to(subject_area.name, subject_area ) %>
   
   <% if current_user.admin? %>
-    <%= link_to('Edit', edit_subject_area_path(subject_area)) %> |
-    <%= link_to('Delete', subject_area_path(subject_area), :method => :delete, :id => "delete-#{subject_area.id}") %>
+    <ul class="actions">
+      <li><%= link_to('Edit', edit_subject_area_path(subject_area)) %></li>
+      <li><%= link_to('Delete', subject_area_path(subject_area), :method => :delete, :id => "delete-#{subject_area.id}") %></li>
+    </ul>
   <% end %>
-</div>
+</li>

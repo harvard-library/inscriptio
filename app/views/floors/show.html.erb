@@ -4,47 +4,55 @@
 	</div>
 	
 	<div id="content-left">
-	  <h2 class="collapsable description">Assets</h2>
-	  <div class="description description-target">
-	  <% unless @floor.reservable_assets.blank? %>
-		<%= render :partial => 'shared/lines/reservable_asset', :collection => @floor.reservable_assets %>
-	  <% else %>
-	    <h3>No reservable assets yet.</h3>
-	  <% end %>
-	  <% if current_user.admin? %>
-	    <p><%= link_to('New Reservable Asset', new_reservable_asset_path) %></p>
-	  <% end %>
-	  </div>
-	  
-	  <h2 class="collapsable description">Subject Areas</h2>
-	  <% unless @floor.subject_areas.blank? %>
-	    <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
-	  <% else %>
-	    <h3>No subject areas yet.</h3>
-	  <% end %>
-	  <% if current_user.admin? %>
-	    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
-	  <% end %>
-	
-	  <h2 class="collapsable description">Call Numbers</h2>
-	  <% unless @floor.call_numbers.blank? %>
-	    <%= render :partial => 'shared/lines/call_number', :collection => @floor.call_numbers %>
-	  <% else %>
-	    <h3>No call numbers yet.</h3>
-	  <% end %>
-	  <% if current_user.admin? %>
-	    <p><%= link_to('New Call Number', new_call_number_path) %></p>
-	  <% end %>
-	
-	  <h2 class="collapsable description">All <%= @floor.library %> Floors</h2>
-	  <% unless @floor.library.floors.blank? %>
-	    <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
-	  <% else %>
-	    <h3>No floors yet.</h3>
-	  <% end %>
-	  <% if current_user.admin? %>
-	    <p><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></p>
-	  <% end %>
+      <h4 class="collapsable description">Assets</h4>
+      <ul class="navlist description description-target">
+        <% unless @floor.reservable_assets.blank? %>
+        <%= render :partial => 'shared/lines/reservable_asset', :collection => @floor.reservable_assets %>
+        <% else %>
+          <li>No reservable assets yet.</li>
+        <% end %>
+        <% if current_user.admin? %>
+          <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path) %></h2>
+        <% end %>
+      </ul>
+      
+      <h4 class="collapsable description">Subject Areas</h4>
+      <ul class="navlist description description-target">
+        <% unless @floor.subject_areas.blank? %>
+          <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
+        <% else %>
+          <li>No subject areas yet.</li>
+        <% end %>
+        <% if current_user.admin? %>
+          <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
+        <% end %>
+      </ul>
+    
+      <h4 class="collapsable description">Call Numbers</h4>
+      <ul class="navlist description description-target">
+        <% unless @floor.call_numbers.blank? %>
+          <%= render :partial => 'shared/lines/call_number', :collection => @floor.call_numbers %>
+        <% else %>
+          <li>No call numbers yet.</li>
+        <% end %>
+        <% if current_user.admin? %>
+          <h2 class="action-button"><%= link_to('New Call Number', new_call_number_path) %></h2>
+        <% end %>
+      </ul>
+    
+      <h4 class="collapsable description">All <%= @floor.library %> Floors</h4>
+      <ul class="navlist description description-target">
+        <% unless @floor.library.floors.blank? %>
+          <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
+        <% else %>
+          <li>No floors yet.</li>
+        <% end %>
+        <% if current_user.admin? %>
+          <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
+        <% end %>
+      </ul>
+
+    </ul>
 	</div>
 	
 	<div id="content-right">  

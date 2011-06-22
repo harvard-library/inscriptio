@@ -1,4 +1,6 @@
+<h1>Reservations</h1>
 <div class="reservations collection-list">
+  <div id="content-right">
   <% unless @reservations.blank? %>
     <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
   <% else %>
@@ -6,6 +8,7 @@
   <% end %>
 
   <% if current_user.admin? %>
-    <p><%= link_to('New Reservation', new_reservation_path) %></p>
+    <h2 class="action-button"><%= link_to('New Reservation', new_reservation_path) %></h2>
   <% end %>
+</div>
 </div>

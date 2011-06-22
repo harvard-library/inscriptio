@@ -345,7 +345,7 @@
 			}
 			else {
 				var contentSelector = null,
-				ajaxPath = '/reservable_assets/' + assignedAssetId + ' div.reservable_asset.show-object dl, p',
+				ajaxPath = '/reservable_assets/' + assignedAssetId + ' #content-right > *',
 				preShow = function(){},
 				preHide = function(){};
 			}

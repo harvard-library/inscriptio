@@ -1,12 +1,14 @@
 <div class="reservable_asset_types collection-list">
+  <h1>Reservable Asset Types</h1>
+  <div id="content-right">
   <% unless @reservable_asset_types.blank? %>
     <%= render :partial => 'shared/lines/reservable_asset_type', :collection => @reservable_asset_types %>
   <% else %>
     <h2>No reservable asset types for this library yet.</h2>
   <% end %>
-  <p></p>
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
+  <% end %>
+</div>
 </div>
 
-  <% if current_user.admin? %>
-    <p><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></p>
-  <% end %>

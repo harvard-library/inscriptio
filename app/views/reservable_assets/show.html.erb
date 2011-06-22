@@ -1,7 +1,8 @@
-<div class="reservable_asset show-object">
   	<div id="heading">
       <h1><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %></h1>
 	</div>
+  <div id="content-right">
+<div class="reservable_asset show-object">
   <dl>
 	<dt>Name:</dt>
     <dd><%= @reservable_asset.name %></dd>
@@ -23,10 +24,10 @@
       <h2>Photo</h2>
 	  <%= image_tag(@reservable_asset.photo.url) %>
     <% end %>
-</div>
+  </div>
 
 <% if @reservable_asset.allow_reservation?(current_user) %>
-  <p><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></p>
+  <h2 class="action-button"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
 <% end %>
 
 <% if current_user.admin? %>
@@ -42,3 +43,4 @@
     <%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %>
   <% end %>
 <% end %>
+</div>

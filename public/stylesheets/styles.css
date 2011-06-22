@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 body {
-	background: url(/images/background.png) #8c8179 repeat-y top center;
+	background: url(/images/background_1366.png) #8c8179 repeat-y top center;
 	color: #333333;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
@@ -26,6 +26,10 @@ h1 {
 	padding: 10px 0px;
 	text-align: center;
 	width: 100%;
+}
+
+#heading a {
+  color: #ffffff;
 }
 
 h2 {
@@ -55,12 +59,12 @@ p {
 #header {
 	background-color: #ffffff;
 	margin: 0px auto;
-	width: 960px;
+	width: 1330px;
 }
 
 #logo {
 	float: left;
-	padding: 25px 0px 18px 66px;
+	padding: 15px 0px 18px 66px;
 }
 
 #logo a, #logo span {
@@ -77,8 +81,8 @@ p {
 }
 
 #container {
-	margin: 15px auto 0px;
-	width: 960px;
+	margin: 0px auto 0px;
+	width: 1330px;
 }
 
 #utility {
@@ -92,8 +96,13 @@ p {
 	background-color: #bac5c6;
 	float: left;
 	margin-left: 15px;
+  margin-top: 15px;
 	padding: 15px 0px;
 	width: 210px;	
+}
+
+#content-left > h4:first-child {
+  padding-top: 0px;
 }
 
 #content-left ul {
@@ -102,19 +111,19 @@ p {
 	padding-left: 0px;
 }
 
-ul#navlist {
+ul.navlist {
 	margin-bottom: 20px;
 }
 
 #content-left a {
-	display: block;
 	font-weight: bold;
-	padding: 6px 3px 6px 15px;
-	width: 192px;
+	padding: 6px 3px 6px 25px;
 	background-color: #bac5c6;
+	display: block;
+  width: 182px;
 }
 
-#content-left a:link, #navlist a:visited {
+#content-left a:link, .navlist a:visited {
 	color: #1e1e1e;
 	text-decoration: none;
 }
@@ -127,16 +136,22 @@ ul#navlist {
 	background: url(/images/menu_arrow.png) #f3f3f1 right center no-repeat;
 }
 
+.actions li {
+  display: inline;
+}
+
 #content-left ul ul li {
 	text-indent: 15px;
 }
 
 #content-left ul ul a {
 	font-weight: normal;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 #content-left h4 {
-	display: inline;
+	display: block;
 	font-size: 16px;
 	padding: 20px 0px 0px 15px;	
 	margin: 0px;
@@ -160,8 +175,8 @@ ul#navlist {
 /* Body */
 
 #content-right {
-	margin: 0px 0px 0px 240px;
-	width: 705px;
+	margin: 15px 0px 0px 240px;
+	width: 1075px;
 }	
 	
 
@@ -174,7 +189,7 @@ h2.action-button {
 	margin-top: 10px;
 	margin-bottom: 5px;
 	text-align: center;
-	width: 333px;
+	max-width: 333px;
 }
 
 h2.action-button a:link, h2.action-button a:visited {
@@ -196,7 +211,7 @@ h2.action-button a:hover {
 	display: block;
 	margin: 30px auto 0px;
 	text-align: center;
-	width: 960px;
+	width: 1330px;
 	padding: 0px;
 }
 
@@ -228,7 +243,7 @@ h2.action-button a:hover {
 	clear: both;
 	margin: 0px auto 15px;
 	padding: 10px 0px 0px;
-	width: 960px;
+	width: 1330px;
 }
 
 #footer p {

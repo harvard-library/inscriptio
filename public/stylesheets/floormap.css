@@ -8,13 +8,13 @@
 	position: absolute;
 	cursor: move;
 	border-radius: 0px;
-	opacity: 0.8;
-	filter: alpha(opacity=80);
-	background-color: #8DF02B;
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+	background-color: #52854c;
 	/*border: 2px solid #0C3666;*/
 }
 .full {
-	background-color: red;
+	background-color: #a51c30;
 	background-image: url('/images/crosshatch.png');
 }
 .bt-content {

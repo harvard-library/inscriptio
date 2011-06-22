@@ -1,5 +1,5 @@
 <div class="user_type line" id="user_type-<%= user_type.id %>">
-  <h3><%= link_to(user_type.name, user_type ) %></h3>
+  <%= link_to(user_type.name, user_type ) %>
   
   <% if current_user.admin? %>
     <%= link_to('Edit', edit_user_type_path(user_type)) %> |

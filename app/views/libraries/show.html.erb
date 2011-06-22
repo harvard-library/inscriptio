@@ -4,17 +4,17 @@
 	</div>
 	
 	<div id="content-left">
-	  <h2 class="collapsable description">About</h2>
+	  <h4 class="collapsable description">About</h2>
 	  <div class="description description-target">
 	    <%= @library.description %>
 	  </div>
 	
-	  <h2 class="collapsable address">Address</h2>
+	  <h4 class="collapsable address">Address</h2>
 	  <div class="address-target vcard">
 	    <%= render :partial => 'shared/microformats/adr', :object => @library %>
 	  </div>
 	
-	  <h2 class="collapsable contact_info">Contact</h2>
+	  <h4 class="collapsable contact_info">Contact</h2>
 	  <div class="contact_info contact_info-target">
 	    <%= @library.contact_info %>
 	  </div>
@@ -25,10 +25,10 @@
 	  <% unless @library.floors.blank? %>
 	    <%= render :partial => 'shared/lines/floor', :collection => @library.floors %>
 	  <% else %>
-	    <h3>No floors yet.</h3>
+	    <h4>No floors yet.</h4>
 	  <% end %>
 	  <% if current_user.admin? %>
-	    <p><%= link_to('New Floor', new_library_floor_path(@library)) %></p>
+	    <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@library)) %></h2>
 	  <% end %>
 	
 	  <h2>All Subject Areas</h2>
@@ -36,10 +36,10 @@
 	  <% unless @subject_areas.blank? %>
 	    <%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
 	  <% else %>
-	    <h3>No subject areas yet.</h3>
+	    <h4>No subject areas yet.</h4>
 	  <% end %>
 	  <% if current_user.admin? %>
-	    <p><%= link_to('New Subject Area', new_subject_area_path) %></p>
+	    <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
 	  <% end %>
 	</div>
 </div>

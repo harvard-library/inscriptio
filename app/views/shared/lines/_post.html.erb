@@ -1,5 +1,5 @@
 <div class="post line" id="post-<%= post.id %>">
-  <h3><%= link_to("Post #{post.id}", post) %></h3>
+  <%= link_to("Post #{post.id}", post) %>
   <p>
     created on <%= post.created_at %> <br /><br />
 	<%= post.message %>

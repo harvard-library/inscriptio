@@ -1,5 +1,5 @@
 <div class="reservation line" id="reservation-<%= reservation.id %>">
-<h3><%= link_to("Reservation ID-#{reservation.id}", reservation ) %></h3>
+<%= link_to("Reservation ID-#{reservation.id}", reservation ) %>
   
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>
     <%= link_to('Edit', edit_reservation_path(reservation)) %> |
