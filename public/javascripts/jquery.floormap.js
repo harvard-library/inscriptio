@@ -39,9 +39,11 @@
 						url: window.location.href + '/assets',
 						dataType: 'json',
 						error: function(response) {
-							alert('Error retrieving assets: ' + response.status);
-							if (console.log)
-								console.log(response.responseText);
+              if (response.status != 404) {
+                alert('Error retrieving assets: ' + response.status);
+                if (console.log)
+                  console.log(response.responseText);
+              }
 						},
 						success: function(data) {
 							opts.assets = data;
