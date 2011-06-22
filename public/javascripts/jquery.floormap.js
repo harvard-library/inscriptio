@@ -388,7 +388,7 @@
 				$('#loading').show();
 
 				$.ajax({
-					url: '/reservable_assets/' + asset.id,
+					url: '/reservable_assets/' + asset.id + '/locate',
 					data: {
 						'reservable_asset[x1]': asset.x1,
 						'reservable_asset[y1]': asset.y1,

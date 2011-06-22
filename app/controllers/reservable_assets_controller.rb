@@ -64,22 +64,32 @@ class ReservableAssetsController < ApplicationController
 
   def update
     @reservable_asset = ReservableAsset.find(params[:id])
-    if request.post?
-      @reservable_asset.attributes = params[:reservable_asset]
-    else
-      @reservable_asset.x1 = params[:reservable_asset][:x1]
-      @reservable_asset.y1 = params[:reservable_asset][:y1]
-      @reservable_asset.x2 = params[:reservable_asset][:x2]
-      @reservable_asset.y2 = params[:reservable_asset][:y2]
-    end
+    @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-          if @reservable_asset.save
-            flash[:notice] = %Q|#{@reservable_asset} updated|
-            format.html {render :action => :show}
-          else
-            flash[:error] = 'Could not update that Reservable Asset'
-            format.html {render :action => :new}
-          end
+      if @reservable_asset.save
+        flash[:notice] = %Q|#{@reservable_asset} updated|
+        format.html {render :action => :show}
+      else
+        flash[:error] = 'Could not update that Reservable Asset'
+        format.html {render :action => :new}
+      end
+    end
+  end
+
+  def locate
+    @reservable_asset = ReservableAsset.find(params[:id])
+    @reservable_asset.x1 = params[:reservable_asset][:x1]
+    @reservable_asset.y1 = params[:reservable_asset][:y1]
+    @reservable_asset.x2 = params[:reservable_asset][:x2]
+    @reservable_asset.y2 = params[:reservable_asset][:y2]
+    respond_to do|format|
+      if @reservable_asset.save
+        flash[:notice] = %Q|#{@reservable_asset} updated|
+        format.html {render :action => :show}
+      else
+        flash[:error] = 'Could not update that Reservable Asset'
+        format.html {render :action => :new}
+      end
     end
   end
 end
