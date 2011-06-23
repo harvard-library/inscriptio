@@ -1,5 +1,5 @@
 <div class="user_types collection-list">
-  <h1>User Types</h1>
+  <% content_for :header do %>User Types<% end %>
   <div id="content-right">
   <% unless @user_types.blank? %>
 	<%= render :partial => 'shared/lines/user_type', :collection => @user_types %>

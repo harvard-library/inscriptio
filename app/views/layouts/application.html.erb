@@ -26,6 +26,14 @@
     </div>
 
     <div id="container">
+      <h1 id="content-header">
+        <% if :header %>
+         <%= yield :header %>
+        <% else %>
+          Inscriptio
+        <% end %>
+      </h1>
+
       <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>
       <% end %>

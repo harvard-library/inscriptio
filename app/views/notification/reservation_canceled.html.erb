@@ -1,4 +1,4 @@
-<h1>Your reservation for <%= @reservation.reservable_asset.reservable_asset_type.name %></h1>
+<% content_for :header do %>Your reservation for <%= @reservation.reservable_asset.reservable_asset_type.name %><% end %>
     <p>
       Your reservation request has been canceled.
     </p>

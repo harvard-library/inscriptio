@@ -1,6 +1,6 @@
 <div class="floor show-object" id="floor-details-<%= @floor.id %>">
   	<div id="heading">
-      <h1><%= @floor %> in <%= link_to @floor.library.name, @floor.library %></h1>
+      <% content_for :header do %><%= @floor %> in <%= link_to @floor.library.name, @floor.library %><% end %>
 	</div>
 	
 	<div id="content-left">

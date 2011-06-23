@@ -1,5 +1,5 @@
 <div class="moderator_flag show-object">
-  <h1>Flag for <%= @moderator_flag.post.id %></h1>
+  <% content_for :header do %>Flag for <%= @moderator_flag.post.id %><% end %>
   <dl>
     <dt>Flagged By:</dt>
     <dd><%= @moderator_flag.user.email %></dd>

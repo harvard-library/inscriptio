@@ -1,7 +1,5 @@
 <div class="reservable_asset_type show-object">
-  	<div id="heading">
-      <h1><%= @reservable_asset_type.name %> in <%= link_to @reservable_asset_type.library.name, @reservable_asset_type.library %></h1>
-	</div>
+      <% content_for :header do %><%= @reservable_asset_type.name %> in <%= link_to @reservable_asset_type.library.name, @reservable_asset_type.library %><% end %>
   <dl>
     <dt>Minimum Reservation Time:</dt>
     <dd><%= @reservable_asset_type.min_reservation_time %></dd>

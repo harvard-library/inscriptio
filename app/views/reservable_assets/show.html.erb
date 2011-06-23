@@ -1,5 +1,5 @@
   	<div id="heading">
-      <h1><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %></h1>
+      <% content_for :header do %><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %><% end %>
 	</div>
   <div id="content-right">
 <div class="reservable_asset show-object">

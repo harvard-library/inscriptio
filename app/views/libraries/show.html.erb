@@ -1,6 +1,6 @@
 <div class="library-details" id="library-details-<%= @library.id %>">
   	<div id="heading">
-      <h1><%= link_to(@library.name, @library.url, :class=> 'external_link', :target => "_blank" ) %></h1>
+      <% content_for :header do %><%= link_to(@library.name, @library.url, :class=> 'external_link', :target => "_blank" ) %><% end %>
 	</div>
 	
 	<div id="content-left">

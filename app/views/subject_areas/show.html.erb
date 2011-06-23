@@ -1,5 +1,5 @@
 <div class="subject_area show-object">
-  <h1><%= @subject_area.name %></h1>
+  <% content_for :header do %><%= @subject_area.name %><% end %>
   <dl>
 	<dt>Long Name:</dt>
   	<dd><%= @subject_area.long_name %></dd>

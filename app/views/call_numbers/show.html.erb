@@ -1,5 +1,5 @@
 <div class="call_number show-object">
-  <h1><%= @call_number %></h1>
+  <% content_for :header do %><%= @call_number %><% end %>
   <dl>
 	<dt>Long Name:</dt>
     <dd><%= @call_number.long_name %></dd>

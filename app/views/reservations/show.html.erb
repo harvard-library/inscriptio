@@ -1,6 +1,6 @@
 <div class="reservation show-object">
   	<div id="heading">
-      <h1><%= @reservation.reservable_asset.reservable_asset_type.name %> on <%= link_to @reservation.reservable_asset.floor.name, library_floor_path(@reservation.reservable_asset.floor.library,@reservation.reservable_asset.floor) %></h1>
+      <% content_for :header do %><%= @reservation.reservable_asset.reservable_asset_type.name %> on <%= link_to @reservation.reservable_asset.floor.name, library_floor_path(@reservation.reservable_asset.floor.library,@reservation.reservable_asset.floor) %><% end %>
 	</div>
   <dl>
 	<dt><%= @reservation.reservable_asset.reservable_asset_type.name %> Name:</dt>

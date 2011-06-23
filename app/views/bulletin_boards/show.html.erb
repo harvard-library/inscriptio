@@ -1,5 +1,5 @@
 <div class="bulletin_board show-object">
-  <h1>Bulletin Board for <%= @bulletin_board.reservable_asset.name %></h1>
+  <% content_for :header do %>Bulletin Board for <%= @bulletin_board.reservable_asset.name %><% end %>
 
   <p>Post Lifetime: <%= @bulletin_board.post_lifetime %></p>
 

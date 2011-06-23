@@ -1,5 +1,5 @@
 <div class="post show-object">
-  <h1>Post for <%= @post.bulletin_board.reservable_asset.name %></h1>
+  <% content_for :header do %>Post for <%= @post.bulletin_board.reservable_asset.name %><% end %>
   <dl>
     <dt>Posted By:</dt>
     <dd><%= @post.user.email %></dd>

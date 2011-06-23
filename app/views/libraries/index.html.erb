@@ -1,5 +1,5 @@
 <div class="libraries collection-list">
-  <h1>Libraries</h1>
+  <% content_for :header do %>Libraries<% end %>
 <div id="content-right">
   <% unless @libraries.blank? %>
     <%= render :partial => 'shared/lines/library', :collection => @libraries %>

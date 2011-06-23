@@ -1,5 +1,5 @@
 <div class="users collection-list">
-  <h1>Users</h1>
+  <% content_for :header do %>Users<% end %>
   <div id="content-right">
   <% unless @users.blank? %>
 	<%= render :partial => 'shared/lines/user', :collection => @users %>
