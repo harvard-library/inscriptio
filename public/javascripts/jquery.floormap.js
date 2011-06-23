@@ -80,16 +80,22 @@
 						'<label for="overlayId" id="overlayIdLabel">Asset: </label>' + 
 						'<select id="overlayId"></select>' + 
 						'<br />' + 
-						'<button id="moveLeft">&#9664</button>' + 
-						'<button id="narrow">-</button>' + 
-						'<button id="widen">+</button>' + 
-						'<button id="moveRight">&#9654</button>' + 
-						'<br />' + 
-						'<button id="moveDown">&#9660</button>' + 
-						'<button id="shorten">-</button>' + 
-						'<button id="heighten">+</button>' + 
-						'<button id="moveUp">&#9650</button>' + 
-						'<br />' + 
+            '<div id="movers">' +
+              '<button class="nudger" id="moveUp" title="w">&#9650</button>' + 
+              '<br />' + 
+              '<button class="nudger" id="moveLeft" title="a">&#9664</button>' + 
+              '<button class="nudger" id="moveRight" title="d">&#9654</button>' + 
+              '<br />' +
+              '<button class="nudger" id="moveDown" title="s">&#9660</button>' + 
+            '</div>' + 
+						'<div id="sizers">' + 
+              '<button class="nudger" id="shorten" title="i">-</button>' + 
+              '<br />' +
+              '<button class="nudger" id="narrow" title="j">-</button>' + 
+              '<button class="nudger" id="widen" title="l">+</button>' + 
+              '<br />' +
+              '<button class="nudger" id="heighten" title="k">+</button>' + 
+						'</div>' + 
 						'<button id="removeOverlay">Remove</button>' + 
 						'<button id="applyOverlay">Apply</button>' + 
 						'<button id="closeTooltip">Close</button>' + 
@@ -150,6 +156,18 @@
 							break;
 						case 115:
 							$('#moveDown').click();
+							break;
+						case 105:
+							$('#shorten').click();
+							break;
+						case 107:
+							$('#heighten').click();
+							break;
+						case 106:
+							$('#narrow').click();
+							break;
+						case 108:
+							$('#widen').click();
 					}
 				});
 
