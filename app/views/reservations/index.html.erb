@@ -1,6 +1,5 @@
 <% content_for :header do %>Reservations<% end %>
 <div class="reservations collection-list">
-  <div id="content-right">
   <% unless @reservations.blank? %>
     <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
   <% else %>
@@ -10,5 +9,4 @@
   <% if current_user.admin? %>
     <h2 class="action-button"><%= link_to('New Reservation', new_reservation_path) %></h2>
   <% end %>
-</div>
 </div>

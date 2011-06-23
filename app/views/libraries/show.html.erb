@@ -1,45 +1,41 @@
-<div class="library-details" id="library-details-<%= @library.id %>">
-  	<div id="heading">
-      <% content_for :header do %><%= link_to(@library.name, @library.url, :class=> 'external_link', :target => "_blank" ) %><% end %>
-	</div>
-	
-	<div id="content-left">
-	  <h4 class="collapsable description">About</h2>
-	  <div class="description description-target">
-	    <%= @library.description %>
-	  </div>
-	
-	  <h4 class="collapsable address">Address</h2>
-	  <div class="address-target vcard">
-	    <%= render :partial => 'shared/microformats/adr', :object => @library %>
-	  </div>
-	
-	  <h4 class="collapsable contact_info">Contact</h2>
-	  <div class="contact_info contact_info-target">
-	    <%= @library.contact_info %>
-	  </div>
-	</div>
-	
-	<div id="content-right">  
-	  <h2>Floors</h2>
-	  <% unless @library.floors.blank? %>
-	    <%= render :partial => 'shared/lines/floor', :collection => @library.floors %>
-	  <% else %>
-	    <h4>No floors yet.</h4>
-	  <% end %>
-	  <% if current_user.admin? %>
-	    <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@library)) %></h2>
-	  <% end %>
-	
-	  <h2>All Subject Areas</h2>
-	  
-	  <% unless @subject_areas.blank? %>
-	    <%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
-	  <% else %>
-	    <h4>No subject areas yet.</h4>
-	  <% end %>
-	  <% if current_user.admin? %>
-	    <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
-	  <% end %>
-	</div>
-</div>
+<!-- <div class="library-details" id="library-details-<%= @library.id %>"> -->
+<% content_for :header do %><%= link_to(@library.name, @library.url, :class=> 'external_link', :target => "_blank" ) %><% end %>
+
+<% content_for :content_left do %>
+  <h4 class="collapsable description">About</h2>
+  <div class="description description-target">
+    <%= @library.description %>
+  </div>
+
+  <h4 class="collapsable address">Address</h2>
+  <div class="address-target vcard">
+    <%= render :partial => 'shared/microformats/adr', :object => @library %>
+  </div>
+
+  <h4 class="collapsable contact_info">Contact</h2>
+  <div class="contact_info contact_info-target">
+    <%= @library.contact_info %>
+  </div>
+<% end %>
+
+<h2>Floors</h2>
+<% unless @library.floors.blank? %>
+  <%= render :partial => 'shared/lines/floor', :collection => @library.floors %>
+<% else %>
+  <h4>No floors yet.</h4>
+<% end %>
+<% if current_user.admin? %>
+  <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@library)) %></h2>
+<% end %>
+
+<h2>All Subject Areas</h2>
+
+<% unless @subject_areas.blank? %>
+  <%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
+<% else %>
+  <h4>No subject areas yet.</h4>
+<% end %>
+<% if current_user.admin? %>
+  <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
+<% end %>
+<!-- </div> -->

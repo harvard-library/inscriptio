@@ -1,6 +1,5 @@
+<% content_for :header do %>Reservation Expiration Notices<% end %>
 <div class="reservation_expiration_notices collection-list">
-  <% content_for :header do %>Reservation Expiration Notices<% end %>
-  <div id="content-right">
   <% unless @reservation_expiration_notices.blank? %>
 	<%= render :partial => 'shared/lines/reservation_expiration_notice', :collection => @reservation_expiration_notices %>
   <% else %>
@@ -9,5 +8,4 @@
   <% if current_user.admin? %>
     <h2 class="action-button"><%= link_to('New Reservation Expiration Notice', new_reservation_expiration_notice_path) %></h2>
   <% end %>
-</div>
 </div>

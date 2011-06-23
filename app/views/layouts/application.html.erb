@@ -22,12 +22,11 @@
           <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
         <% end %>
       </div>
-      <!-- <h1>Sample Page Heading</h1> -->
     </div>
 
     <div id="container">
       <h1 id="content-header">
-        <% if :header %>
+        <% if content_for? :header %>
          <%= yield :header %>
         <% else %>
           Inscriptio
@@ -46,8 +45,19 @@
         <div class="error"><%= flash[:error] %></div>
       <% end %>
 
-      <%= yield %>
-      <div style="clear:both;"></div>
+      <div id="content-left">
+        <% if content_for? :content_left %>
+          <%= yield :content_left %>
+        <% else %>
+          <div>This area will have nav elements</div>
+        <% end %>
+      </div>
+
+      <div id="content-right">
+        <%= yield %>
+      </div>
+
+      <div class="clear"></div>
     </div>
     
     <div id="global-links">

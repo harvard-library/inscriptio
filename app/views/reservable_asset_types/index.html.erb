@@ -1,6 +1,5 @@
+<% content_for :header do %>Reservable Asset Types<% end %>
 <div class="reservable_asset_types collection-list">
-  <% content_for :header do %>Reservable Asset Types<% end %>
-  <div id="content-right">
   <% unless @reservable_asset_types.blank? %>
     <%= render :partial => 'shared/lines/reservable_asset_type', :collection => @reservable_asset_types %>
   <% else %>
@@ -9,6 +8,5 @@
   <% if current_user.admin? %>
     <h2 class="action-button"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
   <% end %>
-</div>
 </div>
 

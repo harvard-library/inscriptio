@@ -1,75 +1,69 @@
-<div class="floor show-object" id="floor-details-<%= @floor.id %>">
-  	<div id="heading">
-      <% content_for :header do %><%= @floor %> in <%= link_to @floor.library.name, @floor.library %><% end %>
-	</div>
+<!-- <div class="floor show-object" id="floor-details-<%= @floor.id %>"> -->
+<% content_for :header do %><%= @floor %> in <%= link_to @floor.library.name, @floor.library %><% end %>
 	
-	<div id="content-left">
-      <h4 class="collapsable description">Assets</h4>
-      <ul class="navlist description description-target">
-        <% unless @floor.reservable_assets.blank? %>
-        <%= render :partial => 'shared/lines/reservable_asset', :collection => @floor.reservable_assets %>
-        <% else %>
-          <li>No reservable assets yet.</li>
-        <% end %>
-        <% if current_user.admin? %>
-          <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path) %></h2>
-        <% end %>
-      </ul>
-      
-      <h4 class="collapsable description">Subject Areas</h4>
-      <ul class="navlist description description-target">
-        <% unless @floor.subject_areas.blank? %>
-          <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
-        <% else %>
-          <li>No subject areas yet.</li>
-        <% end %>
-        <% if current_user.admin? %>
-          <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
-        <% end %>
-      </ul>
-    
-      <h4 class="collapsable description">Call Numbers</h4>
-      <ul class="navlist description description-target">
-        <% unless @floor.call_numbers.blank? %>
-          <%= render :partial => 'shared/lines/call_number', :collection => @floor.call_numbers %>
-        <% else %>
-          <li>No call numbers yet.</li>
-        <% end %>
-        <% if current_user.admin? %>
-          <h2 class="action-button"><%= link_to('New Call Number', new_call_number_path) %></h2>
-        <% end %>
-      </ul>
-    
-      <h4 class="collapsable description">All <%= @floor.library %> Floors</h4>
-      <ul class="navlist description description-target">
-        <% unless @floor.library.floors.blank? %>
-          <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
-        <% else %>
-          <li>No floors yet.</li>
-        <% end %>
-        <% if current_user.admin? %>
-          <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
-        <% end %>
-      </ul>
+<% content_for :content_left do %>
+  <h4 class="collapsable description">Assets</h4>
+  <ul class="navlist description description-target">
+    <% unless @floor.reservable_assets.blank? %>
+    <%= render :partial => 'shared/lines/reservable_asset', :collection => @floor.reservable_assets %>
+    <% else %>
+      <li class="empty">No reservable assets yet.</li>
+    <% end %>
+    <% if current_user.admin? %>
+      <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path) %></h2>
+    <% end %>
+  </ul>
+  
+  <h4 class="collapsable description">Subject Areas</h4>
+  <ul class="navlist description description-target">
+    <% unless @floor.subject_areas.blank? %>
+      <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
+    <% else %>
+      <li class="empty">No subject areas yet.</li>
+    <% end %>
+    <% if current_user.admin? %>
+      <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
+    <% end %>
+  </ul>
 
-    </ul>
-	</div>
+  <h4 class="collapsable description">Call Numbers</h4>
+  <ul class="navlist description description-target">
+    <% unless @floor.call_numbers.blank? %>
+      <%= render :partial => 'shared/lines/call_number', :collection => @floor.call_numbers %>
+    <% else %>
+      <li class="empty">No call numbers yet.</li>
+    <% end %>
+    <% if current_user.admin? %>
+      <h2 class="action-button"><%= link_to('New Call Number', new_call_number_path) %></h2>
+    <% end %>
+  </ul>
+
+  <h4 class="collapsable description">All <%= @floor.library %> Floors</h4>
+  <ul class="navlist description description-target">
+    <% unless @floor.library.floors.blank? %>
+      <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
+    <% else %>
+      <li class="empty">No floors yet.</li>
+    <% end %>
+    <% if current_user.admin? %>
+      <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
+    <% end %>
+  </ul>
+<% end %>
 	
-	<div id="content-right">  
-	  <h2>Map</h2>
-	  <% unless @floor.floor_map.blank? %>
-	<%= javascript_include_tag('excanvas.compiled') %>
-	<%= javascript_include_tag('jquery.drag.min') %>
-	<%= javascript_include_tag('jquery.bt') %>
-	<%= javascript_include_tag('jquery.floormap') %>
-	<%= stylesheet_link_tag 'floormap' %>
-	<% if current_user.admin? %>
-		<%= javascript_include_tag('floormap.admin') %>
-	<% else %>
-		<%= javascript_include_tag('floormap') %>
-		<%= stylesheet_link_tag('floormap-user') %>
-	<% end %>
-	<%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
-      <% end %>
-	</div>
-</div>
+<h2>Map</h2>
+<% unless @floor.floor_map.blank? %>
+  <%= javascript_include_tag('excanvas.compiled') %>
+  <%= javascript_include_tag('jquery.drag.min') %>
+  <%= javascript_include_tag('jquery.bt') %>
+  <%= javascript_include_tag('jquery.floormap') %>
+  <%= stylesheet_link_tag 'floormap' %>
+  <% if current_user.admin? %>
+    <%= javascript_include_tag('floormap.admin') %>
+  <% else %>
+    <%= javascript_include_tag('floormap') %>
+    <%= stylesheet_link_tag('floormap-user') %>
+  <% end %>
+  <%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
+<% end %>
+<!-- </div> -->

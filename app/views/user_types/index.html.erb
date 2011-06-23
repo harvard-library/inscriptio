@@ -1,6 +1,5 @@
+<% content_for :header do %>User Types<% end %>
 <div class="user_types collection-list">
-  <% content_for :header do %>User Types<% end %>
-  <div id="content-right">
   <% unless @user_types.blank? %>
 	<%= render :partial => 'shared/lines/user_type', :collection => @user_types %>
   <% else %>
@@ -9,6 +8,5 @@
   <% if current_user.admin? %>
     <h2 class="action-button"><%= link_to('New User Type', new_user_type_path) %></h2>
   <% end %>
-</div>
 </div>
 

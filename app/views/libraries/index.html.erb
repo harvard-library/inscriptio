@@ -1,6 +1,6 @@
+<% content_for :header do %>Libraries<% end %>
+
 <div class="libraries collection-list">
-  <% content_for :header do %>Libraries<% end %>
-<div id="content-right">
   <% unless @libraries.blank? %>
     <%= render :partial => 'shared/lines/library', :collection => @libraries %>
   <% else %>
@@ -9,5 +9,4 @@
   <% if current_user.admin? %>
     <h2 class="action-button"><%= link_to('New Library', new_library_path) %></h2>
   <% end %>
-</div>
 </div>

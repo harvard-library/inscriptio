@@ -1,10 +1,9 @@
+<% content_for :header do %>Users<% end %>
+
 <div class="users collection-list">
-  <% content_for :header do %>Users<% end %>
-  <div id="content-right">
   <% unless @users.blank? %>
 	<%= render :partial => 'shared/lines/user', :collection => @users %>
   <% else %>
 	<h2>No users yet.</h2>
   <% end %>
-</div>
 </div>

@@ -1,46 +1,43 @@
-  	<div id="heading">
-      <% content_for :header do %><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %><% end %>
-	</div>
-  <div id="content-right">
+<% content_for :header do %><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %><% end %>
+
 <div class="reservable_asset show-object">
   <dl>
-	<dt>Name:</dt>
-    <dd><%= @reservable_asset.name %></dd>
-	<dt>Description:</dt>
-    <dd><%= @reservable_asset.description %></dd>
-    <dt>Minimum Reservation Time:</dt>
-    <dd><%= @reservable_asset.min_reservation_time %></dd>
-	<dt>Maximum Reservation Time:</dt>
-    <dd><%= @reservable_asset.max_reservation_time %></dd>
-	<dt>Maximum Concurrent Users:</dt>
-    <dd><%= @reservable_asset.max_concurrent_users %></dd>
-	<dt>Reservation Time Increment:</dt>
-    <dd><%= @reservable_asset.reservation_time_increment %></dd>
-	<dt>Seats Available:</dt>
-    <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.length %></dd>
+    <dt>Name:</dt>
+      <dd><%= @reservable_asset.name %></dd>
+    <dt>Description:</dt>
+      <dd><%= @reservable_asset.description %></dd>
+      <dt>Minimum Reservation Time:</dt>
+      <dd><%= @reservable_asset.min_reservation_time %></dd>
+    <dt>Maximum Reservation Time:</dt>
+      <dd><%= @reservable_asset.max_reservation_time %></dd>
+    <dt>Maximum Concurrent Users:</dt>
+      <dd><%= @reservable_asset.max_concurrent_users %></dd>
+    <dt>Reservation Time Increment:</dt>
+      <dd><%= @reservable_asset.reservation_time_increment %></dd>
+    <dt>Seats Available:</dt>
+      <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.length %></dd>
   </dl>
 	
-	<% unless @reservable_asset.photo.blank? %>
-      <h2>Photo</h2>
-	  <%= image_tag(@reservable_asset.photo.url) %>
+  <% unless @reservable_asset.photo.blank? %>
+    <h2>Photo</h2>
+    <%= image_tag(@reservable_asset.photo.url) %>
+  <% end %>
+
+  <% if @reservable_asset.allow_reservation?(current_user) %>
+    <h2 class="action-button"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <h2>Current Reservations</h2>
+    <% unless @reservable_asset.reservations.blank? %>
+      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations %>
+    <% else %>
+      <h2>No reservations for this asset yet.</h2>
     <% end %>
-  </div>
 
-<% if @reservable_asset.allow_reservation?(current_user) %>
-  <h2 class="action-button"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
-<% end %>
-
-<% if current_user.admin? %>
-  <h2>Current Reservations</h2>
-  <% unless @reservable_asset.reservations.blank? %>
-    <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations %>
-  <% else %>
-    <h2>No reservations for this asset yet.</h2>
+    <% unless @reservable_asset.bulletin_board.nil? %>
+      <h2>Bulletin Board</h2>
+      <%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %>
+    <% end %>
   <% end %>
-
-  <% unless @reservable_asset.bulletin_board.nil? %>
-    <h2>Bulletin Board</h2>
-    <%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %>
-  <% end %>
-<% end %>
 </div>
