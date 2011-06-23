@@ -28,7 +28,7 @@ h1 {
 	width: 100%;
 }
 
-#heading a {
+#content-header a {
   color: #ffffff;
 }
 
@@ -40,6 +40,15 @@ h2 {
 p {
 	line-height: 20px;
 	margin-top: 5px;	
+}
+
+dt {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 20px;
 }
 
 .clear {
@@ -99,16 +108,27 @@ p {
   margin-top: 15px;
 	padding: 15px 0px;
 	width: 210px;	
+  overflow: hidden;
 }
 
 #content-left > h4:first-child {
   padding-top: 0px;
 }
 
+#content-left > div {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 #content-left ul {
 	list-style-type: none;
 	margin: 0px;
 	padding-left: 0px;
+}
+
+#content-left .empty {
+  padding: 10px 0px;
+  text-align: center;
 }
 
 ul.navlist {
@@ -173,6 +193,21 @@ ul.navlist {
 
 
 /* Body */
+
+.notice, .alert, .error {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.error {
+  color: red;
+}
+
+.alert {
+  /*color: #4e84c4;*/
+}
 
 #content-right {
 	margin: 15px 0px 0px 240px;
