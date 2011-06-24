@@ -191,6 +191,10 @@ ul.navlist {
 	background-color: none;
 }
 
+#content-left .collapsable {
+  cursor: pointer;
+}
+
 
 /* Body */
 
@@ -213,7 +217,6 @@ ul.navlist {
 	margin: 15px 0px 0px 240px;
 	width: 1075px;
 }	
-	
 
 h2.action-button {
 	background: url(/images/background_button.png) #a51c30 center center no-repeat;
