@@ -36,3 +36,24 @@
   text-align: center;
   vertical-align: middle;
 }
+#tooltipTools .nudger {
+  width: 25px;
+  height: 25px;
+  padding: 0px;
+}
+
+#movers, #sizers {
+  text-align: center;
+  width: 95px;
+  padding: 0px;
+  margin: 10px 0px;
+  display: inline-block;
+}
+
+#moveLeft, #narrow {
+  margin-right: 12.5px;
+}
+
+#moveRight, #widen {
+  margin-left: 12.5px;
+}
