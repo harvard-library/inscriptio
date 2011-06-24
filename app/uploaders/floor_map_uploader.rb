@@ -29,7 +29,7 @@ class FloorMapUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
-  process :resize_to_fit => [1024, 768]
+  process :resize_to_fit => [710, 768]
   
   # Create different versions of your uploaded files:
   #version :thumb do

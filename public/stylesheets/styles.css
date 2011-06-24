@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 body {
-	background: url(/images/background_1366.png) #8c8179 repeat-y top center;
+	background: url(/images/background.png) #8c8179 repeat-y top center;
 	color: #333333;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
@@ -68,7 +68,7 @@ dd {
 #header {
 	background-color: #ffffff;
 	margin: 0px auto;
-	width: 1330px;
+	width: 960px;
 }
 
 #logo {
@@ -91,7 +91,7 @@ dd {
 
 #container {
 	margin: 0px auto 0px;
-	width: 1330px;
+	width: 960px;
 }
 
 #utility {
@@ -246,7 +246,7 @@ h2.action-button a:hover {
 	display: block;
 	margin: 30px auto 0px;
 	text-align: center;
-	width: 1330px;
+	width: 960px;
 	padding: 0px;
 }
 
@@ -278,7 +278,7 @@ h2.action-button a:hover {
 	clear: both;
 	margin: 0px auto 15px;
 	padding: 10px 0px 0px;
-	width: 1330px;
+	width: 960px;
 }
 
 #footer p {
