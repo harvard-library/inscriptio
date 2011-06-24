@@ -107,12 +107,26 @@
 		/**** Bind all the event handlers ****/
 		/* This just broken out for clarity */
 		bindEventHandlers: function() {
-			/* These are all the tooltip buttons */
 
 			$('#closeTooltip').live('click.floormap', function() {
 				$(opts.activeOverlaySelector).btOff();
 			});
 
+			/* Make sure the overlays stay in place when the window is resized */
+			$(window).resize(function() {
+				console.log(opts.origin);
+				opts.origin = $(opts.containerSelector).offset();
+				console.log(opts.origin);
+				$('.' + opts.overlayClass).each(function() {
+					$(this).css({
+						top: $(this).data('y1') + opts.origin.top,
+						left: $(this).data('x1') + opts.origin.left
+					});
+				});
+			});
+
+
+			/* These are all the event handlers specific to the admin stuff */
 			if (opts.admin) {
 				$('#removeOverlay').live('click.floormap', function() {
 					overlays.destroy();
@@ -169,17 +183,6 @@
 						case 108:
 							$('#widen').click();
 					}
-				});
-
-				/* Make sure the overlays stay in place when the window is resized */
-				$(window).resize(function() {
-					opts.origin = $(opts.containerSelector).offset();
-					$('.' + opts.overlayClass).each(function() {
-						$(this).css({
-							top: $(this).data('y1') + opts.origin.top,
-							left: $(this).data('x1') + opts.origin.left
-						});
-					});
 				});
 
 
@@ -436,11 +439,14 @@
 				$('#tooltipTools').hide();
 				$('#loading').show();
 				$.ajax({
-					url: '/reservable_assets/' + overlay.data('assignedAssetId') + '/edit',
+					url: '/reservable_assets/' + overlay.data('assignedAssetId') + '/locate',
+					data: {
+						'reservable_asset[x1]': null,
+						'reservable_asset[y1]': null,
+						'reservable_asset[x2]': null,
+						'reservable_asset[y2]': null
+					},
 					success: function(data) {
-						$('.bt-content').append(data);
-						$('#reservable_asset_x1, #reservable_asset_y1, #reservable_asset_x2 #reservable_asset_y2').val('');
-						$('#edit_reservable_asset_' + overlay.data('assignedAssetId')).submit();
 						overlay.btOff().remove();
 						$('#loading').hide();
 						$('#tooltipTools').show();
