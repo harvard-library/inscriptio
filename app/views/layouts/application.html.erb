@@ -21,12 +21,10 @@
         <% else %>
           <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
         <% end %>
-      </div>
-
-	  <div id="search">
+		<br /><br />
 		<% form_tag search_index_path, :method => 'get' do %>
-		    <%= text_field_tag :search, params[:search] %><br />
-		    <%= submit_tag "Search", :name => nil %>
+		  <%= text_field_tag :search, params[:search] %>
+		  <%= submit_tag "Search", :name => nil %>
 		<% end %>
       </div>
     </div>
