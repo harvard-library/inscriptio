@@ -1,13 +1,28 @@
 <li class="floor line" id="floor-<%= floor.id %>">
-  <%= link_to(floor.name, library_floor_path(@library,floor) ) %>
+  <% unless @library.nil? %>
+    <%= link_to(floor.name, library_floor_path(@library,floor) ) %>
+
+	<% if current_user.admin? %>
+	  <ul class="actions">
+	    <li><%= link_to('Move Up', move_higher_library_floor_path(@library,floor), :method => :post, :id => "move_up-#{floor.id}") %></li>
+	    <li><%= link_to('Move Down', move_lower_library_floor_path(@library,floor), :method => :post, :id => "move_down-#{floor.id}") %></li>
+	    <li><%= link_to('Edit', edit_library_floor_path(@library,floor)) %></li>
+	    <li><%= link_to('Delete', library_floor_path(@library,floor), :method => :delete, :id => "delete-#{floor.id}") %></li>
+	  </ul>
+	<% end %>
+  <% else %>
+	<%= link_to(floor.name, library_floor_path(floor.library,floor) ) %>
+	
+	<% if current_user.admin? %>
+	  <ul class="actions">
+	    <li><%= link_to('Move Up', move_higher_library_floor_path(floor.library,floor), :method => :post, :id => "move_up-#{floor.id}") %></li>
+	    <li><%= link_to('Move Down', move_lower_library_floor_path(floor.library,floor), :method => :post, :id => "move_down-#{floor.id}") %></li>
+	    <li><%= link_to('Edit', edit_library_floor_path(floor.library,floor)) %></li>
+	    <li><%= link_to('Delete', library_floor_path(floor.library,floor), :method => :delete, :id => "delete-#{floor.id}") %></li>
+	  </ul>
+	<% end %>
+  <% end %>	
   
-  <% if current_user.admin? %>
-    <ul class="actions">
-      <li><%= link_to('Move Up', move_higher_library_floor_path(@library,floor), :method => :post, :id => "move_up-#{floor.id}") %></li>
-      <li><%= link_to('Move Down', move_lower_library_floor_path(@library,floor), :method => :post, :id => "move_down-#{floor.id}") %></li>
-      <li><%= link_to('Edit', edit_library_floor_path(@library,floor)) %></li>
-      <li><%= link_to('Delete', library_floor_path(@library,floor), :method => :delete, :id => "delete-#{floor.id}") %></li>
-    </ul>
-  <% end %>
+  
   
 </li>

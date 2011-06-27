@@ -14,6 +14,8 @@ Inscriptio::Application.routes.draw do
   resources :user_types
 
   resources :reservations
+  
+  resources :search
 
   resources :reservable_assets do
     member do

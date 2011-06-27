@@ -1,0 +1,27 @@
+<% content_for :header do %>Search Results<% end %>
+<div class="search collection-list">
+  <% unless @libraries.blank? %>
+	<h2>Libraries</h2>
+	<%= render :partial => 'shared/lines/library', :collection => @libraries %>
+  <% end %>
+
+  <% unless @floors.blank? %>
+	<h2>Floors</h2>
+	<%= render :partial => 'shared/lines/floor', :collection => @floors %>
+  <% end %>
+
+  <% unless @subject_areas.blank? %>
+	<h2>Subject Areas</h2>
+	<%= render :partial => 'shared/lines/subject_area', :collection => @subject_areas %>
+  <% end %>
+
+  <% unless @call_numbers.blank? %>
+	<h2>Call Numbers</h2>
+	<%= render :partial => 'shared/lines/call_number', :collection => @call_numbers %>
+  <% end %>
+
+  <% unless @reservable_assets.blank? %>
+	<h2>Reservable Assets</h2>
+	<%= render :partial => 'shared/lines/reservable_asset', :collection => @reservable_assets %>
+  <% end %>  
+</div>
