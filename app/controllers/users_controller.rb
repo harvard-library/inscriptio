@@ -22,10 +22,10 @@ class UsersController < ApplicationController
     @user.attributes = params[:user]
     respond_to do|format|
       if @user.save
-        flash[:notice] = 'Added that User Type'
+        flash[:notice] = 'Added that User'
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = 'Could not add that User Type'
+        flash[:error] = 'Could not add that User'
         format.html {render :action => :new}
       end
     end

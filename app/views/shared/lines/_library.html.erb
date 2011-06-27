@@ -1,8 +1,11 @@
 <li class="library line" id="library-<%= library.id %>">
   <%= link_to library, library %>
-
+  
+    
   <% if current_user.try(:admin?) %>
-    <%= link_to 'Edit', edit_library_path(library) %> |
-	<%= link_to('Delete', library_path(library), :method => :delete, :id => "delete-#{library.id}") %>
+	<ul class="actions">
+      <li><%= link_to 'Edit', edit_library_path(library) %></li>
+	  <li><%= link_to('Delete', library_path(library), :method => :delete, :id => "delete-#{library.id}") %></li>
+    </ul>
   <% end %>
 </li>
