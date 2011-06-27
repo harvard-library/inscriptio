@@ -23,7 +23,7 @@ class SubjectAreasController < ApplicationController
     respond_to do|format|
       if @subject_area.save
         flash[:notice] = 'Added that Subject Area'
-        format.html {render :action => :index}
+        format.html {redirect_to subject_areas_path}
       else
         flash[:error] = 'Could not add that Subject Area'
         format.html {render :action => :new}

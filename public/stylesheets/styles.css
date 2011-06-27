@@ -99,6 +99,11 @@ dd {
 	margin: 15px 15px 0px 0px;
 }
 
+#search {
+	float: right;
+	margin: 15px 15px 0px 0px;
+}
+
 /* Navigation */
 
 #content-left {
@@ -215,7 +220,7 @@ ul.navlist {
 
 #content-right {
 	margin: 15px 0px 0px 240px;
-	width: 1075px;
+	width: 705px;
 }	
 
 h2.action-button {

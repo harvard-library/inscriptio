@@ -25,4 +25,10 @@ class ReservableAsset < ActiveRecord::Base
   def allow_reservation?(current_user)
     !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length
   end  
+  
+  def self.search(search)
+    if search
+      find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
+    end
+  end
 end

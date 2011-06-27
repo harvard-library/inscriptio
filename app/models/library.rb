@@ -9,4 +9,10 @@ class Library < ActiveRecord::Base
   def to_s
     %Q|#{name}|
   end
+  
+  def self.search(search)
+    if search
+      find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
+    end
+  end
 end
