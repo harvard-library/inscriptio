@@ -21,10 +21,21 @@
     <dd><%= @reservable_asset_type.moderation_held_message %></dd>
 	<dt>Has Bulletin Board:</dt>
     <dd><%= @reservable_asset_type.has_bulletin_board %></dd>
+	<dt>User Types:</dt>
+	<% unless @reservable_asset_type.user_types.blank? %>
+	  <% @reservable_asset_type.user_types.each do |ut| %>
+	    <dd><%= ut.name %></dd>
+	  <% end %>
+	<% end %>
   </dl>
 	
 	<% unless @reservable_asset_type.photo.blank? %>
 	  <h2>Photo</h2>
       <%= image_tag(@reservable_asset_type.photo.url) %>
     <% end %>
+
+	<% if current_user.admin? %>
+	  <%= link_to('Edit', edit_reservable_asset_type_path(@reservable_asset_type)) %> |
+	  <%= link_to('Delete', reservable_asset_type_path(@reservable_asset_type), :method => :delete, :id => "delete-#{@reservable_asset_type.id}") %>
+	<% end %>
 </div>

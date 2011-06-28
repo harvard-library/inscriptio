@@ -34,8 +34,7 @@ class ReservationsController < ApplicationController
     end
     
     @reservation.attributes = params[:reservation]
-    days = @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
-
+    
     respond_to do|format|
       if @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
       

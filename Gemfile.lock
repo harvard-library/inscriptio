@@ -66,6 +66,7 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    fastercsv (1.5.4)
     ffi (1.0.7)
       rake (>= 0.8.7)
     formtastic (1.2.3)
@@ -157,6 +158,7 @@ DEPENDENCIES
   cucumber-rails (= 0.4.0)
   database_cleaner (= 0.6.6)
   devise (= 1.2.1)
+  fastercsv (= 1.5.4)
   formtastic (= 1.2.3)
   jquery-rails (= 0.2.7)
   launchy

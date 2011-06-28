@@ -66,10 +66,11 @@ class FloorsController < ApplicationController
 
   def destroy
     @floor = Floor.find(params[:id])
+    library = @floor.library
     floor_name = @floor.name
     if @floor.destroy
       flash[:notice] = %Q|Deleted floor #{floor_name}|
-      redirect_to :action => :index
+      redirect_to library
     else
 
     end
