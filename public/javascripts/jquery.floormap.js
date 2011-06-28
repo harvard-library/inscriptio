@@ -114,9 +114,7 @@
 
 			/* Make sure the overlays stay in place when the window is resized */
 			$(window).resize(function() {
-				console.log(opts.origin);
 				opts.origin = $(opts.containerSelector).offset();
-				console.log(opts.origin);
 				$('.' + opts.overlayClass).each(function() {
 					$(this).css({
 						top: $(this).data('y1') + opts.origin.top,
