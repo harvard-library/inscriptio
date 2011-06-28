@@ -19,11 +19,19 @@ class ReservableAsset < ActiveRecord::Base
   end
   
   def current_users
-    self.users.where('reservations.end_date > current_date')
-  end  
+    self.users.where('reservations.end_date > current_date') && self.users.where('reservations.approved is true')
+  end 
+  
+  def reservations_pending
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.approved is false')
+  end
+  
+  def reservations_approved
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.approved is true')
+  end 
   
   def allow_reservation?(current_user)
-    (!self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.include?(current_user.user_type)) || current_user.admin
+    !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
   end  
   
   def self.search(search)

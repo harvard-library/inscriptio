@@ -31,8 +31,10 @@
 
   <% if current_user.admin? %>
     <% unless @reservable_asset.reservations.blank? %>
-      <h2>Current Reservations</h2>
-	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations %>
+      <h2>Approved Reservations</h2>
+	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_approved %>
+	  <h2>Pending Reservations</h2>
+	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_pending %>
     <% else %>
       <h2>No reservations for this asset yet.</h2>
     <% end %>
