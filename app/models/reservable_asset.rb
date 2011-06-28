@@ -23,8 +23,6 @@ class ReservableAsset < ActiveRecord::Base
   end  
   
   def allow_reservation?(current_user)
-    p "type"
-    p current_user.user_type
     (!self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.include?(current_user.user_type)) || current_user.admin
   end  
   

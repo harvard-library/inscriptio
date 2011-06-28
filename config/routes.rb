@@ -21,6 +21,10 @@ Inscriptio::Application.routes.draw do
     member do
       get 'locate'
     end
+    collection do
+      post 'import'
+    end
+    
   end
 
   resources :reservable_asset_types
