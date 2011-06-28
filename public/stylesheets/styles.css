@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+html {
+	overflow-y: scroll;
+}
+
 body {
 	background: url(/images/background.png) #8c8179 repeat-y top center;
 	color: #333333;
