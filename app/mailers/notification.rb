@@ -25,4 +25,13 @@ class Notification < ActionMailer::Base
       mail(:to => @post.bulletin_board.users.email,
            :subject => "A New Post to Bulletin Board")
   end
+  
+  def reservation_expiration
+      @expiration_notice = ReservationExpirationNotice.find(:first, :conditions => {:notice_type => "actual"})
+      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date - current_date = ?', @expiration_notice.days_before_expiration.to_i])
+      @reservations.each do |reservation|
+        mail(:to => reservation.user.email,
+             :subject => @expiration_notice.subject)
+      end  
+  end  
 end

@@ -3,8 +3,8 @@
   
   <% if current_user.admin? %>
 	<ul class="actions">
-		<li><%= link_to('Edit', edit_reservable_asset_path(reservable_asset)) %></li>
-    <li><%= link_to('Delete', reservable_asset_path(reservable_asset), :method => :delete, :id => "delete-#{reservable_asset.id}") %></li>
+	  <li><%= link_to('Edit', edit_reservable_asset_path(reservable_asset)) %></li>
+      <li><%= link_to('Delete', reservable_asset_path(reservable_asset), :method => :delete, :id => "delete-#{reservable_asset.id}") %></li>
 	</ul>
   <% end %>
   

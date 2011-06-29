@@ -23,7 +23,7 @@ class ReservationExpirationNoticesController < ApplicationController
     respond_to do|format|
       if @reservation_expiration_notice.save
         flash[:notice] = 'Added that Reservation Expiration Notice'
-        format.html {render :action => :index}
+        format.html {redirect_to :action => :index}
       else
         flash[:error] = 'Could not add that Reservation Expiration Notice'
         format.html {render :action => :new}
