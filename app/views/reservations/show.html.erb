@@ -5,7 +5,9 @@
   <dl>
 	<dt><%= @reservation.reservable_asset.reservable_asset_type.name %> Name:</dt>
     <dd><%= link_to @reservation.reservable_asset.name, reservable_asset_path(@reservation.reservable_asset) %></dd>
-    <dt>Start Date:</dt>
+    <dt>User:</dt>
+    <dd><%= @reservation.user.email %></dd>
+	<dt>Start Date:</dt>
     <dd><%= @reservation.start_date.to_date() %></dd>
 	<dt>End Date:</dt>
     <dd><%= @reservation.end_date.to_date() %></dd>

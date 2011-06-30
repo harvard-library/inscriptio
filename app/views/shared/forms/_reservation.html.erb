@@ -5,7 +5,7 @@
     <% if current_user.admin? %>
       <%= f.input :reservable_asset, :selected => @reservable_asset %>
       <%= f.input :user %>
-      <%= f.input :status %>
+      <%= f.input :status, :include_blank => false %>
     <% else %>
       <%= f.input :reservable_asset_id, :as => :hidden, :value => @reservable_asset %>
 	<% end %>

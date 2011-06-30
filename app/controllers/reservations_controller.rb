@@ -33,6 +33,10 @@ class ReservationsController < ApplicationController
       params[:reservation][:user] = User.find(current_user)
     end
     
+    if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
+      params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+    end  
+    
     @reservation.attributes = params[:reservation]
     
     respond_to do|format|
