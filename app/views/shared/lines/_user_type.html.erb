@@ -2,7 +2,9 @@
   <%= link_to(user_type.name, user_type ) %>
   
   <% if current_user.admin? %>
-    <%= link_to('Edit', edit_user_type_path(user_type)) %> |
-    <%= link_to('Delete', user_type_path(user_type), :method => :delete, :id => "delete-#{user_type.id}") %>
+	<ul class="actions">
+      <li><%= link_to('Edit', edit_user_type_path(user_type)) %></li>
+      <li><%= link_to('Delete', user_type_path(user_type), :method => :delete, :id => "delete-#{user_type.id}") %></li>
+    </ul>
   <% end %>
 </div>

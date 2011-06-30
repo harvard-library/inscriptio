@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :statuses
+
   resources :reservation_expiration_notices
 
   devise_for :users

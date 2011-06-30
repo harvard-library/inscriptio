@@ -67,16 +67,22 @@ class ReservationsController < ApplicationController
 
   def update
     @reservation = Reservation.find(params[:id])
-    approval = @reservation.approved
+    prev_status = @reservation.status
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
     @reservation.attributes = params[:reservation]
+    
     respond_to do|format|
       if @reservation.save
-        if !approval and @reservation.approved
+        new_status = Status.find(params[:reservation][:status_id])
+        if prev_status.name.downcase != "approved" and new_status.name.downcase == "approved"
           Notification.reservation_approved(@reservation).deliver
+        elsif prev_status.name.downcase != "declined" and new_status.name.downcase == "declined"
+          Notification.reservation_declined(@reservation).deliver 
+        elsif prev_status.name.downcase != "waitlist" and new_status.name.downcase == "waitlist"
+          Notification.reservation_waitlist(@reservation).deliver   
         end  
         flash[:notice] = %Q|#{@reservation} updated|
-        format.html {render :action => :show}
+        format.html {redirect_to :action => :show}
       else
         flash[:error] = 'Could not update that Reservation'
         format.html {render :action => :new}

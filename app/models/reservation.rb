@@ -1,6 +1,7 @@
 class Reservation < ActiveRecord::Base
   belongs_to :reservable_asset
   belongs_to :user
+  belongs_to :status
   
   validates_presence_of :user, :reservable_asset
   
@@ -20,4 +21,19 @@ class Reservation < ActiveRecord::Base
       false
     end    
   end  
+  
+  def pending?
+    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+    self.status == pending
+  end
+  
+  def declined?
+    declined = Status.find(:first, :conditions => ["lower(name) = 'declined'"])
+    self.status == declined
+  end
+  
+  def approved?
+    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+    self.status == approved
+  end
 end

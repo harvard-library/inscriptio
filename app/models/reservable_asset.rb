@@ -19,16 +19,29 @@ class ReservableAsset < ActiveRecord::Base
   end
   
   def current_users
-    self.users.where('reservations.end_date > current_date') && self.users.where('reservations.approved is true')
+    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+    self.users.where('reservations.end_date > current_date') && self.users.where('reservations.status_id = ?', approved)
   end 
   
   def reservations_pending
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.approved is false')
+    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', pending)
+  end
+  
+  def reservations_declined
+    declined = Status.find(:first, :conditions => ["lower(name) = 'declined'"])
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', declined)
   end
   
   def reservations_approved
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.approved is true')
+    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', approved)
   end 
+  
+  def reservations_waitlist
+    waitlist = Status.find(:first, :conditions => ["lower(name) = 'waitlist'"])
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', waitlist)
+  end
   
   def allow_reservation?(current_user)
     !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)

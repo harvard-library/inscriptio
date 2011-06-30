@@ -2,8 +2,10 @@
   <%= link_to("Reservation ID-#{reservation.id}", reservation ) %>
   
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>
-    <%= link_to('Edit', edit_reservation_path(reservation)) %> |
-	<%= link_to('Delete', reservation_path(reservation), :method => :delete, :id => "delete-#{reservation.id}") %>
+	<ul class="actions">
+      <li><%= link_to('Edit', edit_reservation_path(reservation)) %></li>
+      <li><%= link_to('Delete', reservation_path(reservation), :method => :delete, :id => "delete-#{reservation.id}") %></li>
+    </ul>	
   <% end %>
   
 </div>

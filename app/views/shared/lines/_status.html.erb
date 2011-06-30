@@ -1,0 +1,10 @@
+<div class="status line" id="status-<%= status.id %>">
+  <%= link_to(status.name, status ) %>
+  
+  <% if current_user.admin? %>
+	<ul class="actions">
+      <li><%= link_to('Edit', edit_status_path(status)) %></li>
+      <li><%= link_to('Delete', status_path(status), :method => :delete, :id => "delete-#{status.id}") %></li>
+    </ul>
+  <% end %>
+</div>

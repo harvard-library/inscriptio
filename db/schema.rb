@@ -10,24 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110615154614) do
-
-  create_table "admins", :force => true do |t|
-    t.string   "email",                             :default => "", :null => false
-    t.string   "encrypted_password", :limit => 128, :default => "", :null => false
-    t.integer  "failed_attempts",                   :default => 0
-    t.string   "unlock_token"
-    t.datetime "locked_at"
-    t.integer  "sign_in_count",                     :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
+ActiveRecord::Schema.define(:version => 20110629205836) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -188,15 +171,21 @@ ActiveRecord::Schema.define(:version => 20110615154614) do
   create_table "reservations", :force => true do |t|
     t.integer  "reservable_asset_id"
     t.integer  "user_id"
+    t.integer  "status_id"
     t.date     "start_date"
     t.date     "end_date"
-    t.boolean  "approved",            :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"
   add_index "reservations", ["user_id"], :name => "index_reservations_on_user_id"
+
+  create_table "statuses", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "subject_areas", :force => true do |t|
     t.string   "name",        :null => false

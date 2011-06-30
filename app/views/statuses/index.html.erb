@@ -1,0 +1,12 @@
+<% content_for :header do %>Statuses<% end %>
+<div class="statuses collection-list">
+  <% unless @statuses.blank? %>
+	<%= render :partial => 'shared/lines/status', :collection => @statuses %>
+  <% else %>
+	<h2>No statuses yet.</h2>
+  <% end %>
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New Status', new_status_path) %></h2>
+  <% end %>
+</div>
+

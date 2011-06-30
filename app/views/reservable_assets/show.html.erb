@@ -35,6 +35,10 @@
 	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_approved %>
 	  <h2>Pending Reservations</h2>
 	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_pending %>
+	  <h2>Declined Reservations</h2>
+	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_declined %>
+	  <h2>Waitlist Reservations</h2>
+	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_waitlist %>
     <% else %>
       <h2>No reservations for this asset yet.</h2>
     <% end %>

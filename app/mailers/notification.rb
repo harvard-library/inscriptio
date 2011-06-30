@@ -13,6 +13,18 @@ class Notification < ActionMailer::Base
            :subject => "Your reservation has been approved.")
   end
   
+  def reservation_declined(reservation)
+      @reservation = reservation
+      mail(:to => @reservation.user.email,
+           :subject => "Your reservation has been declined.")
+  end
+  
+  def reservation_waitlist(reservation)
+      @reservation = reservation
+      mail(:to => @reservation.user.email,
+           :subject => "Your reservation has been waitlisted.")
+  end
+  
   def reservation_canceled(reservation)
       @reservation = reservation
       mail(:to => @reservation.user.email,

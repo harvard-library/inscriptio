@@ -3,9 +3,9 @@ class CreateReservations < ActiveRecord::Migration
     create_table :reservations do |t|
       t.references :reservable_asset
       t.references :user
+      t.references :status
       t.date :start_date
       t.date :end_date
-      t.boolean :approved, :default => false
       t.timestamps
     end
     

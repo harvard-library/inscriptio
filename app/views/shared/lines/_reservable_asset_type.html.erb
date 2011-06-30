@@ -2,7 +2,9 @@
   <%= link_to(reservable_asset_type.name, reservable_asset_type ) %>
   
   <% if current_user.admin? %>
-    <%= link_to('Edit', edit_reservable_asset_type_path(reservable_asset_type)) %> |
-	<%= link_to('Delete', reservable_asset_type_path(reservable_asset_type), :method => :delete, :id => "delete-#{reservable_asset_type.id}") %>
+	<ul class="actions">
+      <li><%= link_to('Edit', edit_reservable_asset_type_path(reservable_asset_type)) %></li>
+      <li><%= link_to('Delete', reservable_asset_type_path(reservable_asset_type), :method => :delete, :id => "delete-#{reservable_asset_type.id}") %></li>
+    </ul>	
   <% end %>
 </div>
