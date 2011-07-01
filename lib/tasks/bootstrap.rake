@@ -20,6 +20,7 @@ namespace :inscriptio do
       end  
     end
     
+    desc "run all tasks in bootstrap"
     task :run_all => [:default_admin, :default_statuses] do
       puts "Created Admin account and Statuses!"
     end
