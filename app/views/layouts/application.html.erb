@@ -50,13 +50,11 @@
         <div class="error"><%= flash[:error] %></div>
       <% end %>
 
-      <div id="content-left">
-        <% if content_for? :content_left %>
+      <% if content_for? :content_left %>
+		<div id="content-left">  
           <%= yield :content_left %>
-        <% else %>
-          <div>This area will have nav elements</div>
-        <% end %>
-      </div>
+	    </div>	
+      <% end %>
 
       <div id="content-right">
         <%= yield %>

@@ -13,15 +13,19 @@
     <dd><%= @reservation.end_date.to_date() %></dd>
     <dt>Reservation Status</dt>
     <dd><%= @reservation.status.name %></dd>
+	<% unless (@reservation.reservable_asset.access_code.nil? || @reservation.reservable_asset.access_code.blank?) || !@reservation.approved? %>
+      <dt><%= @reservation.reservable_asset.reservable_asset_type.name %> Access Code:</dt>
+        <dd><%= @reservation.reservable_asset.access_code %></dd>
+    <% end %>
   </dl>
 
     <% if current_user.admin? || @reservation.allow_edit?(current_user) %>
       <%= link_to('Edit', edit_reservation_path(@reservation)) %>
 	<% end %>
-
-    <h2>Photo</h2>
+	
 	<% unless @reservation.reservable_asset.photo.blank? %>
-      <%= image_tag(@reservation.reservable_asset.photo.url) %>
+      <h2>Photo</h2>
+		<%= image_tag(@reservation.reservable_asset.photo.url) %>
     <% end %>
 
 	<% unless @reservation.reservable_asset.bulletin_board.nil? || !@reservation.approved? %>
