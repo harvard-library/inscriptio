@@ -5,3 +5,8 @@
     <h2>No call numbers yet.</h2>
   <% end %>
 </div>
+
+
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New Call Number', new_call_number_path) %></h2>
+  <% end %>
