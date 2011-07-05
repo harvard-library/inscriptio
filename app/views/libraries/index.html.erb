@@ -2,7 +2,15 @@
 <div>
   <p>
     Welcome to Inscriptio! <br />
-    Choose a library below to view and reserve carrels. 
+    Choose a library below to view and reserve assets. <br />
+  </p>
+  <p>
+	Assets include:
+	<ul>
+		<% @assets.each do |asset| %>
+		  <li><%= asset.name %></li>
+		<% end %>
+	</ul>	
    </p>
 </div>
 

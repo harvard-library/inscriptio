@@ -5,7 +5,7 @@
   <% if current_user.try(:admin?) %>
 	<ul class="actions">
       <li><%= link_to 'Edit', edit_library_path(library) %></li>
-	  <li><%= link_to('Delete', library_path(library), :method => :delete, :id => "delete-#{library.id}") %></li>
+	  <li><%= link_to('Delete', library_path(library), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{library.id}") %></li>
     </ul>
   <% end %>
 </li>

@@ -3,6 +3,7 @@ class LibrariesController < ApplicationController
 
   def index
     @libraries = Library.all
+    @assets = ReservableAssetType.all
   end
 
   def new

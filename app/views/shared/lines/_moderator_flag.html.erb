@@ -8,6 +8,6 @@
   <%= link_to('Flag', new_moderator_flag_path(post)) %>	
   <% if current_user.admin? %>
     | <%= link_to('Edit', edit_moderator_flag_path(moderator_flag)) %>
-    | <%= link_to('Delete', moderator_flag_path(moderator_flag), :method => :delete, :id => "delete-#{moderator_flag.id}") %>
+    | <%= link_to('Delete', moderator_flag_path(moderator_flag), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{moderator_flag.id}") %>
   <% end %>
 </div>

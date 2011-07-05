@@ -4,7 +4,7 @@
   <% if current_user.admin? %>
 	<ul class="actions">
       <li><%= link_to('Edit', edit_reservation_expiration_notice_path(reservation_expiration_notice)) %></li>
-      <li><%= link_to('Delete', reservation_expiration_notice_path(reservation_expiration_notice), :method => :delete, :id => "delete-#{reservation_expiration_notice.id}") %></li>
+      <li><%= link_to('Delete', reservation_expiration_notice_path(reservation_expiration_notice), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation_expiration_notice.id}") %></li>
     </ul>
   <% end %>
 </div>
