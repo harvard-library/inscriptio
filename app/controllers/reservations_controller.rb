@@ -13,6 +13,7 @@ class ReservationsController < ApplicationController
   def new
     @reservation = Reservation.new
     @reservable_asset = params[:reservable_asset]
+    @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
   end
 
   def show

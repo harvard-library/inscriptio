@@ -4,6 +4,7 @@ class ReservableAssetsController < ApplicationController
   
   def index
     @reservable_assets = ReservableAsset.all
+    @libraries = Library.all
   end
 
   def new

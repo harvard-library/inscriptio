@@ -9,6 +9,8 @@ gem 'devise', '1.2.1'
 gem 'carrierwave', '0.5.3'
 gem 'mini_magick', '3.2'
 gem 'fastercsv', '1.5.4'
+gem 'calendar_date_select', :git => 'git://github.com/paneq/calendar_date_select.git'
+
 
 group :development,:test do
   gem 'cucumber-rails', '0.4.0'
