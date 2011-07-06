@@ -45,7 +45,7 @@ class ReservationsController < ApplicationController
       if @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
       
         if @reservation.save
-          Notification.reservation_requested(@reservation).deliver
+          Notification.reservation_notice(@reservation).deliver
           flash[:notice] = 'Added that Reservation'
           format.html {render :action => :show}
         else
@@ -79,14 +79,7 @@ class ReservationsController < ApplicationController
     
     respond_to do|format|
       if @reservation.save
-        new_status = Status.find(params[:reservation][:status_id])
-        if prev_status.name.downcase != "approved" and new_status.name.downcase == "approved"
-          Notification.reservation_approved(@reservation).deliver
-        elsif prev_status.name.downcase != "declined" and new_status.name.downcase == "declined"
-          Notification.reservation_declined(@reservation).deliver 
-        elsif prev_status.name.downcase != "waitlist" and new_status.name.downcase == "waitlist"
-          Notification.reservation_waitlist(@reservation).deliver   
-        end  
+        Notification.reservation_notice(@reservation).deliver
         flash[:notice] = %Q|#{@reservation} updated|
         format.html {redirect_to :action => :show}
       else

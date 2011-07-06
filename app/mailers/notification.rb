@@ -1,28 +1,11 @@
 class Notification < ActionMailer::Base
   default :from => "apatel@cyber.law.harvard.edu"
   
-  def reservation_requested(reservation)
+  def reservation_notice(reservation)
       @reservation = reservation
+      @notice = ReservationNotice.find(:first, :conditions => {:status => @reservation.status})
       mail(:to => @reservation.user.email,
-           :subject => "Your reservation has been submitted.")
-  end
-  
-  def reservation_approved(reservation)
-      @reservation = reservation
-      mail(:to => @reservation.user.email,
-           :subject => "Your reservation has been approved.")
-  end
-  
-  def reservation_declined(reservation)
-      @reservation = reservation
-      mail(:to => @reservation.user.email,
-           :subject => "Your reservation has been declined.")
-  end
-  
-  def reservation_waitlist(reservation)
-      @reservation = reservation
-      mail(:to => @reservation.user.email,
-           :subject => "Your reservation has been waitlisted.")
+           :subject => @notice.subject)
   end
   
   def reservation_canceled(reservation)
