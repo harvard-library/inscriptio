@@ -14,6 +14,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
     @reservable_asset = params[:reservable_asset]
     @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
+    @min_time = ReservableAsset.find(@reservable_asset).min_reservation_time
   end
 
   def show
