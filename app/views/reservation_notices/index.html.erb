@@ -1,0 +1,11 @@
+<% content_for :header do %>Reservation Notices<% end %>
+<div class="reservation_notices collection-list">
+  <% unless @reservation_notices.blank? %>
+	<%= render :partial => 'shared/lines/reservation_notice', :collection => @reservation_notices %>
+  <% else %>
+	<h2>No reservation notices yet.</h2>
+  <% end %>
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New Reservation Notice', new_reservation_notice_path) %></h2>
+  <% end %>
+</div>

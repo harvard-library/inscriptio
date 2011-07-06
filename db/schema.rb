@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110629205836) do
+ActiveRecord::Schema.define(:version => 20110706182123) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -167,6 +167,15 @@ ActiveRecord::Schema.define(:version => 20110629205836) do
   end
 
   add_index "reservation_expiration_notices", ["notice_type"], :name => "index_reservation_expiration_notices_on_notice_type"
+
+  create_table "reservation_notices", :force => true do |t|
+    t.integer  "status_id"
+    t.string   "subject",    :limit => 250
+    t.text     "message"
+    t.string   "reply_to"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "reservations", :force => true do |t|
     t.integer  "reservable_asset_id"

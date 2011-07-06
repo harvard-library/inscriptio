@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :reservation_notices
+
   resources :statuses
 
   resources :reservation_expiration_notices

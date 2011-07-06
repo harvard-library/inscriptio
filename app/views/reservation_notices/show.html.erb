@@ -1,0 +1,13 @@
+<div class="reservation_notice show-object">
+  <% content_for :header do %><%= @reservation_notice.notice_type %><% end %>
+  <dl>
+    <dt>Status:</dt>
+    <dd><%= @reservation_notice.status %></dd>
+    <dt>Subject:</dt>
+    <dd><%= @reservation_notice.subject %></dd>
+	<dt>Message:</dt>
+    <dd><%= @reservation_notice.message %></dd>
+	<dt>Reply-To:</dt>
+    <dd><%= @reservation_notice.reply_to %></dd>
+  </dl>
+</div>

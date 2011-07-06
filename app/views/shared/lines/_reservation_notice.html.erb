@@ -1,0 +1,10 @@
+<div class="reservation_notice line" id="reservation_notice-<%= reservation_notice.id %>">
+  <%= link_to("#{reservation_notice.status} - #{reservation_notice.subject}", reservation_notice ) %>
+
+  <% if current_user.admin? %>
+	<ul class="actions">
+      <li><%= link_to('Edit', edit_reservation_notice_path(reservation_notice)) %></li>
+      <li><%= link_to('Delete', reservation_notice_path(reservation_notice), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation_notice.id}") %></li>
+    </ul>
+  <% end %>
+</div>
