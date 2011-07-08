@@ -14,13 +14,6 @@ class Notification < ActionMailer::Base
            :subject => "Your reservation has been canceled.")
   end
   
-  def bulletin_board_posted(post)
-      @post = post
-      @bulletin_board = @post.bulletin_board
-      mail(:to => @post.bulletin_board.users.email,
-           :subject => "A New Post to Bulletin Board")
-  end
-  
   def reservation_expiration
       @expiration_notice = ReservationExpirationNotice.find(:first, :conditions => {:notice_type => "actual"})
       @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date - current_date = ?', @expiration_notice.days_before_expiration.to_i])
@@ -28,5 +21,13 @@ class Notification < ActionMailer::Base
         mail(:to => reservation.user.email,
              :subject => @expiration_notice.subject)
       end  
-  end  
+  end
+  
+  def bulletin_board_posted(post)
+      @post = post
+      @bulletin_board = @post.bulletin_board
+      mail(:to => @post.bulletin_board.users.email,
+           :subject => "A New Post to Bulletin Board")
+  end
+    
 end
