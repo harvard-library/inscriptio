@@ -3,7 +3,7 @@ class Notification < ActionMailer::Base
   
   def reservation_notice(reservation)
       @reservation = reservation
-      @notice = ReservationNotice.find(:first, :conditions => {:status => @reservation.status})
+      @notice = ReservationNotice.find(:first, :conditions => {:status_id => @reservation.status.id})
       mail(:to => @reservation.user.email,
            :subject => @notice.subject)
   end

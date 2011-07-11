@@ -1,11 +1,21 @@
 <%= semantic_form_for(@reservation) do |f| %>
   <%= f.inputs do %>
-	Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.<br /><br />
-	<%= f.label :start_date, "Start Date" %>  
-	<%= f.calendar_date_select :start_date, :year_range => 1, :popup => 'force', :valid_date_check => "date >= (new Date()).stripTime() && date < (new Date()).setDate((new Date()).getDate()+30)" %><br />
+	Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.<br /><br />  
+	<% if current_user.admin? %>
+	  <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
+	
+	  <script type="text/javascript" language="javascript">
+	   	jQuery(document).ready(function(){
+		  jQuery("#reservation_start_date").datepicker({ minDate: 0 });
+		})
+	  </script>
+	
+    <% else %>
+      <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %><br />
+	<% end %>
 	<br />
-	<%= f.label :end_date, "End Date" %> 
-	<%= f.calendar_date_select :end_date, :year_range => 1, :popup => 'force', :valid_date_check => "date >= (new Date()).setDate((new Date($('reservation_start_date').value)).getDate()+#{@min_time}) && date <= (new Date()).setDate((new Date($('reservation_start_date').value)).getDate()+#{@max_time})" %><br />
+	<%= f.input :end_date, :as => :string %> 
+	
 	<br />
 	<% if current_user.admin? %>
       <%= f.input :reservable_asset, :selected => @reservable_asset %>
@@ -17,3 +27,9 @@
   <% end %>
   <%= f.buttons %>
 <% end %>
+
+<script type="text/javascript" language="javascript">
+	jQuery(document).ready(function(){
+		jQuery("#reservation_end_date").datepicker({ minDate: "+<%= @min_time %>D", maxDate: "+<%= @max_time %>D" });
+	})
+</script>

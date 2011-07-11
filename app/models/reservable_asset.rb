@@ -44,7 +44,7 @@ class ReservableAsset < ActiveRecord::Base
   end
   
   def allow_reservation?(current_user)
-    !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
+    !all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten.include?(current_user) && !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
   end  
   
   def self.search(search)

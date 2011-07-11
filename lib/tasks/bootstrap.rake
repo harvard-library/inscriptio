@@ -12,7 +12,7 @@ namespace :inscriptio do
     
     desc "Add the default statuses"
     task :default_statuses => :environment do
-      statuses = ["Approved", "Pending", "Declined", "Waitlist"]
+      statuses = ["Approved", "Pending", "Declined", "Waitlist", "Expired", "Expiring", "Renewal Confirmation", "Renewal Request"]
       statuses.each do |s|
         status = Status.new(:name => s)
         status.save

@@ -20,7 +20,10 @@
   </dl>
 
     <% if current_user.admin? || @reservation.allow_edit?(current_user) %>
-      <%= link_to('Edit', edit_reservation_path(@reservation)) %>
+	  <ul class="actions">
+        <li><%= link_to('Edit', edit_reservation_path(@reservation)) %></li>
+        <li><%= link_to('Delete', reservation_path(@reservation), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{@reservation.id}") %></li>
+      </ul>
 	<% end %>
 	
 	<% unless @reservation.reservable_asset.photo.blank? %>
