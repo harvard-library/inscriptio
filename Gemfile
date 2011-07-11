@@ -9,7 +9,6 @@ gem 'devise', '1.4.2'
 gem 'carrierwave', '0.5.3'
 gem 'mini_magick', '3.2'
 gem 'fastercsv', '1.5.4'
-gem 'calendar_date_select'
 
 
 group :development,:test do
