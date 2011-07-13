@@ -10,7 +10,7 @@ class Reservation < ActiveRecord::Base
   end
   
   def allow_edit?(current_user)
-    self.user_id == current_user.id
+    self.user_id == current_user.id && self.pending?
   end
   
   def date_valid?(start_date, end_date)
@@ -35,5 +35,9 @@ class Reservation < ActiveRecord::Base
   def approved?
     approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
     self.status == approved
+  end
+  
+  def expiring?
+    Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date <= 14', Status.find(:first, :conditions => ["lower(name) = 'approved'"])]).include?(self)
   end
 end

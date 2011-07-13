@@ -1,7 +1,13 @@
-<% content_for :header do %>Your reservation for <%= @reservation.reservable_asset.reservable_asset_type.name %><% end %>
+<% content_for :header do %>Your reservation for <%= @reservation.reservable_asset.reservable_asset_type.name %> <%= @reservation.reservable_asset.name %><% end %>
     <p>
       <%= @notice.message %>
     </p>
+	<% if @reservation.approved? %>
+	  <p>
+	    Access Code is: <br />	
+        <%= @reservation.reservable_asset.access_code %>
+      </p>
+	<% end %>
     <p>
       Thank you.
     </p>
