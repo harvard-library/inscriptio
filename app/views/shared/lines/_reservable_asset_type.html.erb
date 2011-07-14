@@ -1,10 +1,21 @@
 <div class="reservable_asset_type line" id="reservable_asset_type-<%= reservable_asset_type.id %>">
-  <%= link_to(reservable_asset_type.name, reservable_asset_type ) %>
-  
-  <% if current_user.admin? %>
-	<ul class="actions">
+
+  <h3 class="collapsable description"><%= reservable_asset_type.name %></h3>
+  <ul class="navlist description description-target">
+    <% unless reservable_asset_type.reservable_assets.blank? %>
+      <%= render :partial => 'shared/lines/reservable_asset', :collection => reservable_asset_type.reservable_assets %>
+    <% else %>
+      <li class="empty">No reservable assets yet.</li>
+    <% end %>
+
+  </ul>
+
+  	<% if current_user.admin? %>
+    <ul class="actions">
       <li><%= link_to('Edit', edit_reservable_asset_type_path(reservable_asset_type)) %></li>
       <li><%= link_to('Delete', reservable_asset_type_path(reservable_asset_type), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservable_asset_type.id}") %></li>
-    </ul>	
-  <% end %>
+	  <li><%= link_to('New Reservable Asset', new_reservable_asset_path) %></li>
+    </ul>
+	  
+    <% end %>
 </div>

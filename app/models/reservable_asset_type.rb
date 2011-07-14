@@ -2,7 +2,7 @@ class ReservableAssetType < ActiveRecord::Base
   mount_uploader :photo, AssetTypePhotoUploader
   
   belongs_to :library
-  has_many :reservable_assets, :dependent => :destroy
+  has_many :reservable_assets, :order => :name, :dependent => :destroy
   has_many :reservation_expiration_notices, :dependent => :destroy
   has_and_belongs_to_many :user_types
   
