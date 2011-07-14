@@ -11,7 +11,8 @@
 	  </script>
 	
     <% else %>
-      <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %><br />
+	  <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
+      <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	<% end %>
 	<br />
 	<%= f.input :end_date, :as => :string %> 

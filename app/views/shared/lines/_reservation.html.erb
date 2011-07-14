@@ -1,19 +1,16 @@
 <div class="reservation line" id="reservation-<%= reservation.id %>">
   <h2><%= link_to("Reservation ID-#{reservation.id}", reservation ) %></h2>
-  
+
+  <ul class="actions">
   <% if reservation.expiring? %>
-	<ul class="actions">
-      <li><%= link_to('Renew', new_reservation_path(:reservable_asset => reservation.reservable_asset)) %></li>
-    </ul>
+    <li><%= link_to('Renew', new_reservation_path(:reservable_asset => reservation.reservable_asset)) %></li>
   <% end %>
   
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>
-	<ul class="actions">
-      <li><%= link_to('Edit', edit_reservation_path(reservation)) %></li>
-      <li><%= link_to('Delete', reservation_path(reservation), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation.id}") %></li>
-    </ul>	
+    <li><%= link_to('Edit', edit_reservation_path(reservation)) %></li>
   <% end %>
-
+	<li><%= link_to('Delete', reservation_path(reservation), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation.id}") %></li>
+  </ul>
   <dl>
 	<dt><%= reservation.reservable_asset.reservable_asset_type.name %> Name:</dt>
     <dd><%= link_to reservation.reservable_asset.name, reservable_asset_path(reservation.reservable_asset) %></dd>

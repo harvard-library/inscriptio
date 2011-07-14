@@ -5,9 +5,12 @@
 	<%= post.message %>
 	
   </p>
-  <%= link_to('Flag', new_moderator_flag_path(:post => post)) %>	
-  <% if current_user.admin? %>
-    | <%= link_to('Edit', edit_post_path(post)) %>
-    | <%= link_to('Delete', post_path(post), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{post.id}") %>
+
+  <ul class="actions">
+    <li><%= link_to('Flag', new_moderator_flag_path(:post => post)) %></li>
+  <% if current_user.admin? || post.user == current_user %>
+    <li><%= link_to('Edit', edit_post_path(post)) %></li>
   <% end %>
+	<li><%= link_to('Delete', post_path(post), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{post.id}") %></li>
+  </ul>
 </div>
