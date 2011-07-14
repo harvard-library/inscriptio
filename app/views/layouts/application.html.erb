@@ -72,9 +72,9 @@
         <% if current_user.try(:admin?) %>
           <li><%= link_to "Users", users_path %></li>
           <li><%= link_to "User Types", user_types_path %></li>
-          <li><%= link_to "Reservable Asset Types", reservable_asset_types_path %></li>
-          <li><%= link_to "Reservable Assets", reservable_assets_path %></li>
+          <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
           <li><%= link_to "Reservation Notices", reservation_notices_path %></li>
+		  <li><%= link_to "Reports" %></li>
         <% end %>
       </ul>
     </div>	

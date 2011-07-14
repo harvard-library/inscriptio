@@ -37,8 +37,10 @@ class Notification < ActionMailer::Base
   def bulletin_board_posted(post)
       @post = post
       @bulletin_board = @post.bulletin_board
-      mail(:to => @post.bulletin_board.users.email,
-           :subject => "A New Post to Bulletin Board")
+      @post.bulletin_board.users.each do |user|
+        mail(:to => user.email,
+             :subject => "A New Post to Bulletin Board")
+      end       
   end
     
 end

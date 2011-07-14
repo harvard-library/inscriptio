@@ -1,4 +1,4 @@
-<% content_for :header do %>Reservable Asset Types<% end %>
+<% content_for :header do %>Reservable Assets<% end %>
 <div class="reservable_asset_types collection-list">
   <% unless @libraries.blank? %>
     <% @libraries.each do |library| %>
@@ -14,4 +14,54 @@
     <% end %>
   <% end %>
 </div>
+
+<div class="asset_upload">
+  <h2>Batch Upload</h2>	
+
+    <h3>Import choices via CSV</h3>
+
+    <p>
+      Use the form below to import choices via a CSV (comma separated value) file. All 11 fields must be present even if they are left blank.
+      Do not use column headings or quotes around text in any field. Each row will be separated by a new line or carriage return.
+    </p>
+    <p>
+      These are the fields to be populated:
+	  <ul>
+		<li>floor id</li>
+		<li>asset type id</li>
+		<li>name</li>
+		<li>description</li>
+		<li>location</li>
+		<li>minimum reservation time (in days)*</li>
+		<li>maximum reservation time (in days)*</li>
+		<li>maximum concurrent users*</li>
+		<li>reservation time increment (in days)*</li>
+		<li>access code</li>
+		<li>notes</li>
+	  </ul>
+    </p>
+	<p>
+	  *If these fields are left blank, the values will be inherited from those indicated on the reservable asset type.
+	</p>
+    <p>
+	  e.g. floor id, asset type id, name, description, location, min reservation time, max reservation time, max concurrent users, reservation time       increment, access code, notes
+    </p>
+
+  <p>
+    <b><i>Format example:</i></b><br />
+
+    <code>
+      2,1,CA1,carrel description,NW corner,7,90,3,7,codeA,these are some notes<br />
+      3,1,CA2,carrel description,South side of floor,,,,,codeB,these are some notes<br />
+      2,1,CA3,carrel description,Near the restrooms,,,,,codeC,these are some notes<br />
+      1,1,CA4,carrel description,Near the stairs,,,,,codeD,these are some notes<br />
+    </code>
+
+</p>
+  <%= form_tag import_reservable_assets_path, :multipart => true do -%>
+    <%= file_field 'upload', 'datafile' %></p>
+	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
+  <% end -%>
+</div>	
+
 
