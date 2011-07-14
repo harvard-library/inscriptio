@@ -39,11 +39,11 @@
 						url: window.location.href + '/assets',
 						dataType: 'json',
 						error: function(response) {
-              if (response.status != 404) {
-                alert('Error retrieving assets: ' + response.status);
-                if (typeof console != 'undefined')
-                  console.log(response.responseText);
-              }
+							if (response.status != 404) {
+						    	alert('Error retrieving assets: ' + response.status);
+								if (typeof console != 'undefined')
+									console.log(response.responseText);
+							}
 						},
 						success: function(data) {
 							opts.assets = data;
@@ -207,11 +207,12 @@
 					'dblclick.floormap': function(event) {
 						overlays.create(
 							$(event.target).offset(),
-							parseInt($(event.target).width() * 0.25),
-							parseInt($(event.target).height() * 0.25),
-							parseInt($(event.target).width() * 1.25),
-							parseInt($(event.target).height() * 1.25)
+							0,
+							parseInt($(event.target).height() * 1.25),
+							parseInt($(event.target).width()),
+							parseInt($(event.target).height() * 2.25)
 						);
+						$(opts.activeOverlaySelector).btOff();
 					}
 				});
 
