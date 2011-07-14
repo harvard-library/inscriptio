@@ -8,6 +8,8 @@
 		notReservableClass: 'full',
 		activeOverlaySelector: '.bt-active',
 		admin: false,
+		dupVertMargin: 5,
+		dupHoriMargin: 0,
 		assets: []
 	},
 
@@ -205,12 +207,13 @@
 						$(this).add(opts.containerSelector).unbind('mousemove');
 					},
 					'dblclick.floormap': function(event) {
+						var target = $(event.target);
 						overlays.create(
-							$(event.target).offset(),
-							0,
-							parseInt($(event.target).height() * 1.25),
-							parseInt($(event.target).width()),
-							parseInt($(event.target).height() * 2.25)
+							opts.origin,
+							target.data('x1') + opts.dupHoriMargin,
+							target.data('y1') + target.height() + opts.dupVertMargin,
+							target.data('x2') + opts.dupHoriMargin,
+							target.data('y2') + target.height() + opts.dupVertMargin
 						);
 						$(opts.activeOverlaySelector).btOff();
 					}
@@ -223,9 +226,9 @@
 							event.preventDefault();
 
 							var newOverlay = overlays.create(
-								{left: 0, top: 0},
-								event.pageX,
-								event.pageY
+								{left: opts.origin.left, top: opts.origin.top},
+								event.pageX - opts.origin.left,
+								event.pageY - opts.origin.top
 							),
 							startX = event.pageX,
 							startY = event.pageY;
