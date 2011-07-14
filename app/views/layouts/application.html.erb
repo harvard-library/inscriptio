@@ -8,12 +8,6 @@
   </head>
   <body>
     <div id="header">
-      <div id="logo">
-        <span>
-          <a href="/" title="Inscriptio" id="home-logo">Inscriptio</a>
-        <span>
-      </div>
-
       <div id="utility">
         <% if user_signed_in? %>
           Signed in as <%= current_user.email %>. Not you?
@@ -26,6 +20,12 @@
 		  <%= text_field_tag :search, params[:search] %>
 		  <%= submit_tag "Search", :name => nil %>
 		<% end %>
+      </div>
+
+      <div id="logo">
+        <span>
+          <a href="/" title="Inscriptio" id="home-logo">Inscriptio</a>
+        </span>
       </div>
     </div>
 

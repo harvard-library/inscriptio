@@ -41,7 +41,7 @@
 						error: function(response) {
               if (response.status != 404) {
                 alert('Error retrieving assets: ' + response.status);
-                if (console.log)
+                if (typeof console != 'undefined')
                   console.log(response.responseText);
               }
 						},
@@ -423,7 +423,7 @@
 					},
 					error: function(response) {
 						$('.bt-content').html('Error updating asset: ' + response.status);
-						if (console.log) 
+						if (typeof console != 'undefined')
 							console.log(response.responseText);
 					}
 				});
@@ -452,7 +452,7 @@
 					},
 					error: function(response) {
 						$('.bt-content').html('Error removing asset location: ' + response.status);
-						if (console.log) 
+						if (typeof console != 'undefined') 
 							console.log(response.responseText);
 					}
 				});

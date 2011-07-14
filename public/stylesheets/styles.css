@@ -76,7 +76,6 @@ dd {
 }
 
 #logo {
-	float: left;
 	padding: 15px 0px 18px 66px;
 }
 
@@ -109,10 +108,10 @@ dd {
 	background-color: #bac5c6;
 	float: left;
 	margin-left: 15px;
-  margin-top: 15px;
+    margin-top: 15px;
 	padding: 15px 0px;
 	width: 210px;	
-  overflow: hidden;
+    overflow: hidden;
 }
 
 #content-left > h4:first-child {
