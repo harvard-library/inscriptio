@@ -41,12 +41,20 @@ class ReservationsController < ApplicationController
       params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
     end  
     
+    #saving the actual date entered in by the user to validate date range on line 53
+    chosen = Date.parse(params[:reservation][:end_date], "{ %Y, %m, %d }")
+    
+    #setting the end date to the last day of the month chosen by the user
+    params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1).strftime("%m/%d/%Y")
+    
     @reservation.attributes = params[:reservation]
     
     respond_to do|format|
-      if @reservation.date_valid?(@reservation.start_date, @reservation.end_date)
+      if @reservation.date_valid?(@reservation.start_date, chosen)
       
         if @reservation.save
+          p @reservation.end_date
+          p @reservation.end_date.class
           Notification.reservation_notice(@reservation).deliver
           flash[:notice] = 'Added that Reservation'
           format.html {render :action => :show}
