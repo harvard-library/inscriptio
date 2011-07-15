@@ -2,11 +2,10 @@ class ReservationsController < ApplicationController
   before_filter :verify_credentials, :only => [:index, :new, :show, :create, :update, :destroy]
   
   def index
-    @reservations = Reservation.all
     if current_user.admin?
       @reservations = Reservation.all
     else
-      @reservations = Reservation.find(:all, :conditions => {:user_id => current_user.id})
+      @reservations = Reservation.find(:all, :conditions => {:user_id => current_user.id}, :order => ['created_at DESC'])
     end 
   end
 
@@ -50,22 +49,24 @@ class ReservationsController < ApplicationController
     @reservation.attributes = params[:reservation]
     
     respond_to do|format|
-      if @reservation.date_valid?(@reservation.start_date, chosen)
-      
-        if @reservation.save
-          p @reservation.end_date
-          p @reservation.end_date.class
-          Notification.reservation_notice(@reservation).deliver
-          flash[:notice] = 'Added that Reservation'
-          format.html {render :action => :show}
+      if @reservation.reservable_asset.allow_reservation?(current_user)
+        if @reservation.date_valid?(@reservation.start_date, chosen)
+          if @reservation.save
+            Notification.reservation_notice(@reservation).deliver
+            flash[:notice] = 'Added that Reservation'
+            format.html {render :action => :show}
+          else
+            flash[:error] = 'Could not add that Reservation'
+            format.html {render :action => :new, :reservable_asset => params[:reservation][:reservable_asset]}
+          end
         else
-          flash[:error] = 'Could not add that Reservation'
+          flash[:error] = 'Dates selected are not valid'
           format.html {render :action => :new, :reservable_asset => params[:reservation][:reservable_asset]}
-        end
+        end 
       else
-        flash[:error] = 'Dates selected are not valid'
-        format.html {render :action => :new, :reservable_asset => params[:reservation][:reservable_asset]}
-      end    
+          flash[:notice] = 'You are not able to reserve this asset at this time.'
+          format.html {redirect_to reservations_path}
+      end       
     end
   end
 

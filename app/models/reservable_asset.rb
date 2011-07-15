@@ -44,7 +44,9 @@ class ReservableAsset < ActiveRecord::Base
   end
   
   def allow_reservation?(current_user)
-    !all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten.include?(current_user) && !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
+    all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
+    current_user_reservation = Reservation.find(:first, :conditions => ['reservable_asset_id = ? and status_id = ?', self.id, Status.find(:first, :conditions => ["lower(name) = 'approved'"]).id])
+    (!all_current.include?(current_user) || (!current_user_reservation.nil? ? current_user_reservation.expiring? : "")) && !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
   end  
   
   def self.search(search)

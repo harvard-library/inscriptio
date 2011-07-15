@@ -1,3 +1,9 @@
 <div class="user show-object">
   <% content_for :header do %><%= @user.email %><% end %>
+  <h2>All Reservations</h2>
+  <% unless @reservations.blank? %>
+    <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
+  <% else %>
+    <h2>No reservations yet.</h2>
+  <% end %>
 </div>
