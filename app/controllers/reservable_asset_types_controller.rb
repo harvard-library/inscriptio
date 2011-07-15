@@ -2,7 +2,6 @@ class ReservableAssetTypesController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
   
   def index
-    @reservable_asset_types = ReservableAssetType.all
     @libraries = Library.all
   end
 

@@ -51,5 +51,5 @@ class ReservableAsset < ActiveRecord::Base
     if search
       find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
     end
-  end
+  end  
 end

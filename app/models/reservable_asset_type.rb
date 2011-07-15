@@ -16,4 +16,5 @@ class ReservableAssetType < ActiveRecord::Base
   def to_s
     %Q|#{name}|
   end
+  
 end
