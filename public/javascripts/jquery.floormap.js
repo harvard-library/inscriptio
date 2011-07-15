@@ -64,7 +64,6 @@
 							});
 						}
 					});
-
 				}
 			});
 		},
@@ -81,26 +80,27 @@
 					'<div id="tooltipTools">' + 
 						'<label for="overlayId" id="overlayIdLabel">Asset: </label>' + 
 						'<select id="overlayId"></select>' + 
+						'<button id="closeTooltip">x</button>' + 
 						'<br />' + 
-            '<div id="movers">' +
-              '<button class="nudger" id="moveUp" title="w">&#9650</button>' + 
-              '<br />' + 
-              '<button class="nudger" id="moveLeft" title="a">&#9664</button>' + 
-              '<button class="nudger" id="moveRight" title="d">&#9654</button>' + 
-              '<br />' +
-              '<button class="nudger" id="moveDown" title="s">&#9660</button>' + 
-            '</div>' + 
+						'<div id="movers">' +
+						  '<button class="nudger" id="moveUp" title="w">&#9650</button>' + 
+						  '<br />' + 
+						  '<button class="nudger" id="moveLeft" title="a">&#9668</button>' + 
+						  '<button class="nudger" id="moveRight" title="d">&#9658</button>' + 
+						  '<br />' +
+						  '<button class="nudger" id="moveDown" title="s">&#9660</button>' + 
+						'</div>' + 
 						'<div id="sizers">' + 
-              '<button class="nudger" id="shorten" title="i">-</button>' + 
-              '<br />' +
-              '<button class="nudger" id="narrow" title="j">-</button>' + 
-              '<button class="nudger" id="widen" title="l">+</button>' + 
-              '<br />' +
-              '<button class="nudger" id="heighten" title="k">+</button>' + 
+						  '<button class="nudger" id="shorten" title="i">&ndash;</button>' + 
+						  '<br />' +
+						  '<button class="nudger" id="narrow" title="j">&ndash;</button>' + 
+						  '<button class="nudger" id="widen" title="l">+</button>' + 
+						  '<br />' +
+						  '<button class="nudger" id="heighten" title="k">+</button>' + 
 						'</div>' + 
 						'<button id="removeOverlay">Remove</button>' + 
+						'<button id="copyOverlay">Copy</button>' + 
 						'<button id="applyOverlay">Apply</button>' + 
-						'<button id="closeTooltip">Close</button>' + 
 					'</div>' + 
 				'</div>' 
 			);
@@ -136,6 +136,19 @@
 					overlays.update($('#overlayId').val());
 				});
 
+
+				$('#copyOverlay').live('click.floormap', function() {
+					var target = $(opts.activeOverlaySelector);
+					overlays.create(
+						opts.origin,
+						target.data('x1') + opts.dupHoriMargin,
+						target.data('y1') + target.height() + opts.dupVertMargin,
+						target.data('x2') + opts.dupHoriMargin,
+						target.data('y2') + target.height() + opts.dupVertMargin
+					);
+					target.btOff();
+				});
+
 				$.each( [
 					['#moveUp', 'top', -1],
 					['#moveRight', 'left', 1],
@@ -157,7 +170,7 @@
 				);
 
 				/* Add a few keypress handlers to make it easier to move overlays around */
-				$(window).keypress(function(event) {
+				$(document).keypress(function(event) {
 					switch (event.which) {
 						case 119:
 							$('#moveUp').click();

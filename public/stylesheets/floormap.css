@@ -36,7 +36,7 @@
   text-align: center;
   vertical-align: middle;
 }
-#tooltipTools .nudger {
+#tooltipTools .nudger, #closeTooltip {
   width: 25px;
   height: 25px;
   padding: 0px;
@@ -48,6 +48,12 @@
   padding: 0px;
   margin: 10px 0px;
   display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
+#sizers {
+	font-size: 18px;
 }
 
 #moveLeft, #narrow {
@@ -56,4 +62,8 @@
 
 #moveRight, #widen {
   margin-left: 12.5px;
+}
+#closeTooltip {
+	position: absolute;
+	right: 10px;
 }
