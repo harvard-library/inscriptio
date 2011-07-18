@@ -12,9 +12,11 @@
 	<dt>Message:</dt>
     <dd><%= @post.message %></dd>
 	<dt>Moderator Flags:</dt>
-    <dd><%= @post.moderator_flags %></dd>
+    <% @post.moderator_flags.each do |mf| %>
+	  <dd><%= mf.reason %></dd>
+	<% end %>
     
   </dl>
 
-  <h2 class="action-button"><%= link_to('New Post', new_post_path) %></h2>
+<%= link_to "Bulletin Board", bulletin_board_path(@post.bulletin_board) %>
 </div>

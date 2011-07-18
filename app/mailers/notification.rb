@@ -1,5 +1,5 @@
 class Notification < ActionMailer::Base
-  default :from => "apatel@cyber.law.harvard.edu"
+  default :from => User.find(:first, :conditions => {:admin => true})
   
   def reservation_notice(reservation)
       @reservation = reservation
@@ -40,6 +40,16 @@ class Notification < ActionMailer::Base
       @post.bulletin_board.users.each do |user|
         mail(:to => user.email,
              :subject => "A New Post to Bulletin Board")
+      end       
+  end
+  
+  def moderator_flag_set(post)
+      @admins = User.find(:all, :conditions => {:admin => true})
+      @post = post
+      @bulletin_board = @post.bulletin_board
+      @admins.each do |admin|
+        mail(:to => admin.email,
+             :subject => "A Moderator Flag has been set.")
       end       
   end
     

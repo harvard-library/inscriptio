@@ -1,0 +1,4 @@
+<% content_for :header do %>Bulletin Board Activity for <%= @bulletin_board.reservable_asset.reservable_asset_type.name %><% end %>
+    <p>
+      A moderator flag has been posted for a post on <%= link_to("#{@bulletin_board.reservable_asset.reservable_asset_type.name} #{@bulletin_board.reservable_asset.name}", @bulletin_board) %>'s bulletin board.
+    </p>
