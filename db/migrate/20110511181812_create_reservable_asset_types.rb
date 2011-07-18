@@ -6,12 +6,9 @@ class CreateReservableAssetTypes < ActiveRecord::Migration
       t.integer :min_reservation_time
       t.integer :max_reservation_time
       t.integer :max_concurrent_users
-      t.integer :reservation_time_increment
       t.boolean :has_code
       t.text :welcome_message
       t.integer :expiration_extension_time
-      t.boolean :requires_moderation, :default => true
-      t.text :moderation_held_message
       t.boolean :has_bulletin_board, :default => false
       t.string :photo
       t.timestamps

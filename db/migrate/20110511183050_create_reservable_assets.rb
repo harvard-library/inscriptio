@@ -9,7 +9,6 @@ class CreateReservableAssets < ActiveRecord::Migration
       t.integer :min_reservation_time
       t.integer :max_reservation_time
       t.integer :max_concurrent_users
-      t.integer :reservation_time_increment
       t.string :access_code
       t.string :photo
       t.text :notes

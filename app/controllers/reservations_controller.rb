@@ -5,7 +5,9 @@ class ReservationsController < ApplicationController
     if current_user.admin?
       @reservations = Reservation.all
     else
-      @reservations = Reservation.find(:all, :conditions => {:user_id => current_user.id}, :order => ['created_at DESC'])
+      @pending = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'pending'"])}, :order => ['created_at DESC'])
+      @active = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"])}, :order => ['created_at DESC'])
+      @expired = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])}, :order => ['created_at DESC'])
     end 
   end
 

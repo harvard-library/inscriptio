@@ -9,9 +9,10 @@ class Notification < ActionMailer::Base
   end
   
   def reservation_canceled(reservation)
+      @notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'cancelled'"])})
       @reservation = reservation
       mail(:to => @reservation.user.email,
-           :subject => "Your reservation has been canceled.")
+           :subject => @notice.subject)
   end
   
   def reservation_expiration

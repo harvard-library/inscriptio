@@ -1,12 +1,27 @@
 <% content_for :header do %>Reservations<% end %>
 <div class="reservations collection-list">
-  <% unless @reservations.blank? %>
-    <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
-  <% else %>
-    <h2>No reservations yet.</h2>
+  <% unless @pending.blank? %>
+    <h2>Pending Reservations</h2>
+	<%= render :partial => 'shared/lines/reservation', :collection => @pending %>
+  <% end %>
+		
+  <% unless @active.blank? %>
+    <h2>Current Reservations</h2>
+	<%= render :partial => 'shared/lines/reservation', :collection => @active %>
+  <% end %>
+
+  <% unless @expired.blank? %>
+    <h2>Expired Reservations</h2>
+	<%= render :partial => 'shared/lines/reservation', :collection => @expired %>
   <% end %>
 
   <% if current_user.admin? %>
+    <% unless @reservations.blank? %>
+	  <h2>Reservations</h2>
+	  <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
+	<% else %>
+	  <h2>No reservations yet.</h2>
+	<% end %>
     <h2 class="action-button"><%= link_to('New Reservation', new_reservation_path) %></h2>
   <% end %>
 </div>

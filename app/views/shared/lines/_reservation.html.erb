@@ -1,5 +1,5 @@
 <div class="reservation line" id="reservation-<%= reservation.id %>">
-  <h2><%= link_to("Reservation ID-#{reservation.id}", reservation ) %></h2>
+  <h3><%= link_to("Reservation ID-#{reservation.id}", reservation ) %></h3>
 
   <ul class="actions">
   <% if reservation.expiring? %>
