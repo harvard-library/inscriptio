@@ -20,9 +20,19 @@ namespace :inscriptio do
       end  
     end
     
+    desc "Add the default notices"
+    task :default_notices => :environment do
+      statuses = Status.all
+      statuses.each do |s|
+        notice = ReservationNotice.new(:status => s, :subject => s.name, :message => s.name)
+        notice.save
+        puts "Successfully created #{notice.subject}"
+      end  
+    end
+    
     desc "run all tasks in bootstrap"
-    task :run_all => [:default_admin, :default_statuses] do
-      puts "Created Admin account and Statuses!"
+    task :run_all => [:default_admin, :default_statuses, :default_notices] do
+      puts "Created Admin account, Statuses and Notices!"
     end
       
   end
