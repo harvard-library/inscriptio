@@ -46,6 +46,9 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     @user.attributes = params[:user]
+    if params[:user][:admin] == "1"
+      @user.admin = true
+    end  
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|

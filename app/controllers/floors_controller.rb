@@ -47,7 +47,7 @@ class FloorsController < ApplicationController
     unless @floor.first?
       @floor.move_higher
       flash[:notice] = "Moved #{@floor.name} up"
-      redirect_to :action => :index
+      redirect_to :back
     end
   end
 
@@ -56,7 +56,7 @@ class FloorsController < ApplicationController
     unless @floor.last?
       @floor.move_lower
       flash[:notice] = "Moved #{@floor.name} down"
-      redirect_to :action => :index
+      redirect_to :back
     end
   end
 
