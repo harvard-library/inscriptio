@@ -24,4 +24,9 @@
 	<h2>Reservable Assets</h2>
 	<%= render :partial => 'shared/lines/reservable_asset', :collection => @reservable_assets %>
   <% end %>  
+
+  <% unless @users.blank? %>
+	<h2>Users</h2>
+	<%= render :partial => 'shared/lines/user', :collection => @users %>
+  <% end %>
 </div>

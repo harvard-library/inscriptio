@@ -8,6 +8,8 @@
   <span class="postal-code"><%= adr.zip %></span>
   <div class="country-name">US</div>
 </div>
-<div class="geo">
-  Latitude: <span class="latitude"><%= adr.latitude %></span>, Longitude: <span class="longitude"><%= adr.longitude %></span>
-</div>
+<% unless adr.latitude.blank? && adr.longitude.blank? %>
+  <div class="geo">
+    Latitude: <span class="latitude"><%= adr.latitude %></span>, Longitude: <span class="longitude"><%= adr.longitude %></span>
+  </div>
+<% end %>

@@ -19,4 +19,10 @@ class User < ActiveRecord::Base
   def to_s
     %Q|#{email}|
   end
+  
+  def self.search(search)
+    if search
+      find(:all, :conditions => ['lower(email) LIKE ?', "%#{search}%"])
+    end
+  end
 end

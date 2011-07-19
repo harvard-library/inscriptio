@@ -6,5 +6,8 @@ class SearchController < ApplicationController
     @subject_areas = SubjectArea.search(params[:search].downcase)
     @call_numbers = CallNumber.search(params[:search].downcase)
     @reservable_assets = ReservableAsset.search(params[:search].downcase)
+    if current_user.try(:admin?)
+      @users = User.search(params[:search].downcase)
+    end  
   end  
 end
