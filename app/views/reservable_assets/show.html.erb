@@ -1,9 +1,9 @@
 <% content_for :header do %><%= @reservable_asset.reservable_asset_type.name %> on <%= link_to @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library,@reservable_asset.floor) %><% end %>
 
-<div class="reservable_asset show-object">
+<h2 class="collapsable reservable_asset_description"><%= @reservable_asset.reservable_asset_type.name %> <%= @reservable_asset.name %> Info</h2>
+
+<div class="navlist reservable_asset_description reservable_asset_description-target">
   <dl>
-    <dt>Name:</dt>
-      <dd><%= @reservable_asset.name %></dd>
     <dt>Description:</dt>
       <dd><%= @reservable_asset.description %></dd>
       <dt>Minimum Reservation Time:</dt>
@@ -19,7 +19,11 @@
 	<% if current_user.admin? %>
 	  <dt>Access Code:</dt>
         <dd><%= @reservable_asset.access_code %></dd>
-	<% end %>	
+	<% end %>
+	<% unless @reservable_asset.bulletin_board.nil? %>
+      <dt>Bulletin Board</dt>
+      <dd><%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %></dd>
+    <% end %>	
 	<dt>Notes:</dt>
       <dd><%= @reservable_asset.notes %></dd>
   </dl>
@@ -32,24 +36,36 @@
   <% if @reservable_asset.allow_reservation?(current_user) %>
     <h2 class="action-button"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
   <% end %>
+</div>
+
 
   <% if current_user.admin? %>
     <% unless @reservable_asset.reservations.blank? %>
-      <h2>Approved Reservations</h2>
-	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_approved %>
-	  <h2>Pending Reservations</h2>
-	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_pending %>
-	  <h2>Declined Reservations</h2>
-	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_declined %>
-	  <h2>Waitlist Reservations</h2>
-	  <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_waitlist %>
+      <% unless @reservable_asset.reservations_approved.blank? %>
+	    <h2 class="collapsable reservable_asset_approved">Approved Reservations</h2>
+   	    <div class="navlist reservable_asset_approved reservable_asset_approved-target">
+	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_approved %>
+	    </div>
+	  <% end %>
+	  <% unless @reservable_asset.reservations_pending.blank? %>
+	    <h2 class="collapsable reservable_asset_pending">Pending Reservations</h2>
+   	    <div class="navlist reservable_asset_pending reservable_asset_pending-target">
+	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_pending %>
+	    </div>
+	  <% end %>
+	  <% unless @reservable_asset.reservations_declined.blank? %>
+	    <h2 class="collapsable reservable_asset_declined">Declined Reservations</h2>
+   	    <div class="navlist reservable_asset_declined reservable_asset_declined-target">
+	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_declined %>
+	    </div>
+	  <% end %>
+	  <% unless @reservable_asset.reservations_waitlist.blank? %>
+        <h2 class="collapsable reservable_asset_waitlist">Waitlist Reservations</h2>
+   	    <div class="navlist reservable_asset_waitlist reservable_asset_waitlist-target">
+	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_waitlist %>
+	    </div>
+	  <% end %>
     <% else %>
       <h2>No reservations for this asset yet.</h2>
     <% end %>
-
-    <% unless @reservable_asset.bulletin_board.nil? %>
-      <h2>Bulletin Board</h2>
-      <%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %>
-    <% end %>
   <% end %>
-</div>
