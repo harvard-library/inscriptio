@@ -261,6 +261,9 @@
 									height: parseInt($(newOverlay).innerHeight()) + 'px',
 									right: 'auto',
 									bottom: 'auto'
+								}).data({
+									x2: $(this).data('x1') + $(this).width(),
+									y2: $(this).data('y1') + $(this).height()
 								});
 							});
 						}
