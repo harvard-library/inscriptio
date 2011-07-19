@@ -112,7 +112,6 @@ class ReservableAssetsController < ApplicationController
         asset[:min_reservation_time] = cell[5]
         asset[:max_reservation_time] = cell[6]
         asset[:max_concurrent_users] = cell[7]
-        asset[:reservation_time_increment] = cell[8]
         asset[:access_code] = cell[9]
         asset[:notes] = cell[10]
         
@@ -127,9 +126,6 @@ class ReservableAssetsController < ApplicationController
         end
         if asset[:max_concurrent_users].blank? || asset[:max_concurrent_users].nil?
           asset[:max_concurrent_users] = ReservableAssetType.find(asset_type).max_concurrent_users
-        end
-        if asset[:reservation_time_increment].blank? || asset[:reservation_time_increment].nil?
-          asset[:reservation_time_increment] = ReservableAssetType.find(asset_type).reservation_time_increment
         end  
         @reservable_asset.attributes = asset
     
@@ -142,7 +138,7 @@ class ReservableAssetsController < ApplicationController
           end
         end
     end
-    redirect_to :action => :index
+    redirect_to reservable_asset_types_path
   end  
   
   def available

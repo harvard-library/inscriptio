@@ -12,7 +12,6 @@ class ReservableAsset < ActiveRecord::Base
   validates_numericality_of :min_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_concurrent_users, :only_integer => true, :message => "can only be whole number."
-  validates_numericality_of :reservation_time_increment, :only_integer => true, :message => "can only be whole number."
   
   def to_s
     %Q|#{id}|
@@ -46,8 +45,6 @@ class ReservableAsset < ActiveRecord::Base
   def allow_reservation?(current_user)
     all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
     current_user_reservation = Reservation.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"]).id, :user_id => current_user.id})
-    p "current"
-    p current_user_reservation
     (!all_current.include?(current_user) || (!current_user_reservation.nil? ? current_user_reservation.expiring? : false)) && !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
   end  
   

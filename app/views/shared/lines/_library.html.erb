@@ -1,5 +1,5 @@
 <li class="library line" id="library-<%= library.id %>">
-  <%= link_to library, library %> <%= current_user.try(:admin?) ? "- ID #{library.id}" : "" %>
+  <%= link_to library, library %>
   
     
   <% if current_user.try(:admin?) %>

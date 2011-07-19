@@ -1,6 +1,6 @@
 <li class="floor line" id="floor-<%= floor.id %>">
   <% unless @library.nil? %>
-    <%= link_to(floor.name, library_floor_path(@library,floor) ) %>
+    <%= link_to(floor.name, library_floor_path(@library,floor) ) %>  <%= current_user.try(:admin?) ? "- ID #{floor.id}" : "" %>
 
 	<% if current_user.admin? %>
 	  <ul class="actions">

@@ -3,9 +3,8 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |t|
       t.references :bulletin_board
       t.references :user
-      t.text :message, :limit => 255
+      t.string :message, :limit => 255
       t.string :media
-      t.boolean :public, :default => true
       t.timestamps
     end
     

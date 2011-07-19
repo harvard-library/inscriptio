@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(:version => 20110706182123) do
   create_table "posts", :force => true do |t|
     t.integer  "bulletin_board_id"
     t.integer  "user_id"
-    t.text     "message"
+    t.string   "message"
     t.string   "media"
     t.boolean  "public",            :default => true
     t.datetime "created_at"
@@ -105,17 +105,14 @@ ActiveRecord::Schema.define(:version => 20110706182123) do
 
   create_table "reservable_asset_types", :force => true do |t|
     t.integer  "library_id"
-    t.string   "name",                                          :null => false
+    t.string   "name",                                         :null => false
     t.integer  "min_reservation_time"
     t.integer  "max_reservation_time"
     t.integer  "max_concurrent_users"
-    t.integer  "reservation_time_increment"
     t.boolean  "has_code"
     t.text     "welcome_message"
     t.integer  "expiration_extension_time"
-    t.boolean  "requires_moderation",        :default => true
-    t.text     "moderation_held_message"
-    t.boolean  "has_bulletin_board",         :default => false
+    t.boolean  "has_bulletin_board",        :default => false
     t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -141,7 +138,6 @@ ActiveRecord::Schema.define(:version => 20110706182123) do
     t.integer  "min_reservation_time"
     t.integer  "max_reservation_time"
     t.integer  "max_concurrent_users"
-    t.integer  "reservation_time_increment"
     t.string   "access_code"
     t.string   "photo"
     t.text     "notes"
