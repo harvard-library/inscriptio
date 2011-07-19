@@ -198,6 +198,10 @@ ul.navlist {
   cursor: pointer;
 }
 
+.collapsable {
+  cursor: pointer;
+}
+
 
 /* Body */
 

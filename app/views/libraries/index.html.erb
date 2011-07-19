@@ -8,7 +8,7 @@
 	Assets include:
 	<ul>
 		<% @assets.each do |asset| %>
-		  <li><%= asset.name %></li>
+		  <li><%= asset.name %> <%= current_user.try(:admin?) ? "- ID #{asset.id}" : "" %></li>
 		<% end %>
 	</ul>	
    </p>

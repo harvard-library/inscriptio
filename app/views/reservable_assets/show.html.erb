@@ -6,14 +6,14 @@
   <dl>
     <dt>Description:</dt>
       <dd><%= @reservable_asset.description %></dd>
-      <dt>Minimum Reservation Time:</dt>
+    <dt>Location:</dt>
+      <dd><%= @reservable_asset.location %></dd>
+    <dt>Minimum Reservation Time:</dt>
       <dd><%= @reservable_asset.min_reservation_time %></dd>
     <dt>Maximum Reservation Time:</dt>
       <dd><%= @reservable_asset.max_reservation_time %></dd>
     <dt>Maximum Concurrent Users:</dt>
       <dd><%= @reservable_asset.max_concurrent_users %></dd>
-    <dt>Reservation Time Increment:</dt>
-      <dd><%= @reservable_asset.reservation_time_increment %></dd>
     <dt>Seats Available:</dt>
       <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.length %></dd>
 	<% if current_user.admin? %>
@@ -42,25 +42,25 @@
   <% if current_user.admin? %>
     <% unless @reservable_asset.reservations.blank? %>
       <% unless @reservable_asset.reservations_approved.blank? %>
-	    <h2 class="collapsable reservable_asset_approved">Approved Reservations</h2>
+	    <h2 class="collapsable reservable_asset_approved">Approved Reservations - <%= @reservable_asset.reservations_approved.count %></h2>
    	    <div class="navlist reservable_asset_approved reservable_asset_approved-target">
 	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_approved %>
 	    </div>
 	  <% end %>
 	  <% unless @reservable_asset.reservations_pending.blank? %>
-	    <h2 class="collapsable reservable_asset_pending">Pending Reservations</h2>
+	    <h2 class="collapsable reservable_asset_pending">Pending Reservations - <%= @reservable_asset.reservations_pending.count %></h2>
    	    <div class="navlist reservable_asset_pending reservable_asset_pending-target">
 	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_pending %>
 	    </div>
 	  <% end %>
 	  <% unless @reservable_asset.reservations_declined.blank? %>
-	    <h2 class="collapsable reservable_asset_declined">Declined Reservations</h2>
+	    <h2 class="collapsable reservable_asset_declined">Declined Reservations - <%= @reservable_asset.reservations_declined.count %></h2>
    	    <div class="navlist reservable_asset_declined reservable_asset_declined-target">
 	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_declined %>
 	    </div>
 	  <% end %>
 	  <% unless @reservable_asset.reservations_waitlist.blank? %>
-        <h2 class="collapsable reservable_asset_waitlist">Waitlist Reservations</h2>
+        <h2 class="collapsable reservable_asset_waitlist">Waitlist Reservations - <%= @reservable_asset.reservations_waitlist.count %></h2>
    	    <div class="navlist reservable_asset_waitlist reservable_asset_waitlist-target">
 	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_waitlist %>
 	    </div>
