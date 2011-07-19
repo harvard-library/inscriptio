@@ -17,7 +17,11 @@ class Notification < ActionMailer::Base
   
   def reservation_expiration
       @notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expiring'"])})
-      @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = 14', Status.find(:first, :conditions => ["lower(name) = 'approved'"])])
+      @reservations = Array.new
+      @asset_types.all.each do |at|
+        @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), at.expiration_extension_time.to_i])  
+      end  
+      @reservations.flatten!
       @reservations.each do |reservation|
         mail(:to => reservation.user.email,
              :subject => @notice.subject)

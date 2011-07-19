@@ -38,6 +38,6 @@ class Reservation < ActiveRecord::Base
   end
   
   def expiring?
-    Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date <= 14', Status.find(:first, :conditions => ["lower(name) = 'approved'"])]).include?(self)
+    Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date <= ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), self.reservable_asset.reservable_asset_type.expiration_extension_time.to_i]).include?(self)
   end
 end
