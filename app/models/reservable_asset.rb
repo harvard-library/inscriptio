@@ -12,7 +12,6 @@ class ReservableAsset < ActiveRecord::Base
   validates_numericality_of :min_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_concurrent_users, :only_integer => true, :message => "can only be whole number."
-  validates_numericality_of :reservation_time_increment, :only_integer => true, :message => "can only be whole number."
   
   def to_s
     %Q|#{id}|
