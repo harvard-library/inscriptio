@@ -15,6 +15,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    @bulletin_board = @post.bulletin_board.id
   end
   
   def create
@@ -26,7 +27,7 @@ class PostsController < ApplicationController
       if @post.save
         Notification.bulletin_board_posted(@post).deliver
         flash[:notice] = 'Added that post'
-        format.html {redirect_to bulletin_board_path(params[:post][:bulletin_board])}
+        format.html {redirect_to bulletin_board_path(@post.bulletin_board)}
       else
         flash[:error] = 'Could not add that post'
         format.html {render :action => :new}
@@ -47,12 +48,13 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
+    params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
     params[:post][:user] = User.find(current_user)
     @post.attributes = params[:post]
     respond_to do|format|
       if @post.save
         flash[:notice] = %Q|#{@post} updated|
-        format.html {render :action => :index}
+        format.html {redirect_to bulletin_board_path(@post.bulletin_board)}
       else
         flash[:error] = 'Could not update that post'
         format.html {render :action => :new}

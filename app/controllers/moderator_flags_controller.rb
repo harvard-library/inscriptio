@@ -28,7 +28,7 @@ class ModeratorFlagsController < ApplicationController
       if @moderator_flag.save
         Notification.moderator_flag_set(@moderator_flag.post).deliver
         flash[:notice] = 'Added that Moderation Flag'
-        format.html {render :action => :show}
+        format.html {redirect_to @moderator_flag.post}
       else
         flash[:error] = 'Could not add that Moderation Flag'
         format.html {render :action => :new}
