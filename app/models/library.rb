@@ -1,6 +1,7 @@
 class Library < ActiveRecord::Base
   has_many :floors, :dependent => :destroy, :order => :position
   has_many :reservable_asset_types, :dependent => :destroy
+  has_many :reservation_notices
 
   validates_presence_of :name, :address_1, :city, :state, :zip
   validates_format_of :url, :with => /^https?:\/\//, :allow_blank => true

@@ -1,6 +1,8 @@
 class CreateReservationNotices < ActiveRecord::Migration
   def self.up
     create_table :reservation_notices do |t|
+      t.references :library
+      t.references :reservable_asset_type
       t.references :status
       t.string :subject, :limit => 250
       t.text :message

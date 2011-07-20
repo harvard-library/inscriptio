@@ -1,11 +1,29 @@
 <% content_for :header do %>Reservation Notices<% end %>
 <div class="reservation_notices collection-list">
-  <% unless @reservation_notices.blank? %>
-	<%= render :partial => 'shared/lines/reservation_notice', :collection => @reservation_notices %>
+  <% unless @libraries.blank? %>
+    <% @libraries.each do |library| %>
+      <h2><%= library.name %></h2>
+	  <% unless library.reservable_asset_types.blank? %>
+	    <% library.reservable_asset_types.each do |at| %>
+	      <h3 class="collapsable asset_notices"><%= at.name %></h3>
+		  <div class="asset_notices asset_notices-target">
+            <% unless at.reservation_notices.blank? %>
+	          <%= render :partial => 'shared/lines/reservation_notice', :collection => at.reservation_notices %>
+            <% else %>
+	          <h2>No notices for this asset yet.</h2>
+	        <% end %>
+	      </div>
+	    <% end %>
+      <% else %>
+	    <h2>No asset types for this library yet.</h2>
+      <% end %>
+    <% end %>
   <% else %>
-	<h2>No reservation notices yet.</h2>
+	<h2>No libraries yet.</h2>
   <% end %>
   <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New Reservation Notice', new_reservation_notice_path) %></h2>
+    <!--<h2 class="action-button"><%= link_to('New Reservation Notice', new_reservation_notice_path) %></h2>-->
+    <h2 class="action-button"><%= link_to('Generate All Notices', generate_notices_reservation_notices_path, :confirm => "Are you sure? This will delete and regenerate all reservation notices.") %></h2>
+	
   <% end %>
 </div>

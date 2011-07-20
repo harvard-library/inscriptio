@@ -152,21 +152,11 @@ ActiveRecord::Schema.define(:version => 20110706182123) do
   add_index "reservable_assets", ["floor_id"], :name => "index_reservable_assets_on_floor_id"
   add_index "reservable_assets", ["reservable_asset_type_id"], :name => "index_reservable_assets_on_reservable_asset_type_id"
 
-  create_table "reservation_expiration_notices", :force => true do |t|
-    t.string   "notice_type"
-    t.integer  "days_before_expiration"
-    t.string   "subject",                :limit => 250
-    t.text     "message"
-    t.string   "reply_to"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "reservation_expiration_notices", ["notice_type"], :name => "index_reservation_expiration_notices_on_notice_type"
-
   create_table "reservation_notices", :force => true do |t|
+    t.integer  "library_id"
+    t.integer  "reservable_asset_type_id"
     t.integer  "status_id"
-    t.string   "subject",    :limit => 250
+    t.string   "subject",                  :limit => 250
     t.text     "message"
     t.string   "reply_to"
     t.datetime "created_at"

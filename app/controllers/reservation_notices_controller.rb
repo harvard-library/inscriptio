@@ -3,6 +3,7 @@ class ReservationNoticesController < ApplicationController
   
   def index
     @reservation_notices = ReservationNotice.all
+    @libraries = Library.all
   end
 
   def new
@@ -55,4 +56,19 @@ class ReservationNoticesController < ApplicationController
       end
     end
   end
+  
+  def generate_notices
+    ReservationNotice.destroy_all
+    assets = ReservableAssetType.all
+    statuses = Status.all
+    
+    assets.each do |a|
+      statuses.each do |s|
+        notice = ReservationNotice.new(:library => a.library, :reservable_asset_type => a, :status => s, :subject => s.name, :message => s.name)
+        notice.save
+        puts "Successfully created #{notice.subject}"
+      end    
+    end
+    redirect_to reservation_notices_path
+  end  
 end
