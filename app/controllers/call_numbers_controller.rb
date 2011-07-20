@@ -11,6 +11,9 @@ class CallNumbersController < ApplicationController
 
   def show
     @call_number = CallNumber.find(params[:id])
+    
+    breadcrumbs.add @call_number.subject_area.name, subject_area_path(@call_number.subject_area.id)
+    breadcrumbs.add @call_number.call_number, @call_number.id
   end
 
   def create

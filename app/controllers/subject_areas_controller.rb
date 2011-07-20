@@ -11,6 +11,9 @@ class SubjectAreasController < ApplicationController
 
   def show
     @subject_area = SubjectArea.find(params[:id])
+    
+    breadcrumbs.add @subject_area.floors[0].library.name, library_path(@subject_area.floors[0].library.id)
+    breadcrumbs.add @subject_area.name, @subject_area.id
   end
 
   def edit

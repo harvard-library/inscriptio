@@ -37,7 +37,9 @@
           Inscriptio
         <% end %>
       </h1>
-
+	  <p>
+	    You are here: <%= breadcrumbs.render(:format => :inline, :separator => '-') %>
+	  </p>
       <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>
       <% end %>

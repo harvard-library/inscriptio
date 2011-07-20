@@ -13,6 +13,10 @@ class ReservableAssetsController < ApplicationController
 
   def show
     @reservable_asset = ReservableAsset.find(params[:id])
+    
+    breadcrumbs.add @reservable_asset.floor.library.name, library_path(@reservable_asset.floor.library.id)
+    breadcrumbs.add @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library.id,@reservable_asset.floor.id)
+    breadcrumbs.add @reservable_asset.name, @reservable_asset.id
   end
 
   def edit

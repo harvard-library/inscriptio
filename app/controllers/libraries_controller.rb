@@ -47,6 +47,8 @@ class LibrariesController < ApplicationController
     @subject_areas = []
     @library.floors.collect{|f| @subject_areas << f.subject_areas}
     @subject_areas.flatten!
+    
+    breadcrumbs.add @library.name, @library.id
   end
 
   def destroy

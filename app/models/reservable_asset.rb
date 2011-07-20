@@ -45,7 +45,25 @@ class ReservableAsset < ActiveRecord::Base
   def allow_reservation?(current_user)
     all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
     current_user_reservation = Reservation.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"]).id, :user_id => current_user.id})
-    (!all_current.include?(current_user) || (!current_user_reservation.nil? ? current_user_reservation.expiring? : false)) && !self.current_users.include?(current_user) && self.max_concurrent_users > self.current_users.length && (self.reservable_asset_type.user_types.include?(current_user.user_type) || current_user.admin)
+    
+    if current_user.admin || current_user_reservation.nil?
+      true  
+    elsif all_current.include?(current_user) && current_user_reservation.expiring?
+      if self.max_concurrent_users > self.current_users.length
+        if self.reservable_asset_type.user_types.include?(current_user.user_type)
+          true
+        else
+          p "not the right user type"
+          false  
+        end
+      else
+        p "asset is full"
+        false    
+      end  
+    else
+      p "is not admin or has no current reservations"
+      false    
+    end
   end  
   
   def self.search(search)

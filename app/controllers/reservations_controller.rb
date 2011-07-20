@@ -9,6 +9,8 @@ class ReservationsController < ApplicationController
       @active = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"])}, :order => ['created_at DESC'])
       @expired = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])}, :order => ['created_at DESC'])
     end 
+    
+    breadcrumbs.add 'Reservations'
   end
 
   def new

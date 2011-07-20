@@ -8,6 +8,6 @@
     <dt>Floors:</dt>
     <dd><%= @call_number.floors.join(', ') %></dd>
     <dt>Subject Area:</dt>
-    <dd><%= @call_number.subject_area %></dd>
+    <dd><%= link_to @call_number.subject_area, subject_area_path(@call_number.subject_area.id) %></dd>
   </dl>
 </div>

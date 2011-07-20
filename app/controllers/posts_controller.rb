@@ -11,6 +11,9 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    
+    breadcrumbs.add 'Bulletin Board', @post.bulletin_board.id
+    breadcrumbs.add 'Post', @post.id
   end
 
   def edit

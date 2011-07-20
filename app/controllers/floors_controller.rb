@@ -62,6 +62,9 @@ class FloorsController < ApplicationController
 
   def show
     @floor = Floor.find(params[:id])
+    
+    breadcrumbs.add @floor.library.name, library_path(@floor.library.id)
+    breadcrumbs.add @floor.name, @floor.id
   end
 
   def destroy
