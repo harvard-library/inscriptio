@@ -10,7 +10,7 @@
       <li class="empty">No reservable assets yet.</li>
     <% end %>
     <% if current_user.admin? %>
-      <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path) %></h2>
+      <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path(:library => @floor.library)) %></h2>
     <% end %>
   </ul>
   

@@ -1,7 +1,7 @@
 <div class="reservable_asset_type line" id="reservable_asset_type-<%= reservable_asset_type.id %>">
 
-  <h3 class="collapsable description"><%= reservable_asset_type.name %> - <%= link_to("Add New #{reservable_asset_type.name}", new_reservable_asset_path) %></h3>
-  <ul class="navlist description description-target">
+  <h3 class="collapsable description"><%= reservable_asset_type.name %> - <%= link_to("Add New #{reservable_asset_type.name}", new_reservable_asset_path(:library => reservable_asset_type.library)) %></h3>
+  <ul class="description description-target">
     <% unless reservable_asset_type.reservable_assets.blank? %>
       <%= render :partial => 'shared/lines/reservable_asset', :collection => reservable_asset_type.reservable_assets %>
     <% else %>

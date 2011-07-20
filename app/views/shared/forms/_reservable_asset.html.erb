@@ -1,7 +1,12 @@
 <%= semantic_form_for(@reservable_asset, :html => {:multipart => true}) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :floor %>
-    <%= f.input :reservable_asset_type %>
+	<% unless @library.nil? %>
+      <%= f.input :floor, :as => :select, :collection => @library.floors %>
+      <%= f.input :reservable_asset_type, :as => :select, :collection => @library.reservable_asset_types %>
+	<% else %>
+	  <%= f.input :floor %>
+      <%= f.input :reservable_asset_type %>
+	<% end %>
 	<%= f.input :name %>
 	<%= f.input :description %>
     <%= f.input :min_reservation_time, :label => "Minimum reservation time in days" %>

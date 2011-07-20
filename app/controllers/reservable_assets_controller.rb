@@ -9,6 +9,9 @@ class ReservableAssetsController < ApplicationController
 
   def new
     @reservable_asset = ReservableAsset.new
+    @library = Library.find(params[:library])
+    p "library------------------------------------------------------------"
+    p @library
   end
 
   def show
