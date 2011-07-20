@@ -1,0 +1,39 @@
+<% content_for :header do %>Reporting and Stats<% end %>
+<div class="reports collection-list">
+	<h2>Pending Reservations - <%= @assets.collect{|a| a.reservations_pending}.flatten.length %></h2>
+	
+	
+	<% unless @libraries.blank? %>
+	    <% @libraries.each do |library| %>
+		  <h2><%= library.name %></h2>
+	      <% unless library.reservable_asset_types.blank? %>
+	        <% library.reservable_asset_types.each do |rat| %>
+			  <h3 class="collapsable description"><%= rat.name %> - <%= rat.reservable_assets.collect{|a| a.reservations_pending}.flatten.length %></h3>
+			  <ul class="navlist description description-target">
+			    <% unless rat.reservable_assets.blank? %>
+			      <% rat.reservable_assets.each do |ra| %>
+					<% unless ra.reservations_pending.blank? %>
+				      <h3><%= ra.name %></h3>
+					  <%= render :partial => 'shared/lines/reservation', :collection => ra.reservations_pending %>
+					<% end %>
+				  <% end %>
+			    <% else %>
+			      <li class="empty">No pending reservations.</li>
+			    <% end %>
+			  </ul>
+			<% end %>
+	      <% end %>
+	    <% end %>
+	  <% end %>
+	
+	
+	
+	
+	
+	
+	
+	
+	<h2><%= link_to "Available Reservable Assets", available_reservable_assets_path %></h2>
+
+  
+</div>

@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :reports
+
   resources :reservation_notices do
     collection do
       get 'generate_notices'

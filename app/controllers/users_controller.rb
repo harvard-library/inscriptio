@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   
   def index
     @users = User.all
+    
+    breadcrumbs.add 'Users'
   end
 
   def new
@@ -12,6 +14,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @reservations = Reservation.find(:all, :conditions => {:user_id => @user.id}, :order => ['created_at DESC'])
+    
+    breadcrumbs.add @user.email, @user.id
   end
 
   def edit
