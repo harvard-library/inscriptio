@@ -5,12 +5,22 @@
     Choose a library below to view and reserve assets. <br />
   </p>
   <p>
-	Assets include:
-	<ul>
-		<% @assets.each do |asset| %>
-		  <li><%= asset.name %> <%= current_user.try(:admin?) ? "- ID #{asset.id}" : "" %></li>
-		<% end %>
-	</ul>	
+    <% unless @libraries.blank? %>
+	  Assets include:
+	  <% @libraries.each do |library| %>
+	    <p>
+		<%= library.name %>: 
+		
+	  	  <% library.reservable_asset_types.each do |asset| %>
+		    <%= asset.name %> <%= current_user.try(:admin?) ? "(ID #{asset.id})" : "" %>
+			<% if !(library.reservable_asset_types.last == asset) %>
+			  <%= ", " %>
+			<% end %>
+		  <% end %>
+	    
+		</p>
+	  <% end %>	
+   	<% end %> 	
    </p>
 </div>
 
