@@ -92,7 +92,7 @@ class FloorsController < ApplicationController
             :y1 => asset.y1,
             :x2 => asset.x2,
             :y2 => asset.y2,
-            :allow_reservation => asset.allow_reservation?(current_user)
+            :allow_reservation => !asset.asset_full?
           }
         }
         render :json => output
