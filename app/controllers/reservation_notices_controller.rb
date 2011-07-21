@@ -50,8 +50,8 @@ class ReservationNoticesController < ApplicationController
     @reservation_notice.attributes = params[:reservation_notice]
     respond_to do|format|
       if @reservation_notice.save
-        flash[:notice] = %Q|#{@reservation_notice} updated|
-        format.html {render :action => :index}
+        flash[:notice] = %Q|#{@reservation_notice.subject} updated|
+        format.html {redirect_to :action => :index}
       else
         flash[:error] = 'Could not update that Reservation Notice'
         format.html {render :action => :new}
@@ -60,17 +60,15 @@ class ReservationNoticesController < ApplicationController
   end
   
   def generate_notices
-    ReservationNotice.destroy_all
-    assets = ReservableAssetType.all
+    asset_type = ReservableAssetType.find(params[:asset_type])
+    ReservationNotice.destroy_all(:reservable_asset_type_id => asset_type.id)
     statuses = Status.all
     
-    assets.each do |a|
-      statuses.each do |s|
-        notice = ReservationNotice.new(:library => a.library, :reservable_asset_type => a, :status => s, :subject => s.name, :message => s.name)
-        notice.save
-        puts "Successfully created #{notice.subject}"
-      end    
-    end
+    statuses.each do |s|
+      notice = ReservationNotice.new(:library => asset_type.library, :reservable_asset_type => asset_type, :status => s, :subject => s.name, :message => s.name)
+      notice.save
+      puts "Successfully created #{notice.subject}"
+    end    
     redirect_to reservation_notices_path
   end  
 end

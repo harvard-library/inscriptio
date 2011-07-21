@@ -12,6 +12,7 @@
             <% else %>
 	          <h2>No notices for this asset yet.</h2>
 	        <% end %>
+			<h2 class="action-button"><%= link_to('Generate All Notices', generate_notices_reservation_notices_path(:asset_type => at), :confirm => "Are you sure? This will delete and regenerate all reservation notices for this asset.") %></h2>
 	      </div>
 	    <% end %>
       <% else %>
@@ -22,8 +23,8 @@
 	<h2>No libraries yet.</h2>
   <% end %>
   <% if current_user.admin? %>
-    <!--<h2 class="action-button"><%= link_to('New Reservation Notice', new_reservation_notice_path) %></h2>-->
-    <h2 class="action-button"><%= link_to('Generate All Notices', generate_notices_reservation_notices_path, :confirm => "Are you sure? This will delete and regenerate all reservation notices.") %></h2>
+    <!--<h2 class="action-button"><%= link_to('New Reservation Notice', new_reservation_notice_path) %></h2>
+    <h2 class="action-button"><%= link_to('Generate All Notices', generate_notices_reservation_notices_path, :confirm => "Are you sure? This will delete and regenerate all reservation notices.") %></h2>-->
 	
   <% end %>
 </div>
