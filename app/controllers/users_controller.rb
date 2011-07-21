@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @reservations = Reservation.find(:all, :conditions => {:user_id => @user.id}, :order => ['created_at DESC'])
     
+    breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
   end
 

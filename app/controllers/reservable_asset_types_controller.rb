@@ -3,6 +3,8 @@ class ReservableAssetTypesController < ApplicationController
   
   def index
     @libraries = Library.all
+    
+    breadcrumbs.add 'Reservable Assets'
   end
 
   def new

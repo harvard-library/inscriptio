@@ -3,6 +3,8 @@ class UserTypesController < ApplicationController
   
   def index
     @user_types = UserType.all
+    
+    breadcrumbs.add 'User Types'
   end
 
   def new
@@ -11,6 +13,9 @@ class UserTypesController < ApplicationController
 
   def show
     @user_type = UserType.find(params[:id])
+    
+    breadcrumbs.add 'User Types', user_types_path
+    breadcrumbs.add @user_type.name, @user_type.id
   end
 
   def edit

@@ -4,6 +4,8 @@ class ReservationNoticesController < ApplicationController
   def index
     @reservation_notices = ReservationNotice.all
     @libraries = Library.all
+    
+    breadcrumbs.add "Reservation Notices"
   end
 
   def new
