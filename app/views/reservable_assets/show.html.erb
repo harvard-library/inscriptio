@@ -27,7 +27,11 @@
 	  <% end %>	
     <% end %>	
 	<dt>Notes:</dt>
-      <dd><%= @reservable_asset.notes %></dd>
+	  <% unless @reservable_asset.notes.blank? %>
+        <dd><%= @reservable_asset.notes %></dd>
+	  <% else %>
+		<dd>None</dd>
+	  <% end %>	
   </dl>
 	
   <% unless @reservable_asset.photo.blank? %>
@@ -37,6 +41,8 @@
 
   <% if @reservable_asset.allow_reservation?(current_user) %>
     <h2 class="action-button"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
+  <% else %>
+	<h3>You are not able to reserve this asset at this time.</h3>
   <% end %>
 </div>
 
