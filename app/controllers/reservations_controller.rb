@@ -40,8 +40,15 @@ class ReservationsController < ApplicationController
       params[:reservation][:user] = User.find(current_user)
     end
     
+    p "asset type"
+    p params[:reservation][:reservable_asset].reservable_asset_type
+    
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
-      params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+      if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
+        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+      else
+        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+      end    
     end  
     
     #saving the actual date entered in by the user to validate date range on line 53
@@ -95,7 +102,7 @@ class ReservationsController < ApplicationController
     respond_to do|format|
       if @reservation.save
         Notification.reservation_notice(@reservation).deliver
-        flash[:notice] = %Q|#{@reservation} updated|
+        flash[:notice] = %Q|Reservation updated|
         format.html {redirect_to :action => :show}
       else
         flash[:error] = 'Could not update that Reservation'

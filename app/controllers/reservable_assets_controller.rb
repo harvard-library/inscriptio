@@ -36,9 +36,6 @@ class ReservableAssetsController < ApplicationController
     end
     if params[:reservable_asset][:max_concurrent_users].blank? || params[:reservable_asset][:max_concurrent_users].nil?
       params[:reservable_asset][:max_concurrent_users] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).max_concurrent_users
-    end
-    if params[:reservable_asset][:reservation_time_increment].blank? || params[:reservable_asset][:reservation_time_increment].nil?
-      params[:reservable_asset][:reservation_time_increment] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).reservation_time_increment
     end  
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|

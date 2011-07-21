@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20110706182123) do
     t.integer  "max_reservation_time"
     t.integer  "max_concurrent_users"
     t.boolean  "has_code"
+    t.boolean  "require_moderation"
     t.text     "welcome_message"
     t.integer  "expiration_extension_time"
     t.boolean  "has_bulletin_board",        :default => false
