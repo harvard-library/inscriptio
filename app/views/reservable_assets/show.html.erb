@@ -21,7 +21,7 @@
         <dd><%= @reservable_asset.access_code %></dd>
 	<% end %>
 	<% unless @reservable_asset.bulletin_board.nil? %>
-      <% if @reservable_asset.current_users.include?(current_user) %>
+      <% if @reservable_asset.current_users.include?(current_user) || current_user.admin? %>
 	    <dt>Bulletin Board</dt>
         <dd><%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %></dd>
 	  <% end %>	

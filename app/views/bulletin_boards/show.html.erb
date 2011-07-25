@@ -1,7 +1,7 @@
 <div class="bulletin_board show-object">
   <% content_for :header do %>Bulletin Board for <%= @bulletin_board.reservable_asset.name %><% end %>
 
-  <p>Post Lifetime: <%= @bulletin_board.post_lifetime %></p>
+  <p>Please note that all posts are PERMANENTLY deleted after <%= @bulletin_board.post_lifetime %> days.</p>
 
   <% unless @posts.blank? %>
 	<%= render :partial => 'shared/lines/post', :collection => @posts %>

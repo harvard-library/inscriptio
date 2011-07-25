@@ -5,7 +5,7 @@ class ReservableAsset < ActiveRecord::Base
   belongs_to :reservable_asset_type
   has_many :reservations, :dependent => :destroy
   has_many :users, :through => :reservations
-  has_one :bulletin_board
+  has_one :bulletin_board, :dependent => :destroy
   
   validates_presence_of :floor_id
   validates_presence_of :reservable_asset_type_id

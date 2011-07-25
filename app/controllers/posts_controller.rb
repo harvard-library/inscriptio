@@ -12,7 +12,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     
-    breadcrumbs.add 'Bulletin Board', @post.bulletin_board.id
+    breadcrumbs.add 'Bulletin Board', bulletin_board_path(@post.bulletin_board)
     breadcrumbs.add 'Post', @post.id
   end
 

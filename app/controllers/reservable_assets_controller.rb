@@ -43,7 +43,7 @@ class ReservableAssetsController < ApplicationController
         if @reservable_asset.reservable_asset_type.has_bulletin_board
           @bulletin_board = BulletinBoard.new
           @bulletin_board.reservable_asset = @reservable_asset
-          @bulletin_board.post_lifetime = "1 month"
+          @bulletin_board.post_lifetime = 30
           @bulletin_board.save!
         end  
         flash[:notice] = 'Added that Reservable Asset'

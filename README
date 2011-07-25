@@ -29,6 +29,11 @@ h2. Application Set-up Steps
 * Create the database and run migrations, modifying "config/database.yml" to suit your environment.
 * Run bootstrap rake tasks: 
  rake bootstrap:inscriptio:run_all
+* Create cron job to automatically run rake tasks for sending out notifications expiring and expired reservations as well as deleting bulletin board posts after post lifetime: 
+ rake inscriptio:cron_task:delete_posts
+ rake inscriptio:cron_task:send_expiration_notification
+ rake inscriptio:cron_task:send_expired_notification
+ rake inscriptio:cron_task:run_all
 
 h2. Order of Operations for Fresh Install
 
