@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110706182123) do
+ActiveRecord::Schema.define(:version => 20110725183317) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -74,6 +74,14 @@ ActiveRecord::Schema.define(:version => 20110706182123) do
     t.string   "longitude"
     t.text     "contact_info"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.string   "title",       :null => false
+    t.text     "content",     :null => false
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

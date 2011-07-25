@@ -4,6 +4,10 @@ class LibrariesController < ApplicationController
   def index
     @libraries = Library.all
     @assets = ReservableAssetType.all
+    @welcome_message = Message.find(:first, :conditions => ["title LIKE ?", '%Welcome%'])
+    if @welcome_message.nil?
+      @message = Message.new
+    end  
   end
 
   def new

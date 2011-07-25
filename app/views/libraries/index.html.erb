@@ -1,27 +1,33 @@
 <% content_for :header do %>Libraries<% end %>
 <div>
-  <p>
-    Welcome to Inscriptio! <br />
-    Choose a library below to view and reserve assets. <br />
-  </p>
-  <p>
-    <% unless @libraries.blank? %>
+  <% unless @welcome_message.nil? %>	
+    <h2><%= @welcome_message.title %></h2>
+  	<p>  
+      <%= @welcome_message.content %>
+    </p>
+    <% if current_user.admin? %>
+      <%= link_to('Edit', edit_message_path(@welcome_message)) %>
+    <% end %>
+  <% else %>
+    <%= render :partial => 'shared/forms/message' %>
+  <% end %>
+
+  <% unless @libraries.blank? %>
+    <p>
 	  Assets include:
 	  <% @libraries.each do |library| %>
 	    <p>
-		<%= library.name %>: 
-		
-	  	  <% library.reservable_asset_types.each do |asset| %>
+	      <%= library.name %>: 	
+	      <% library.reservable_asset_types.each do |asset| %>
 		    <%= asset.name %> <%= current_user.try(:admin?) ? "(ID #{asset.id})" : "" %>
-			<% if !(library.reservable_asset_types.last == asset) %>
-			  <%= ", " %>
-			<% end %>
-		  <% end %>
-	    
-		</p>
+		    <% if !(library.reservable_asset_types.last == asset) %>
+		      <%= ", " %>
+		    <% end %>
+	      <% end %>    
+	    </p>
 	  <% end %>	
-   	<% end %> 	
-   </p>
+    </p>	
+  <% end %> 	
 </div>
 
 <div class="libraries collection-list">

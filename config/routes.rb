@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :messages
+
   resources :reports
 
   resources :reservation_notices do

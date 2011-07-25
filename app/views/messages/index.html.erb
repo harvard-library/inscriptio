@@ -1,0 +1,12 @@
+<% content_for :header do %>Messages<% end %>
+<div class="messages collection-list">
+  <% unless @messages.blank? %>
+	<%= render :partial => 'shared/lines/message', :collection => @messages %>
+  <% else %>
+	<h2>No messages yet.</h2>
+  <% end %>
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New Message', new_message_path) %></h2>
+  <% end %>
+</div>
+

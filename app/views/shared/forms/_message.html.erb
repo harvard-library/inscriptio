@@ -1,0 +1,12 @@
+<script type="text/javascript">
+       bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
+
+<%= semantic_form_for(@message) do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :title %>
+	<%= f.input :content %>
+	<%= f.input :description %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>

@@ -1,0 +1,10 @@
+<div class="message line" id="message-<%= message.id %>">
+  <%= link_to(message.title, message ) %>
+  
+  <% if current_user.admin? %>
+	<ul class="actions">
+      <li><%= link_to('Edit', edit_message_path(message)) %></li>
+      <li><%= link_to('Delete', message_path(message), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{message.id}") %></li>
+    </ul>
+  <% end %>
+</div>
