@@ -8,11 +8,6 @@ class LibrariesController < ApplicationController
     if @welcome_message.nil?
       @message = Message.new
     end
-    
-    curr = Date.today
-    p "current date month"
-    p curr.month
-    p curr.prev_month.month
   end
 
   def new

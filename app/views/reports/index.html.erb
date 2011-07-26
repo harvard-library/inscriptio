@@ -56,7 +56,7 @@
 	</div>
 	
 	<!-- Expired Reservations -->
-	<h2 class="collapsable expired_reservations">Recently Expired Reservations</h2>
+	<h2 class="collapsable expired_reservations">Recently Expired Reservations - <%= @assets.collect{|a| a.reservations_recently_expired}.flatten.length %></h2>
 	<div class="expired_reservations expired_reservations-target">
 	  	<% unless @libraries.blank? %>
 		  <% @libraries.each do |library| %>
