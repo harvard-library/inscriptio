@@ -33,7 +33,6 @@ Inscriptio::Application.routes.draw do
     end
     collection do
       post 'import'
-      get 'available'
     end
     
   end

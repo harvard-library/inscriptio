@@ -7,7 +7,12 @@ class LibrariesController < ApplicationController
     @welcome_message = Message.find(:first, :conditions => ["title LIKE ?", '%Welcome%'])
     if @welcome_message.nil?
       @message = Message.new
-    end  
+    end
+    
+    curr = Date.today
+    p "current date month"
+    p curr.month
+    p curr.prev_month.month
   end
 
   def new

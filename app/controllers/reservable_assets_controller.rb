@@ -142,9 +142,4 @@ class ReservableAssetsController < ApplicationController
     end
     redirect_to reservable_asset_types_path
   end  
-  
-  def available
-    @reservable_asset_types = ReservableAssetType.all
-    @libraries = Library.all
-  end  
 end

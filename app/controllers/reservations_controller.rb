@@ -51,7 +51,7 @@ class ReservationsController < ApplicationController
       end    
     end  
     
-    #saving the actual date entered in by the user to validate date range on line 53
+    #saving the actual date entered in by the user to validate date range on line 63
     chosen = Date.parse(params[:reservation][:end_date], "{ %Y, %m, %d }")
     
     #setting the end date to the last day of the month chosen by the user

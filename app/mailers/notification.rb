@@ -30,7 +30,7 @@ class Notification < ActionMailer::Base
   
   def reservation_expired
       @notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])})
-      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date = current_date='])
+      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date = current_date'])
       @reservations.each do |reservation|
         reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
         reservation.save

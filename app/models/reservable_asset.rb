@@ -42,6 +42,11 @@ class ReservableAsset < ActiveRecord::Base
     self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', waitlist)
   end
   
+  def reservations_recently_expired
+    expired = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
+    self.reservations.where('reservations.status_id = ?', expired) && self.reservations.where('EXTRACT(month from reservations.end_date) = ?', Date.today.prev_month.month)
+  end
+  
   def asset_full?
     self.current_users.length >= self.max_concurrent_users
   end
