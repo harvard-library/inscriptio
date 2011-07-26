@@ -27,6 +27,7 @@ h2. Application Set-up Steps
 * Get code from: https://github.com/berkmancenter/Inscriptio
 * Run bundle install. You will probably have to install OS-vendor supplied libraries to satisfy some gem install requirements.
 * Create the database and run migrations, modifying "config/database.yml" to suit your environment.
+* Modify "config/environment.rb" for action_mailer config
 * Run bootstrap rake tasks: 
  rake bootstrap:inscriptio:run_all
 * Create cron job to automatically run rake tasks for sending out notifications expiring and expired reservations as well as deleting bulletin board posts after post lifetime: 
