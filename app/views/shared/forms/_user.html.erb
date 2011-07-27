@@ -2,7 +2,9 @@
   <%= f.inputs do %>
     <%= f.input :email %>
 	<%= f.input :user_type %>
-	<%= f.input :admin %>
+	<% unless @user == current_user %>
+	  <%= f.input :admin %>
+	<% end %>
   <% end %>
   <%= f.buttons %>
 <% end %>

@@ -9,6 +9,9 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    
+    breadcrumbs.add 'Users', users_path
+    breadcrumbs.add 'New'
   end
 
   def show
@@ -21,6 +24,10 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    
+    breadcrumbs.add 'Users', users_path
+    breadcrumbs.add @user.email, @user.id
+    breadcrumbs.add 'Edit'
   end
   
   def create
@@ -62,4 +69,5 @@ class UsersController < ApplicationController
       end
     end
   end
+
 end

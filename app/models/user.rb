@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   
   def to_s
     %Q|#{email}|
-  end
+  end 
   
   def self.search(search)
     if search

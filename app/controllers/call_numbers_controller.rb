@@ -9,6 +9,9 @@ class CallNumbersController < ApplicationController
 
   def new
     @call_number = CallNumber.new
+    
+    breadcrumbs.add 'Call Numbers', call_numbers_path
+    breadcrumbs.add 'New'
   end
 
   def show
@@ -45,6 +48,9 @@ class CallNumbersController < ApplicationController
 
   def edit
     @call_number = CallNumber.find(params[:id])
+    
+    breadcrumbs.add 'Call Numbers', call_numbers_path
+    breadcrumbs.add 'Edit'
   end
 
   def update
