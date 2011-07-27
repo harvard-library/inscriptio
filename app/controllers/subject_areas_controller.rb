@@ -9,6 +9,10 @@ class SubjectAreasController < ApplicationController
 
   def new
     @subject_area = SubjectArea.new
+    @floors = Array.new
+    Floor.all.collect {|f| @floors << ["#{f.name} - #{f.library.name}", f.id] }
+    p "floors"
+    p @floors
   end
 
   def show

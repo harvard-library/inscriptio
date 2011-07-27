@@ -8,7 +8,7 @@
     <dt>Floors:</dt>
     <dd>
 	  <% @subject_area.floors.each do |floor| %>
-	    <%= link_to floor.name, library_floor_path(floor.library,floor) %>
+	    <%= link_to "#{floor.name} - #{floor.library.name}", library_floor_path(floor.library,floor) %> <br />
 	  <% end %>
 	</dd>
   </dl>

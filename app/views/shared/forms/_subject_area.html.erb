@@ -3,7 +3,7 @@
     <%= f.input :name %>
 	<%= f.input :long_name %>
     <%= f.input :description %>
-    <%= f.input :floors, :as => :check_boxes %>
+    <%= f.input :floors, :as => :check_boxes, :collection => @floors %>
   <% end %>
   <%= f.buttons %>
 <% end %>
