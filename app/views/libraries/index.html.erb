@@ -9,7 +9,10 @@
       <%= link_to('Edit', edit_message_path(@welcome_message)) %>
     <% end %>
   <% else %>
-    <%= render :partial => 'shared/forms/message' %>
+	<% if current_user.admin? %>
+	  <h2>Create Welcome Message</h2>
+      <%= render :partial => 'shared/forms/message' %>
+    <% end %>
   <% end %>
 
   <% unless @libraries.blank? %>
