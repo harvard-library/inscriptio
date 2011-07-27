@@ -6,7 +6,7 @@
       <%= @welcome_message.content %>
     </p>
     <% if current_user.admin? %>
-      <%= link_to('Edit', edit_message_path(@welcome_message)) %>
+      <%= link_to('Edit', edit_message_path(@welcome_message), :class => "action-edit") %>
     <% end %>
   <% else %>
 	<% if current_user.admin? %>
@@ -18,8 +18,9 @@
   <% unless @libraries.blank? %>
     <p>
 	  Assets include:
+	  <ul>
 	  <% @libraries.each do |library| %>
-	    <p>
+	    <li>
 	      <%= library.name %>: 	
 	      <% library.reservable_asset_types.each do |asset| %>
 		    <%= asset.name %> <%= current_user.try(:admin?) ? "(ID #{asset.id})" : "" %>
@@ -27,8 +28,9 @@
 		      <%= ", " %>
 		    <% end %>
 	      <% end %>    
-	    </p>
-	  <% end %>	
+	    </li>
+	  <% end %>
+	  </ul>	
     </p>	
   <% end %> 	
 </div>
@@ -40,6 +42,6 @@
     <h2>No libraries yet.</h2>
   <% end %>
   <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New Library', new_library_path) %></h2>
+    <h2 class="action-new-library"><%= link_to('New Library', new_library_path) %></h2>
   <% end %>
 </div>

@@ -6,7 +6,7 @@
     <%= javascript_include_tag 'jquery', 'jquery-ui-1.8.14.custom.min.js', 'rails.js', 'application.js', 'nicEdit' %>
     <%= csrf_meta_tag %>
   </head>
-  <body>
+  <body <%= yield :body %>>
     <div id="header">
       <div id="utility">
         <% if user_signed_in? %>
@@ -30,6 +30,9 @@
     </div>
 
     <div id="container">
+	  <p id="breadcrumb">
+	    <%= breadcrumbs.render(:format => :inline, :separator => '-') %>
+	  </p>
       <h1 id="content-header">
         <% if content_for? :header %>
          <%= yield :header %>
@@ -37,9 +40,7 @@
           Inscriptio
         <% end %>
       </h1>
-	  <p>
-	    <%= breadcrumbs.render(:format => :inline, :separator => '-') %>
-	  </p>
+	  
       <% if flash[:notice] %>
         <div class="notice"><%= flash[:notice] %></div>
       <% end %>
@@ -65,20 +66,37 @@
       <div class="clear"></div>
     </div>
     
-    <div id="global-links">
-      <ul>
-        <li><%= link_to "Libraries", libraries_path %></li>
-        <% if user_signed_in? && !current_user.try(:admin?) %>
-          <li><%= link_to "Reservations", reservations_path %></li>
-        <% end %>
-        <% if current_user.try(:admin?) %>
-          <li><%= link_to "Users", users_path %></li>
-          <li><%= link_to "User Types", user_types_path %></li>
-          <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
-          <li><%= link_to "Reservation Notices", reservation_notices_path %></li>
-		  <li><%= link_to "Reports", reports_path %></li>
-        <% end %>
-      </ul>
+    <div id="user-dashboard">
+	  <h3>User Options</h3>
+	  <div class="col1">
+        <ul>
+          <li><%= link_to "Libraries (home)", libraries_path %></li>
+		  <% if user_signed_in? && !current_user.try(:admin?) %>
+            <li><%= link_to "Reservations", reservations_path %></li>
+          <% end %>	
+		</ul>
+	  </div>
+	  <% if current_user.try(:admin?) %>	
+        <div class="col2">
+          <ul>
+  	        <li><%= link_to "Users", users_path %></li>
+            <li><%= link_to "User Types", user_types_path %></li>
+          </ul>
+        </div>    
+        <div class="col3">
+          <ul>
+			<li><%= link_to "Subject Areas", subject_areas_path %></li>
+			<li><%= link_to "Call Numbers", call_numbers_path %></li>
+          </ul>
+        </div>
+  		<div class="col4">
+       	  <ul>
+            <li><%= link_to "Reports", reports_path %></li>
+            <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
+            <li><%= link_to "Reservation Notices", reservation_notices_path %></li>
+          </ul>
+    	</div>	    
+      <% end %>
     </div>	
 
     <div id="footer">

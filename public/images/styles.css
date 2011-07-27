@@ -5,7 +5,7 @@ html {
 }
 
 body {
-	background: url(/images/background.png) #8c8179 repeat-y top center;
+	background: url(background.png) #8c8179 repeat-y top center;
 	color: #333333;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
@@ -20,8 +20,8 @@ a:hover {
 	color: #bb343f;
 }
 
-/*h1 {
-	background: url(/images/background_heading.png) #a51c30 repeat-x center center;
+/* h1 {
+	background: url(background_heading.png) #a51c30 repeat-x center center;
 	font-size: 22px;
 	clear: both;
 	color: #ffffff;
@@ -30,7 +30,9 @@ a:hover {
 	padding: 10px 0px;
 	text-align: center;
 	width: 100%;
-}*/
+} */
+
+
 
 #content-header a {
   color: #ffffff;
@@ -86,7 +88,7 @@ dd {
 }
 
 #logo span #home-logo {
-    background: url("/images/logo_inscriptio.png") no-repeat scroll left top transparent;
+    background: url("logo_inscriptio.png") no-repeat scroll left top transparent;
     display: block;
     height: 65px;
     text-indent: -9999px;
@@ -156,7 +158,7 @@ ul.navlist {
 }
 
 #content-left li#active a {
-	background: url(/images/menu_arrow.png) #f3f3f1 right center no-repeat;
+	background: url(menu_arrow.png) #f3f3f1 right center no-repeat;
 }
 
 .actions li {
@@ -221,12 +223,12 @@ ul.navlist {
 }
 
 #content-right {
-	margin: 15px 0px 0px 40px;
-	width: 920px;
+	margin: 15px 0px 0px 240px;
+	width: 705px;
 }	
 
 h2.action-button {
-	background: url(/images/background_button.png) #a51c30 center center no-repeat;
+	background: url(background_button.png) #a51c30 center center no-repeat;
 	display: block;
 	font-size: 15px;
 	height: 32px;
@@ -252,7 +254,7 @@ h2.action-button a:hover {
 
 
 #global-links {
-	background: url(/images/background_heading.png) #a51c30 repeat-x center center;
+	background: url(background_heading.png) #a51c30 repeat-x center center;
 	display: block;
 	margin: 30px auto 0px;
 	text-align: center;
@@ -297,13 +299,13 @@ h2.action-button a:hover {
 
 /* New Styles */
 
-body.double-column #content-right {
-	margin-left: 240px;
-	width: 705px;
+body.single-column #content-right {
+	margin-left: 40px;
+	width: 920px;
 }
 
 #breadcrumb {
-	background: url(/images/background_heading.png) #a51c30 repeat-x bottom center;
+	background: url(background_heading.png) #a51c30 repeat-x bottom center;
 	color: #fff;
 	padding: 5px 0px 5px 10px;
 }
@@ -327,37 +329,37 @@ h1 {
 }
 
 h2.action-new-library {
-	background: url(/images/icon_library_32.png) #ffffff no-repeat left center;
+	background: url(icon_library_32.png) #ffffff no-repeat left center;
 	height: 32px;
 	padding: 5px 0px 0px 40px;
 }
 
 h2.action-new-floor {
-	background: url(/images/icon_new_floor_32.png) #ffffff no-repeat left center;
+	background: url(icon_new_floor_32.png) #ffffff no-repeat left center;
 	height: 32px;
 	padding: 5px 0px 0px 40px;
 }
 
 h2.action-new-subject {
-	background: url(/images/icon_new_subject_32.png) #ffffff no-repeat left center;
+	background: url(icon_new_subject_32.png) #ffffff no-repeat left center;
 	height: 32px;
 	padding: 5px 0px 0px 40px;
 }
 
 h2.action-generate-reset {
-	background: url(/images/icon_reset_generate_32.png) #ffffff no-repeat left center;
+	background: url(icon_reset_generate_32.png) #ffffff no-repeat left center;
 	height: 32px;
 	padding: 5px 0px 0px 40px;
 }
 
 h2.action-reserve-asset {
-	background: url(/images/icon_reserve_asset_32.png) #ffffff no-repeat left center;
+	background: url(icon_reserve_asset_32.png) #ffffff no-repeat left center;
 	height: 32px;
 	padding: 5px 0px 0px 40px;
 }
 
 h2.action-new-asset-type {
-	background: url(/images/icon_new_reservable_asset_32.png) #ffffff no-repeat left center;
+	background: url(icon_new_reservable_asset_32.png) #ffffff no-repeat left center;
 	height: 32px;
 	padding: 5px 0px 0px 40px;
 }
@@ -368,7 +370,7 @@ li {
 }
 
 #content-left h4 {
-	background: url(/images/icon_plus_16.png) no-repeat 8px bottom;
+	background: url(icon_plus_16.png) no-repeat 8px bottom;
 	padding-left: 35px;
 }
 
@@ -390,33 +392,33 @@ ul.actions {
 }
 
 .action-edit {
-	background: url(/images/icon_edit_16.png) #ffffff no-repeat left center;
+	background: url(icon_edit_16.png) #ffffff no-repeat left center;
 	padding-left: 20px;
 }
 
 .action-delete {
-	background: url(/images/icon_delete_16.png) #ffffff no-repeat left center;
+	background: url(icon_delete_16.png) #ffffff no-repeat left center;
 	padding-left: 20px;
 }
 
 .action-move-up {
-	background: url(/images/icon_move_up_16.png) #ffffff no-repeat -2px center;
+	background: url(icon_move_up_16.png) #ffffff no-repeat -2px center;
 	padding-left: 16px;
 }
 
 .action-move-down {
-	background: url(/images/icon_move_down_16.png) #ffffff no-repeat -2px center;
+	background: url(icon_move_down_16.png) #ffffff no-repeat -2px center;
 	padding-left: 16px;
 }
 
 
 h2.collapsable {
-	background: url(/images/icon_plus_16.png) no-repeat 8px 3px;
+	background: url(icon_plus_16.png) no-repeat 8px 3px;
 	padding-left: 35px;
 }
 
 h3.collapsable {
-	background: url(/images/icon_plus_16.png) no-repeat 8px 1px;
+	background: url(icon_plus_16.png) no-repeat 8px 1px;
 	padding-left: 35px;
 }
 
@@ -430,7 +432,7 @@ div.reservation_notice {
 }
 
 #user-dashboard {
-	background: url(/images/background_dashboard.png) #ffffff repeat-x center top;
+	background: url(background_dashboard.png) #ffffff repeat-x center top;
 	margin: 30px auto 0px;
 	padding: 25px 0px 0px 0px;
 	width: 960px;
@@ -475,6 +477,5 @@ div.col3 {
 div.col4 {
 	margin-left: 100px;
 }
-
 
 

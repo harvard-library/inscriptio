@@ -3,8 +3,8 @@
   
   <% if current_user.admin? %>
 	<ul class="actions">
-      <li><%= link_to('Edit', edit_status_path(status)) %></li>
-      <li><%= link_to('Delete', status_path(status), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{status.id}") %></li>
+      <li><%= link_to('Edit', edit_status_path(status), :class => "action-edit") %></li>
+      <li><%= link_to('Delete', status_path(status), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{status.id}", :class => "action-delete") %></li>
     </ul>
   <% end %>
 </div>

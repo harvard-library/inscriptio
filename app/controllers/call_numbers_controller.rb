@@ -3,6 +3,8 @@ class CallNumbersController < ApplicationController
 
   def index
     @call_numbers = CallNumber.all
+    
+    breadcrumbs.add "Call Numbers"
   end
 
   def new

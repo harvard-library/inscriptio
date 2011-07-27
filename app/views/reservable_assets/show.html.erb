@@ -40,7 +40,7 @@
   <% end %>
 
   <% if @reservable_asset.allow_reservation?(current_user) %>
-    <h2 class="action-button"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
+    <h2 class="action-reserve-asset"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
   <% else %>
 	<h3>You are not able to reserve this asset at this time.</h3>
   <% end %>

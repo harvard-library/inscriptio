@@ -1,4 +1,4 @@
-<!-- <div class="floor show-object" id="floor-details-<%= @floor.id %>"> -->
+<% content_for :body do %>class="double-column"<% end %>
 <% content_for :header do %><%= @floor %> in <%= link_to @floor.library.name, @floor.library %><% end %>
 	
 <% content_for :content_left do %>
@@ -22,7 +22,7 @@
       <li class="empty">No subject areas yet.</li>
     <% end %>
     <% if current_user.admin? %>
-      <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
+      <h2 class="action-new-subject"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
     <% end %>
   </ul>
 
@@ -46,7 +46,7 @@
       <li class="empty">No floors yet.</li>
     <% end %>
     <% if current_user.admin? %>
-      <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
+      <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
     <% end %>
   </ul>
 <% end %>

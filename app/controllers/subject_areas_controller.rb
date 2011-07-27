@@ -3,6 +3,8 @@ class SubjectAreasController < ApplicationController
   
   def index
     @subject_areas = SubjectArea.all
+    
+    breadcrumbs.add "Subject Areas"
   end
 
   def new

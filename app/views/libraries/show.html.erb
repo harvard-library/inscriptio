@@ -1,4 +1,4 @@
-<!-- <div class="library-details" id="library-details-<%= @library.id %>"> -->
+<% content_for :body do %>class="double-column"<% end %>
 <% content_for :header do %><%= link_to(@library.name, @library.url, :class=> 'external_link', :target => "_blank" ) %><% end %>
 
 <% content_for :content_left do %>
@@ -25,7 +25,7 @@
   <h4>No floors yet.</h4>
 <% end %>
 <% if current_user.admin? %>
-  <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@library)) %></h2>
+  <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@library)) %></h2>
 <% end %>
 
 <h2>All Subject Areas</h2>
@@ -36,6 +36,6 @@
   <h4>No subject areas yet.</h4>
 <% end %>
 <% if current_user.admin? %>
-  <h2 class="action-button"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
+  <h2 class="action-new-subject"><%= link_to('New Subject Area', new_subject_area_path) %></h2>
 <% end %>
 <!-- </div> -->

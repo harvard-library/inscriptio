@@ -7,9 +7,9 @@
   <% end %>
   
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>
-    <li><%= link_to('Edit', edit_reservation_path(reservation)) %></li>
+    <li><%= link_to('Edit', edit_reservation_path(reservation), :class => "action-edit") %></li>
   <% end %>
-	<li><%= link_to('Delete', reservation_path(reservation), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation.id}") %></li>
+	<li><%= link_to('Delete', reservation_path(reservation), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete") %></li>
   </ul>
   <dl>
 	<% unless !reservation.approved? %>

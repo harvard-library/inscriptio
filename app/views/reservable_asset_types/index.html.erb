@@ -2,7 +2,7 @@
 <div class="reservable_asset_types collection-list">
   <% unless @libraries.blank? %>
     <% if current_user.admin? %>
-      <h2 class="action-button"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
+      <h2 class="action-new-asset-type"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
     <% end %>
 	<% @libraries.each do |library| %>
 	  <h2><%= library.name %></h2>

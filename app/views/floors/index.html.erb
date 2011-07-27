@@ -5,7 +5,7 @@
     <h2>No floors for this library yet.</h2>
   <% end %>
   <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
+    <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
   <% end %>
   <h2 class="action-button"><%= link_to("Back to " + @library.name, @library ) %></h2>
 </div>
