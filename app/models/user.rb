@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
 #  has_one :authentication_source, :through => :user_type
 
   validates_presence_of :email
+  validates_uniqueness_of :email
   
   def to_s
     %Q|#{email}|
