@@ -38,7 +38,7 @@ class BulletinBoardsController < ApplicationController
     @bulletin_board = BulletinBoard.find(params[:id])
     bulletin_board = @bulletin_board.id
     if @bulletin_board.destroy
-      flash[:notice] = %Q|Deleted Bulletin Board #{bulletin_board}|
+      flash[:notice] = %Q|Deleted Bulletin Board #{bulletin_board.id}|
       redirect_to :action => :index
     else
 
@@ -50,7 +50,7 @@ class BulletinBoardsController < ApplicationController
     @bulletin_board.attributes = params[:bulletin_board]
     respond_to do|format|
       if @bulletin_board.save
-        flash[:notice] = %Q|#{@bulletin_board} updated|
+        flash[:notice] = %Q|Bulletin Board #{bulletin_board.id} updated!|
         format.html {render :action => :index}
       else
         flash[:error] = 'Could not update that Bulletin Board'

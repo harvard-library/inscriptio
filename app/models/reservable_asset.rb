@@ -7,14 +7,14 @@ class ReservableAsset < ActiveRecord::Base
   has_many :users, :through => :reservations
   has_one :bulletin_board, :dependent => :destroy
   
-  validates_presence_of :floor_id
+  validates_presence_of :floor_id, :name
   validates_presence_of :reservable_asset_type_id
   validates_numericality_of :min_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_concurrent_users, :only_integer => true, :message => "can only be whole number."
   
   def to_s
-    %Q|#{id}|
+    %Q|#{name}|
   end
   
   def current_users
