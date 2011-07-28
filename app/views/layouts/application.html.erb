@@ -72,7 +72,7 @@
         <ul>
           <li><%= link_to "Libraries (home)", libraries_path %></li>
 		  <% if user_signed_in? && !current_user.try(:admin?) %>
-            <li><%= link_to "Reservations", reservations_path %></li>
+            <li><%= link_to "My Reservation", reservations_path %></li>
           <% end %>	
 		</ul>
 	  </div>
