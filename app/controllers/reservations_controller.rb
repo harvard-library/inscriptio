@@ -40,9 +40,6 @@ class ReservationsController < ApplicationController
       params[:reservation][:user] = User.find(current_user)
     end
     
-    p "asset type"
-    p params[:reservation][:reservable_asset].reservable_asset_type
-    
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
         params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])

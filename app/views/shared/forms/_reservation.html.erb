@@ -1,19 +1,36 @@
 <%= semantic_form_for(@reservation) do |f| %>
   <%= f.inputs do %>
 	Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.<br /><br />  
+	
 	<% if current_user.admin? %>
-	  <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
+	  <% if @reservation.start_date.nil? %>
+	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	
-	  <script type="text/javascript" language="javascript">
-	   	jQuery(document).ready(function(){
-		  jQuery("#reservation_start_date").datepicker({ minDate: 0 });
-		})
-	  </script>
+	    <script type="text/javascript" language="javascript">
+	   	  jQuery(document).ready(function(){
+		    jQuery("#reservation_start_date").datepicker({ minDate: 0 });
+	  	  })
+	    </script>
+	  <% else %>
+	    <%= f.input :start_date, :as => :string %><br />
 	
+	    <script type="text/javascript" language="javascript">
+	   	  jQuery(document).ready(function(){
+		    jQuery("#reservation_start_date").datepicker({ minDate: 0 });
+	  	  })
+	    </script>
+	  <% end %>
     <% else %>
-	  <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
-      <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
-	<% end %>
+	  <% if @reservation.start_date.nil? %>
+	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
+        <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
+	  <% else %>
+		<%= f.input :start_date, :as => :string, :input_html => { :disabled => true } %>
+        <%= f.input :start_date, :as => :hidden %><br />
+	  <% end %>
+	<% end %>	
+	
+	
 	<br />
 	<%= f.input :end_date, :as => :string %> 
 	
