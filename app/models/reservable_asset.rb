@@ -19,7 +19,8 @@ class ReservableAsset < ActiveRecord::Base
   
   def current_users
     approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
-    self.users.where('reservations.end_date > current_date') && self.users.where('reservations.status_id = ?', approved)
+    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+    self.users.where('reservations.end_date > current_date') && self.users.where('reservations.status_id = ? or reservations.status_id = ?', approved, pending)
   end 
   
   def reservations_pending
@@ -53,8 +54,7 @@ class ReservableAsset < ActiveRecord::Base
   
   def allow_reservation?(current_user)
     all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
-    current_user_reservation = Reservation.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"]).id, :user_id => current_user.id})
-    
+    current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) and user_id = ?", Status.find(:all, :conditions => ["lower(name) = 'approved' or lower(name) = 'pending'"]).collect{|s| s.id}, current_user.id])
     if current_user.admin || current_user_reservation.nil?
       true  
     elsif all_current.include?(current_user) && current_user_reservation.expiring?
