@@ -1,16 +1,17 @@
 <div class="post line" id="post-<%= post.id %>">
-  <%= link_to("Post #{post.id}", post) %>
   <p>
-    created on <%= post.created_at %> <br /><br />
+    <%= link_to("Post #{post.id}", post) %><br />
+    created on <%= post.created_at %> <br />
 	<%= post.message %>
-	
-  </p>
 
-  <ul class="actions">
-    <li><%= link_to('Flag', new_moderator_flag_path(:post => post)) %></li>
-  <% if current_user.admin? || post.user == current_user %>
-    <li><%= link_to('Edit', edit_post_path(post), :class => "action-edit") %></li>
-    <li><%= link_to('Delete', post_path(post), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{post.id}", :class => "action-delete") %></li>
-  <% end %>
-  </ul>
+
+    <ul class="actions">
+      <li><%= link_to('Flag', new_moderator_flag_path(:post => post)) %></li>
+      <% if current_user.admin? || post.user == current_user %>
+        <li><%= link_to('Edit', edit_post_path(post), :class => "action-edit") %></li>
+        <li><%= link_to('Delete', post_path(post), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{post.id}", :class => "action-delete") %></li>
+      <% end %>
+    </ul>
+
+  </p>
 </div>

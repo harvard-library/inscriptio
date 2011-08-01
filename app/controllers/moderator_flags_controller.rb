@@ -26,7 +26,10 @@ class ModeratorFlagsController < ApplicationController
     @moderator_flag.attributes = params[:moderator_flag]
     respond_to do|format|
       if @moderator_flag.save
-        Notification.moderator_flag_set(@moderator_flag.post).deliver
+        @admins = User.find(:all, :conditions => {:admin => true})
+        @admins.each do |admin|
+          Notification.moderator_flag_set(@moderator_flag.post, admin.email).deliver
+        end
         flash[:notice] = 'Added that Moderation Flag'
         format.html {redirect_to @moderator_flag.post}
       else

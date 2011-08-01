@@ -8,10 +8,10 @@ class Notification < ActionMailer::Base
            :subject => @notice.subject)
   end
   
-  def reservation_canceled(reservation)
+  def reservation_canceled(reservation, email)
       @notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'cancelled'"])})
       @reservation = reservation
-      mail(:to => @reservation.user.email,
+      mail(:to => email,
            :subject => @notice.subject)
   end
   
@@ -48,14 +48,11 @@ class Notification < ActionMailer::Base
       end       
   end
   
-  def moderator_flag_set(post)
-      @admins = User.find(:all, :conditions => {:admin => true})
+  def moderator_flag_set(post, email)
       @post = post
       @bulletin_board = @post.bulletin_board
-      @admins.each do |admin|
-        mail(:to => admin.email,
-             :subject => "A Moderator Flag has been set.")
-      end       
+      mail(:to => email,
+           :subject => "A Moderator Flag has been set.")       
   end
     
 end

@@ -4,7 +4,7 @@
 	
 	<% if current_user.admin? %>
 	  <% if @reservation.start_date.nil? %>
-	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m-%d-%Y") } %><br />
+	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	
 	    <script type="text/javascript" language="javascript">
 	   	  jQuery(document).ready(function(){
@@ -22,8 +22,8 @@
 	  <% end %>
     <% else %>
 	  <% if @reservation.start_date.nil? %>
-	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m-%d-%Y"), :disabled => true } %>
-        <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m-%d-%Y") } %><br />
+	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
+        <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	  <% else %>
 		<%= f.input :start_date, :as => :string, :input_html => { :disabled => true } %>
         <%= f.input :start_date, :as => :hidden %><br />

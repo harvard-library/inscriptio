@@ -82,7 +82,11 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
     reservation = @reservation
     if @reservation.destroy
-      Notification.reservation_canceled(reservation).deliver
+      Notification.reservation_canceled(reservation, reservation.user.email).deliver
+      @admins = User.find(:all, :conditions => {:admin => true})
+      @admins.each do |admin|
+        Notification.reservation_canceled(reservation, admin.email).deliver
+      end
       flash[:notice] = %Q|Deleted reservation #{reservation.id}|
       redirect_to :back
     else
