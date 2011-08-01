@@ -12,6 +12,7 @@ class CreateLibraries < ActiveRecord::Migration
       t.string :longitude
       t.text :contact_info
       t.text :description
+      t.text :tos
 
       t.timestamps
     end

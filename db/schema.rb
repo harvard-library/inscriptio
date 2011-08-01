@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20110725183317) do
     t.string   "longitude"
     t.text     "contact_info"
     t.text     "description"
+    t.text     "tos"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
