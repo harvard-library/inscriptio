@@ -56,6 +56,10 @@
 	font-size: 18px;
 }
 
+#overlayButtons {
+	text-align: center;
+}
+
 #moveLeft, #narrow {
   margin-right: 12.5px;
 }
