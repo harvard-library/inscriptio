@@ -302,10 +302,24 @@ body.double-column #content-right {
 	width: 705px;
 }
 
-#breadcrumb {
+#bar {
 	background: url(/images/background_heading.png) #a51c30 repeat-x bottom center;
 	color: #fff;
-	padding: 5px 0px 5px 10px;
+	padding: 5px 10px 5px 10px;
+	height: 25px;
+}
+#user_options {
+	float: right;
+	width: auto;
+}
+
+#breadcrumb {
+	float: left;
+	width: auto;
+}
+
+#user_options a:link, #user_options a:visited {
+	color: #fff;
 }
 
 #breadcrumb a:link, #breadcrumb a:visited {

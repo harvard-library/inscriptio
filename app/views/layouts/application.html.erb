@@ -30,9 +30,14 @@
     </div>
 
     <div id="container">
+	  <div id="bar">
 	  <p id="breadcrumb">
 	    <%= breadcrumbs.render(:format => :inline, :separator => '-') %>
 	  </p>
+	  <p id="user_options">
+	    <a href="#user_options">User Options<a>
+	  </p>
+	  </div>
       <h1 id="content-header">
         <% if content_for? :header %>
          <%= yield :header %>
@@ -67,7 +72,7 @@
     </div>
     
     <div id="user-dashboard">
-	  <h3>User Options</h3>
+	  <h3><a name="user_options">User Options<a></h3>
 	  <div class="col1">
         <ul>
           <li><%= link_to "Libraries (home)", libraries_path %></li>
