@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(:version => 20110725183317) do
     t.integer  "status_id"
     t.date     "start_date"
     t.date     "end_date"
+    t.boolean  "tos"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
