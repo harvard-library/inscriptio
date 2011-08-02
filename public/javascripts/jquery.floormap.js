@@ -58,7 +58,8 @@
 									   	asset.x2,
 									   	asset.y2,
 									   	asset.id,
-									   	asset.allow_reservation
+									   	asset.allow_reservation,
+										true
 									);
 								}
 							});
@@ -98,9 +99,11 @@
 						  '<br />' +
 						  '<button class="nudger" id="heighten" title="k">+</button>' + 
 						'</div>' + 
-						'<button id="removeOverlay">Remove</button>' + 
-						'<button id="copyOverlay">Copy</button>' + 
-						'<button id="applyOverlay">Apply</button>' + 
+						'<div id="overlayButtons">' + 
+							'<button id="removeOverlay">Remove</button>' + 
+							'<button id="copyOverlay">Copy</button>' + 
+							'<button id="applyOverlay">Apply</button>' + 
+						'</div>' +
 					'</div>' + 
 				'</div>' 
 			);
@@ -162,6 +165,8 @@
 					function(index, value) {
 						var button = value[0], attr = value[1], delta = value[2];
 						$(button).live('click.floormap', function() {
+							$(opts.activeOverlaySelector).data('saved', false);
+							$('#applyOverlay').removeAttr('disabled');
 							$(opts.activeOverlaySelector).css(attr, function(index, value) {
 								return parseInt(value) + delta;
 							});
@@ -212,6 +217,7 @@
 							top: event.pageY - $(this).data('diffY'),
 							left: event.pageX - $(this).data('diffX')
 						});
+						$(this).data('saved', false);
 					},
 					'dragend.floormap': function(event) {
 						$(this).data(overlays.getCoords(this));
@@ -321,7 +327,7 @@
 	overlays = {
 		/**** Create an overlay ****/
 		/* The origin argument is only used for real when an admin drags on the map */
-		create: function (origin, x1, y1, x2, y2, assignedAssetId, reservable) {
+		create: function (origin, x1, y1, x2, y2, assignedAssetId, reservable, saved) {
 			var id = 'overlay' + $('.' + opts.overlayClass).length,
 			origin = origin || opts.origin,
 			x1 = x1 || 0,
@@ -352,6 +358,7 @@
 			/* These location values aren't being used anywhere yet */
 			newOverlay = $(newOverlay).data({
 				'assignedAssetId': assignedAssetId,
+				'saved': saved,
 				'x1': x1,
 				'y1': y1,
 				'x2': x2,
@@ -370,7 +377,7 @@
 				preShow = function() {
 					opts.activeOverlaySelector = '#' + $(this).attr('id');
 					methods.buildTooltipAssetOptions();
-					if ($('#overlayId').attr('disabled'))
+					if ($('#overlayId').attr('disabled') || $(opts.activeOverlaySelector).data('saved') == true)
 						$('#applyOverlay').attr('disabled', true);
 					else
 						$('#applyOverlay').removeAttr('disabled');
@@ -437,6 +444,7 @@
 						'reservable_asset[y2]': asset.y2 
 					},
 					success: function(data) {
+						$(opts.activeOverlaySelector).data('saved', true);
 						$('.' + opts.overlayClass).btOff();
 						$('#loading').hide();
 						$('#tooltipTools').show();
