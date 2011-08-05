@@ -6,6 +6,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.rememberable
       t.trackable
       t.references :user_type
+      t.references :school_affiliation
+      t.string :first_name
+      t.string :last_name
 
       # t.encryptable
       # t.confirmable

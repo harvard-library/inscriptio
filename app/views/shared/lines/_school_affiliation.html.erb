@@ -1,0 +1,10 @@
+<li class="school_affiliation line" id="school_affiliation-<%= school_affiliation.id %>">
+  <%= link_to(school_affiliation.name, school_affiliation ) %>
+  
+  <% if current_user.admin? %>
+    <ul class="actions">
+      <li><%= link_to('Edit', edit_school_affiliation_path(school_affiliation), :class => "action-edit") %></li>
+      <li><%= link_to('Delete', school_affiliation_path(school_affiliation), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{school_affiliation.id}", :class => "action-delete") %></li>
+    </ul>
+  <% end %>
+</li>

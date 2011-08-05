@@ -1,0 +1,11 @@
+<div class="school_affiliations collection-list">
+  <% unless @school_affiliations.blank? %>
+	<%= render :partial => 'shared/lines/school_affiliation', :collection => @school_affiliations %>
+  <% else %>
+	<h2>No school affiliations yet.</h2>
+  <% end %>
+</div>
+
+  <% if current_user.admin? %>
+    <h2 class="action-new-subject"><%= link_to('New School Affiliation', new_school_affiliation_path) %></h2>
+  <% end %>
