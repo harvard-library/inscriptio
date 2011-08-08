@@ -24,8 +24,15 @@ namespace :inscriptio do
       end  
     end
     
+    desc "Add the default message"
+    task :default_message => :environment do
+      message = Message.new(:title => "Default Message", :content => "Please create this message.", :description => "default")
+      message.save
+      puts "Successfully created default message!"
+    end
+    
     desc "run all tasks in bootstrap"
-    task :run_all => [:default_admin, :default_statuses] do
+    task :run_all => [:default_admin, :default_statuses, :default_message] do
       puts "Created Admin account, Statuses and Notices!"
     end 
   end
