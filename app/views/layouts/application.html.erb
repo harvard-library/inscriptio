@@ -112,7 +112,7 @@
 	  <p>  
 	    <%= raw display_message(:footer).content %>
 	  </p>
-	  <% if current_user.admin? %>
+	  <% if current_user.try(:admin?) %>
 	    <%= link_to('Edit', edit_message_path(display_message(:footer)), :class => "action-edit") %>
 	  <% end %>
     </div>
