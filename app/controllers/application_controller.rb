@@ -16,4 +16,6 @@ class ApplicationController < ActionController::Base
   def add_initial_breadcrumbs
     breadcrumbs.add 'Home', root_path
   end 
+  
+  
 end

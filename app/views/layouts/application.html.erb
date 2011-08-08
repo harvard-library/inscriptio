@@ -109,20 +109,16 @@
     </div>	
 
     <div id="footer">
-		<% @footer_message = Message.find(:first, :conditions => ["title LIKE ?", '%Footer%']) %>
-		<% unless @footer_message.nil? %>
+		
+		<% unless display_message(:footer).nil? %>
 		  	<p>  
-		      <%= raw @footer_message.content %>
+		      <%= raw display_message(:footer).content %>
 		    </p>
 		    <% if current_user.admin? %>
-		      <%= link_to('Edit', edit_message_path(@footer_message), :class => "action-edit") %>
+		      <%= link_to('Edit', edit_message_path(display_message(:footer)), :class => "action-edit") %>
 		    <% end %>
 		  <% else %>
-			<% @message = Message.new %>
-			<% if current_user.admin? %>
-			  <h2>Create Footer Message</h2>
-		      <%= render :partial => 'shared/forms/message' %>
-		    <% end %>
+			<%= raw display_message(:default).content %>
 		  <% end %>
     </div>
 

@@ -1,18 +1,16 @@
 <% content_for :header do %>Libraries<% end %>
 <div>
-  <% unless @welcome_message.nil? %>	
-    <h2><%= @welcome_message.title %></h2>
+	
+  <% unless display_message(:welcome).nil? %>	
+    <h2><%= display_message(:welcome).title %></h2>
   	<p>  
-      <%= raw @welcome_message.content %>
+      <%= raw display_message(:welcome).content %>
     </p>
     <% if current_user.admin? %>
-      <%= link_to('Edit', edit_message_path(@welcome_message), :class => "action-edit") %>
+      <%= link_to('Edit', edit_message_path(display_message(:welcome)), :class => "action-edit") %>
     <% end %>
   <% else %>
-	<% if current_user.admin? %>
-	  <h2>Create Welcome Message</h2>
-      <%= render :partial => 'shared/forms/message' %>
-    <% end %>
+	<%= raw display_message(:default).content %>
   <% end %>
 
   <% unless @libraries.blank? %>

@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
     respond_to do|format|
       if @message.save
         flash[:notice] = 'Added that Message'
-        format.html {redirect_to :back}
+        format.html {redirect_to :action => :index}
       else
         flash[:error] = 'Could not add that Message'
         format.html {render :action => :new}
