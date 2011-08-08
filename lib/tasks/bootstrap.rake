@@ -2,8 +2,12 @@ namespace :inscriptio do
   namespace :bootstrap do
     desc "Add the default admin"
     task :default_admin => :environment do
-      user = User.new(:email => 'admin@email.com')
-      user.password = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{rand(1<<64)}--")[0,6]
+      user = User.new(:email => 'admin@example.com')
+      if %w[development test dev local].include?(Rails.env)
+        user.password = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{rand(1<<64)}--")[0,6]
+      else
+        user.password = (0..11).inject(""){|s,i| s << (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a).rand}
+      end
       user.admin = true
       user.save
       puts "Admin email is: #{user.email}"
