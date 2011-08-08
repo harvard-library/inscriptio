@@ -79,6 +79,9 @@
 		  <% if user_signed_in? && !current_user.try(:admin?) %>
             <li><%= link_to "My Reservation", reservations_path %></li>
           <% end %>	
+		  <% if current_user.try(:admin?) %>	
+		    <li><%= link_to "Messages", messages_path %></li>
+		  <% end %>
 		</ul>
 	  </div>
 	  <% if current_user.try(:admin?) %>	
@@ -106,9 +109,21 @@
     </div>	
 
     <div id="footer">
-    <p>© 2011 President and Fellows of Harvard College<br>
-      <a href="http://www.harvard.edu/siteguide/privacy.php" target="_blank">Privacy Statement</a> •  
-      <a href="http://www.harvard.edu/siteguide/copyright.php" target="_blank">Reporting Copyright Infringements</a> • <a href="http://www.trademark.harvard.edu/trademark_protection/notice.php" target="_blank">Trademark Notice</a></p>
+		<% @footer_message = Message.find(:first, :conditions => ["title LIKE ?", '%Footer%']) %>
+		<% unless @footer_message.nil? %>
+		  	<p>  
+		      <%= raw @footer_message.content %>
+		    </p>
+		    <% if current_user.admin? %>
+		      <%= link_to('Edit', edit_message_path(@footer_message), :class => "action-edit") %>
+		    <% end %>
+		  <% else %>
+			<% @message = Message.new %>
+			<% if current_user.admin? %>
+			  <h2>Create Footer Message</h2>
+		      <%= render :partial => 'shared/forms/message' %>
+		    <% end %>
+		  <% end %>
     </div>
 
   </body>
