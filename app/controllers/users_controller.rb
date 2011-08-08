@@ -69,5 +69,29 @@ class UsersController < ApplicationController
       end
     end
   end
+  
+  def import
+    @file = params[:upload][:datafile] unless params[:upload].blank?
+    FasterCSV.parse(@file.read).each do |cell|
+
+        user_type = UserType.find(cell[0].to_i)
+        school_affiliation = SchoolAffiliation.find(cell[1].to_i)
+        
+        user={}
+        
+        user[:user_type] = user_type
+        user[:school_affiliation] = school_affiliation
+        user[:email] = cell[2]
+        user[:password] = cell[3]
+        user[:first_name] = cell[4]
+        user[:last_name] = cell[5]
+        
+        @user = User.new
+ 
+        @user.attributes = user
+        @user.save
+    end
+    redirect_to users_path
+  end
 
 end

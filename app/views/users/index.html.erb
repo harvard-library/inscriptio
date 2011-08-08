@@ -7,3 +7,42 @@
 	<h2>No users yet.</h2>
   <% end %>
 </div>
+
+<h2 class="collapsable user_upload">Batch Upload</h2>
+
+<div class="user_upload user_upload-target">
+
+    <h3>Import Users via CSV</h3>
+
+    <p>
+      Use the form below to import choices via a CSV (comma separated value) file. All 6 fields must be present even if they are left blank.
+      Do not use column headings or quotes around text in any field. Each row will be separated by a new line or carriage return.
+    </p>
+    <p>
+      These are the fields to be populated:
+	  <ul>
+		<li>user type id</li>
+		<li>school_affiliation id</li>
+		<li>email</li>
+		<li>password</li>
+		<li>first_name</li>
+		<li>last_name</li>
+	  </ul>
+    </p>
+
+  <p>
+    <b><i>Format example:</i></b><br />
+
+    <code>
+      2,1,undergrad@email.com,(randomly generated),Joe,Schmo<br />
+      4,2,faculty@email.com,(randomly generated),Jane,Smith<br />
+      3,1,graduate@email.com,(randomly generated),Alex,Clark<br />
+      1,1,user@email.com,(randomly generated),Dan,Johnson<br />
+    </code>
+
+</p>
+  <%= form_tag import_users_path, :multipart => true do -%>
+    <%= file_field 'upload', 'datafile' %></p>
+	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
+  <% end -%>
+</div>	

@@ -13,9 +13,13 @@ Inscriptio::Application.routes.draw do
 
   resources :statuses
 
-  devise_for :users
+  devise_for :users  
   
-  resources :users
+  resources :users do
+    collection do
+      post 'import'
+    end
+  end  
   
   resources :moderator_flags
 
