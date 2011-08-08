@@ -4,7 +4,7 @@ module ApplicationHelper
     begin
       Message.find_by_description(message_key.to_s)
     rescue
-      "Couldn't find that message."
+      Message.find_by_description(:default)
     end
   end
 end

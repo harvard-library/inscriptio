@@ -1,7 +1,5 @@
 <% content_for :header do %>Libraries<% end %>
-<div>
-	
-  <% unless display_message(:welcome).nil? %>	
+<div>	
     <h2><%= display_message(:welcome).title %></h2>
   	<p>  
       <%= raw display_message(:welcome).content %>
@@ -9,9 +7,6 @@
     <% if current_user.admin? %>
       <%= link_to('Edit', edit_message_path(display_message(:welcome)), :class => "action-edit") %>
     <% end %>
-  <% else %>
-	<%= raw display_message(:default).content %>
-  <% end %>
 
   <% unless @libraries.blank? %>
     <p>
