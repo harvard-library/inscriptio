@@ -1,5 +1,5 @@
 <div class="user_type line" id="user_type-<%= user_type.id %>">
-  <%= link_to(user_type.name, user_type ) %>
+  <%= link_to("(ID #{user_type.id}) #{user_type.name}", user_type ) %>
   
   <% if current_user.admin? %>
 	<ul class="actions">

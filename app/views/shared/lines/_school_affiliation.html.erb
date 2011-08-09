@@ -1,5 +1,5 @@
 <li class="school_affiliation line" id="school_affiliation-<%= school_affiliation.id %>">
-  <%= link_to(school_affiliation.name, school_affiliation ) %>
+  <%= link_to("(ID #{school_affiliation.id}) #{school_affiliation.name}", school_affiliation ) %>
   
   <% if current_user.admin? %>
     <ul class="actions">
