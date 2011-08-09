@@ -76,20 +76,14 @@ class UsersController < ApplicationController
       @user = User.new  
       user_type = UserType.find(cell[0].to_i)
       school_affiliation = SchoolAffiliation.find(cell[1].to_i)
-      p "school affiliation--------------------------------------"
-      p school_affiliation
-      p user_type
-        
-      #user={}
-        
+
       @user.user_type_id = user_type.id
       @user.school_affiliation_id = school_affiliation.id
       @user.email = cell[2]
       @user.password = cell[3]
       @user.first_name = cell[4]
       @user.last_name = cell[5]
-        
-      #@user.attributes = user
+
       @user.save
     end
     redirect_to users_path
