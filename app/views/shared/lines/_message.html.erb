@@ -4,7 +4,9 @@
   <% if current_user.admin? %>
 	<ul class="actions">
       <li><%= link_to('Edit', edit_message_path(message), :class => "action-edit") %></li>
-      <li><%= link_to('Delete', message_path(message), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{message.id}", :class => "action-delete") %></li>
+      <% unless message.description == "default" %>
+	    <li><%= link_to('Delete', message_path(message), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{message.id}", :class => "action-delete") %></li>
+	  <% end %>
     </ul>
   <% end %>
 </div>

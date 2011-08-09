@@ -40,6 +40,7 @@ h2. Order of Operations for Fresh Install
 
 * Sign in as admin
 * Create User Types (may change once PIN is in)
+* Create School Affiliations (may change once PIN is in)
 * Create library
 * Create floors
 * Create asset types
