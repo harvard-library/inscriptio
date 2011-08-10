@@ -29,19 +29,26 @@ class ReservableAssetsController < ApplicationController
   
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-      if @reservable_asset.save
-        if @reservable_asset.reservable_asset_type.has_bulletin_board
-          @bulletin_board = BulletinBoard.new
-          @bulletin_board.reservable_asset = @reservable_asset
-          @bulletin_board.post_lifetime = 30
-          @bulletin_board.save!
-        end  
-        flash[:notice] = 'Added that Reservable Asset'
-        format.html {render :action => :show}
+      
+      if @reservable_asset.slots_equal_users?
+        if @reservable_asset.save
+          if @reservable_asset.reservable_asset_type.has_bulletin_board
+            @bulletin_board = BulletinBoard.new
+            @bulletin_board.reservable_asset = @reservable_asset
+            @bulletin_board.post_lifetime = 30
+            @bulletin_board.save!
+          end  
+          flash[:notice] = 'Added that Reservable Asset'
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not add that Reservable Asset'
+          format.html {render :action => :new}
+        end
       else
-        flash[:error] = 'Could not add that Reservable Asset'
-        format.html {render :action => :new}
+        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        format.html {render :action => :new}    
       end
+      
     end
   end
 
@@ -60,13 +67,20 @@ class ReservableAssetsController < ApplicationController
     @reservable_asset = ReservableAsset.find(params[:id])
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-      if @reservable_asset.save
-        flash[:notice] = %Q|#{@reservable_asset} updated|
-        format.html {render :action => :show}
+      
+      if @reservable_asset.slots_equal_users?
+        if @reservable_asset.save
+          flash[:notice] = %Q|#{@reservable_asset} updated|
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not update that Reservable Asset'
+          format.html {render :action => :new}
+        end
       else
-        flash[:error] = 'Could not update that Reservable Asset'
-        format.html {render :action => :new}
+        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        format.html {render :action => :new}    
       end
+      
     end
   end
 

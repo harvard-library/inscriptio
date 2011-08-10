@@ -11,14 +11,14 @@ class ReservableAssetType < ActiveRecord::Base
   validates_numericality_of :max_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_concurrent_users, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :expiration_extension_time, :only_integer => true, :message => "can only be whole number."
-  validates_format_of :slots, :with => /^[A-Z]+(,[A-Z]+)*$/, :message => "must be in the format of 'A,B,C'"
+  validates_format_of :slots, :with => /^[A-Z]+(,[A-Z]+)*$/, :message => "must be in the format of 'A,B,C'", :if => Proc.new {|this| this.slots != ""}
   
   def to_s
     %Q|#{name}|
   end
   
   def slots_equal_users?
-    self.slots.split(',').length == self.max_concurrent_users
+    (self.slots.split(',').length == self.max_concurrent_users) || (self.max_concurrent_users == 1 && (self.slots.nil? || self.slots.blank?))
   end  
   
 end
