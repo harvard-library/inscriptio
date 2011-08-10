@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110805150814) do
+ActiveRecord::Schema.define(:version => 20110810150911) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20110805150814) do
     t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slots"
   end
 
   add_index "reservable_asset_types", ["library_id"], :name => "index_reservable_asset_types_on_library_id"
@@ -157,6 +158,7 @@ ActiveRecord::Schema.define(:version => 20110805150814) do
     t.integer  "y2"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slots"
   end
 
   add_index "reservable_assets", ["floor_id"], :name => "index_reservable_assets_on_floor_id"
@@ -182,6 +184,7 @@ ActiveRecord::Schema.define(:version => 20110805150814) do
     t.boolean  "tos"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slot"
   end
 
   add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"

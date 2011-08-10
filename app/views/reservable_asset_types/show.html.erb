@@ -2,21 +2,23 @@
       <% content_for :header do %><%= @reservable_asset_type.name %> in <%= link_to @reservable_asset_type.library.name, @reservable_asset_type.library %><% end %>
   <dl>
     <dt>Minimum Reservation Time:</dt>
-    <dd><%= @reservable_asset_type.min_reservation_time %></dd>
+      <dd><%= @reservable_asset_type.min_reservation_time %></dd>
 	<dt>Maximum Reservation Time:</dt>
-    <dd><%= @reservable_asset_type.max_reservation_time %></dd>
+      <dd><%= @reservable_asset_type.max_reservation_time %></dd>
 	<dt>Maximum Concurrent Users:</dt>
-    <dd><%= @reservable_asset_type.max_concurrent_users %></dd>
+      <dd><%= @reservable_asset_type.max_concurrent_users %></dd>
+    <dt>Slots:</dt>
+      <dd><%= @reservable_asset_type.slots %></dd>
 	<dt>Has Access Code:</dt>
-    <dd><%= @reservable_asset_type.has_code %></dd>
+      <dd><%= @reservable_asset_type.has_code %></dd>
 	<dt>Requires Moderation:</dt>
-    <dd><%= @reservable_asset_type.require_moderation %></dd>
+      <dd><%= @reservable_asset_type.require_moderation %></dd>
     <dt>Welcome Message:</dt>
-    <dd><%= @reservable_asset_type.welcome_message %></dd>
+      <dd><%= @reservable_asset_type.welcome_message %></dd>
 	<dt>Expiration Extension Time:</dt>
-    <dd><%= @reservable_asset_type.expiration_extension_time %></dd>
+      <dd><%= @reservable_asset_type.expiration_extension_time %></dd>
 	<dt>Has Bulletin Board:</dt>
-    <dd><%= @reservable_asset_type.has_bulletin_board %></dd>
+      <dd><%= @reservable_asset_type.has_bulletin_board %></dd>
 	<dt>User Types:</dt>
 	<% unless @reservable_asset_type.user_types.blank? %>
 	  <% @reservable_asset_type.user_types.each do |ut| %>

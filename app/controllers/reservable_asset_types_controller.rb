@@ -23,12 +23,17 @@ class ReservableAssetTypesController < ApplicationController
     @reservable_asset_type = ReservableAssetType.new
     @reservable_asset_type.attributes = params[:reservable_asset_type]
     respond_to do|format|
-      if @reservable_asset_type.save
-        flash[:notice] = 'Added that Reservable Asset Type'
-        format.html {render :action => :show}
+      if @reservable_asset_type.slots_equal_users?
+        if @reservable_asset_type.save
+          flash[:notice] = 'Added that Reservable Asset Type'
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not add that Reservable Asset Type'
+          format.html {render :action => :new}
+        end
       else
-        flash[:error] = 'Could not add that Reservable Asset Type'
-        format.html {render :action => :new}
+        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        format.html {render :action => :new}    
       end
     end
   end
@@ -48,12 +53,17 @@ class ReservableAssetTypesController < ApplicationController
     @reservable_asset_type = ReservableAssetType.find(params[:id])
     @reservable_asset_type.attributes = params[:reservable_asset_type]
     respond_to do|format|
-      if @reservable_asset_type.save
-        flash[:notice] = %Q|#{@reservable_asset_type} updated|
-        format.html {render :action => :show}
+      if @reservable_asset_type.slots_equal_users?
+        if @reservable_asset_type.save
+          flash[:notice] = %Q|#{@reservable_asset_type} updated|
+          format.html {render :action => :show}
+        else
+          flash[:error] = 'Could not update that Reservable Asset Type'
+          format.html {render :action => :new}
+        end
       else
-        flash[:error] = 'Could not update that Reservable Asset Type'
-        format.html {render :action => :new}
+        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        format.html {render :action => :new}    
       end
     end
   end

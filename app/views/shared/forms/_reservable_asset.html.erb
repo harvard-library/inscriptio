@@ -13,6 +13,7 @@
     <%= f.input :min_reservation_time, :label => "Minimum reservation time in days" %>
     <%= f.input :max_reservation_time, :label => "Maximum reservation time in days" %>
     <%= f.input :max_concurrent_users %>
+	<%= f.input :slots, :hint => "If max concurrent users is 3 then Slots will be 'A,B,C'" %>
     <%= f.input :location %>
 	<%= f.input :notes %>
 

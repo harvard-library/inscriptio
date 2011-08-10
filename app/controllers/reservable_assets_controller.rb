@@ -26,17 +26,7 @@ class ReservableAssetsController < ApplicationController
   
   def create
     @reservable_asset = ReservableAsset.new
-    
-    #setting the attributes from the associated reservable asset type if not specified for the reservable asset
-    if params[:reservable_asset][:min_reservation_time].blank? || params[:reservable_asset][:min_reservation_time].nil?
-      params[:reservable_asset][:min_reservation_time] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).min_reservation_time
-    end
-    if params[:reservable_asset][:max_reservation_time].blank? || params[:reservable_asset][:max_reservation_time].nil?
-      params[:reservable_asset][:max_reservation_time] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).max_reservation_time
-    end
-    if params[:reservable_asset][:max_concurrent_users].blank? || params[:reservable_asset][:max_concurrent_users].nil?
-      params[:reservable_asset][:max_concurrent_users] = ReservableAssetType.find(params[:reservable_asset][:reservable_asset_type_id]).max_concurrent_users
-    end  
+  
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
       if @reservable_asset.save
@@ -114,21 +104,12 @@ class ReservableAssetsController < ApplicationController
         asset[:min_reservation_time] = cell[5]
         asset[:max_reservation_time] = cell[6]
         asset[:max_concurrent_users] = cell[7]
+        asset[:slots] = cell[8]
         asset[:access_code] = cell[9]
         asset[:notes] = cell[10]
         
         @reservable_asset = ReservableAsset.new
-
-        #setting the attributes from the associated reservable asset type if not specified for the reservable asset
-        if asset[:min_reservation_time].blank? || asset[:min_reservation_time].nil?
-          asset[:min_reservation_time] = ReservableAssetType.find(asset_type).min_reservation_time
-        end
-        if asset[:max_reservation_time].blank? || asset[:max_reservation_time].nil?
-          asset[:max_reservation_time] = ReservableAssetType.find(asset_type).max_reservation_time
-        end
-        if asset[:max_concurrent_users].blank? || asset[:max_concurrent_users].nil?
-          asset[:max_concurrent_users] = ReservableAssetType.find(asset_type).max_concurrent_users
-        end  
+ 
         @reservable_asset.attributes = asset
     
         if @reservable_asset.save

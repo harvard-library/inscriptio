@@ -17,6 +17,38 @@ class ReservableAsset < ActiveRecord::Base
     %Q|#{name}|
   end
   
+  def max_concurrent_users
+    if (!read_attribute(:max_concurrent_users).blank? && !read_attribute(:max_concurrent_users).nil?) || self.reservable_asset_type.nil?
+      read_attribute(:max_concurrent_users)
+    else
+      ReservableAssetType.find(self.reservable_asset_type).max_concurrent_users
+    end    
+  end
+  
+  def min_reservation_time
+    if (!read_attribute(:min_reservation_time).blank? && !read_attribute(:min_reservation_time).nil?) || self.reservable_asset_type.nil?
+      read_attribute(:min_reservation_time)
+    else
+      ReservableAssetType.find(self.reservable_asset_type).min_reservation_time
+    end    
+  end
+  
+  def max_reservation_time
+    if (!read_attribute(:max_reservation_time).blank? && !read_attribute(:max_reservation_time).nil?) || self.reservable_asset_type.nil?
+      read_attribute(:max_reservation_time)
+    else
+      ReservableAssetType.find(self.reservable_asset_type).max_reservation_time
+    end    
+  end
+  
+  def slots
+    if (!read_attribute(:slots).blank? && !read_attribute(:slots).nil?) || self.reservable_asset_type.nil?
+      read_attribute(:slots)
+    else
+      ReservableAssetType.find(self.reservable_asset_type).slots
+    end    
+  end
+  
   def current_users
     approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
     pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
