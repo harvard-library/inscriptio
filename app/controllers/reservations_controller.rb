@@ -57,6 +57,7 @@ class ReservationsController < ApplicationController
       if @reservation.reservable_asset.allow_reservation?(current_user)
         if @reservation.date_valid?(@reservation.start_date, chosen)
           if @reservation.save
+            @reservation.assign_slot
             Notification.reservation_notice(@reservation).deliver
             flash[:notice] = 'Added that Reservation'
             format.html {render :action => :show}

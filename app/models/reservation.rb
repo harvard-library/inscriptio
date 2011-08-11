@@ -22,6 +22,17 @@ class Reservation < ActiveRecord::Base
     end    
   end  
   
+  def assign_slot
+    slots = self.reservable_asset.slots.split(",")
+    used_slots = []
+    self.reservable_asset.current_reservations.collect{|s| used_slots << s.slot}
+    available_slots = slots - used_slots
+    unless available_slots.nil?
+      self.slot = available_slots.first
+      self.save
+    end  
+  end  
+  
   def pending?
     pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
     self.status == pending

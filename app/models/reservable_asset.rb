@@ -54,7 +54,13 @@ class ReservableAsset < ActiveRecord::Base
     approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
     pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
     self.users.where('reservations.end_date > current_date') && self.users.where('reservations.status_id = ? or reservations.status_id = ?', approved, pending)
-  end 
+  end
+  
+  def current_reservations
+    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ? or reservations.status_id = ?', approved, pending)
+  end   
   
   def reservations_pending
     pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
