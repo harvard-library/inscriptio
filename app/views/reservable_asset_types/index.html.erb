@@ -27,39 +27,31 @@
       Do not use column headings or quotes around text in any field. Each row will be separated by a new line or carriage return.
     </p>
     <p>
-      These are the fields to be populated:
+      These are the fields to be populated with the assumption that you are using a spreadsheet application like Excel:
 	  <ul>
-		<li>floor id</li>
-		<li>asset type id</li>
-		<li>name</li>
-		<li>description</li>
-		<li>location</li>
-		<li>minimum reservation time (in days)*</li>
-		<li>maximum reservation time (in days)*</li>
-		<li>maximum concurrent users*</li>
-		<li>slots*</li>
-		<li>access code</li>
-		<li>notes</li>
+		<li>(Column A) floor id</li>
+		<li>(Column B) asset type id</li>
+		<li>(Column C) name</li>
+		<li>(Column D) description</li>
+		<li>(Column E) location</li>
+		<li>(Column F) minimum reservation time (in days)*</li>
+		<li>(Column G) maximum reservation time (in days)*</li>
+		<li>(Column H) maximum concurrent users*</li>
+		<li>(Column I) slots*</li>
+		<li>(Column J) access code</li>
+		<li>(Column K) notes</li>
 	  </ul>
     </p>
 	<p>
 	  *If these fields are left blank, the values will be inherited from those indicated on the reservable asset type.
 	</p>
+	<p>
+	  Please note that the 'slots' field will depend on the count of max users. For example, if an asset has max concurrent users of 4 then in column I you will put A,B,C,D. If the max concurrent users is 3 you will put A,B,C, if it is 1 then you can either leave it blank or put A.
+	</p>
     <p>
 	  e.g. floor id, asset type id, name, description, location, min reservation time, max reservation time, max concurrent users, slots, access code, notes
     </p>
 
-  <p>
-    <b><i>Format example:</i></b><br />
-
-    <code>
-      2,1,CA1,carrel description,NW corner,7,90,3,codeA,these are some notes<br />
-      3,1,CA2,carrel description,South side of floor,,,,codeB,these are some notes<br />
-      2,1,CA3,carrel description,Near the restrooms,,,,codeC,these are some notes<br />
-      1,1,CA4,carrel description,Near the stairs,,,,codeD,these are some notes<br />
-    </code>
-
-</p>
   <%= form_tag import_reservable_assets_path, :multipart => true do -%>
     <%= file_field 'upload', 'datafile' %></p>
 	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
