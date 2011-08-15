@@ -20,18 +20,6 @@ a:hover {
 	color: #bb343f;
 }
 
-/*h1 {
-	background: url(/images/background_heading.png) #a51c30 repeat-x center center;
-	font-size: 22px;
-	clear: both;
-	color: #ffffff;
-	display: block;
-	margin: 0px;
-	padding: 10px 0px;
-	text-align: center;
-	width: 100%;
-}*/
-
 #content-header a {
   color: #ffffff;
 }
@@ -76,7 +64,7 @@ dd {
 }
 
 #logo {
-	padding: 15px 0px 18px 66px;
+	padding: 10px 0px 12px 15px;
 }
 
 #logo a, #logo span {
@@ -93,7 +81,7 @@ dd {
 }
 
 #container {
-	margin: 0px auto 0px;
+	margin: 0px auto 25px;
 	width: 960px;
 }
 
@@ -106,12 +94,14 @@ dd {
 
 #content-left {
 	background-color: #bac5c6;
+	border-radius: 8px;
 	float: left;
 	margin-left: 15px;
-    margin-top: 15px;
+  	margin-top: 15px;
+	-moz-border-radius: 8px;
 	padding: 15px 0px;
 	width: 210px;	
-    overflow: hidden;
+  	overflow: hidden;
 }
 
 #content-left > h4:first-child {
@@ -226,7 +216,7 @@ ul.navlist {
 }	
 
 h2.action-button {
-	background: url(/images/background_button.png) #a51c30 center center no-repeat;
+	background: url(background_button.png) #a51c30 center center no-repeat;
 	display: block;
 	font-size: 15px;
 	height: 32px;
@@ -249,7 +239,6 @@ h2.action-button a:hover {
 #content li {
 	margin-top: 10px;
 }
-
 
 #global-links {
 	background: url(/images/background_heading.png) #a51c30 repeat-x center center;
@@ -287,12 +276,8 @@ h2.action-button a:hover {
 	border-top: 1px solid #bac5c6;
 	clear: both;
 	margin: 0px auto 15px;
-	padding: 10px 0px 0px;
-	width: 960px;
-}
-
-#footer p {
-	margin-left: 15px;
+	padding: 10px 0px 0px 15px;
+	width: 945px;
 }
 
 /* New Styles */
@@ -303,11 +288,16 @@ body.double-column #content-right {
 }
 
 #bar {
-	background: url(/images/background_heading.png) #a51c30 repeat-x bottom center;
+	background: url(/images/background_heading.png) #1E1E1E repeat-x bottom center;
 	color: #fff;
 	padding: 5px 10px 5px 10px;
-	height: 25px;
+	height: 20px;
 }
+
+#bar p {
+	margin: 0px;
+}
+
 #user_options {
 	float: right;
 	width: auto;
@@ -444,31 +434,43 @@ div.reservation_notice {
 }
 
 #user-dashboard {
-	background: url(/images/background_dashboard.png) #ffffff repeat-x center top;
-	margin: 30px auto 0px;
-	padding: 25px 0px 0px 0px;
+	background: url(/images/background_dashboard_label.png) #A51C30 no-repeat -60px center;
+	margin: 0px auto;
+	padding: 0px 0px 0px 0px;
 	width: 960px;
 }
 
 #user-dashboard h3 {
-	margin: 0px;
-	padding-left: 20px;
+	color: #ffffff;
+	float: left;
+	padding: 10px 30px 10px 10px;
+	margin: auto 0px;
 }
 
 #user-dashboard div {
 	float: left;
 	background-color: transparent;
 	margin-bottom: 20px;
+	display:table-cell; vertical-align:middle
+}
+
+#user-dashboard ul {
+	color: #ffffff;
+	margin: 0px 0px 0px 150px;
+	padding: 7px 0px 9px;
 }
 
 #user-dashboard li {
-	list-style-type: disc;
+	display: inline;
+	padding-right: 20px;
 }
 
 #user-dashboard a:link, #user-dashboard a:visited {
-	color: #333;
+	color: #ffffff;
 	text-decoration: none;
+	line-height: 24px;
 }
+
 
 #user-dashboard a:hover {
 	text-decoration: underline;
@@ -489,6 +491,5 @@ div.col3 {
 div.col4 {
 	margin-left: 100px;
 }
-
 
 

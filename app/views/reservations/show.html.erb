@@ -8,9 +8,9 @@
     <dt>User:</dt>
     <dd><%= @reservation.user.email %></dd>
 	<dt>Start Date:</dt>
-    <dd><%= @reservation.start_date.to_date() %></dd>
+    <dd><%= @reservation.start_date %></dd>
 	<dt>End Date:</dt>
-    <dd><%= @reservation.end_date.to_date() %></dd>
+    <dd><%= @reservation.end_date %></dd>
     <dt>Reservation Status</dt>
     <dd><%= @reservation.status.name %></dd>
 	<% unless (@reservation.reservable_asset.access_code.nil? || @reservation.reservable_asset.access_code.blank?) || !@reservation.approved? %>

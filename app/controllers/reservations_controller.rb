@@ -45,17 +45,18 @@ class ReservationsController < ApplicationController
       end    
     end  
     
-    #saving the actual date entered in by the user to validate date range below
-    chosen = Date.parse(params[:reservation][:end_date], "{ %Y, %m, %d }")
+    #saving the actual date entered in by the user to validate date range below    
+    chosen = Date.strptime(params[:reservation][:end_date], "%m/%d/%Y")
+    params[:reservation][:start_date] = Date.strptime(params[:reservation][:start_date], "%m/%d/%Y")
     
     #setting the end date to the last day of the month chosen by the user
-    params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1).strftime("%m/%d/%Y")
+    params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1)
     
     @reservation.attributes = params[:reservation]
     
     respond_to do|format|
       if @reservation.reservable_asset.allow_reservation?(current_user)
-        if @reservation.date_valid?(@reservation.start_date, chosen)
+        if @reservation.date_valid?(params[:reservation][:start_date], chosen)
           if @reservation.save
             @reservation.assign_slot
             Notification.reservation_notice(@reservation).deliver
@@ -96,17 +97,38 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
     prev_status = @reservation.status
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
+    
+    params[:tos] == "Yes" ? params[:reservation][:tos] = true : params[:reservation][:tos] = false
+    current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
+
+    if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
+      if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
+        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+      else
+        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+      end    
+    end  
+    
+    #saving the actual date entered in by the user to validate date range below    
+    chosen = Date.strptime(params[:reservation][:end_date], "%m/%d/%Y")
+    params[:reservation][:start_date] = Date.strptime(params[:reservation][:start_date], "%m/%d/%Y")
+    
+    #setting the end date to the last day of the month chosen by the user
+    params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1)
+    
     @reservation.attributes = params[:reservation]
     
     respond_to do|format|
-      if @reservation.save
-        Notification.reservation_notice(@reservation).deliver
-        flash[:notice] = %Q|Reservation updated|
-        format.html {redirect_to :action => :show}
-      else
-        flash[:error] = 'Could not update that Reservation'
-        format.html {render :action => :new}
-      end
+      if @reservation.date_valid?(params[:reservation][:start_date], chosen)
+        if @reservation.save
+          Notification.reservation_notice(@reservation).deliver
+          flash[:notice] = %Q|Reservation updated|
+          format.html {redirect_to :action => :show}
+        else
+          flash[:error] = 'Could not update that Reservation'
+          format.html {render :action => :new}
+        end
+      end    
     end
   end
 end

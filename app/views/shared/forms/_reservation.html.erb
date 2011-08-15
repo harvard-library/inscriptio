@@ -28,8 +28,8 @@
 	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
         <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	  <% else %>
-		<%= f.input :start_date, :as => :string, :input_html => { :disabled => true } %>
-        <%= f.input :start_date, :as => :hidden %><br />
+		<%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y"), :disabled => true } %>
+        <%= f.input :start_date, :as => :hidden, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
 	  <% end %>
 	<% end %>	
 	

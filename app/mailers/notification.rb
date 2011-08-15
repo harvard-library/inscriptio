@@ -54,5 +54,12 @@ class Notification < ActionMailer::Base
       mail(:to => email,
            :subject => "A Moderator Flag has been set.")       
   end
+  
+  def account_created(user, password)
+      @user = user
+      @password = password
+      mail(:to => user.email,
+           :subject => "Your Account Has Been Created")       
+  end
     
 end

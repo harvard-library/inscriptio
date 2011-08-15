@@ -14,6 +14,11 @@ class Reservation < ActiveRecord::Base
   end
   
   def date_valid?(start_date, end_date)
+    p "start------------------------"
+    p start_date
+    
+    p "end------------------------"
+    p end_date
     time_in_days = (end_date - start_date).to_i
     if time_in_days > 0 && time_in_days >= self.reservable_asset.min_reservation_time.to_i && time_in_days <= self.reservable_asset.max_reservation_time.to_i
       true
