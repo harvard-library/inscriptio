@@ -16,4 +16,8 @@ class Library < ActiveRecord::Base
       find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
     end
   end
+  
+  def bcc_list
+    self.bcc.split(',')
+  end  
 end

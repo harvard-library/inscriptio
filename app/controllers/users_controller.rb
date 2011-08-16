@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   
   def index
     @users = User.find(:all, :order => ['created_at ASC'])
-    
     breadcrumbs.add 'Users'
   end
 
@@ -80,11 +79,12 @@ class UsersController < ApplicationController
       @user.user_type_id = user_type.id
       @user.school_affiliation_id = school_affiliation.id
       @user.email = cell[2]
-      @user.password = cell[3]
-      @user.first_name = cell[4]
-      @user.last_name = cell[5]
+      @user.password = (0..11).inject(""){|s,i| s << (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a).rand}
+      @user.first_name = cell[3]
+      @user.last_name = cell[4]
 
       @user.save
+      
     end
     redirect_to users_path
   end

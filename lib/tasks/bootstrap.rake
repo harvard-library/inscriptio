@@ -40,13 +40,23 @@ namespace :inscriptio do
   namespace :cron_task do
     desc "Send scheduled emails daily"
     task :send_expiration_notices => :environment do
-      Notification.reservation_expiration.deliver
-      Notification.reservation_expired.deliver
+      @asset_types.all.each do |at|
+        @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), at.expiration_extension_time.to_i])  
+      end  
+      @reservations.flatten!
+      @reservations.each do |reservation|
+        Notification.reservation_expiration(reservation).deliver
+      end  
       puts "Successfully delivered expiration notices!"
     end
     
     task :send_expired_notices => :environment do
-      Notification.reservation_expired.deliver
+      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date = current_date'])
+      @reservations.each do |reservation|
+        reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
+        reservation.save  
+        Notification.reservation_expired(reservation).deliver
+      end
       puts "Successfully delivered expired notices!"
     end
     

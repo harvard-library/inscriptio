@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110810150911) do
+ActiveRecord::Schema.define(:version => 20110816181647) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20110810150911) do
     t.text     "tos"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "bcc"
   end
 
   create_table "messages", :force => true do |t|

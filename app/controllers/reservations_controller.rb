@@ -82,7 +82,7 @@ class ReservationsController < ApplicationController
     reservation = @reservation
     if @reservation.destroy
       Notification.reservation_canceled(reservation, reservation.user.email).deliver
-      @admins = User.find(:all, :conditions => {:admin => true})
+      @admins = @moderator_flag.post.bulletin_board.reservable_asset.reservable_asset_type.library.bcc_list
       @admins.each do |admin|
         Notification.reservation_canceled(reservation, admin.email).deliver
       end

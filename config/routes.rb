@@ -13,7 +13,7 @@ Inscriptio::Application.routes.draw do
 
   resources :statuses
 
-  devise_for :users  
+  devise_for :users
   
   resources :users do
     collection do

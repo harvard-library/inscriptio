@@ -26,7 +26,7 @@ class ModeratorFlagsController < ApplicationController
     @moderator_flag.attributes = params[:moderator_flag]
     respond_to do|format|
       if @moderator_flag.save
-        @admins = User.find(:all, :conditions => {:admin => true})
+        @admins = @moderator_flag.post.bulletin_board.reservable_asset.reservable_asset_type.library.bcc_list
         @admins.each do |admin|
           Notification.moderator_flag_set(@moderator_flag.post, admin.email).deliver
         end
