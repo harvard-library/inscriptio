@@ -1,4 +1,6 @@
 Inscriptio::Application.routes.draw do
+  resources :emails
+
   resources :school_affiliations
 
   resources :messages

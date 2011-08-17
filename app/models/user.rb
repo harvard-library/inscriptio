@@ -13,11 +13,14 @@ class User < ActiveRecord::Base
   has_many :reservable_assets, :through => :reservations
   has_many :posts
   has_many :moderator_flags
+  has_many :emails
 #  has_one :authentication_source, :through => :user_type
 
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  
+  after_create :post_save_hooks
   
   def to_s
     %Q|#{email}|
@@ -33,5 +36,13 @@ class User < ActiveRecord::Base
     chars = (('a'..'z').to_a + ('0'..'9').to_a) - %w(i o 0 1 l 0)
     (1..size).collect{|a| chars[rand(chars.size)] }.join
   end  
+  
+  def post_save_hooks
+    Email.create(
+      :to => self.email,
+      :subject => "Your Inscriptio Account Has Been Created",
+      :body => "Your login is: #{self.email}. Please visit #{Rails.application.routes.url_helpers.new_user_password_path} to create a new password and log into your account."
+    )
+  end    
   
 end

@@ -72,7 +72,6 @@ class UsersController < ApplicationController
       @user.last_name = cell[4]
 
       @user.save!
-      Notification.account_created(@user).deliver
     end
     redirect_to users_path
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110816181647) do
+ActiveRecord::Schema.define(:version => 20110817174318) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -40,6 +40,18 @@ ActiveRecord::Schema.define(:version => 20110816181647) do
 
   add_index "call_numbers_floors", ["call_number_id"], :name => "index_call_numbers_floors_on_call_number_id"
   add_index "call_numbers_floors", ["floor_id"], :name => "index_call_numbers_floors_on_floor_id"
+
+  create_table "emails", :force => true do |t|
+    t.string   "to"
+    t.string   "bcc"
+    t.string   "from"
+    t.string   "subject"
+    t.text     "body"
+    t.date     "date_sent"
+    t.boolean  "message_sent", :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "floors", :force => true do |t|
     t.integer  "library_id"
