@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include ActionView::Helpers::UrlHelper
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -41,7 +42,7 @@ class User < ActiveRecord::Base
     Email.create(
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
-      :body => "Your login is: #{self.email}. Please visit #{Rails.application.routes.url_helpers.new_user_password_path} to create a new password and log into your account."
+      :body => "Your login is: #{self.email}. Please visit #{link_to 'Inscriptio', Rails.application.routes.url_helpers.new_user_password_path} to create a new password and log into your account."
     )
   end    
   
