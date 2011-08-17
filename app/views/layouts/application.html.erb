@@ -42,11 +42,9 @@
 		     <% if user_signed_in? && !current_user.try(:admin?) %>
 	           <li><%= link_to "My Reservation", reservations_path %></li>
 	         <% end %>	
+			 
 			 <% if current_user.try(:admin?) %>	
 			   <li><%= link_to "Messages", messages_path %></li>
-			 <% end %>
-
-		     <% if current_user.try(:admin?) %>	
 	  	       <li><%= link_to "Users", users_path %></li>
 	           <li><%= link_to "User Types", user_types_path %></li>
 			   <li><%= link_to "School Affiliations", school_affiliations_path %></li>
@@ -58,6 +56,7 @@
 	           <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
 	           <li><%= link_to "Reservation Notices", reservation_notices_path %></li>	    
 	         <% end %>
+	         <li><%= link_to "Help", help_messages_path %></li>
 			</ul>
 		</div>
 	  

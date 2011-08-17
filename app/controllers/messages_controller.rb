@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show]
+  before_filter :authenticate_admin!, :except => [:index, :show, :help]
   
   def index
     @messages = Message.all
@@ -59,5 +59,9 @@ class MessagesController < ApplicationController
         format.html {render :action => :new}
       end
     end
+  end
+  
+  def help
+    
   end
 end

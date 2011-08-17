@@ -3,7 +3,11 @@ Inscriptio::Application.routes.draw do
 
   resources :school_affiliations
 
-  resources :messages
+  resources :messages do
+    collection do
+      get 'help'
+    end
+  end  
 
   resources :reports
 

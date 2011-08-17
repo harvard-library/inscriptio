@@ -1,0 +1,10 @@
+<% content_for :header do %>Help<% end %>
+<div>	
+  <h2><%= display_message(:help).title %></h2>
+  <p>  
+    <%= raw display_message(:help).content %>
+  </p>
+  <% if current_user.admin? %>
+    <%= link_to('Edit', edit_message_path(display_message(:help)), :class => "action-edit") %>
+  <% end %>
+</div>

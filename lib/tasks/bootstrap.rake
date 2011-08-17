@@ -31,8 +31,26 @@ namespace :inscriptio do
       puts "Successfully created default message!"
     end
     
+    task :default_welcome_message => :environment do
+      message = Message.new(:title => "Default Welcome Message", :content => "Please create this message.", :description => "welcome")
+      message.save
+      puts "Successfully created default welcome message!"
+    end
+    
+    task :default_footer_message => :environment do
+      message = Message.new(:title => "Default Footer Message", :content => "Please create this message.", :description => "footer")
+      message.save
+      puts "Successfully created default footer message!"
+    end
+    
+    task :default_help_message => :environment do
+      message = Message.new(:title => "Default Help Message", :content => "Please create this message.", :description => "help")
+      message.save
+      puts "Successfully created default help message!"
+    end
+    
     desc "run all tasks in bootstrap"
-    task :run_all => [:default_admin, :default_statuses, :default_message] do
+    task :run_all => [:default_admin, :default_statuses, :default_message, :default_footer_message, :default_welcome_message, :default_help_message] do
       puts "Created Admin account, Statuses and Notices!"
     end 
   end
