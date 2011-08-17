@@ -15,7 +15,7 @@
 	  	  })
 	    </script>
 	  <% else %>
-	    <%= f.input :start_date, :as => :string %><br />
+	    <%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
 	
 	    <script type="text/javascript" language="javascript">
 	   	  jQuery(document).ready(function(){
@@ -35,8 +35,11 @@
 	
 	
 	<br />
-	<%= f.input :end_date, :as => :string %> 
-	
+	<% if @reservation.end_date.nil? %>
+	  <%= f.input :end_date, :as => :string %> 
+	<% else %>
+	  <%= f.input :end_date, :as => :string, :input_html => { :value => @reservation.end_date.strftime("%m/%d/%Y")} %> 
+	<% end %>
 	<br />
 	<% if current_user.admin? %>
       <%= f.input :user %>

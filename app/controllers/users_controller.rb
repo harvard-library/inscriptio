@@ -1,5 +1,7 @@
+require 'csv'
+
 class UsersController < ApplicationController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_admin!, :except => [:edit, :update]
   
   def index
     @users = User.find(:all, :order => ['created_at ASC'])
@@ -27,20 +29,6 @@ class UsersController < ApplicationController
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
     breadcrumbs.add 'Edit'
-  end
-  
-  def create
-    @user = User.new
-    @user.attributes = params[:user]
-    respond_to do|format|
-      if @user.save
-        flash[:notice] = 'Added that User'
-        format.html {redirect_to :action => :index}
-      else
-        flash[:error] = 'Could not add that User'
-        format.html {render :action => :new}
-      end
-    end
   end
 
   def destroy
@@ -71,7 +59,7 @@ class UsersController < ApplicationController
   
   def import
     @file = params[:upload][:datafile] unless params[:upload].blank?
-    FasterCSV.parse(@file.read).each do |cell|
+    CSV.parse(@file.read).each do |cell|
       @user = User.new  
       user_type = UserType.find(cell[0].to_i)
       school_affiliation = SchoolAffiliation.find(cell[1].to_i)
@@ -79,12 +67,12 @@ class UsersController < ApplicationController
       @user.user_type_id = user_type.id
       @user.school_affiliation_id = school_affiliation.id
       @user.email = cell[2]
-      @user.password = (0..11).inject(""){|s,i| s << (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a).rand}
+      @user.password = User.random_password
       @user.first_name = cell[3]
       @user.last_name = cell[4]
 
-      @user.save
-      
+      @user.save!
+      Notification.account_created(@user).deliver
     end
     redirect_to users_path
   end

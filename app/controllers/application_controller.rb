@@ -6,7 +6,10 @@ class ApplicationController < ActionController::Base
   
   private 
   def authenticate_admin!
-    current_user.admin?  
+    if !current_user.admin?
+      redirect_to(root_url)
+    end  
+    
   end
     
   def verify_credentials
@@ -15,7 +18,6 @@ class ApplicationController < ActionController::Base
 
   def add_initial_breadcrumbs
     breadcrumbs.add 'Home', root_path
-  end 
-  
+  end   
   
 end

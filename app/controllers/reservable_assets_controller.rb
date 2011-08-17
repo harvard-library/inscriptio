@@ -1,4 +1,4 @@
-require 'fastercsv'
+require 'csv'
 class ReservableAssetsController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
   
@@ -103,7 +103,7 @@ class ReservableAssetsController < ApplicationController
   
   def import
     @file = params[:upload][:datafile] unless params[:upload].blank?
-    FasterCSV.parse(@file.read).each do |cell|
+    CSV.parse(@file.read).each do |cell|
 
         floor = Floor.find(cell[0].to_i)
         asset_type = ReservableAssetType.find(cell[1].to_i)

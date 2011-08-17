@@ -28,7 +28,7 @@ class ModeratorFlagsController < ApplicationController
       if @moderator_flag.save
         @admins = @moderator_flag.post.bulletin_board.reservable_asset.reservable_asset_type.library.bcc_list
         @admins.each do |admin|
-          Notification.moderator_flag_set(@moderator_flag.post, admin.email).deliver
+          Notification.moderator_flag_set(@moderator_flag.post, admin).deliver
         end
         flash[:notice] = 'Added that Moderation Flag'
         format.html {redirect_to @moderator_flag.post}

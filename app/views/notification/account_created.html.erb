@@ -1,7 +1,7 @@
 <% content_for :header do %>An account for <%= @user.email %> has been created.<% end %>
     <p>
 	Your login is: <%= @user.email %> <br />
-	Your password is: <%= @password %>
+	Please visit <%= link_to Inscriptio, new_user_password_path %> to create a new password and log into your account.
     </p>
 	
     <p>

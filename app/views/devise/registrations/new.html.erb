@@ -1,30 +1,24 @@
 <% content_for :header do %>Sign up<% end %>
 <h2>Sign up</h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<%= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
-  <p><%= f.label :first_name %><br />
-  <%= f.text_field :first_name %></p>
-
-  <p><%= f.label :last_name %><br />
-  <%= f.text_field :last_name %></p>
-
-  <p><%= f.label :email %><br />
-  <%= f.email_field :email %></p>
-
-  <p><%= f.label :password %><br />
-  <%= f.password_field :password %></p>
-
-  <p><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></p>
-
-  <p><%= f.label :user_type_id %><br />
-  <%= f.select(:user_type_id, UserType.all.collect {|ut| [ut.name, ut.id] }) %></p>
-
-  <p><%= f.label :school_affiliation_id %><br />
-  <%= f.select(:school_affiliation_id, SchoolAffiliation.all.collect {|sa| [sa.name, sa.id] }) %></p>
-
-  <p><%= f.submit "Sign up" %></p>
+  <%= f.inputs do %>
+	<%= f.input :first_name %>
+	<%= f.input :last_name %>
+    <%= f.input :email %>
+	<%= f.input :user_type %>
+	<%= f.input :school_affiliation %>
+	<%= f.input :password, :as => :hidden, :input_html => { :value => User.random_password } %>
+	<%= f.input :password_confirmation, :as => :hidden %>
+  <% end %>
+  <%= f.buttons %>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>
+
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function(){
+    jQuery($('#user_password_confirmation').val($('#user_password').val()));
+  })
+</script>
