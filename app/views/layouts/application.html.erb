@@ -67,18 +67,10 @@
           Inscriptio
         <% end %>
       </h1>
-	  
-      <% if flash[:notice] %>
-        <div class="notice"><%= flash[:notice] %></div>
-      <% end %>
 
-      <% if flash[:alert] %>
-        <div class="alert"><%= flash[:alert] %></div>
-      <% end %>
-
-      <% if flash[:error] %>
-        <div class="error"><%= flash[:error] %></div>
-      <% end %>
+	  <% flash.each do |key, msg| %>
+	    <%= content_tag :div, msg, :class => [key], :id => "notice_#{key}" %>
+	  <% end %>
 
       <% if content_for? :content_left %>
 		<div id="content-left">  
