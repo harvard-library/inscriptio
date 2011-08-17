@@ -152,6 +152,10 @@
 					target.btOff();
 				});
 
+                $('#overlayId').live('change.floormap', function() {
+                    $('#applyOverlay').removeAttr('disabled');
+                });
+
 				$.each( [
 					['#moveUp', 'top', -1],
 					['#moveRight', 'left', 1],
