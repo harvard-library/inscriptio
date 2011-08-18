@@ -62,8 +62,16 @@ namespace :inscriptio do
         @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), at.expiration_extension_time.to_i])  
       end  
       @reservations.flatten!
+      notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expiring'"])})
       @reservations.each do |reservation|
-        Notification.reservation_expiration(reservation).deliver
+        Email.create(
+          :from => reservation.reservable_asset.reservable_asset_type.library.from,
+          :reply_to => reservation.reservable_asset.reservable_asset_type.library.from,
+          :to => reservation.user.email,
+          :bcc => reservation.reservable_asset.reservable_asset_type.library.bcc,
+          :subject => notice.subject,
+          :body => notice.message
+        )
       end  
       puts "Successfully delivered expiration notices!"
     end
@@ -73,7 +81,14 @@ namespace :inscriptio do
       @reservations.each do |reservation|
         reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
         reservation.save  
-        Notification.reservation_expired(reservation).deliver
+        Email.create(
+          :from => reservation.reservable_asset.reservable_asset_type.library.from,
+          :reply_to => reservation.reservable_asset.reservable_asset_type.library.from,
+          :to => reservation.user.email,
+          :bcc => reservation.reservable_asset.reservable_asset_type.library.bcc,
+          :subject => notice.subject,
+          :body => notice.message
+        )
       end
       puts "Successfully delivered expired notices!"
     end
