@@ -42,8 +42,6 @@ class MessagesController < ApplicationController
     if @message.destroy
       flash[:notice] = %Q|Deleted message #{message}|
       redirect_to :action => :index
-    else
-
     end
   end
 

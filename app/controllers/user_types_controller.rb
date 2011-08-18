@@ -42,8 +42,6 @@ class UserTypesController < ApplicationController
     if @user_type.destroy
       flash[:notice] = %Q|Deleted user type #{user_type}|
       redirect_to :action => :index
-    else
-
     end
   end
 

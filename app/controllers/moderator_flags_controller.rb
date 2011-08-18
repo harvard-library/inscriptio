@@ -26,10 +26,6 @@ class ModeratorFlagsController < ApplicationController
     @moderator_flag.attributes = params[:moderator_flag]
     respond_to do|format|
       if @moderator_flag.save
-        @admins = @moderator_flag.post.bulletin_board.reservable_asset.reservable_asset_type.library.bcc_list
-        @admins.each do |admin|
-          Notification.moderator_flag_set(@moderator_flag.post, admin).deliver
-        end
         flash[:notice] = 'Added that Moderation Flag'
         format.html {redirect_to @moderator_flag.post}
       else
@@ -45,8 +41,6 @@ class ModeratorFlagsController < ApplicationController
     if @moderator_flag.destroy
       flash[:notice] = %Q|Deleted reservation #{moderator_flag}|
       redirect_to :action => :index
-    else
-
     end
   end
 

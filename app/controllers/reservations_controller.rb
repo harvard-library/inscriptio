@@ -57,9 +57,8 @@ class ReservationsController < ApplicationController
     respond_to do|format|
       if @reservation.reservable_asset.allow_reservation?(current_user)
         if @reservation.date_valid?(params[:reservation][:start_date], chosen)
+          @reservation.slot = @reservation.assign_slot
           if @reservation.save
-            @reservation.assign_slot
-            Notification.reservation_notice(@reservation).deliver
             flash[:notice] = 'Added that Reservation'
             format.html {render :action => :show}
           else
@@ -81,15 +80,8 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
     reservation = @reservation
     if @reservation.destroy
-      Notification.reservation_canceled(reservation, reservation.user.email).deliver
-      @admins = @reservation.reservable_asset.reservable_asset_type.library.bcc_list
-      @admins.each do |admin|
-        Notification.reservation_canceled(reservation, admin).deliver
-      end
       flash[:notice] = %Q|Deleted reservation #{reservation.id}|
       redirect_to :back
-    else
-
     end
   end
 
@@ -117,11 +109,9 @@ class ReservationsController < ApplicationController
     params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1)
     
     @reservation.attributes = params[:reservation]
-    
-    respond_to do|format|
+    respond_to do |format|
       if @reservation.date_valid?(params[:reservation][:start_date], chosen)
         if @reservation.save
-          Notification.reservation_notice(@reservation).deliver
           flash[:notice] = %Q|Reservation updated|
           format.html {redirect_to :action => :show}
         else
@@ -131,4 +121,5 @@ class ReservationsController < ApplicationController
       end    
     end
   end
+  
 end

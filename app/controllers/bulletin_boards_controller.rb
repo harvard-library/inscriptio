@@ -40,8 +40,6 @@ class BulletinBoardsController < ApplicationController
     if @bulletin_board.destroy
       flash[:notice] = %Q|Deleted Bulletin Board #{bulletin_board.id}|
       redirect_to :action => :index
-    else
-
     end
   end
 

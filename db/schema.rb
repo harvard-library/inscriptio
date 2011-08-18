@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20110817174318) do
     t.string   "to"
     t.string   "bcc"
     t.string   "from"
+    t.string   "reply_to"
     t.string   "subject"
     t.text     "body"
     t.date     "date_sent"
@@ -90,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20110817174318) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "bcc"
+    t.string   "from"
   end
 
   create_table "messages", :force => true do |t|

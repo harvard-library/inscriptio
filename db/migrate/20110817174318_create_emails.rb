@@ -4,6 +4,7 @@ class CreateEmails < ActiveRecord::Migration
       t.string :to
       t.string :bcc
       t.string :from
+      t.string :reply_to
       t.string :subject
       t.text :body
       t.date :date_sent

@@ -5,6 +5,34 @@ class Reservation < ActiveRecord::Base
   
   validates_presence_of :user, :reservable_asset
   
+  after_save :post_save_hooks
+  after_destroy :post_destroy_hooks
+  
+  def post_save_hooks
+    notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id})
+    Email.create(
+      :from => self.reservable_asset.reservable_asset_type.library.from,
+      :reply_to => self.reservable_asset.reservable_asset_type.library.from,
+      :to => self.user.email,
+      :bcc => self.reservable_asset.reservable_asset_type.library.bcc,
+      :subject => notice.subject,
+      :body => notice.message
+    )
+      
+  end
+  
+  def post_destroy_hooks
+    notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'cancelled'"])})
+    Email.create(
+      :from => self.reservable_asset.reservable_asset_type.library.from,
+      :reply_to => self.reservable_asset.reservable_asset_type.library.from,
+      :to => self.user.email,
+      :bcc => self.reservable_asset.reservable_asset_type.library.bcc,
+      :subject => notice.subject,
+      :body => notice.message
+    )  
+  end
+  
   def to_s
     %Q|#{id}|
   end
@@ -28,8 +56,7 @@ class Reservation < ActiveRecord::Base
     self.reservable_asset.current_reservations.collect{|s| used_slots << s.slot}
     available_slots = slots - used_slots
     unless available_slots.nil?
-      self.slot = available_slots.first
-      self.save
+      available_slots.first
     end  
   end  
   

@@ -40,6 +40,8 @@ class User < ActiveRecord::Base
   
   def post_save_hooks
     Email.create(
+      :from => Library.find(:first).from,
+      :reply_to => Library.find(:first).from,
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
       :body => "Your login is: #{self.email}. Please visit #{link_to 'Inscriptio', Rails.application.routes.url_helpers.new_user_password_path} to create a new password and log into your account."

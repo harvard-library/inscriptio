@@ -58,8 +58,6 @@ class ReservableAssetsController < ApplicationController
     if @reservable_asset.destroy
       flash[:notice] = %Q|Deleted reservable asset #{reservable_asset}|
       redirect_to :action => :index
-    else
-
     end
   end
 

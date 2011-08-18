@@ -4,6 +4,6 @@ class AddSlotReservation < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :slot
+    remove_column :reservations, :slot
   end
 end

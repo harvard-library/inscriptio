@@ -46,8 +46,6 @@ class SubjectAreasController < ApplicationController
     if @subject_area.destroy
       flash[:notice] = %Q|Deleted subject area #{subject_area}|
       redirect_to :action => :index
-    else
-
     end
   end
 

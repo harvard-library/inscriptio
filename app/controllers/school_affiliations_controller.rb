@@ -41,8 +41,6 @@ class SchoolAffiliationsController < ApplicationController
     if @school_affiliation.destroy
       flash[:notice] = %Q|Deleted school affiliation #{school_affiliation}|
       redirect_to :action => :index
-    else
-
     end
   end
 

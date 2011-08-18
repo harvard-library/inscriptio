@@ -43,8 +43,6 @@ class PostsController < ApplicationController
     if @post.destroy
       flash[:notice] = %Q|Deleted post #{post}|
       redirect_to :action => :index
-    else
-
     end
   end
 

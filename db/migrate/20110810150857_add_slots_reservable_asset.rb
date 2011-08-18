@@ -4,6 +4,6 @@ class AddSlotsReservableAsset < ActiveRecord::Migration
   end
 
   def self.down
-    add_column :slots
+    remove_column :reservable_assets, :slots
   end
 end

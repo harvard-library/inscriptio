@@ -40,8 +40,6 @@ class ReservationNoticesController < ApplicationController
     if @reservation_notice.destroy
       flash[:notice] = %Q|Deleted Reservation Notice #{reservation_notice}|
       redirect_to :action => :index
-    else
-
     end
   end
 

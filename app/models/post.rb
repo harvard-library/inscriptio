@@ -8,11 +8,13 @@ class Post < ActiveRecord::Base
   after_create :post_save_hooks
   
   def post_save_hooks
-    self.bulletin_board.users.each do |user|
+    self.bulletin_board.reservable_asset.users.each do |user|
       Email.create(
+        :from => self.bulletin_board.reservable_asset.reservable_asset_type.library.from,
+        :reply_to => self.bulletin_board.reservable_asset.reservable_asset_type.library.from,
         :to => user.email,
         :subject => "There\'s a New Post to Your Bulletin Board",
-        :body => "A new bulletin board post was created for #{@bulletin_board.reservable_asset.reservable_asset_type.name} #{@bulletin_board.reservable_asset.name}"
+        :body => "A new bulletin board post was created for #{self.bulletin_board.reservable_asset.reservable_asset_type.name} #{self.bulletin_board.reservable_asset.name}."
       )
     end  
   end

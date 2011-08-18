@@ -41,8 +41,6 @@ class CallNumbersController < ApplicationController
     if @call_number.destroy
       flash[:notice] = %Q|Deleted call number #{call_number}|
       redirect_to :action => :index
-    else
-
     end
   end
 

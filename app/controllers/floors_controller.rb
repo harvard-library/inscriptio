@@ -74,8 +74,6 @@ class FloorsController < ApplicationController
     if @floor.destroy
       flash[:notice] = %Q|Deleted floor #{floor_name}|
       redirect_to library
-    else
-
     end
   end
 

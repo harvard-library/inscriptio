@@ -37,8 +37,6 @@ class StatusesController < ApplicationController
     if @status.destroy
       flash[:notice] = %Q|Deleted user type #{status}|
       redirect_to :action => :index
-    else
-
     end
   end
 
