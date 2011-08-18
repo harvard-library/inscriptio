@@ -8,6 +8,7 @@ class LibrariesController < ApplicationController
     if @welcome_message.nil?
       @message = Message.new
     end
+    
   end
 
   def new

@@ -58,7 +58,7 @@ namespace :inscriptio do
   namespace :cron_task do
     desc "Send scheduled emails daily"
     task :send_expiration_notices => :environment do
-      @asset_types.all.each do |at|
+      AssetType.all.each do |at|
         @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), at.expiration_extension_time.to_i])  
       end  
       @reservations.flatten!
@@ -77,7 +77,7 @@ namespace :inscriptio do
     end
     
     task :send_expired_notices => :environment do
-      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date <= current_date'])
+      @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date <= current_date', Status.find(:first, :conditions => ["lower(name) = 'approved'"])])
       @reservations.each do |reservation|
         reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
         reservation.save  
@@ -100,7 +100,7 @@ namespace :inscriptio do
         @bulletin_boards.each do |bb|
           unless bb.posts.nil?
             bb.posts.each do |post|
-              if Date.today - post.created_at.to_datetime >= bb.post_lifetime
+              if Date.today - post.created_at.to_date >= bb.post_lifetime
                 Post.destroy(post)
               end  
             end  
