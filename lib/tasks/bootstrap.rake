@@ -77,7 +77,7 @@ namespace :inscriptio do
     end
     
     task :send_expired_notices => :environment do
-      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date = current_date'])
+      @reservations = Reservation.find(:all, :conditions => ['approved = true AND end_date <= current_date'])
       @reservations.each do |reservation|
         reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
         reservation.save  
@@ -110,8 +110,28 @@ namespace :inscriptio do
       puts "Successfully deleted expired posts!" 
     end
     
+    desc "Send emails that are queued up"
+    task :send_queued_emails => :environment do
+      emails = Email.to_send
+      emails.each do |email|
+        begin
+          Notification.send_queued(email).deliver
+          email.message_sent = true
+          email.date_sent = Time.now
+          email.save
+          end
+        rescue Exception => e
+          #FAIL!
+          email.error_message = e.inspect[0..4999]
+          email.to_send = false
+          email.save
+        end
+      end  
+      puts "Successfully sent queued emails!" 
+    end
+    
     desc "run all tasks in cron_task"
-    task :run_all => [:send_expiration_notices, :send_expired_notices, :delete_posts] do
+    task :run_all => [:send_expiration_notices, :send_expired_notices, :send_queued_emails, :delete_posts] do
       puts "Sent all notices and deleted old bulletin board posts!"
     end
     

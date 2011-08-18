@@ -1,6 +1,8 @@
 class Email < ActiveRecord::Base
   
-  validates_presence_of :to
-  validates_presence_of :subject
-  validates_presence_of :body
+  validates_presence_of :to, :from, :reply_to, :subject, :body
+  
+  def self.to_send
+    self.find(:all, :conditions => {:message_sent => false})
+  end
 end
