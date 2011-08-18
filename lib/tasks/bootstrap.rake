@@ -119,7 +119,6 @@ namespace :inscriptio do
           email.message_sent = true
           email.date_sent = Time.now
           email.save
-          end
         rescue Exception => e
           #FAIL!
           email.error_message = e.inspect[0..4999]
