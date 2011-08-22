@@ -435,30 +435,31 @@
 			methods.syncAssetsToOverlays();
 
 			$.each(opts.assets, function(i, asset) {
+                if (asset.id == assignedAssetId) {
+                    $('#tooltipTools').hide();
+                    $('#loading').show();
 
-				$('#tooltipTools').hide();
-				$('#loading').show();
-
-				$.ajax({
-					url: '/reservable_assets/' + asset.id + '/locate',
-					data: {
-						'reservable_asset[x1]': asset.x1,
-						'reservable_asset[y1]': asset.y1,
-						'reservable_asset[x2]': asset.x2,
-						'reservable_asset[y2]': asset.y2 
-					},
-					success: function(data) {
-						$(opts.activeOverlaySelector).data('saved', true);
-						$('.' + opts.overlayClass).btOff();
-						$('#loading').hide();
-						$('#tooltipTools').show();
-					},
-					error: function(response) {
-						$('.bt-content').html('Error updating asset: ' + response.status);
-						if (typeof console != 'undefined')
-							console.log(response.responseText);
-					}
-				});
+                    $.ajax({
+                        url: '/reservable_assets/' + asset.id + '/locate',
+                        data: {
+                            'reservable_asset[x1]': asset.x1,
+                            'reservable_asset[y1]': asset.y1,
+                            'reservable_asset[x2]': asset.x2,
+                            'reservable_asset[y2]': asset.y2 
+                        },
+                        success: function(data) {
+                            $(opts.activeOverlaySelector).data('saved', true);
+                            $('.' + opts.overlayClass).btOff();
+                            $('#loading').hide();
+                            $('#tooltipTools').show();
+                        },
+                        error: function(response) {
+                            $('.bt-content').html('Error updating asset: ' + response.status);
+                            if (typeof console != 'undefined')
+                                console.log(response.responseText);
+                        }
+                    });
+                }
 			});
 		},
 
