@@ -6,7 +6,7 @@
     <dt>Subject:</dt>
     <dd><%= @reservation_notice.subject %></dd>
 	<dt>Message:</dt>
-    <dd><%= @reservation_notice.message %></dd>
+    <dd><%= raw @reservation_notice.message %></dd>
 	<dt>Reply-To:</dt>
     <dd><%= @reservation_notice.reply_to %></dd>
   </dl>
