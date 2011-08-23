@@ -7,8 +7,7 @@ class LibrariesController < ApplicationController
     @welcome_message = Message.find(:first, :conditions => ["title LIKE ?", '%Welcome%'])
     if @welcome_message.nil?
       @message = Message.new
-    end
-    
+    end    
   end
 
   def new

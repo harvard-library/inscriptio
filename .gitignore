@@ -8,3 +8,4 @@ public/uploads/*
 .project*
 *~
 .DS_Store
+db/schema.rb

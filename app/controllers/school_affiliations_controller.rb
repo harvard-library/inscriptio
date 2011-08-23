@@ -50,7 +50,7 @@ class SchoolAffiliationsController < ApplicationController
     respond_to do|format|
       if @school_affiliation.save
         flash[:notice] = %Q|#{@school_affiliation} updated|
-        format.html {render :action => :index}
+        format.html {redirect_to school_affiliations_path}
       else
         flash[:error] = 'Could not update that School Affiliation'
         format.html {render :action => :new}
