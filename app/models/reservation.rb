@@ -9,7 +9,7 @@ class Reservation < ActiveRecord::Base
   after_destroy :post_destroy_hooks
   
   def post_save_hooks
-    notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id})
+    notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id, :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
     Email.create(
       :from => self.reservable_asset.reservable_asset_type.library.from,
       :reply_to => self.reservable_asset.reservable_asset_type.library.from,
@@ -22,7 +22,7 @@ class Reservation < ActiveRecord::Base
   end
   
   def post_destroy_hooks
-    notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'cancelled'"])})
+    notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'cancelled'"]), :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
     Email.create(
       :from => self.reservable_asset.reservable_asset_type.library.from,
       :reply_to => self.reservable_asset.reservable_asset_type.library.from,
