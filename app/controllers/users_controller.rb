@@ -14,6 +14,28 @@ class UsersController < ApplicationController
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add 'New'
   end
+  
+  def create
+    @user = User.new
+    #@user.attributes = params[:user]
+    @user.user_type_id = params[:user][:user_type_id]
+    @user.school_affiliation_id = params[:user][:school_affiliation_id]
+    @user.email = params[:user][:email]
+    @user.password = User.random_password
+    @user.first_name = params[:user][:first_name]
+    @user.last_name = params[:user][:last_name]
+    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    
+    respond_to do|format|
+      if @user.save
+        flash[:notice] = 'Added that User'
+        format.html {redirect_to :action => :index}
+      else
+        flash[:error] = 'Could not add that User'
+        format.html {render :action => :new}
+      end
+    end
+  end
 
   def show
     @user = User.find(params[:id])
@@ -25,7 +47,6 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
     breadcrumbs.add 'Edit'

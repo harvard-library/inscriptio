@@ -1,6 +1,11 @@
 <% content_for :header do %>Users<% end %>
 
 <div class="users collection-list">
+	
+  <% if current_user.admin? %>
+    <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2>
+  <% end %>
+		
   <% unless @users.blank? %>
 	<%= render :partial => 'shared/lines/user', :collection => @users %>
   <% else %>
