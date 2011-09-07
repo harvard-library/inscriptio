@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
       :reply_to => Library.find(:first).from,
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
-      :body => %Q|<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system.</p><p>Your login is: #{self.email}. Please visit a href="#{ROOT_URL}/users/password/new">Inscriptio</a> to create a new password and log into your account.</p>|
+      :body => %Q|<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system.</p><p>Your login is: #{self.email}. Please visit <a href="#{ROOT_URL}/users/password/new">Inscriptio</a> to create a new password and log into your account.</p>|
     )
   end    
   
