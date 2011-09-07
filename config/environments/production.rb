@@ -1,6 +1,7 @@
 Inscriptio::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
-
+  ROOT_URL = 'inscriptio.harvard.edu'
+  
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -49,4 +50,5 @@ Inscriptio::Application.configure do
   
   config.action_mailer.default_url_options = { :host => 'inscriptio.harvard.edu' }
   config.action_mailer.delivery_method = :sendmail
+
 end

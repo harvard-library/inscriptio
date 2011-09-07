@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
+  include Rails.application.routes.url_helpers
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,# :registerable,
@@ -44,7 +45,7 @@ class User < ActiveRecord::Base
       :reply_to => Library.find(:first).from,
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
-      :body => "Your login is: #{self.email}. Please visit #{link_to 'Inscriptio', Rails.application.routes.url_helpers.new_user_password_path} to create a new password and log into your account."
+      :body => %Q|<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system.</p><p>Your login is: #{self.email}. Please visit a href="#{ROOT_URL}/users/password/new">Inscriptio</a> to create a new password and log into your account.</p>|
     )
   end    
   
