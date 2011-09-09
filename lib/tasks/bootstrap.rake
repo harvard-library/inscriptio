@@ -58,7 +58,7 @@ namespace :inscriptio do
   namespace :cron_task do
     desc "Send scheduled emails daily"
     task :send_expiration_notices => :environment do
-      AssetType.all.each do |at|
+      ReservableAssetType.all.each do |at|
         @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), at.expiration_extension_time.to_i])  
       end  
       @reservations.flatten!
