@@ -6,6 +6,7 @@ class Notification < ActionMailer::Base
            :from => email.from,
            :reply_to => email.from,
            :to => email.to,
+           :bcc => email.bcc,
            :subject => email.subject
           )
   end  
