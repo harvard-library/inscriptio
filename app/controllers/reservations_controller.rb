@@ -51,12 +51,17 @@ class ReservationsController < ApplicationController
     
     #setting the end date to the last day of the month chosen by the user
     params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1)
-    
+        
     @reservation.attributes = params[:reservation]
     
     respond_to do|format|
       if @reservation.reservable_asset.allow_reservation?(current_user)
         if @reservation.date_valid?(params[:reservation][:start_date], chosen)
+          # if last day of current month is over max reservation time then use last day of previous month
+          time_in_days = (@reservation.end_date - @reservation.start_date).to_i
+          if time_in_days > @reservation.reservable_asset.max_reservation_time.to_i
+            @reservation.end_date = Date.civil(@reservation.end_date.year, Date.civil(@reservation.end_date.year, @reservation.end_date.month, -1).prev_month.month, -1)
+          end
           @reservation.slot = @reservation.assign_slot
           if @reservation.save
             flash[:notice] = 'Added that Reservation'
@@ -111,6 +116,11 @@ class ReservationsController < ApplicationController
     @reservation.attributes = params[:reservation]
     respond_to do |format|
       if @reservation.date_valid?(params[:reservation][:start_date], chosen)
+        # if last day of current month is over max reservation time then use last day of previous month
+        time_in_days = (@reservation.end_date - @reservation.start_date).to_i
+        if time_in_days > @reservation.reservable_asset.max_reservation_time.to_i
+          @reservation.end_date = Date.civil(@reservation.end_date.split('/')[2].to_i, Date.civil(@reservation.end_date.split('/')[2].to_i, @reservation.end_date.split('/')[0].to_i, -1).prev_month.month, -1)
+        end
         if @reservation.save
           flash[:notice] = %Q|Reservation updated|
           format.html {redirect_to :action => :show}
