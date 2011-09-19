@@ -52,6 +52,6 @@ Inscriptio::Application.configure do
   config.action_mailer.delivery_method = :sendmail
 
 #  config.logger = Logger.new(config.log_path, 25, 2097152)
-  config.active_record.colorize_logging = false
+  config.colorize_logging = false
 
 end
