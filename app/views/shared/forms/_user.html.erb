@@ -8,7 +8,7 @@
 	  <%= f.input :user_type %>
 	<% end %>
 	<% unless @user == current_user %>
-	  <%= f.input :admin %>
+	  <span id='admin_box'><%= f.input :admin %></span>
 	<% end %>
   <% end %>
   <%= f.buttons %>

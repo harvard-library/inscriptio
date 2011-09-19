@@ -28,7 +28,7 @@ class Reservation < ActiveRecord::Base
       :reply_to => self.reservable_asset.reservable_asset_type.library.from,
       :to => self.user.email,
       :bcc => self.reservable_asset.reservable_asset_type.library.bcc,
-      :subject => notice.subject,
+      :subject => notice.subject + " " + self.reservable_asset.name,
       :body => notice.message
     )  
   end

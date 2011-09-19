@@ -476,6 +476,11 @@ div.reservation_notice {
 	text-decoration: underline;
 }
 
+#admin_box {
+	width: 60%;
+	float: right;
+}
+
 div.col1 {
 	margin-left: 0px;
 }

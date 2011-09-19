@@ -3,6 +3,12 @@ class BulletinBoardsController < ApplicationController
   
   def index
     @bulletin_boards = BulletinBoard.all
+    
+    bbs = BulletinBoard.find(:all, :conditions => {:post_lifetime => 1})
+    bbs.each do |bb|
+      bb.post_lifetime = 30
+      bb.save
+    end
   end
 
   def new
@@ -48,7 +54,7 @@ class BulletinBoardsController < ApplicationController
     @bulletin_board.attributes = params[:bulletin_board]
     respond_to do|format|
       if @bulletin_board.save
-        flash[:notice] = %Q|Bulletin Board #{bulletin_board.id} updated!|
+        flash[:notice] = %Q|Bulletin Board #{@bulletin_board.id} updated!|
         format.html {render :action => :index}
       else
         flash[:error] = 'Could not update that Bulletin Board'
