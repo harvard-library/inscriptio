@@ -3,7 +3,7 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "wcarrel@fas.harvard.edu"
+  config.mailer_sender = DEFAULT_MAILER_SENDER
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
