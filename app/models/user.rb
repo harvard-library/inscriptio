@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   
   def post_save_hooks
     Email.create(
-      :from => Library.find(:first).from,
+      :from => DEFAULT_MAILER_SENDER,
       :reply_to => Library.find(:first).from,
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
