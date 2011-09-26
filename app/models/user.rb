@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   def post_save_hooks
     Email.create(
       :from => DEFAULT_MAILER_SENDER,
-      :reply_to => Library.find(:first).from,
+      :reply_to => DEFAULT_MAILER_SENDER,
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
       :body => %Q|<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system.</p><p>Your login is: #{self.email}. Please visit <a href="#{ROOT_URL}/users/password/new">Inscriptio</a> to create a new password and log into your account.</p>|

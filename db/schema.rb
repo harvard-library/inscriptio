@@ -90,8 +90,6 @@ ActiveRecord::Schema.define(:version => 20110817174318) do
     t.text     "tos"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "bcc"
-    t.string   "from"
   end
 
   create_table "messages", :force => true do |t|
@@ -119,7 +117,6 @@ ActiveRecord::Schema.define(:version => 20110817174318) do
     t.integer  "user_id"
     t.string   "message"
     t.string   "media"
-    t.boolean  "public",            :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
