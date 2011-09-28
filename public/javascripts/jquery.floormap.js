@@ -20,6 +20,10 @@
 			/* Overwrite any default options with those passed in */
 			$.extend(opts, options);
 
+            if (typeof $.rootPath == 'undefined') {
+                $.extend({ rootPath: function() { return '/'; } });
+            }
+
 			return this.each(function() {
 				if (!$(this).data('floormap')) {
 					$(this).data('floormap', {
@@ -395,7 +399,7 @@
 			}
 			else {
 				var contentSelector = null,
-				ajaxPath = '/reservable_assets/' + assignedAssetId + ' #content-right > *',
+				ajaxPath = $.rootPath() + 'reservable_assets/' + assignedAssetId + ' #content-right > *',
 				preShow = function(){},
 				preHide = function(){};
 			}
@@ -440,7 +444,7 @@
                     $('#loading').show();
 
                     $.ajax({
-                        url: '/reservable_assets/' + asset.id + '/locate',
+                        url: $.rootPath() + 'reservable_assets/' + asset.id + '/locate',
                         data: {
                             'reservable_asset[x1]': asset.x1,
                             'reservable_asset[y1]': asset.y1,
@@ -470,7 +474,7 @@
 				$('#tooltipTools').hide();
 				$('#loading').show();
 				$.ajax({
-					url: '/reservable_assets/' + overlay.data('assignedAssetId') + '/locate',
+					url: $.rootPath() + 'reservable_assets/' + overlay.data('assignedAssetId') + '/locate',
 					data: {
 						'reservable_asset[x1]': null,
 						'reservable_asset[y1]': null,
