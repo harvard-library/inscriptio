@@ -6,7 +6,21 @@
     <% end %>
 	<% @libraries.each do |library| %>
 	  <h2><%= library.name %></h2>
+	  <% if current_user.admin? %>
+	    <h3 class="collapsable email_all">Email All in <%= library %></h3>
+	    <div class="email_all email_all-target">
+		  <p>
+			<% form_tag new_email_path, :method => 'get' do %>
+			  <%= text_field_tag :subject %><br />
+			  <%= text_area_tag :content, nil, :rows => 10, :cols => 35 %><br />
+			  <%= hidden_field_tag :library, library.id %>  
+			  <%= submit_tag "Send", :name => nil %>
+			<% end %>
+	      </p>
+	    </div>
+      <% end %>
       <% unless library.reservable_asset_types.blank? %>
+        <h3>Assets</h3>
         <%= render :partial => 'shared/lines/reservable_asset_type', :collection => library.reservable_asset_types %>
       <% else %>
         <h3>No reservable asset types for this library yet.</h3>
