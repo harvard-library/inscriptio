@@ -1,5 +1,9 @@
 Inscriptio::Application.routes.draw do
-  resources :emails
+  resources :emails do
+    collection do
+      get 'asset_type'
+    end
+  end  
 
   resources :school_affiliations
 

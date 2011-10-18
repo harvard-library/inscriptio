@@ -1,7 +1,22 @@
 <div class="reservable_asset_type line" id="reservable_asset_type-<%= reservable_asset_type.id %>">
 
   <h3 class="collapsable description"><%= reservable_asset_type.name %> - <%= link_to("Add New #{reservable_asset_type.name}", new_reservable_asset_path(:library => reservable_asset_type.library)) %></h3>
+
   <ul class="description description-target">
+	<% if current_user.admin? %>
+	    <h3 class="collapsable email_all">Email All in <%= reservable_asset_type.library.name %> <%= reservable_asset_type.name %></h3>
+	    <div class="email_all email_all-target">
+		  <p>
+			<% form_tag asset_type_emails_path, :method => 'get' do %>
+			  <%= text_field_tag :subject %><br />
+			  <%= text_area_tag :content, nil, :rows => 10, :cols => 35 %><br />
+			  <%= hidden_field_tag :reservable_asset_type, reservable_asset_type.id %>  
+			  <%= submit_tag "Send", :name => nil %>
+			<% end %>
+	      </p>
+	    </div>
+    <% end %>
+	
     <% unless reservable_asset_type.reservable_assets.blank? %>
       <%= render :partial => 'shared/lines/reservable_asset', :collection => reservable_asset_type.reservable_assets %>
     <% else %>

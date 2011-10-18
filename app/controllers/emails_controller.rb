@@ -1,13 +1,8 @@
 class EmailsController < ApplicationController
   
   def new
-    p "params"
-    p params[:subject]
-    p params[:content]
     @library = Library.find(params[:library])
-    p @library.name
     @users = Array.new
-    #@library.reservable_asset_types.reservable_assets.reservations.user
     @library.reservable_asset_types.each do |rat|
       rat.reservable_assets.each do |ra|
         ra.reservations.each do |r|
@@ -25,5 +20,25 @@ class EmailsController < ApplicationController
     end  
     flash[:notice] = "Message Sent!"
     redirect_to :back
-  end  
+  end 
+  
+  def asset_type
+    @reservable_asset_type = ReservableAssetType.find(params[:reservable_asset_type])
+    @users = Array.new
+    @reservable_asset_type.reservable_assets.each do |ra|
+      ra.reservations.each do |r|
+        Email.create(
+          :from => @reservable_asset_type.library.from,
+          :reply_to => @reservable_asset_type.library.from,
+          :to => r.user.email,
+          :bcc => @reservable_asset_type.library.bcc,
+          :subject => params[:subject],
+          :body => params[:content]
+        )
+        p r.user.email
+      end  
+    end      
+    flash[:notice] = "Message Sent!"
+    redirect_to :back
+  end   
 end
