@@ -29,6 +29,9 @@ class ReservationsController < ApplicationController
     @reservable_asset = @reservation.reservable_asset_id
     @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
     @min_time = ReservableAsset.find(@reservable_asset).min_reservation_time
+    unless params[:renew].nil?
+      @renew = true
+    end  
   end
   
   def create
@@ -112,24 +115,26 @@ class ReservationsController < ApplicationController
     
     #setting the end date to the last day of the month chosen by the user
     params[:reservation][:end_date] = Date.civil(params[:reservation][:end_date].split('/')[2].to_i, params[:reservation][:end_date].split('/')[0].to_i, -1)
-    
     @reservation.attributes = params[:reservation]
     respond_to do |format|
       if @reservation.date_valid?(params[:reservation][:start_date], chosen)
         # if last day of current month is over max reservation time then use last day of previous month
         time_in_days = (@reservation.end_date - @reservation.start_date).to_i
         if time_in_days > @reservation.reservable_asset.max_reservation_time.to_i
-          @reservation.end_date = Date.civil(@reservation.end_date.split('/')[2].to_i, Date.civil(@reservation.end_date.split('/')[2].to_i, @reservation.end_date.split('/')[0].to_i, -1).prev_month.month, -1)
+          @reservation.end_date = Date.civil(@reservation.end_date.year, Date.civil(@reservation.end_date.year, @reservation.end_date.month, -1).prev_month.month, -1)
         end
         if @reservation.save
           flash[:notice] = %Q|Reservation updated|
           format.html {redirect_to :action => :show}
         else
           flash[:error] = 'Could not update that Reservation'
-          format.html {render :action => :new}
+          format.html {redirect_to new_reservation_path(:reservable_asset => @reservation.reservable_asset)}
         end
-      end    
+      else  
+        flash[:error] = 'Could not update that Reservation'
+        format.html {redirect_to new_reservation_path(:reservable_asset => @reservation.reservable_asset)} 
+      end 
     end
-  end
+  end 
   
 end

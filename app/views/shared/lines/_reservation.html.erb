@@ -3,7 +3,7 @@
 
   <ul class="actions">
   <% if reservation.expiring? %>
-    <li><%= link_to('Renew', new_reservation_path(:reservable_asset => reservation.reservable_asset)) %></li>
+    <li><%= link_to('Renew', edit_reservation_path(reservation, :renew => true)) %></li>
   <% end %>
   
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>

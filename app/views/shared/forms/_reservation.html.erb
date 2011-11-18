@@ -24,7 +24,7 @@
 	    </script>
 	  <% end %>
     <% else %>
-	  <% if @reservation.start_date.nil? %>
+	  <% if @reservation.start_date.nil? || !@renew.nil? %>
 	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
         <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	  <% else %>
