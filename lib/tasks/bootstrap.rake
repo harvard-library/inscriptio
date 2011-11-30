@@ -80,6 +80,7 @@ namespace :inscriptio do
     desc "Sets expired status on reservations and generates an email."
     task :send_expired_notices => :environment do
       @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date <= current_date', Status.find(:first, :conditions => ["lower(name) = 'approved'"])])
+      notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])})
       @reservations.each do |reservation|
         reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
         reservation.save  
