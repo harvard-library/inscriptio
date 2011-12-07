@@ -28,6 +28,7 @@ Inscriptio::Application.routes.draw do
   resources :users do
     collection do
       post 'import'
+      get 'export'
     end
   end  
   

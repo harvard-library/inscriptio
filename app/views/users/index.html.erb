@@ -3,7 +3,11 @@
 <div class="users collection-list">
 	
   <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2>
+    <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2> 
+    <h3><%= link_to('Export Users to CSV', export_users_path) %></h3>
+    <% unless @csv.nil? %>
+  	  <h4><%= link_to "Download CSV", "/uploads/users.csv" %></h4>
+    <% end %>
   <% end %>
 		
   <% unless @users.blank? %>

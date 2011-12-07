@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   def index
     @users = User.find(:all, :order => ['created_at ASC'])
     breadcrumbs.add 'Users'
+    @csv = params[:csv]
   end
 
   def new
@@ -96,5 +97,17 @@ class UsersController < ApplicationController
     end
     redirect_to users_path
   end
+  
+  def export
+    @users = User.find(:all, :order => ['email ASC'])
+    CSV.open("#{RAILS_ROOT}/public/uploads/users.csv", "w") do |csv|
+      @users.each do |user|
+        csv << [user.first_name, user.last_name, user.email]
+      end
+    end
+    @csv = true
+    flash[:notice] = 'Exported!'
+    redirect_to users_path(:csv => @csv)
+  end  
 
 end
