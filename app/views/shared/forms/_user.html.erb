@@ -2,9 +2,9 @@
   <%= f.inputs do %>
 	<%= f.input :first_name %>
 	<%= f.input :last_name %>
-    <%= f.input :email %>
 	<%= f.input :school_affiliation %>
 	<% if current_user.admin? %>
+	  <%= f.input :email %>
 	  <%= f.input :user_type %>
 	<% end %>
 	<% unless @user == current_user %>
