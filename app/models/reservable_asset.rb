@@ -84,7 +84,8 @@ class ReservableAsset < ActiveRecord::Base
   
   def reservations_recently_expired
     expired = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
-    self.reservations.where('reservations.status_id = ?', expired) && self.reservations.where('EXTRACT(month from reservations.end_date) = ? and EXTRACT(year from reservations.end_date) = ?', Date.today.prev_month.month, Date.today.year)
+    year = Date.today.prev_month.month == 12 ? Date.today.prev_year.year : Date.today.year
+    self.reservations.where('reservations.status_id = ?', expired) && self.reservations.where('EXTRACT(month from reservations.end_date) = ? and EXTRACT(year from reservations.end_date) = ?', Date.today.prev_month.month, year)
   end
   
   def slots_equal_users?
