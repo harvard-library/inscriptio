@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: inscriptio_development
+  pool: 5
+  username: inscriptio
+  password:
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: inscriptio_test
+  pool: 5
+  username: inscriptio
+  password:
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: inscriptio_production
+  pool: 5
+  username: inscriptio
+  password:
