@@ -12,12 +12,9 @@ This application is released under a GPLv3 license.
 
 2011 President and Fellows of Harvard College
 
-h1. Inscriptio Requirements
-
 h2. System Requirements
 
-* Ruby 1.8.7
-* Rails 3.0.5
+* Ruby 1.9.3 and a bunch of gems including in the Gemfile
 * A postgresql 8.x database server. Other databases MAY work (e.g. mysql), but they are untested.
 * A webserver capable of interfacing with Rails applications. Ideally, apache or nginx with mod_passenger installed.
 * Linux or OSX. Linux would be easier.
@@ -27,10 +24,10 @@ h2. Application Set-up Steps
 * Get code from: https://github.com/berkmancenter/Inscriptio
 * Run bundle install. You will probably have to install OS-vendor supplied libraries to satisfy some gem install requirements.
 * Create the database and run migrations, modifying "config/database.yml" to suit your environment.
-* Modify "config/00_inscriptio_init.rb"
+* Modify "config/initializers/00_inscriptio_init.rb"
 * Run bootstrap rake tasks: 
  rake inscriptio:bootstrap:run_all
-* Create cron job to automatically run rake tasks for sending out notifications expiring and expired reservations as well as deleting bulletin board posts after post lifetime: 
+* Create cron jobs to automatically run rake tasks for sending out notifications expiring and expired reservations as well as deleting bulletin board posts after post lifetime: 
  rake inscriptio:cron_task:delete_posts
  rake inscriptio:cron_task:send_expiration_notification
  rake inscriptio:cron_task:send_expired_notification
@@ -47,5 +44,4 @@ h2. Order of Operations for Fresh Install
 * Upload/create assets (for upload you will need floor and asset types ID's)
 * Add assets to floor map (remember to hit 'Apply' button to save asset on map)
 * Go to 'Reservation Notices' section and click 'Generate Notices'
-
 
