@@ -18,6 +18,11 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    
+    unless current_user.admin? || @post.user_id == current_user.id
+       redirect_to('/') and return
+    end
+    
     @bulletin_board = @post.bulletin_board.id
   end
   
@@ -39,6 +44,11 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
+    
+    unless current_user.admin? || @post.user_id == current_user.id
+       redirect_to('/') and return
+    end
+    
     post = @post.id
     if @post.destroy
       flash[:notice] = %Q|Deleted post #{post}|
@@ -48,6 +58,11 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
+    
+    unless current_user.admin? || @post.user_id == current_user.id
+       redirect_to('/') and return
+    end
+    
     params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
     params[:post][:user] = User.find(current_user)
     @post.attributes = params[:post]

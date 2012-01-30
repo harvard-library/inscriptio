@@ -18,7 +18,6 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new
-    #@user.attributes = params[:user]
     @user.user_type_id = params[:user][:user_type_id]
     @user.school_affiliation_id = params[:user][:school_affiliation_id]
     @user.email = params[:user][:email]
@@ -48,6 +47,11 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    
+    unless current_user.admin? || @user.email == current_user.mail
+       redirect_to('/') and return
+    end
+     
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
     breadcrumbs.add 'Edit'
@@ -55,6 +59,11 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
+    
+    unless current_user.admin? || @user.email == current_user.mail
+       redirect_to('/') and return
+    end
+    
     user = @user.email
     if @user.destroy
       flash[:notice] = %Q|Deleted user #{user}|
@@ -66,6 +75,11 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    
+    unless current_user.admin? || @user.email == current_user.mail
+       redirect_to('/') and return
+    end
+    
     @user.attributes = params[:user]
     params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false  
     respond_to do|format|

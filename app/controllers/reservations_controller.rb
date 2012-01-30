@@ -22,10 +22,19 @@ class ReservationsController < ApplicationController
 
   def show
     @reservation = Reservation.find(params[:id])
+    
+    unless current_user.admin? || @reservation.user_id == current_user.id
+       redirect_to('/') and return
+    end
   end
 
   def edit
     @reservation = Reservation.find(params[:id])
+    
+    unless current_user.admin? || @reservation.user_id == current_user.id
+       redirect_to('/') and return
+    end
+    
     @reservable_asset = @reservation.reservable_asset_id
     @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
     @min_time = ReservableAsset.find(@reservable_asset).min_reservation_time
@@ -86,6 +95,11 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
+    
+    unless current_user.admin? || @reservation.user_id == current_user.id
+       redirect_to('/') and return
+    end
+    
     reservation = @reservation
     if @reservation.destroy
       flash[:notice] = %Q|Deleted reservation #{reservation.id}|
@@ -95,6 +109,11 @@ class ReservationsController < ApplicationController
 
   def update
     @reservation = Reservation.find(params[:id])
+    
+    unless current_user.admin? || @reservation.user_id == current_user.id
+       redirect_to('/') and return
+    end
+    
     prev_status = @reservation.status
     params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
     

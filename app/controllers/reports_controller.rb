@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  before_filter :authenticate_admin!
   
   def index
     @libraries = Library.all
