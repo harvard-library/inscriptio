@@ -4,7 +4,7 @@
   <% if current_user.admin? %>
 	<ul class="actions">
       <li><%= link_to('Edit', edit_status_path(status), :class => "action-edit") %></li>
-      <li><%= link_to('Delete', status_path(status), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{status.id}", :class => "action-delete") %></li>
+      <li><%= link_to('Delete', status_path(status), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{status.id}", :class => "action-delete") %></li>
     </ul>
   <% end %>
 </div>

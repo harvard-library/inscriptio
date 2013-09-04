@@ -65,7 +65,7 @@
 	}
 
 	// Handles "data-method" on links such as:
-	// <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
+	// <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure you want to delete this item? This action cannot be undone.">Delete</a>
 	function handleMethod(link) {
 		var href = link.attr('href'),
 			method = link.data('method'),

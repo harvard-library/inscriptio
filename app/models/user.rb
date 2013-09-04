@@ -11,11 +11,11 @@ class User < ActiveRecord::Base
   
   belongs_to :user_type
   belongs_to :school_affiliation
-  has_many :reservations
+  has_many :reservations, :dependent => :destroy
   has_many :reservable_assets, :through => :reservations
-  has_many :posts
-  has_many :moderator_flags
-  has_many :emails
+  has_many :posts, :dependent => :destroy
+  has_many :moderator_flags, :dependent => :destroy
+  has_many :emails, :dependent => :destroy
 #  has_one :authentication_source, :through => :user_type
 
   validates_presence_of :email

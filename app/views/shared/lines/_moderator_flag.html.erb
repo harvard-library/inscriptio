@@ -8,6 +8,6 @@
 
   <% if current_user.admin? %>
     | <%= link_to('Edit', edit_moderator_flag_path(moderator_flag), :class => "action-edit") %>
-    | <%= link_to('Delete', moderator_flag_path(moderator_flag), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{moderator_flag.id}", :class => "action-delete") %>
+    | <%= link_to('Delete', moderator_flag_path(moderator_flag), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{moderator_flag.id}", :class => "action-delete") %>
   <% end %>
 </div>

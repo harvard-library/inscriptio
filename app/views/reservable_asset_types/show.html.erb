@@ -34,6 +34,6 @@
 
 	<% if current_user.admin? %>
 	  <%= link_to('Edit', edit_reservable_asset_type_path(@reservable_asset_type), :class => "action-edit") %> |
-	  <%= link_to('Delete', reservable_asset_type_path(@reservable_asset_type), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{@reservable_asset_type.id}", :class => "action-delete") %>
+	  <%= link_to('Delete', reservable_asset_type_path(@reservable_asset_type), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{@reservable_asset_type.id}", :class => "action-delete") %>
 	<% end %>
 </div>
