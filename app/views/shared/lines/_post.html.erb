@@ -9,7 +9,7 @@
       <li><%= link_to('Flag', new_moderator_flag_path(:post => post)) %></li>
       <% if current_user.admin? || post.user == current_user %>
         <li><%= link_to('Edit', edit_post_path(post), :class => "action-edit") %></li>
-        <li><%= link_to('Delete', post_path(post), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{post.id}", :class => "action-delete") %></li>
+        <li><%= link_to('Delete', post_path(post), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{post.id}", :class => "action-delete") %></li>
       <% end %>
     </ul>
 

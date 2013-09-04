@@ -3,6 +3,6 @@
   
   <% if current_user.admin? %>
     <%= link_to('Edit', edit_bulletin_board_path(bulletin_board), :class => "action-edit") %> |
-    <%= link_to('Delete', bulletin_board_path(bulletin_board), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{bulletin_board.id}", :class => "action-delete") %>
+    <%= link_to('Delete', bulletin_board_path(bulletin_board), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{bulletin_board.id}", :class => "action-delete") %>
   <% end %>
 </div>

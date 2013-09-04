@@ -7,7 +7,7 @@
 	    <li><%= link_to('Move Up', move_higher_library_floor_path(@library,floor), :method => :post, :id => "move_up-#{floor.id}", :class => "action-move-up") %></li>
 	    <li><%= link_to('Move Down', move_lower_library_floor_path(@library,floor), :method => :post, :id => "move_down-#{floor.id}", :class => "action-move-down") %></li>
 	    <li><%= link_to('Edit', edit_library_floor_path(@library,floor), :class => "action-edit") %></li>
-	    <li><%= link_to('Delete', library_floor_path(@library,floor), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{floor.id}", :class => "action-delete") %></li>
+	    <li><%= link_to('Delete', library_floor_path(@library,floor), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{floor.id}", :class => "action-delete") %></li>
 	  </ul>
 	<% end %>
   <% else %>
@@ -18,7 +18,7 @@
 	    <li><%= link_to('Move Up', move_higher_library_floor_path(floor.library,floor), :method => :post, :id => "move_up-#{floor.id}", :class => "action-move-up") %></li>
 	    <li><%= link_to('Move Down', move_lower_library_floor_path(floor.library,floor), :method => :post, :id => "move_down-#{floor.id}", :class => "action-move-down") %></li>
 	    <li><%= link_to('Edit', edit_library_floor_path(floor.library,floor), :class => "action-edit") %></li>
-	    <li><%= link_to('Delete', library_floor_path(floor.library,floor), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{floor.id}", :class => "action-delete") %></li>
+	    <li><%= link_to('Delete', library_floor_path(floor.library,floor), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{floor.id}", :class => "action-delete") %></li>
 	  </ul>
 	<% end %>
   <% end %>	

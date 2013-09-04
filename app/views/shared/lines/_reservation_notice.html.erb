@@ -4,7 +4,7 @@
   <% if current_user.admin? %>
 	<ul class="actions">
       <li><%= link_to('Edit', edit_reservation_notice_path(reservation_notice), :class => "action-edit") %></li>
-      <!--<li><%= link_to('Delete', reservation_notice_path(reservation_notice), :confirm => "Are you sure?", :method => :delete, :id => "delete-#{reservation_notice.id}", :class => "action-delete") %></li>-->
+      <!--<li><%= link_to('Delete', reservation_notice_path(reservation_notice), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{reservation_notice.id}", :class => "action-delete") %></li>-->
     </ul>
   <% end %>
 </div>

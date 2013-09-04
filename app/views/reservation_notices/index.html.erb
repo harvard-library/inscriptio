@@ -12,7 +12,7 @@
             <% else %>
 	          <h2>No notices for this asset yet.</h2>
 	        <% end %>
-			<h2 class="action-generate-reset"><%= link_to('Generate/Reset Notices', generate_notices_reservation_notices_path(:asset_type => at), :confirm => "Are you sure? This will delete and regenerate all reservation notices for this asset.") %></h2>
+			<h2 class="action-generate-reset"><%= link_to('Generate/Reset Notices', generate_notices_reservation_notices_path(:asset_type => at), :confirm => "Are you sure you want to delete this item? This action cannot be undone. This will delete and regenerate all reservation notices for this asset.") %></h2>
 	      </div>
 	    <% end %>
       <% else %>
