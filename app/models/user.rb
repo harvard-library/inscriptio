@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :user_type_id, :school_affiliation_id, :first_name, :last_name
-  
+
   belongs_to :user_type
   belongs_to :school_affiliation
   has_many :reservations, :dependent => :destroy
@@ -21,24 +21,24 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
-  
+
   after_create :post_save_hooks
-  
+
   def to_s
     %Q|#{email}|
-  end 
-  
+  end
+
   def self.search(search)
     if search
       find(:all, :conditions => ['lower(email) LIKE ?', "%#{search}%"])
     end
   end
-  
+
   def self.random_password(size = 11)
     chars = (('a'..'z').to_a + ('0'..'9').to_a) - %w(i o 0 1 l 0)
     (1..size).collect{|a| chars[rand(chars.size)] }.join
-  end  
-  
+  end
+
   def post_save_hooks
     Email.create(
       :from => DEFAULT_MAILER_SENDER,
@@ -47,6 +47,6 @@ class User < ActiveRecord::Base
       :subject => "Your Inscriptio Account Has Been Created",
       :body => %Q|<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system.</p><p>Your login is: #{self.email}. Please visit <a href="#{ROOT_URL}/users/password/new">Inscriptio</a> to create a new password and log into your account.</p>|
     )
-  end    
-  
+  end
+
 end
