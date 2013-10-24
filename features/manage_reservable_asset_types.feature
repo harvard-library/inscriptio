@@ -19,8 +19,7 @@ Feature: Manage Reservable Asset Types
 	    And I fill in "Min reservation time" with "1 month"
 	    And I fill in "Max reservation time" with "3 month"
 		And I fill in "Max concurrent users" with "3"
-		And I fill in "Reservation time increment" with "1 week"
-		And I fill in "Welcome message" with "Hello, this is a carrel."	
+		And I fill in "Welcome message" with "Hello, this is a carrel."
 		And I fill in "Expiration extension time" with "1 week"
 		And I fill in "Moderation held message" with "moderation held"
 		And I attach the file "public/images/rails.png" to "Upload a Photo"
@@ -31,7 +30,7 @@ Feature: Manage Reservable Asset Types
 	    And I should see "3 month"
 		And I should see "3"
 		And I should see "1 week"
-		And I should see "Hello, this is a carrel."	
+		And I should see "Hello, this is a carrel."
 		And I should see "1 week"
 		And I should see "moderation held"
 	    And I should see "Added that Reservable Asset Type"
@@ -47,7 +46,7 @@ Feature: Manage Reservable Asset Types
 	    And I should see "3 month"
 		And I should see "3"
 		And I should see "1 week"
-		And I should see "this is a carrel"	
+		And I should see "this is a carrel"
 		And I should see "1 week"
 		And I should see "moderation held"
 
@@ -56,7 +55,7 @@ Feature: Manage Reservable Asset Types
 	    And a reservable_asset_type of "Carrel"
 	    And an administrator
 	    When I am on the reservable_asset_type "edit" page
-	    And I fill in "Welcome message" with "Hello, this is an updated carrel."	
+	    And I fill in "Welcome message" with "Hello, this is an updated carrel."
 	    And I press "Update"
 	    Then I should see "Hello, this is an updated carrel."
 
@@ -66,4 +65,3 @@ Feature: Manage Reservable Asset Types
 	    And I am on the reservable_asset_type "index" page
 	    When I delete the reservable_asset_type named "Carrel"
 	    Then I should see "Deleted reservable asset type Carrel"
-

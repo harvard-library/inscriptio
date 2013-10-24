@@ -1,7 +1,7 @@
 Inscriptio::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
   #ROOT_URL = 'localhost:3000'
-  
+
   # In the development environment your application's code is reloaded on
   # every request.  This slows down response time but is perfect for development
   # since you don't have to restart the webserver when you make code changes.
@@ -25,5 +25,13 @@ Inscriptio::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
-end
+  # Pry as development console
+  silence_warnings do
+    begin
+      require 'pry'
+      IRB = Pry
+    rescue LoadError
+    end
+  end
 
+end

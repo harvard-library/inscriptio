@@ -20,7 +20,6 @@ Feature: Manage Reservable Asset
 	    And I fill in "Min reservation time" with "1 month"
 	    And I fill in "Max reservation time" with "3 months"
 		And I fill in "Max concurrent users" with "3"
-		And I fill in "Reservation time increment" with "1 week"
 		And I fill in "General info" with "this is an asset on a floor"
 		And I fill in "Location" with "on the right"
 		And I attach the file "public/images/rails.png" to "Upload a Photo"
@@ -31,7 +30,7 @@ Feature: Manage Reservable Asset
 	    And I should see "3 months"
 		And I should see "3"
 		And I should see "1 week"
-		And I should see "this is an asset on a floor"	
+		And I should see "this is an asset on a floor"
 		And I should see "1 week"
 		And I should see "on the right"
 	    And I should see "Added that Reservable Asset"
@@ -57,7 +56,7 @@ Feature: Manage Reservable Asset
 	    And a reservable_asset of "1"
 	    And an administrator
 	    When I am on the reservable_asset "edit" page
-	    And I fill in "General info" with "this is an updated asset"	
+	    And I fill in "General info" with "this is an updated asset"
 	    And I press "Update"
 	    Then I should see "this is an updated asset"
 
@@ -68,4 +67,3 @@ Feature: Manage Reservable Asset
 	    And I am on the reservable_asset "index" page
 	    When I delete the reservable_asset named "1"
 	    Then I should see "Deleted reservable asset 1"
-

@@ -18,6 +18,7 @@ group :test do
 end
 
 group :development,:test do
+  gem 'pry'
   gem 'capybara', '0.4.1.2'
   gem 'database_cleaner', '0.6.6'
   gem 'shoulda-matchers', '2.4.0'
