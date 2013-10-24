@@ -1,6 +1,6 @@
 Inscriptio::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
-  
+
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -46,11 +46,20 @@ Inscriptio::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  
+
   config.action_mailer.default_url_options = { :host => 'inscriptio.harvard.edu' }
   config.action_mailer.delivery_method = :sendmail
 
-#  config.logger = Logger.new(config.log_path, 25, 2097152)
+  #  config.logger = Logger.new(config.log_path, 25, 2097152)
   config.colorize_logging = false
+
+  # Compress JavaScript and CSS
+  config.assets.compress = true
+
+  # Don't fallback to assets pipeline
+  config.assets.compile = false
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
 
 end

@@ -12,7 +12,7 @@
 	<%= f.input :password, :as => :hidden, :input_html => { :value => User.random_password } %>
 	<%= f.input :password_confirmation, :as => :hidden %>
   <% end %>
-  <%= f.buttons %>
+  <%= f.actions %>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>
