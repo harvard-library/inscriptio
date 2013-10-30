@@ -15,7 +15,7 @@
 #
 # * http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html
 # * http://dannorth.net/2011/01/31/whose-domain-is-it-anyway/
-# * http://elabs.se/blog/15-you-re-cuking-it-wrong 
+# * http://elabs.se/blog/15-you-re-cuking-it-wrong
 #
 
 require 'cucumber/rails'
@@ -27,8 +27,8 @@ require 'cucumber/rails'
 Capybara.default_selector = :css
 
 # By default, any exception happening in your Rails application will bubble up
-# to Cucumber so that your scenario will fail. This is a different from how 
-# your application behaves in the production environment, where an error page will 
+# to Cucumber so that your scenario will fail. This is a different from how
+# your application behaves in the production environment, where an error page will
 # be rendered instead.
 #
 # Sometimes we want to override this default behaviour and allow Rails to rescue
@@ -49,10 +49,10 @@ DatabaseCleaner.strategy = :transaction
 
 Before do
   #Load fixtures before running cucumber.
-  Fixtures.reset_cache
+  ActiveRecord::Fixtures.reset_cache
   fixtures_folder = File.join(Rails.root.to_s, 'spec', 'fixtures')
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
-  Fixtures.create_fixtures(fixtures_folder, fixtures)
+  ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
 end
 
 #TODO - figure out multiple profiles for running cucumber tasks.
@@ -66,4 +66,3 @@ end
 #end
 
 #World(Capybara)
-

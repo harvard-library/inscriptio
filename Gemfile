@@ -20,17 +20,17 @@ group :assets do
 end
 
 group :test do
-  gem 'cucumber-rails',  '0.4.0'
+  gem 'cucumber-rails',  '~> 1.4.0', :require => false
 end
 
 group :development,:test do
   gem 'pry'
-  gem 'capybara', '0.4.1.2'
+  gem 'capybara', '~> 2.1'
   gem 'database_cleaner', '0.6.6'
   gem 'shoulda-matchers', '2.4.0'
   gem 'sqlite3'
   gem 'selenium-client', '1.2.18'
   gem 'selenium-webdriver', '0.1.4'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.0'
   gem 'launchy'
 end
