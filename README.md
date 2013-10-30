@@ -1,17 +1,8 @@
 # Inscriptio
 
-## Contributors
+## Project Description
 
-* Daniel Collis-Puro: http://github.com/djcp
-* Anita Patel: http://github.com/apatel
-* Justin Clark: http://github.com/jdcc
-* Dave Mayo: http://github.com/pobocks
-
-## License and Copyright
-
-This application is released under a GPLv3 license.
-
-2011 President and Fellows of Harvard College
+Inscriptio is a web-based system intended to help manage the reservation of carrels and other reservable library assets with defined locations.
 
 ## System Requirements
 
@@ -52,3 +43,34 @@ This application is released under a GPLv3 license.
 7. Upload/create assets (for upload you will need floor and asset types ID's)
 8. Add assets to floor map (remember to hit 'Apply' button to save asset on map)
 9. Go to 'Reservation Notices' section and click 'Generate Notices'
+
+## Suggested Step for Developers
+
+A git pre-commit hook is provided whose purpose is to keep those pesky 'console.log' and 'binding.pry' statements  out of the repository.
+
+To install:
+
+```Shell
+  ln -s /path/to/Inscriptio/pre-commit.sh .git/hooks/pre-commit
+```
+
+You can suppress the pre-commit hook by doing:
+
+```Shell
+  git commit --no-verify
+```
+
+... but don't.
+
+## Contributors
+
+* Daniel Collis-Puro: http://github.com/djcp
+* Anita Patel: http://github.com/apatel
+* Justin Clark: http://github.com/jdcc
+* Dave Mayo: http://github.com/pobocks
+
+## License and Copyright
+
+This application is released under a GPLv3 license.
+
+2011 President and Fellows of Harvard College
