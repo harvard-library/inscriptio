@@ -7,26 +7,28 @@ describe Library do
     end
     it { should have_many(:floors) }
     it { should have_many(:reservable_asset_types) }
-    it { should validate_format_of(:url).with('http://foo.com') }
-    it { should validate_format_of(:url).with('') }
-    it { should validate_format_of(:url).not_with('foo.com').with_message(/is invalid/) }
+    it { should allow_value('http://foo.com').for(:url) }
+    it { should allow_value('').for(:url) }
+    it { should_not allow_value('foo.com').for(:url).with_message(/is invalid/) }
     it { should ensure_length_of(:description).is_at_least(0).is_at_most(16.kilobytes) }
     it { should ensure_length_of(:contact_info).is_at_least(0).is_at_most(16.kilobytes) }
   end
 end
 
 describe 'A library' do
-  fixtures :all
-  before :each do
-    @library = Library.find_by_name('Widener')
+
+  before :all do
+    @library = FactoryGirl.build(:library)
+    @library.floors << FactoryGirl.build_list(:floor, 2, :library => @library)
   end
-  context do 
+  context do
     it "talks about itself" do
-      @library.to_s.should == 'Widener'
+      expect(@library.to_s).to eq(@library.name)
+      expect(@library.to_s).not_to eq(nil)
     end
-    
+
     it 'has floors' do
-      @library.floors.should == @library.floors
+      @library.floors.each { |floor| expect(floor).to be_an_instance_of Floor }
     end
   end
 

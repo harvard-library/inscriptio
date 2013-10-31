@@ -16,28 +16,21 @@ describe ReservableAsset do
 end
 
 describe 'A reservable_asset object' do
-  fixtures :all
   before :each do
-    @reservable_asset = ReservableAsset.find(:first)
+    @reservable_asset = FactoryGirl.build(:reservable_asset)
   end
   context do
-    it 'has a bulletin_board' do
-      @reservable_asset.bulletin_board.should == @reservable_asset.bulletin_board
-    end
-    
+    it 'has a bulletin_board'
+
     it 'has reservations' do
-      @reservable_asset.reservations.should == @reservable_asset.reservations
+      @reservable_asset.reservations.each do |r| expect(r).to be_a(Reservation) end
     end
-    
-    it 'has users' do
-      @reservable_asset.users.should == @reservable_asset.users
-    end
-    
+
     it "has a photo" do
       @reservable_asset.photo = File.open('public/images/rails.png')
-      assert @reservable_asset.save
-      assert ! @reservable_asset.photo.blank?
-      @reservable_asset.photo.size.should > 0
+      expect {@reservable_asset.save!}.not_to raise_error
+      expect(@reservable_asset.photo).not_to be_blank
+      expect(@reservable_asset.photo.size).to be > 0
     end
 
   end

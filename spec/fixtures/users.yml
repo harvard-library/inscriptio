@@ -1,7 +1,0 @@
-user_1:
-  email: user@email.com
-  user_type: user_type_1
-
-user_2:
-  email: admin@email.com
-  user_type: user_type_2

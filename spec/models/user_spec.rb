@@ -15,14 +15,13 @@ describe User do
 end
 
 describe 'a user object' do
-  fixtures :all
   before :each do
-    @user = User.find(:first)
+    @user = FactoryGirl.build(:user)
   end
 
   context do
-    it 'has moderator_flags' do
-      @user.moderator_flags.should == @user.moderator_flags
+    it 'talks about itself' do
+      pending 'Dave needs to read to_s method'
     end
   end
   

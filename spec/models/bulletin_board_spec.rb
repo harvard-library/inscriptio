@@ -10,19 +10,12 @@ describe BulletinBoard do
 end
 
 describe 'a bulletin_board object' do
-  fixtures :all
   before :each do
-    @bulletin_board = BulletinBoard.find(:first)
+    @bulletin_board = FactoryGirl.build(:bulletin_board)
   end
 
   context do
-    it 'has posts' do
-      @bulletin_board.posts.should == @bulletin_board.posts
-    end
-    
-    it 'has users' do
-      @bulletin_board.users.should == @bulletin_board.users
-    end
+    pending
   end
-  
+
 end

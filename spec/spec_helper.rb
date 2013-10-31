@@ -8,6 +8,32 @@ require 'rspec/rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  # Clean Database before tests
+  config.use_transactional_examples = false #factoryGirl
+  config.use_transactional_fixtures = false #fixtures
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before :each do
+    DatabaseCleaner.start
+  end
+
+  config.after :each do
+    DatabaseCleaner.clean
+  end
+
+  # Capybara runs in its own thread, has own DB, transaction won't work
+  config.before(:type => :request) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.after(:type => :request) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
   # == Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:

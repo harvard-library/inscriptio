@@ -11,26 +11,26 @@ describe UserType do
 end
 
 describe 'a user_type object' do
-  fixtures :all
   before :each do
-    @user_type = UserType.find_by_name('student')
+    @user_type = FactoryGirl.build(:user_type, :name => 'student')
   end
 
   context do
     it 'talks about itself' do
-      @user_type.to_s.should == 'student'
-      @user_type.to_s.should_not == 'stu'
+      expect(@user_type.to_s).to eq('student')
+      expect(@user_type.to_s).to eq(@user_type.name)
     end
   end
 
   context do
     it 'has users' do
-      @user_type.users.should == @user_type.users
+      @user_type.users.each do |u| expect(u).to be_a(User) end
     end
-    
+
     it 'has reservable_asset_types' do
+      @user_type.reservable_asset_types.each do |rat| expect(rat).to be_a(ReservableAssetType) end
       @user_type.reservable_asset_types.should == @user_type.reservable_asset_types
     end
   end
-  
+
 end

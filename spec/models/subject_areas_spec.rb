@@ -12,34 +12,32 @@ describe SubjectArea do
 end
 
 describe 'a subject_area object' do
-  fixtures :all
+
   before :each do
-    @subject_area = SubjectArea.find_by_name('Archeology')
+    @subject_area = FactoryGirl.build(:subject_area)
   end
 
   context do
     it 'talks about itself' do
-      @subject_area.to_s.should == 'Archeology'
-      @subject_area.to_s.should_not == '4324324'
+      expect(@subject_area.to_s).to eq(@subject_area.name)
+      expect(@subject_area.name).not_to be(nil)
     end
   end
 
   context do
     it 'has call_numbers' do
-      @subject_area.call_numbers.should == [CallNumber.find_by_call_number('CN-3'),CallNumber.find_by_call_number('CN-2'),CallNumber.find_by_call_number('CN-1')]
-      @subject_area.call_numbers.first.destroy
-      @subject_area.reload
-      @subject_area.call_numbers.should == [CallNumber.find_by_call_number('CN-2'),CallNumber.find_by_call_number('CN-1')]
+      @subject_area.call_numbers.each do |f|
+        expect(f).to be_a(CallNumber)
+      end
     end
   end
-  
+
   context do
     it 'has floors' do
-      @subject_area.floors.should == [Floor.find_by_name('Floor 1'),Floor.find_by_name('Floor 3'),Floor.find_by_name('Floor 4')]
-      @subject_area.floors.first.destroy
-      @subject_area.reload
-      @subject_area.floors.should == [Floor.find_by_name('Floor 3'),Floor.find_by_name('Floor 4')]
+      @subject_area.floors.each do |f|
+        expect(f).to be_a(Floor)
+      end
     end
   end
-  
+
 end

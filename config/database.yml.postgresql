@@ -13,6 +13,7 @@ test:
   pool: 5
   username: inscriptio
   password:
+  min_messages: error
 
 production:
   adapter: postgresql

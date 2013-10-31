@@ -20,29 +20,47 @@ describe Floor do
 end
 
 describe 'A floor object' do
-  fixtures :all
+  before :all do
+    @library = FactoryGirl.create(:library)
+    @library.floors << FactoryGirl.create_list(:floor, 5, :library => @library)
+  end
   before :each do
-    @floor = Floor.find_by_name('Floor 1')
+    @floorA = @library.floors(true).first
+    @floorZ = @library.floors(true).last
   end
   context do
     it "talks about itself" do
-      @floor.to_s.should == 'Floor 1'
-      @floor.to_s.should_not == 'asdf'
+      expect(@floorA.to_s).to eq(@floorA.name)
+      expect(@floorA.to_s).not_to be(nil)
     end
-    it "can be reordered" do
-      @floor.position.should == 1
-      assert ! @floor.move_higher
-      @floor.position.should == 1
-      assert @floor.move_lower
-      @floor.position.should_not == 1
-      @floor.position.should == 2
+    context "can be reordered" do
+      it "cannot move up past first position" do
+        expect(@floorA).to eq(@library.floors(true).first)
+        @floorA.move_higher
+        expect(@floorA).to eq(@library.floors(true).first)
+      end
+
+      it "can move down" do
+        expect(@floorA).to eq(@library.floors(true).first)
+        @floorA.move_lower
+        expect(@floorA).to eq(@library.floors(true).all[1])
+        expect(@floorA).not_to eq(@library.floors(true).first)
+      end
+
+      it "can move up" do
+        expect(@floorZ).to eq(@library.floors(true).last)
+        @floorZ.move_higher
+        expect(@floorZ).to eq(@library.floors(true).all[-2])
+        expect(@floorZ).not_to eq(@library.floors(true).last)
+      end
+
     end
 
     it "has a floor_map" do
-      @floor.floor_map = File.open('public/images/rails.png')
-      assert @floor.save
-      assert ! @floor.floor_map.blank?
-      @floor.floor_map.size.should > 0
+      @floorA.floor_map = File.open('public/images/rails.png')
+      expect{@floorA.save!}.not_to raise_error
+      expect(@floorA.floor_map).not_to be_blank
+      expect(@floorA.floor_map.size).to be > 0
     end
 
   end

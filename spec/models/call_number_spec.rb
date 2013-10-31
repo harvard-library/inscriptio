@@ -15,25 +15,21 @@ describe CallNumber do
 end
 
 describe 'a call_number object' do
-  fixtures :all
+
   before :each do
-    @call_number = CallNumber.find_by_call_number('CN-1')
+    @call_number = FactoryGirl.build(:call_number, :floors => FactoryGirl.build_list(:floor, 3))
   end
 
   context do
     it 'talks about itself' do
-      @call_number.to_s.should == 'CN-1'
-      @call_number.to_s.should_not == 'Call Number 1'
+      expect(@call_number.to_s).to eq(@call_number.call_number)
     end
   end
 
   context do
     it 'has floors' do
-      @call_number.floors.should == [Floor.find_by_name('Floor 1'),Floor.find_by_name('Floor 3'),Floor.find_by_name('Floor 4')]
-      @call_number.floors.first.destroy
-      @call_number.reload
-      @call_number.floors.should == [Floor.find_by_name('Floor 3'),Floor.find_by_name('Floor 4')]
+      expect(@call_number.floors.first).to be_a(Floor)
     end
   end
-  
+
 end
