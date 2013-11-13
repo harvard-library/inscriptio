@@ -1,7 +1,6 @@
 <li class="library line" id="library-<%= library.id %>">
   <%= link_to library, library %>
-  
-    
+
   <% if current_user.try(:admin?) %>
 	<ul class="actions">
       <li><%= link_to 'Edit', edit_library_path(library), :class => "action-edit" %></li>

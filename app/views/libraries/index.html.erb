@@ -1,40 +1,23 @@
 <% content_for :header do %>Libraries<% end %>
-<div>	
+<div>
   <h2><%= display_message(:welcome).title %></h2>
-  <p>  
+  <p>
     <%= raw display_message(:welcome).content %>
   </p>
   <% if current_user.admin? %>
     <%= link_to('Edit', edit_message_path(display_message(:welcome)), :class => "action-edit") %>
   <% end %>
 
-  <% unless @libraries.blank? %>
-    <p>
-	  Assets include:
-	  <ul>
-	  <% @libraries.each do |library| %>
-	    <li>
-	      <%= library.name %>: 	
-	      <% library.reservable_asset_types.each do |asset| %>
-		    <%= asset.name %> <%= current_user.try(:admin?) ? "(ID #{asset.id})" : "" %>
-		    <% if !(library.reservable_asset_types.last == asset) %>
-		      <%= ", " %>
-		    <% end %>
-	      <% end %>    
-	    </li>
-	  <% end %>
-	  </ul>	
-    </p>	
-  <% end %> 	
 </div>
-
-<div class="libraries collection-list">
-  <% unless @libraries.blank? %>
+<h2>Participating Libraries</h2>
+<% unless @libraries.blank? %>
+  <ul>
     <%= render :partial => 'shared/lines/library', :collection => @libraries %>
-  <% else %>
-    <h2>No libraries yet.</h2>
-  <% end %>
-  <% if current_user.admin? %>
-    <h2 class="action-new-library"><%= link_to('New Library', new_library_path) %></h2>
-  <% end %>
+  </ul>
+<% else %>
+  <h2>No libraries yet.</h2>
+<% end %>
+<% if current_user.admin? %>
+  <h2 class="action-new-library"><%= link_to('New Library', new_library_path) %></h2>
+<% end %>
 </div>
