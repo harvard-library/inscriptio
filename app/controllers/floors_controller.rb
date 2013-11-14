@@ -47,8 +47,10 @@ class FloorsController < ApplicationController
     unless @floor.first?
       @floor.move_higher
       flash[:notice] = "Moved #{@floor.name} up"
-      redirect_to :back
+    else
+      flash[:notice] = "#{@floor.name} is already as high as it can be."
     end
+    redirect_to :back
   end
 
   def move_lower
@@ -56,13 +58,15 @@ class FloorsController < ApplicationController
     unless @floor.last?
       @floor.move_lower
       flash[:notice] = "Moved #{@floor.name} down"
-      redirect_to :back
+    else
+      flash[:notice] = "#{@floor.name} is already as low as it can be."
     end
+    redirect_to :back
   end
 
   def show
     @floor = Floor.find(params[:id])
-    
+
     breadcrumbs.add @floor.library.name, library_path(@floor.library.id)
     breadcrumbs.add @floor.name, @floor.id
   end
@@ -82,7 +86,7 @@ class FloorsController < ApplicationController
     assets = floor.reservable_assets
     respond_to do |format|
       format.json {
-        output = assets.map { |asset| 
+        output = assets.map { |asset|
           {
             :id => asset.id,
             :name => asset.name,
