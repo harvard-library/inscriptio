@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110817174318) do
+ActiveRecord::Schema.define(:version => 20131114234054) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(:version => 20110817174318) do
   end
 
   add_index "posts", ["bulletin_board_id"], :name => "index_posts_on_bulletin_board_id"
+  add_index "posts", ["created_at"], :name => "index_posts_on_created_at"
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
   create_table "reservable_asset_types", :force => true do |t|
