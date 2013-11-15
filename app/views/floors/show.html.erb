@@ -53,11 +53,14 @@
 
 <h2>Map</h2>
 <% unless @floor.floor_map.blank? %>
+  <div id='map-container'>
+    <%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
+  </div>
   <% if current_user.admin? %>
-    <%= javascript_tag(%Q| 	$('window').load(function() {$('#map').floormap({ admin: true });})|) %>
+    <%= javascript_tag(%Q| 	$(window).load(function() {console.log($('#map').offset());$('#map-container').floormap({ admin: true });})|) %>
   <% else %>
-    <%= javascript_tag(%Q| 	$('window').load(function() {$('#map').floormap();})|) %>
+    <%= javascript_tag(%Q| 	$(window).load(function() {$('#map-container').floormap();})|) %>
   <% end %>
-  <%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
+
 <% end %>
 <!-- </div> -->

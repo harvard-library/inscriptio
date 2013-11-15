@@ -1,4 +1,5 @@
 /*
 *= require_self
+*= require jquery.ui.resizable
 *= require_tree .
 */

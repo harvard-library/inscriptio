@@ -90,6 +90,8 @@ GEM
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (4.0.5)
+      railties (>= 3.1.0)
     json (1.8.1)
     json_pure (1.8.1)
     launchy (2.3.0)
@@ -204,6 +206,7 @@ DEPENDENCIES
   fastercsv (~> 1.5.5)
   formtastic (~> 2.2.1)
   jquery-rails (~> 3.0.4)
+  jquery-ui-rails (~> 4.0.5)
   launchy
   mini_magick (~> 3.6.0)
   pg (~> 0.17.0)

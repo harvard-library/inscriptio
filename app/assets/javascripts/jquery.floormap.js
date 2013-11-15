@@ -1,7 +1,7 @@
 (function ($) {
 
 	var opts = {
-		containerSelector: '#map',
+		containerSelector: '#map-container',
 		origin: {left: 0, top: 0},
 		parentSelector: '#content-right',
 		overlayClass: 'overlay',
@@ -78,38 +78,38 @@
 		 * the user doesn't get useless markup. */
 		addHtml: function() {
 			$(opts.parentSelector).append(
-				'<div id="tooltip">' + 
-					'<div id="loading">' + 
-						'<img src="/images/ajax-loader.gif" alt="Loading" />' + 
-					'</div>' + 
-					'<div id="tooltipTools">' + 
-						'<label for="overlayId" id="overlayIdLabel">Asset: </label>' + 
-						'<select id="overlayId"></select>' + 
-						'<button id="closeTooltip">x</button>' + 
-						'<br />' + 
+				'<div id="tooltip">' +
+					'<div id="loading">' +
+						'<img src="/images/ajax-loader.gif" alt="Loading" />' +
+					'</div>' +
+					'<div id="tooltipTools">' +
+						'<label for="overlayId" id="overlayIdLabel">Asset: </label>' +
+						'<select id="overlayId"></select>' +
+						'<button id="closeTooltip">x</button>' +
+						'<br />' +
 						'<div id="movers">' +
-						  '<button class="nudger" id="moveUp" title="w">&#9650</button>' + 
-						  '<br />' + 
-						  '<button class="nudger" id="moveLeft" title="a">&#9668</button>' + 
-						  '<button class="nudger" id="moveRight" title="d">&#9658</button>' + 
+						  '<button class="nudger" id="moveUp" title="w">&#9650</button>' +
 						  '<br />' +
-						  '<button class="nudger" id="moveDown" title="s">&#9660</button>' + 
-						'</div>' + 
-						'<div id="sizers">' + 
-						  '<button class="nudger" id="shorten" title="i">&ndash;</button>' + 
+						  '<button class="nudger" id="moveLeft" title="a">&#9668</button>' +
+						  '<button class="nudger" id="moveRight" title="d">&#9658</button>' +
 						  '<br />' +
-						  '<button class="nudger" id="narrow" title="j">&ndash;</button>' + 
-						  '<button class="nudger" id="widen" title="l">+</button>' + 
-						  '<br />' +
-						  '<button class="nudger" id="heighten" title="k">+</button>' + 
-						'</div>' + 
-						'<div id="overlayButtons">' + 
-							'<button id="removeOverlay">Remove</button>' + 
-							'<button id="copyOverlay">Copy</button>' + 
-							'<button id="applyOverlay">Apply</button>' + 
+						  '<button class="nudger" id="moveDown" title="s">&#9660</button>' +
 						'</div>' +
-					'</div>' + 
-				'</div>' 
+						'<div id="sizers">' +
+						  '<button class="nudger" id="shorten" title="i">&ndash;</button>' +
+						  '<br />' +
+						  '<button class="nudger" id="narrow" title="j">&ndash;</button>' +
+						  '<button class="nudger" id="widen" title="l">+</button>' +
+						  '<br />' +
+						  '<button class="nudger" id="heighten" title="k">+</button>' +
+						'</div>' +
+						'<div id="overlayButtons">' +
+							'<button id="removeOverlay">Remove</button>' +
+							'<button id="copyOverlay">Copy</button>' +
+							'<button id="applyOverlay">Apply</button>' +
+						'</div>' +
+					'</div>' +
+				'</div>'
 			);
 		},
 
@@ -117,7 +117,7 @@
 		/* This just broken out for clarity */
 		bindEventHandlers: function() {
 
-			$('#closeTooltip').live('click.floormap', function() {
+			$(document).on('click.floormap', '#closeTooltip', function() {
 				$(opts.activeOverlaySelector).btOff();
 			});
 
@@ -135,16 +135,28 @@
 
 			/* These are all the event handlers specific to the admin stuff */
 			if (opts.admin) {
-				$('#removeOverlay').live('click.floormap', function() {
+				$(document).on('click.floormap', '#removeOverlay', function() {
 					overlays.destroy();
 				});
 
-				$('#applyOverlay').live('click.floormap', function() {
+				$(document).on('click.floormap', '#applyOverlay', function() {
 					overlays.update($('#overlayId').val());
 				});
 
+        /* Duplicates carrel on double click */
+        $(document).on('dblclick.floormap', '.' + opts.overlayClass, function(event) {
+ 		      var target = $(event.target);
+ 		      overlays.create(
+ 			      opts.origin,
+ 			      target.data('x1') + opts.dupHoriMargin,
+ 			      target.data('y1') + target.height() + opts.dupVertMargin,
+ 			      target.data('x2') + opts.dupHoriMargin,
+ 			      target.data('y2') + target.height() + opts.dupVertMargin
+ 		      );
+ 		      $(opts.activeOverlaySelector).btOff();
+ 	      });
 
-				$('#copyOverlay').live('click.floormap', function() {
+				$(document).on('click.floormap', '#copyOverlay', function() {
 					var target = $(opts.activeOverlaySelector);
 					overlays.create(
 						opts.origin,
@@ -156,10 +168,11 @@
 					target.btOff();
 				});
 
-                $('#overlayId').live('change.floormap', function() {
-                    $('#applyOverlay').removeAttr('disabled');
-                });
+        $(document).on('change.floormap', '#overlayId', function() {
+          $('#applyOverlay').removeAttr('disabled');
+        });
 
+        /* Control overay positioning with buttons */
 				$.each( [
 					['#moveUp', 'top', -1],
 					['#moveRight', 'left', 1],
@@ -172,7 +185,7 @@
 
 					function(index, value) {
 						var button = value[0], attr = value[1], delta = value[2];
-						$(button).live('click.floormap', function() {
+						$(document).on('click.floormap', button,  function() {
 							$(opts.activeOverlaySelector).data('saved', false);
 							$('#applyOverlay').removeAttr('disabled');
 							$(opts.activeOverlaySelector).css(attr, function(index, value) {
@@ -212,40 +225,6 @@
 				});
 
 
-				/* These are the handlers for the overlays */
-				$('.' + opts.overlayClass).live({
-					'draginit.floormap': function(event) {
-						$(this).data({
-							diffX: event.pageX - $(this).offset().left,
-							diffY: event.pageY - $(this).offset().top
-						});
-					},
-					'drag.floormap': function(event) {
-						$(this).css({
-							top: event.pageY - $(this).data('diffY'),
-							left: event.pageX - $(this).data('diffX')
-						});
-						$(this).data('saved', false);
-					},
-					'dragend.floormap': function(event) {
-						$(this).data(overlays.getCoords(this));
-					},
-					'mouseup.floormap': function() {
-						$(this).add(opts.containerSelector).unbind('mousemove');
-					},
-					'dblclick.floormap': function(event) {
-						var target = $(event.target);
-						overlays.create(
-							opts.origin,
-							target.data('x1') + opts.dupHoriMargin,
-							target.data('y1') + target.height() + opts.dupVertMargin,
-							target.data('x2') + opts.dupHoriMargin,
-							target.data('y2') + target.height() + opts.dupVertMargin
-						);
-						$(opts.activeOverlaySelector).btOff();
-					}
-				});
-
 				/* These are the handlers for the "map" */
 				$(opts.containerSelector).bind({
 					'mousedown.floormap': function(event) {
@@ -260,7 +239,7 @@
 							startX = event.pageX,
 							startY = event.pageY;
 
-							$(this).add(newOverlay).bind('mousemove.floormap', function(event) { 
+							$(this).add(newOverlay).bind('mousemove.floormap', function(event) {
 								if (event.pageY > startY)
 									$(newOverlay).css('bottom', $(window).height() - event.pageY);
 								else
@@ -295,10 +274,10 @@
 			var newOptions = '';
 			$.each(opts.assets, function(index, asset) {
 				if (asset.x1 && $(opts.activeOverlaySelector).data('assignedAssetId') == asset.id) {
-					newOptions += '<option selected="selected" value="' + asset.id + '">' 
+					newOptions += '<option selected="selected" value="' + asset.id + '">'
 						+ asset.name + '</option>';
 				} else if (!asset.x1) {
-					newOptions += '<option value="' + asset.id + '">' 
+					newOptions += '<option value="' + asset.id + '">'
 						+ asset.name + '</option>';
 				}
 			});
@@ -347,21 +326,21 @@
 			newOverlay = '<div id="' + id + '" class="' + opts.overlayClass;
 
 			/* Add a class if the asset is not reservable (full or whatever) */
-			if (reservable === false) 
+			if (reservable === false)
 				newOverlay += ' ' + opts.notReservableClass;
 
 			newOverlay += '"'
-				+ ' style="z-index: ' + $('.' + opts.overlayClass).length + ';' 
+				+ ' style="z-index: ' + $('.' + opts.overlayClass).length + ';'
 				+ ' left: ' + (x1 + origin.left) + 'px;'
 				+ ' top: ' + (y1 + origin.top) + 'px;';
-			
+
 			if (x2 != x1 || y2 != y1) {
 				newOverlay += ' width: ' + (x2 - x1) + 'px;' + ' height: ' + (y2 - y1) + 'px;'
 			} else {
 				newOverlay += ' right: ' + ($(window).width() - (x1 + origin.left)) + 'px;'
 					+ ' bottom: ' + ($(window).height() - (y1 + origin.top)) + 'px;';
 			}
-		
+
 			newOverlay += '"></div>';
 			/* These location values aren't being used anywhere yet */
 			newOverlay = $(newOverlay).data({
@@ -372,7 +351,7 @@
 				'x2': x2,
 				'y2': y2
 			});
-			
+
 			/* Change the tooltip depending on user role */
 			if (opts.admin) {
 				var contentSelector = function() {
@@ -407,7 +386,7 @@
 			newOverlay.bt({
 				trigger: 'click',
 				fill: '#FFF',
-				strokeWidth: 3, 
+				strokeWidth: 3,
 				cssClass: 'tooltip',
 				closeWhenOthersOpen: true,
 				'ajaxPath': ajaxPath,
@@ -415,8 +394,24 @@
 				'preShow': preShow,
 				'preHide': preHide
 			});
-			
-			return newOverlay.appendTo(opts.parentSelector);
+      /* Following block is order-dependent in Webkit
+       * Everything explodes if draggable is called before overlay is added to the dom */
+			newOverlay.appendTo(opts.parentSelector);
+      if (opts.admin) {
+        newOverlay.draggable({
+          containment: opts.containerSelector,
+          drag: function (e,ui) {
+            ui.position.top -= $( 'html' ).scrollTop();
+          },
+          start: function (e, ui) {
+	          $(e.currentTarget).data('saved', false);
+          },
+          end: function (e, ui) {
+            $(e.currentTarget).data(overlays.getCoords(this));
+ 	        },
+        })
+      }
+      return newOverlay;
 		},
 
 		/**** Get the coordinates of an overlay ****/
@@ -449,7 +444,7 @@
                             'reservable_asset[x1]': asset.x1,
                             'reservable_asset[y1]': asset.y1,
                             'reservable_asset[x2]': asset.x2,
-                            'reservable_asset[y2]': asset.y2 
+                            'reservable_asset[y2]': asset.y2
                         },
                         success: function(data) {
                             $(opts.activeOverlaySelector).data('saved', true);
@@ -489,7 +484,7 @@
 					},
 					error: function(response) {
 						$('.bt-content').html('Error removing asset location: ' + response.status);
-						if (typeof console != 'undefined') 
+						if (typeof console != 'undefined')
 							console.log(response.responseText);
 					}
 				});
@@ -508,7 +503,7 @@
 		  return methods.init.apply( this, arguments );
 		} else {
 		  $.error( 'Method ' + method + ' does not exist on jQuery.floormap' );
-		}    
+		}
 	};
 
 })(jQuery);
