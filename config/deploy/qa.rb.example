@@ -6,8 +6,9 @@ set :rails_env, 'production'
 # Supports bulk-adding hosts to roles, the primary
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
-role :all, %w{wdm837@lavinia.lib.harvard.edu}
-
+role :app, %w{wdm837@lavinia.lib.harvard.edu}
+role :web, %w{wdm837@lavinia.lib.harvard.edu}
+role :db, %w{wdm837@lavinia.lib.harvard.edu}
 # Extended Server Syntax
 # ======================
 # This can be used to drop a more detailed server
@@ -38,4 +39,4 @@ role :all, %w{wdm837@lavinia.lib.harvard.edu}
 #   }
 # setting per server overrides global ssh_options
 
-# fetch(:default_env).merge!(rails_env: :qa)
+fetch(:default_env)
