@@ -25,6 +25,15 @@ set :linked_files, %w{config/database.yml .env}
 set :rvm_ruby_version, '1.9.3-p448'
 set :keep_releases, 3
 
+namespace :bootstrap do
+  desc 'Set up cronjobs'
+  task :crontab do
+    on roles(:web) do
+      execute :rake, 'inscriptio:cron_task:setup_crontab'
+    end
+  end
+end
+
 namespace :deploy do
   desc 'Bundle'
   task :bundle do
