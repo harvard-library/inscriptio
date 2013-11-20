@@ -8,6 +8,6 @@ public/uploads/*
 .project*
 *~
 .DS_Store
-db/schema.rb
 .rvmrc*
 .sass-cache/
+.env
