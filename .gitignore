@@ -11,3 +11,5 @@ public/uploads/*
 .rvmrc*
 .sass-cache/
 .env
+config/deploy.rb
+config/deploy/*.rb

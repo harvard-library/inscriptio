@@ -5,9 +5,9 @@ set :application, 'inscriptio'
 set :repo_url, 'git@github.com:harvard-library/inscriptio.git'
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :user, 'wdm837'
+set :user, 'username'
 set :deploy_via, :copy
-set :deploy_to, '/home/users/wdm837/inscriptio'
+set :deploy_to, '/path/to/deploy/dir'
 set :scm, :git
 
 set :rvm_type, :user
@@ -22,7 +22,6 @@ set :format, :pretty
 set :linked_files, %w{config/database.yml .env}
 #set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 
-set :rvm_ruby_version, '1.9.3-p448'
 set :keep_releases, 3
 
 namespace :bootstrap do
