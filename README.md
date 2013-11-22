@@ -21,14 +21,12 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 
 ```Shell
  rake inscriptio:bootstrap:run_all
+ rake inscriptio:cron_task:setup_crontab
 ```
 
-* Create cron jobs to automatically run rake tasks for sending out notifications expiring and expired reservations as well as deleting bulletin board posts after post lifetime:
+This populates the instance with some necessary basic items, and creates a cron task to periodically do things like expire notifications, send notices, et cetera: 
 
 ```Shell
- rake inscriptio:cron_task:delete_posts
- rake inscriptio:cron_task:send_expiration_notification
- rake inscriptio:cron_task:send_expired_notification
  rake inscriptio:cron_task:run_all
 ```
 
