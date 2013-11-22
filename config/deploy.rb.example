@@ -19,17 +19,16 @@ set :format, :pretty
 
 # Create these in /path/to/deploy/shared
 set :linked_files, %w{config/database.yml .env}
-set :linked_dirs, fetch(:linked_dirs) + %w(public/uploads)
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 
 set :keep_releases, 3
-
 
 namespace :deploy do
 
   desc 'Run arbitrary remote rake task'
   task :rrake do
     on roles(:app) do
-      execute :rake, "#{ENV['T']} RAILS_ENV=#{fetch(:rails_env)}"
+      execute :rake, "#{ENV['T']} --rakefile=#{release_path}/Rakefile RAILS_ENV=#{fetch(:rails_env)}"
     end
   end
 
@@ -53,14 +52,7 @@ namespace :deploy do
 
 end
 
-# The following need to be after EVERYTHING; find a better way
+# In order to see RVM while not part of a deploy
 before 'deploy:migrate', 'rvm:hook'
 before 'deploy:rrake', 'rvm:hook'
 before 'bundler:install', 'rvm:hook'
-
-# HAX to get rake to work outside the context of deploy
-namespace :rvm do
-  task :hook do
-    SSHKit.config.command_map[:rake].sub!(/rake/, "rake --rakefile #{release_path}/Rakefile")
-  end
-end
