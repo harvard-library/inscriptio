@@ -5,41 +5,34 @@ set :application, 'inscriptio'
 set :repo_url, 'git@github.com:harvard-library/inscriptio.git'
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :user, 'username'
-set :deploy_via, :copy
-set :deploy_to, '/path/to/deploy/dir'
-set :scm, :git
 
-set :rvm_type, :user
-set :rvm_custom_path, '~/.rvm'
-set :rvm_ruby_version, '1.9.3-p448'
+#Change These
+set :user, 'username'
+set :deploy_to, '/path/to/deploy'
+
+set :deploy_via, :copy
+set :scm, :git
 
 set :format, :pretty
 # set :log_level, :debug
 # set :pty, true
 
-
+# Create these in /path/to/deploy/shared
 set :linked_files, %w{config/database.yml .env}
-#set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
+set :linked_dirs, fetch(:linked_dirs) + %w(public/uploads)
 
 set :keep_releases, 3
 
-namespace :bootstrap do
-  desc 'Set up cronjobs'
-  task :crontab do
-    on roles(:web) do
-      execute :rake, 'inscriptio:cron_task:setup_crontab'
-    end
-  end
-end
 
 namespace :deploy do
-  desc 'Bundle'
-  task :bundle do
-    on roles(:all), :in => :sequence, :wait => 5 do
-      echo "WTF"
+
+  desc 'Run arbitrary remote rake task'
+  task :rrake do
+    on roles(:app) do
+      execute :rake, "#{ENV['T']} RAILS_ENV=#{fetch(:rails_env)}"
     end
   end
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
@@ -58,4 +51,16 @@ namespace :deploy do
 
   after :finishing, 'deploy:cleanup'
 
+end
+
+# The following need to be after EVERYTHING; find a better way
+before 'deploy:migrate', 'rvm:hook'
+before 'deploy:rrake', 'rvm:hook'
+before 'bundler:install', 'rvm:hook'
+
+# HAX to get rake to work outside the context of deploy
+namespace :rvm do
+  task :hook do
+    SSHKit.config.command_map[:rake].sub!(/rake/, "rake --rakefile #{release_path}/Rakefile")
+  end
 end
