@@ -1,6 +1,5 @@
-ROOT_URL = 'inscriptio.harvard.edu'
-#ROOT_URL = 'dev11.berkmancenter.org'
+ROOT_URL = ENV['INSCRIPTIO_ROOT']
 ROOT_PATH = '/'
-DEFAULT_MAILER_SENDER = "wcarrel@fas.harvard.edu"
+DEFAULT_MAILER_SENDER = ENV['INSCRIPTIO_MAIL_SENDER']
 #how many email records to pull at a time
 EMAIL_BATCH_LIMIT = 100
