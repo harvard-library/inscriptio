@@ -16,19 +16,24 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 1. Get code from: https://github.com/berkmancenter/Inscriptio
 2. Run bundle install. You will probably have to install OS-vendor supplied libraries to satisfy some gem install requirements.
 3. Create the database and run rake , modifying "config/database.yml" to suit your environment.
-4. Modify "config/initializers/00_inscriptio_init.rb"
+4. Create a .env file for your environment. Currently, the following variables are needed to run Inscriptio:
+
+```
+SECRET_TOKEN=30+charstringofrandomnessgottenfromrakesecretmaybe #Only needed in RAILS_ENV=production
+INSCRIPTIO_ROOT=my.inscriptio.host.com
+INSCRIPTIO_MAIL_SENDER=email.address.for.mails@my.inscriptio.host.com
+```
+
 5. Run bootstrap rake tasks:
 
 ```Shell
  rake inscriptio:bootstrap:run_all
+ rake inscriptio:cron_task:setup_crontab
 ```
 
-* Create cron jobs to automatically run rake tasks for sending out notifications expiring and expired reservations as well as deleting bulletin board posts after post lifetime:
+This populates the instance with some necessary basic items, and creates a cron task to periodically do things like expire notifications, send notices, et cetera. To run this cron task manually, do:
 
 ```Shell
- rake inscriptio:cron_task:delete_posts
- rake inscriptio:cron_task:send_expiration_notification
- rake inscriptio:cron_task:send_expired_notification
  rake inscriptio:cron_task:run_all
 ```
 
@@ -61,6 +66,20 @@ You can suppress the pre-commit hook by doing:
 ```
 
 ... but don't.
+
+## Capistrano
+
+Deployment is beyond the scope of this README, and generally site-specific.  There are example capistrano deployment files that reflect deployment practice at Harvard.
+
+Some basic notes:
+* The example files are written with this environment in mind:
+  * Capistrano 3+
+  * A user install of RVM for ruby management
+* Arbitrary rake tasks can be run remotely via the `deploy:rrake` task. Syntax is `cap $STAGE deploy:rrake T=$RAKE_TASK`.  So, to run `rake inscriptio:bootstrap` in the `qa` deploy environment, do:
+
+  ```Shell
+  cap qa deploy:rrake T=inscriptio:bootstrap
+  ```
 
 ## Contributors
 

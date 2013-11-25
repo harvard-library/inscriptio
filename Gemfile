@@ -14,6 +14,7 @@ gem 'breadcrumbs',  '~> 0.1.6'
 gem 'rake',         '~> 10.1.0'
 gem 'rubyzip',      '~> 1.0.0'
 gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on 0.9 interface
+gem 'dotenv-rails', '~> 0.9.0'
 group :assets do
   gem 'sass-rails',   '~> 3.2.6'
   gem 'coffee-rails', '~> 3.2.2'
@@ -22,6 +23,13 @@ end
 
 group :test do
   gem 'cucumber-rails',  '~> 1.4.0', :require => false
+end
+
+group :development do
+  gem 'capistrano',   '~> 3.0.1'
+  gem 'capistrano-rails', '~> 1.0.0'
+  gem 'capistrano-rvm', '~> 0.0.3'
+  gem 'capistrano-bundler', '~> 1.0.0'
 end
 
 group :development,:test do
