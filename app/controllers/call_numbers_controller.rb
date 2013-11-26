@@ -3,21 +3,22 @@ class CallNumbersController < ApplicationController
 
   def index
     @call_numbers = CallNumber.all
-    
+
     breadcrumbs.add "Call Numbers"
   end
 
   def new
     @call_number = CallNumber.new
-    
+
     breadcrumbs.add 'Call Numbers', call_numbers_path
     breadcrumbs.add 'New'
   end
 
   def show
     @call_number = CallNumber.find(params[:id])
-    
-    breadcrumbs.add @call_number.subject_area.name, subject_area_path(@call_number.subject_area.id)
+    if @call_number.subject_area
+      breadcrumbs.add @call_number.subject_area.name, subject_area_path(@call_number.subject_area.id)
+    end
     breadcrumbs.add @call_number.call_number, @call_number.id
   end
 
@@ -46,7 +47,7 @@ class CallNumbersController < ApplicationController
 
   def edit
     @call_number = CallNumber.find(params[:id])
-    
+
     breadcrumbs.add 'Call Numbers', call_numbers_path
     breadcrumbs.add 'Edit'
   end
