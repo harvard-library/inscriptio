@@ -159,7 +159,7 @@ FactoryGirl.define do
     named
     timestamped
     description { "#{name} and stuff."}
-    floors Floor.all
+    # floors Floor.all
   end
 
   factory :user do
