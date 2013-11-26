@@ -4,7 +4,7 @@ Feature: Manage Call Numbers
 
 Scenario: Fail to register a call_number
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the call_number "new" page
     When I fill in "Description" with "Call foo"
     And I press "Create"
@@ -50,7 +50,7 @@ Scenario: Register a new call_number without a floor
     And I press "Create"
     Then I should see "Call Number 6"
     And I should see "CN-6"
-   
+
 Scenario: Register a new call_number with a floor
     Given a library named "Widener"
     And an administrator
@@ -70,4 +70,3 @@ Scenario: Delete a call number
     When I delete the call_number named "CN-1"
     Then I should see "Deleted call number CN-1"
     And I should see "CN-2"
-

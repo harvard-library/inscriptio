@@ -48,11 +48,17 @@ ActionController::Base.allow_rescue = false
 DatabaseCleaner.strategy = :transaction
 
 Before do
-  #Load fixtures before running cucumber.
-  ActiveRecord::Fixtures.reset_cache
-  fixtures_folder = File.join(Rails.root.to_s, 'spec', 'fixtures')
-  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
-  ActiveRecord::Fixtures.create_fixtures(fixtures_folder, fixtures)
+  FactoryGirl.create_list(:message, 3)
+  #Load factories before running cucumber.
+  @library = FactoryGirl.create(:library, :name => 'Widener')
+  (1..5).each do |i|
+    FactoryGirl.create(:floor, :library => @library, :name => "Floor #{i}")
+  end
+  (1..4).each do |i|
+    FactoryGirl.create(:call_number, :floors => [Floor.find_by_name('Floor 1')], :call_number => "CN-#{i}")
+  end
+  @user = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
+  @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456')
 end
 
 #TODO - figure out multiple profiles for running cucumber tasks.
