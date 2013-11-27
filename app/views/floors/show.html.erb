@@ -2,7 +2,7 @@
 <% content_for :header do %><%= @floor %> in <%= link_to @floor.library.name, @floor.library %><% end %>
 
 <% content_for :content_left do %>
-  <h4 class="collapsable description">Assets</h4>
+  <h4 class="collapsible description">Assets</h4>
   <ul class="navlist description description-target">
     <% unless @floor.reservable_assets.blank? %>
       <%= render :partial => 'shared/lines/reservable_asset', :collection => @floor.reservable_assets %>
@@ -14,7 +14,7 @@
     <% end %>
   </ul>
 
-  <h4 class="collapsable description">Subject Areas</h4>
+  <h4 class="collapsible description">Subject Areas</h4>
   <ul class="navlist description description-target">
     <% unless @floor.subject_areas.blank? %>
       <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
@@ -26,7 +26,7 @@
     <% end %>
   </ul>
 
-  <h4 class="collapsable description">Call Numbers</h4>
+  <h4 class="collapsible description">Call Numbers</h4>
   <ul class="navlist description description-target">
     <% unless @floor.call_numbers.blank? %>
       <%= render :partial => 'shared/lines/call_number', :collection => @floor.call_numbers %>
@@ -38,7 +38,7 @@
     <% end %>
   </ul>
 
-  <h4 class="collapsable description">All <%= @floor.library %> Floors</h4>
+  <h4 class="collapsible description">All <%= @floor.library %> Floors</h4>
   <ul class="navlist description description-target">
     <% unless @floor.library.floors.blank? %>
       <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>

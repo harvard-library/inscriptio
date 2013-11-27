@@ -5,7 +5,7 @@
       <h2><%= library.name %></h2>
 	  <% unless library.reservable_asset_types.blank? %>
 	    <% library.reservable_asset_types.each do |at| %>
-	      <h3 class="collapsable asset_notices"><%= at.name %></h3>
+	      <h3 class="collapsible asset_notices"><%= at.name %></h3>
 		  <div class="asset_notices asset_notices-target">
             <% unless at.reservation_notices.blank? %>
 	          <%= render :partial => 'shared/lines/reservation_notice', :collection => at.reservation_notices %>

@@ -7,13 +7,13 @@
 	<% @libraries.each do |library| %>
 	  <h2><%= library.name %></h2>
 	  <% if current_user.admin? %>
-	    <h3 class="collapsable email_all">Email All in <%= library %></h3>
+	    <h3 class="collapsible email_all">Email All in <%= library %></h3>
 	    <div class="email_all email_all-target">
 		  <p>
 			<% form_tag new_email_path, :method => 'get' do %>
 			  <%= text_field_tag :subject %><br />
 			  <%= text_area_tag :content, nil, :rows => 10, :cols => 35 %><br />
-			  <%= hidden_field_tag :library, library.id %>  
+			  <%= hidden_field_tag :library, library.id %>
 			  <%= submit_tag "Send", :name => nil %>
 			<% end %>
 	      </p>
@@ -26,11 +26,11 @@
         <h3>No reservable asset types for this library yet.</h3>
       <% end %>
     <% end %>
-	
+
   <% end %>
 </div>
 
-<h2 class="collapsable asset_upload">Batch Upload</h2>
+<h2 class="collapsible asset_upload">Batch Upload</h2>
 
 <div class="asset_upload asset_upload-target">
 
@@ -70,6 +70,4 @@
     <%= file_field 'upload', 'datafile' %></p>
 	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
   <% end -%>
-</div>	
-
-
+</div>

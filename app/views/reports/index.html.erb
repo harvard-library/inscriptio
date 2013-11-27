@@ -1,14 +1,14 @@
 <% content_for :header do %>Reporting and Stats<% end %>
 <div class="reports collection-list">
   <!-- Pending Reservations -->
-  <h2 class="collapsable pending_reservations">Pending Reservations - <%= @assets.collect{|a| a.reservations_pending}.flatten.length %></h2>
+  <h2 class="collapsible pending_reservations">Pending Reservations - <%= @assets.collect{|a| a.reservations_pending}.flatten.length %></h2>
   <div class="pending_reservations pending_reservations-target">
 	<% unless @libraries.blank? %>
 	  <% @libraries.each do |library| %>
 	    <h2><%= library.name %></h2>
 	      <% unless library.reservable_asset_types.blank? %>
 	        <% library.reservable_asset_types.each do |rat| %>
-			<h3 class="collapsable asset_type"><%= rat.name %> - <%= rat.reservable_assets.collect{|a| a.reservations_pending}.flatten.length %></h3>
+			<h3 class="collapsible asset_type"><%= rat.name %> - <%= rat.reservable_assets.collect{|a| a.reservations_pending}.flatten.length %></h3>
 			<ul class="asset_type asset_type-target">
 			  <% unless rat.reservable_assets.blank? %>
 			    <% rat.reservable_assets.each do |ra| %>
@@ -26,16 +26,16 @@
       <% end %>
     <% end %>
   </div>
-	
+
 	<!-- Available Assets -->
-	<h2 class="collapsable available_reservable_assets">Available Assets</h2>
+	<h2 class="collapsible available_reservable_assets">Available Assets</h2>
 	<div class="available_reservable_assets available_reservable_assets-target">
 	  <% unless @libraries.blank? %>
 	    <% @libraries.each do |library| %>
 		  <h2><%= library.name %></h2>
 	      <% unless library.reservable_asset_types.blank? %>
 	        <% library.reservable_asset_types.each do |rat| %>
-			  <h3 class="collapsable asset_type_2"><%= rat.name %></h3>
+			  <h3 class="collapsible asset_type_2"><%= rat.name %></h3>
 			  <ul class="asset_type_2 asset_type_2-target">
 			    <% unless rat.reservable_assets.blank? %>
 			      <% rat.reservable_assets.each do |ra| %>
@@ -54,16 +54,16 @@
 	    <% end %>
 	  <% end %>
 	</div>
-	
+
 	<!-- Expired Reservations -->
-	<h2 class="collapsable expired_reservations">Recently Expired Reservations - <%= @assets.collect{|a| a.reservations_recently_expired}.flatten.length %></h2>
+	<h2 class="collapsible expired_reservations">Recently Expired Reservations - <%= @assets.collect{|a| a.reservations_recently_expired}.flatten.length %></h2>
 	<div class="expired_reservations expired_reservations-target">
 	  	<% unless @libraries.blank? %>
 		  <% @libraries.each do |library| %>
 		    <h2><%= library.name %></h2>
 		      <% unless library.reservable_asset_types.blank? %>
 		        <% library.reservable_asset_types.each do |rat| %>
-				<h3 class="collapsable asset_type_3"><%= rat.name %> - <%= rat.reservable_assets.collect{|a| a.reservations_recently_expired}.flatten.length %></h3>
+				<h3 class="collapsible asset_type_3"><%= rat.name %> - <%= rat.reservable_assets.collect{|a| a.reservations_recently_expired}.flatten.length %></h3>
 				<ul class="asset_type_3 asset_type_3-target">
 				  <% unless rat.reservable_assets.blank? %>
 				    <% rat.reservable_assets.each do |ra| %>
@@ -81,5 +81,5 @@
 	      <% end %>
 	    <% end %>
 	</div>
-  
+
 </div>

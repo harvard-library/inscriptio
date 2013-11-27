@@ -371,11 +371,6 @@ li {
 	padding-bottom: 4px;
 }
 
-#content-left h4 {
-	background: image-url('icon_plus_16.png') no-repeat 8px bottom;
-	padding-left: 35px;
-}
-
 #content-left > div {
   padding: 5px 10px 5px 35px;
 }
@@ -414,18 +409,20 @@ ul.actions {
 }
 
 
-h2.collapsable {
-	background: image-url('icon_plus_16.png') no-repeat 8px 3px;
-	padding-left: 35px;
-}
-
-h3.collapsable {
-	background: image-url('icon_plus_16.png') no-repeat 8px 1px;
-	padding-left: 35px;
-}
-
-h2.collapsable + div {
-	padding-left: 35px;
+.collapsible {
+  vertical-align: middle;
+  + div {
+	  padding-left: 35px;
+  }
+  button {
+    width: 35px;
+    line-height: 1;
+    text-indent: -99999px;
+    overflow:hidden;
+    border: none;
+    background-color: transparent;
+    background: image-url('icon_plus_16.png') no-repeat center center;
+  }
 }
 
 div.reservation_notice {

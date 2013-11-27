@@ -1,15 +1,15 @@
 <% content_for :header do %>Users<% end %>
 
 <div class="users collection-list">
-	
+
   <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2> 
+    <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2>
     <h3><%= link_to('Export Users to CSV', export_users_path) %></h3>
     <% unless @csv.nil? %>
   	  <h4><%= link_to "Download CSV", "/uploads/users.csv" %></h4>
     <% end %>
   <% end %>
-		
+
   <% unless @users.blank? %>
 	<%= render :partial => 'shared/lines/user', :collection => @users %>
   <% else %>
@@ -17,7 +17,7 @@
   <% end %>
 </div>
 
-<h2 class="collapsable user_upload">Batch Upload</h2>
+<h2 class="collapsible user_upload">Batch Upload</h2>
 
 <div class="user_upload user_upload-target">
 
@@ -54,4 +54,4 @@
     <%= file_field 'upload', 'datafile' %></p>
 	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
   <% end -%>
-</div>	
+</div>
