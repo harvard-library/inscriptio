@@ -411,10 +411,12 @@ ul.actions {
 
 .collapsible {
   vertical-align: middle;
+  cursor: pointer;
   + div {
 	  padding-left: 35px;
   }
   button {
+    cursor: pointer;
     width: 35px;
     line-height: 1;
     text-indent: -99999px;
