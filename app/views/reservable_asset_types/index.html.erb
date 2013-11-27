@@ -10,7 +10,7 @@
 	    <h3 class="collapsible email_all">Email All in <%= library %></h3>
 	    <div class="email_all email_all-target">
 		  <p>
-			<% form_tag new_email_path, :method => 'get' do %>
+			<%= form_tag new_email_path, :method => 'get' do %>
 			  <%= text_field_tag :subject %><br />
 			  <%= text_area_tag :content, nil, :rows => 10, :cols => 35 %><br />
 			  <%= hidden_field_tag :library, library.id %>
