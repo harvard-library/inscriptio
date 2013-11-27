@@ -13,3 +13,5 @@ public/uploads/*
 .env
 config/deploy.rb
 config/deploy/*.rb
+\#*
+.#*
