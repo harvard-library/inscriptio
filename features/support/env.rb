@@ -61,6 +61,7 @@ Before do
   (1..4).each do |i|
     FactoryGirl.create(:call_number, :floors => [Floor.find_by_name('Floor 1')], :call_number => "CN-#{i}")
   end
+  @ut = FactoryGirl.create(:user_type, :name => 'Administrator')
   @user = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
   @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456')
 end
