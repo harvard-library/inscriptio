@@ -1,14 +1,14 @@
 Feature: Manage floors
   In order to manage floors,
-  an administrator 
+  an administrator
   wants to be able create, delete, edit, and view floors in the context of a library.
-  
+
   Scenario: No floors defined.
     Given a library named "Widener"
     And an administrator
     And the floors have been deleted
     And I am on the library_floor "index" page
-    Then I should see "No floors for this library yet."
+    Then I should see "No floors yet."
 
   Scenario: Delete floor
     Given a library named "Widener"
@@ -58,4 +58,3 @@ Feature: Manage floors
     And I should see "Map"
     And I am on the library_floor "edit" page
     Then I should see "Current Map"
-

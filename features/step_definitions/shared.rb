@@ -20,7 +20,7 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
 
   case object_type
   when "floor"
-    floor = @library.floors.send(method, :first, :conditions => {:name => name})
+    floor = @library.floors.send(method, name)
     within("#floor-#{floor.id}") do
       click_link "delete-#{floor.id}"
     end
@@ -75,7 +75,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
   if object_type == 'library_floor'
     case page_name
     when 'index'
-      visit(library_floors_path(@library))
+      visit(library_path(@library))
     when 'new'
       visit(new_library_floor_path(@library))
     when 'edit'
