@@ -55,6 +55,9 @@ Before do
   (1..5).each do |i|
     FactoryGirl.create(:floor, :library => @library, :name => "Floor #{i}")
   end
+  @rat = FactoryGirl.create(:reservable_asset_type, :name => 'Carrel', :library => @library)
+  FactoryGirl.create(:reservable_asset, :name => 'Timmy', :reservable_asset_type => @rat, :floor => Floor.find_by_name('Floor 1'))
+
   (1..4).each do |i|
     FactoryGirl.create(:call_number, :floors => [Floor.find_by_name('Floor 1')], :call_number => "CN-#{i}")
   end

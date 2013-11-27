@@ -10,9 +10,17 @@ Given /^a library named "([^"]*)"$/ do |arg1|
 end
 
 When 'I delete the $object_type named "$name"' do |object_type,name|
+  # Detect and convert ids to_i, switch method in simple case
+  if name.match(/^[0-9]+$/)
+    method = :find
+    name = name.to_i
+  else
+    method = :find_by_name
+  end
+
   case object_type
   when "floor"
-    floor = @library.floors.find(:first, :conditions => {:name => name})
+    floor = @library.floors.send(method, :first, :conditions => {:name => name})
     within("#floor-#{floor.id}") do
       click_link "delete-#{floor.id}"
     end
@@ -23,21 +31,11 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
   when "call_number"
     call_number = CallNumber.find_by_call_number(name)
     click_link "delete-#{call_number.id}"
-  when "subject_area"
-    subject_area = SubjectArea.find_by_name(name)
-    click_link "delete-#{subject_area.id}"
-  when "reservable_asset_type"
-    reservable_asset_type = ReservableAssetType.find_by_name(name)
-    click_link "delete-#{reservable_asset_type.id}"
-  when "reservable_asset"
-    reservable_asset = ReservableAsset.find(name.to_i)
-    click_link "delete-#{reservable_asset.id}"
-  when "reservation"
-    reservation = Reservation.find(name.to_i)
-    click_link "delete-#{reservation.id}"
-  when "user_type"
-    user_type = UserType.find_by_name(name)
-    click_link "delete-#{user_type.id}"
+  else
+    # For non-special cases, construct their class from their object type
+    klass = object_type.camelcase.constantize
+    target = klass.send(method, name)
+    click_link "delete-#{target.id}"
   end
 end
 
@@ -59,6 +57,10 @@ end
 
 Given /^a reservable_asset of "([^"]*)"$/ do |arg1|
   @reservable_asset = ReservableAsset.find(arg1.to_i)
+end
+
+Given /^a reservable_asset named "([^"]*)"$/ do |arg1|
+  @reservable_asset = ReservableAsset.find_by_name(arg1)
 end
 
 Given /^a reservation of "([^"]*)"$/ do |arg1|
@@ -125,7 +127,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(reservable_assets_path)
     when 'new'
-      visit(new_reservable_asset_path)
+      visit(new_reservable_asset_path + "?library=#{@library.id}")
     when 'edit'
       visit(edit_reservable_asset_path(@reservable_asset))
     end
@@ -168,7 +170,11 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
     reservable_asset_type = ReservableAssetType.find(:first, :conditions => { :name => object_name })
     visit(reservable_asset_type_path(reservable_asset_type))
   when 'reservable_asset'
-    reservable_asset = ReservableAsset.find(object_name.to_i)
+    if object_name.to_i > 0
+      reservable_asset = ReservableAsset.find(object_name.to_i)
+    else
+      reservable_asset = ReservableAsset.find_by_name(object_name)
+    end
     visit(reservable_asset_path(reservable_asset))
   when 'reservation'
     reservation = Reservation.find(object_name.to_i)
