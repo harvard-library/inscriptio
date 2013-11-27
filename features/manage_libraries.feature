@@ -24,19 +24,13 @@ Scenario: Register new library
     And I fill in "Longitude" with "longitude 1"
     And I fill in "Contact info" with "contact_info 1"
     And I fill in "Description" with "description 1"
+    And I fill in "Tos" with "Be excellent to each other"
+    And I fill in "Bcc" with "nobody@nowhere.net"
+    And I fill in "From" with "nobody@thelibrary.museum"
     And I press "Create"
     Then I should see "name 1"
     And I should see "Added that library"
     And I should see a link to "http://example.com"
-    And I should see "address_1 1"
-    And I should see "address_2 1"
-    And I should see "city 1"
-    And I should see "state 1"
-    And I should see "zip 1"
-    And I should see "latitude 1"
-    And I should see "longitude 1"
-    And I should see "contact_info 1"
-    And I should see "description 1"
 
 Scenario: Edit a library
     Given an administrator
@@ -53,5 +47,5 @@ Scenario: Delete a library
     And I am on the library "index" page
     When I delete the library named "Widener"
     Then I should see "Deleted Widener"
+    And I should not see an element "a:contains('Widener')"
     And I should see "Pusey"
-

@@ -51,6 +51,7 @@ Before do
   FactoryGirl.create_list(:message, 3)
   #Load factories before running cucumber.
   @library = FactoryGirl.create(:library, :name => 'Widener')
+  @pusey = FactoryGirl.create(:library, :name => 'Pusey')
   (1..5).each do |i|
     FactoryGirl.create(:floor, :library => @library, :name => "Floor #{i}")
   end
