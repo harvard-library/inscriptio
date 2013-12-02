@@ -194,12 +194,13 @@ ul.navlist {
 
 
 /* Body */
-
-.notice, .alert, .error {
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 15px;
+#notice_error, #notice_notice, #notice_warning, #notice_alert {
+  &.notice, &.alert, &.error {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 15px;
+  }
 }
 
 .error {

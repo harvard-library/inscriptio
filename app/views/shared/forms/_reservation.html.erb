@@ -1,4 +1,5 @@
 <%= semantic_form_for(@reservation) do |f| %>
+<%= f.semantic_errors :base %>
   <%= f.inputs do %>
 	Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.
 	<br /><br />
@@ -9,14 +10,13 @@
 	  <% if @reservation.start_date.nil? %>
 	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 
-	    <script type="text/javascript" language="javascript">
+    <script type="text/javascript" language="javascript">
 	   	  jQuery(document).ready(function(){
 		    jQuery("#reservation_start_date").datepicker({ minDate: 0 });
 	  	  })
 	    </script>
 	  <% else %>
 	    <%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
-
 	    <script type="text/javascript" language="javascript">
 	   	  jQuery(document).ready(function(){
 		    jQuery("#reservation_start_date").datepicker({ minDate: 0 });
@@ -30,6 +30,7 @@
 	  <% else %>
 		<%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y"), :disabled => true } %>
         <%= f.input :start_date, :as => :hidden, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
+        <%= f.input :reservable_asset_id, :as => :hidden, :input_html => {:value => @reservable_asset.id} %>
 	  <% end %>
 	<% end %>
 
