@@ -30,6 +30,8 @@ group :development do
   gem 'capistrano-rails', '~> 1.0.0'
   gem 'capistrano-rvm', '~> 0.0.3'
   gem 'capistrano-bundler', '~> 1.0.0'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :development,:test do
