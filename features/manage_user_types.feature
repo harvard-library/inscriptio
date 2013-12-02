@@ -8,7 +8,6 @@ Feature: Manage User Types
 	    When I fill in "Name" with ""
 	    And I press "Create"
 	    Then I should see "Could not add that User Type"
-		And show me the page
 
 	Scenario: Register new user_type successfully
 	    Given an administrator
@@ -34,9 +33,9 @@ Feature: Manage User Types
 
 	Scenario: Delete a user_type
 	    Given an administrator
+      And a user_type of "Graduate"
+      And a user_type of "Undergraduate"
 	    And I am on the user_type "index" page
 	    When I delete the user_type named "Graduate"
 	    Then I should see "Deleted user type Graduate"
 	    And I should see "Undergraduate"
-		And I should see "Post-Doc"
-

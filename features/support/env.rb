@@ -61,9 +61,10 @@ Before do
   (1..4).each do |i|
     FactoryGirl.create(:call_number, :floors => [Floor.find_by_name('Floor 1')], :call_number => "CN-#{i}")
   end
-  @ut = FactoryGirl.create(:user_type, :name => 'Administrator')
+  @admin_t = FactoryGirl.create(:user_type, :name => 'Administrator')
+  @user_t = FactoryGirl.create(:user_type, :name => 'User')
   @user = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
-  @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456')
+  @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456', :user_type => @user_t)
 end
 
 #TODO - figure out multiple profiles for running cucumber tasks.

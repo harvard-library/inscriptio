@@ -68,7 +68,7 @@ Given /^a reservation of "([^"]*)"$/ do |arg1|
 end
 
 Given /^a user_type of "([^"]*)"$/ do |arg1|
-  @user_type = UserType.find_by_name(arg1)
+  @user_type = UserType.find_or_create_by_name(arg1)
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
