@@ -1,51 +1,50 @@
 <%= semantic_form_for(@reservation) do |f| %>
-<%= f.semantic_errors :base %>
+  <%= f.semantic_errors :base %>
   <%= f.inputs do %>
-	Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.
-	<br /><br />
-	<%= f.input :reservable_asset_id, :as => :hidden, :input_html => {:value => @reservable_asset} %>
-	Chosen Asset: <%= ReservableAsset.find(@reservable_asset).reservable_asset_type.name %> <%= ReservableAsset.find(@reservable_asset).name %>
-	<br /><br />
-	<% if current_user.admin? %>
-	  <% if @reservation.start_date.nil? %>
-	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
-	  <% else %>
-	    <%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
-	  <% end %>
+	  Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.
+	  <br /><br />
+	  <%= f.input :reservable_asset_id, :as => :hidden, :input_html => {:value => @reservable_asset} %>
+	  Chosen Asset: <%= ReservableAsset.find(@reservable_asset).reservable_asset_type.name %> <%= ReservableAsset.find(@reservable_asset).name %>
+	  <br /><br />
+	  <% if current_user.admin? %>
+	    <% if @reservation.start_date.nil? %>
+	      <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
+	    <% else %>
+	      <%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
+	    <% end %>
     <% else %>
-	  <% if @reservation.start_date.nil? || !@renew.nil? %>
-	    <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
+	    <% if @reservation.start_date.nil? || !@renew.nil? %>
+	      <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y"), :disabled => true } %>
         <%= f.input :start_date, :as => :hidden, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
-	  <% else %>
-		<%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y"), :disabled => true } %>
+	    <% else %>
+		    <%= f.input :start_date, :as => :string, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y"), :disabled => true } %>
         <%= f.input :start_date, :as => :hidden, :input_html => { :value => @reservation.start_date.strftime("%m/%d/%Y") } %><br />
         <%= f.input :reservable_asset_id, :as => :hidden, :input_html => {:value => @reservable_asset.id} %>
+	    <% end %>
 	  <% end %>
-	<% end %>
 
 
-	<br />
-	<% if @reservation.end_date.nil? %>
-	  <%= f.input :end_date, :as => :string %>
-	<% else %>
-	  <%= f.input :end_date, :as => :string, :input_html => { :value => @reservation.end_date.strftime("%m/%d/%Y")} %>
-	<% end %>
-	<br />
-	<% if current_user.admin? %>
+	  <br />
+	  <% if @reservation.end_date.nil? %>
+	    <%= f.input :end_date, :as => :string %>
+	  <% else %>
+	    <%= f.input :end_date, :as => :string, :input_html => { :value => @reservation.end_date.strftime("%m/%d/%Y")} %>
+	  <% end %>
+	  <br />
+	  <% if current_user.admin? %>
       <%= f.input :user %>
       <%= f.input :status, :include_blank => false %>
-	<% end %>
+	  <% end %>
+    You must agree to the library's Terms of Service before you can make your reservation. <%= raw ReservableAsset.find(@reservable_asset).reservable_asset_type.library.tos %>
+	  <br /><br />
+
+    <%= f.input :tos, :label => "Agree to Terms of Service?" %>
+    <br /><br />
   <% end %>
 
-	You must agree to the library's Terms of Service before you can make your reservation. <%= raw ReservableAsset.find(@reservable_asset).reservable_asset_type.library.tos %>
-	<br /><br />
-
-  <%= f.input :tos, :label => "Agree to Terms of Service?" %>
-  <br /><br />
-
-  <span id="reserveButton">
+ <div id="reserveButton">
     <%= f.actions %>
-  </span>
+ </div>
 <% end %>
 <div style="display:none" id="timevals">
 <span class="min-time"><%= @min_time %></span>

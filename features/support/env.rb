@@ -65,7 +65,9 @@ Before do
   @user_t = FactoryGirl.create(:user_type, :name => 'User')
   @user = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
   @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456', :user_type => @user_t)
-  @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status_id => 1, :start_date => Date.today, :end_date => Date.today + 61)
+  @statuses = ["Approved", "Pending", "Declined", "Waitlist", "Expired", "Expiring", "Cancelled", "Renewal Confirmation"].each_with_index.map {|s, i| FactoryGirl.create(:status, :id => i+1, :name => s)}
+  @notices = 9.times {|i| FactoryGirl.create(:reservation_notice, :library => @library, :reservable_asset_type => @rat, :status => @statuses[i])}
+  @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status => @statuses[1], :start_date => Date.today, :end_date => Date.today + 59)
 end
 
 #TODO - figure out multiple profiles for running cucumber tasks.
