@@ -172,7 +172,7 @@
           $('#applyOverlay').removeAttr('disabled');
         });
 
-        /* Control overay positioning with buttons */
+        /* Control overlay positioning with buttons */
 				$.each( [
 					['#moveUp', 'top', -1],
 					['#moveRight', 'left', 1],
