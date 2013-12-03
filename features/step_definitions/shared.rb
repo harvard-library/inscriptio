@@ -137,7 +137,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(reservations_path)
     when 'new'
-      visit(new_reservation_path)
+      visit(new_reservation_path + "?reservable_asset=#{@reservable_asset.id}")
     when 'edit'
       visit(edit_reservation_path(@reservation))
     end
@@ -205,10 +205,15 @@ Then /^I should see a link to "([^"]*)"$/ do |link_href|
 end
 
 When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector|
-  date = Date.parse(date)
-  select(date.year.to_s, :from => "#{model}[#{selector}(1i)]")
-  select(date.strftime("%B"), :from => "#{model}[#{selector}(2i)]")
-  select(date.day.to_s, :from => "#{model}[#{selector}(3i)]")
+  if date == 'today'
+    date = Date.today
+  elsif date.match(/^(\d+) days from today/)
+    date = Date.today + $1.to_i
+  else
+    date = Date.parse(date)
+  end
+  datestring = date.strftime('%m/%d/%Y')
+  fill_in(selector, :with => datestring)
 end
 
 Given 'a logged in user of type "$user_type"' do |user_type|

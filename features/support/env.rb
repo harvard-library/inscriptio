@@ -56,7 +56,7 @@ Before do
     FactoryGirl.create(:floor, :library => @library, :name => "Floor #{i}")
   end
   @rat = FactoryGirl.create(:reservable_asset_type, :name => 'Carrel', :library => @library)
-  FactoryGirl.create(:reservable_asset, :name => 'Timmy', :reservable_asset_type => @rat, :floor => Floor.find_by_name('Floor 1'))
+  @asset = FactoryGirl.create(:reservable_asset, :name => 'Timmy', :reservable_asset_type => @rat, :min_reservation_time => 2, :max_reservation_time => 60, :floor => Floor.find_by_name('Floor 1'))
 
   (1..4).each do |i|
     FactoryGirl.create(:call_number, :floors => [Floor.find_by_name('Floor 1')], :call_number => "CN-#{i}")
@@ -65,6 +65,7 @@ Before do
   @user_t = FactoryGirl.create(:user_type, :name => 'User')
   @user = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
   @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456', :user_type => @user_t)
+  @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status_id => 1, :start_date => Date.today, :end_date => Date.today + 61)
 end
 
 #TODO - figure out multiple profiles for running cucumber tasks.
