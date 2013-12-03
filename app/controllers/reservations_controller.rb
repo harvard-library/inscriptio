@@ -52,7 +52,6 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new
     params[:reservation][:reservable_asset] = defined?(@reservable_asset) ? @reservable_asset : ReservableAsset.find(params[:reservation][:reservable_asset_id])
-    params[:tos] == "Yes" ? params[:reservation][:tos] = true : params[:reservation][:tos] = false
     current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
 
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
@@ -103,9 +102,8 @@ class ReservationsController < ApplicationController
     end
 
     prev_status = @reservation.status
-    params[:reservation][:reservable_asset] = ReservableAsset.find(params[:reservation][:reservable_asset_id])
+    params[:reservation][:reservable_asset] = @reservation.reservable_asset
 
-    params[:tos] == "Yes" ? params[:reservation][:tos] = true : params[:reservation][:tos] = false
     current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
 
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
