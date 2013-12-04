@@ -1,10 +1,3 @@
-Given /^an administrator$/ do
-    visit('/users/sign_in')
-    fill_in('Email', :with => "admin@email.com")
-    fill_in('Password', :with => "123456")
-    click_button('Sign in')
-end
-
 Given /^a library named "([^"]*)"$/ do |arg1|
   @library = Library.find_or_create_by_name(arg1)
 end
