@@ -1,5 +1,5 @@
 class Floor < ActiveRecord::Base
-
+  attr_accessible :name, :floor_map, :position
   mount_uploader :floor_map, FloorMapUploader
   acts_as_list :scope => :library
   belongs_to :library
@@ -12,7 +12,7 @@ class Floor < ActiveRecord::Base
   def to_s
     %Q|#{name}|
   end
-  
+
   def self.search(search)
     if search
       find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
