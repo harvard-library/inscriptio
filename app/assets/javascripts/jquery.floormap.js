@@ -228,7 +228,7 @@
 				/* These are the handlers for the "map" */
 				$(opts.containerSelector).bind({
 					'mousedown.floormap': function(event) {
-						if (event.target == this) {
+						if (event.currentTarget == this) {
 							event.preventDefault();
 
 							var newOverlay = overlays.create(

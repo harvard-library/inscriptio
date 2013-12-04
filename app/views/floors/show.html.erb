@@ -57,7 +57,7 @@
     <%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
   </div>
   <% if current_user.admin? %>
-    <%= javascript_tag(%Q| 	$(window).load(function() {console.log($('#map').offset());$('#map-container').floormap({ admin: true });})|) %>
+    <%= javascript_tag(%Q| 	$(window).load(function() {$('#map-container').floormap({ admin: true });})|) %>
   <% else %>
     <%= javascript_tag(%Q| 	$(window).load(function() {$('#map-container').floormap();})|) %>
   <% end %>
