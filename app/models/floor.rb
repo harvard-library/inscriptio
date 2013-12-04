@@ -1,5 +1,5 @@
 class Floor < ActiveRecord::Base
-  attr_accessible :name, :floor_map, :position
+  attr_accessible :name, :floor_map, :position, :subject_area_ids, :call_number_ids, :reservable_asset_ids
   mount_uploader :floor_map, FloorMapUploader
   acts_as_list :scope => :library
   belongs_to :library

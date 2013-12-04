@@ -1,8 +1,7 @@
 <%= semantic_form_for([@library,@floor], :html => {:multipart => true}) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :library %>
     <%= f.input :name %>
-    <%= f.input :call_numbers, :as => :check_boxes, :hint => 'Hint: use <control> or <shift> click to select multiple call numbers' %>
+    <%= f.input :call_numbers, :as => :check_boxes %>
     <% unless f.object.floor_map.blank? %>
       <h4>Current Map</h4>
       <%= image_tag(f.object.floor_map.url) %>

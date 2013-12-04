@@ -12,7 +12,8 @@ class FloorsController < ApplicationController
 
   def create
     @floor = Floor.new
-    @floor.attributes = params[:floor]
+    @floor.attributes = params[:floor].except(:library_id)
+    @floor.library = @library
     respond_to do|format|
       if @floor.save
         flash[:notice] = 'Added that floor'
@@ -30,7 +31,8 @@ class FloorsController < ApplicationController
 
   def update
     @floor = Floor.find(params[:id])
-    @floor.attributes = params[:floor]
+    @floor.attributes = params[:floor].except(:library_id)
+    @floor.library = @library
     respond_to do|format|
       if @floor.save
         flash[:notice] = %Q|#{@floor.name} updated|

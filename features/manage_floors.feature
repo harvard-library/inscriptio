@@ -23,7 +23,6 @@ Feature: Manage floors
     And a logged in user of type "admin"
     And I am on the library_floor "new" page
     When I fill in "Name" with "Floor 4"
-    And I select "Widener" from "Library"
     And I attach the file "public/images/rails.png" to "Upload a Floor Map"
     And I check "CN-2"
     And I check "CN-3"
