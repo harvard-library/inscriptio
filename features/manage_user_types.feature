@@ -10,7 +10,7 @@ Feature: Manage User Types
 	    Then I should see "Could not add that User Type"
 
 	Scenario: Register new user_type successfully
-	    Given an administrator
+	    Given a logged in user of type "admin"
 	    And I am on the user_type "new" page
 	    When I fill in "Name" with "Undergraduate"
 	    And I press "Create"
@@ -19,20 +19,20 @@ Feature: Manage User Types
 
 	Scenario: View a user_type page
 	    Given a user_type of "Undergraduate"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    And I am on the user_type "show" page for "Undergraduate"
 	    Then I should see "Undergraduate"
 
 	Scenario: Edit a user_type
 	    Given a user_type of "Undergraduate"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    When I am on the user_type "edit" page
 	    And I fill in "Name" with "Graduate"
 	    And I press "Update"
 	    Then I should see "Graduate"
 
 	Scenario: Delete a user_type
-	    Given an administrator
+	    Given a logged in user of type "admin"
       And a user_type of "Graduate"
       And a user_type of "Undergraduate"
 	    And I am on the user_type "index" page

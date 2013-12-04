@@ -5,14 +5,14 @@ Feature: Manage Reservable Asset
   	Scenario: No Reservable Assets Defined.
 	   	Given a library named "Widener"
       And a library_floor named "Floor 1"
-	   	And an administrator
+	   	And a logged in user of type "admin"
 	   	And the reservable_assets have been deleted
 	   	And I am on the reservable_asset "index" page
 	   	Then I should see "No reservable assets for this floor yet."
 
 	Scenario: Register new reservable_asset
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the reservable_asset "new" page
     When I select "Floor 1" from "Floor"
     And I select "Carrel" from "Reservable asset type"
@@ -31,7 +31,7 @@ Feature: Manage Reservable Asset
 	    Given a library named "Widener"
 		And a library_floor named "Floor 1"
 	    And a reservable_asset named "Timmy"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    And I am on the reservable_asset "show" page for "Timmy"
 		Then I should see "Floor 1"
 		And I should see "Carrel"
@@ -41,7 +41,7 @@ Feature: Manage Reservable Asset
 	    Given a library named "Widener"
 	    And a library_floor named "Floor 1"
 	    And a reservable_asset named "Timmy"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    When I am on the reservable_asset "edit" page
 	    And I fill in "Description" with "this is an updated asset"
 	    And I press "Update"
@@ -50,7 +50,7 @@ Feature: Manage Reservable Asset
 	Scenario: Delete a reservable_asset
 	    Given a library named "Widener"
 		And a library_floor named "Floor 1"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    And I am on the reservable_asset "index" page
 	    When I delete the reservable_asset named "Timmy"
 	    Then I should see "Deleted reservable asset"

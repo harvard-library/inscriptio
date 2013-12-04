@@ -4,14 +4,14 @@ Feature: Manage libraries
     wants to be able to add, edit, delete, and otherwise manage floors.
 
 Scenario: Register a new library, but fail.
-    Given an administrator
+    Given a logged in user of type "admin"
     And I am on the library "new" page
     When I fill in "Name" with "Foobar"
     And I press "Create"
     Then I should see "Could not create that library"
 
 Scenario: Register new library
-    Given an administrator
+    Given a logged in user of type "admin"
     And I am on the library "new" page
     When I fill in "Name" with "name 1"
     And I fill in "Url" with "http://example.com"
@@ -33,7 +33,7 @@ Scenario: Register new library
     And I should see a link to "http://example.com"
 
 Scenario: Edit a library
-    Given an administrator
+    Given a logged in user of type "admin"
     And a library named "Widener"
     And I am on the library "edit" page
     When I fill in "Name" with "Widener-foo"
@@ -42,7 +42,7 @@ Scenario: Edit a library
     And I should see "Widener-foo"
 
 Scenario: Delete a library
-    Given an administrator
+    Given a logged in user of type "admin"
     And a library named "Widener"
     And I am on the library "index" page
     When I delete the library named "Widener"

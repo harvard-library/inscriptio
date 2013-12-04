@@ -4,7 +4,7 @@ Feature: Manage Reservable Asset Types
 
 	Scenario: Fail to register a reservable_asset_type
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the reservable_asset_type "new" page
     When I fill in "Name" with "Asset foo"
     And I press "Create"
@@ -13,7 +13,7 @@ Feature: Manage Reservable Asset Types
 
 	Scenario: Register new reservable_asset_type successfully
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the reservable_asset_type "new" page
     When I fill in "Name" with "Carrel"
 		And I select "Widener" from "Library"
@@ -37,7 +37,7 @@ Feature: Manage Reservable Asset Types
 	Scenario: View a reservable_asset_type page
 	    Given a library named "Widener"
 	    And a reservable_asset_type of "Carrel"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    And I am on the reservable_asset_type "show" page for "Carrel"
 	    Then I should see "Carrel"
       And I should see "Widener"
@@ -46,7 +46,7 @@ Feature: Manage Reservable Asset Types
 	Scenario: Edit a reservable_asset_type
 	    Given a library named "Widener"
 	    And a reservable_asset_type of "Carrel"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    When I am on the reservable_asset_type "edit" page
 	    And I fill in "Welcome message" with "Hello, this is an updated carrel."
 	    And I press "Update"
@@ -54,7 +54,7 @@ Feature: Manage Reservable Asset Types
 
 	Scenario: Delete a reservable_asset_type
 	    Given a library named "Widener"
-	    And an administrator
+	    And a logged in user of type "admin"
 	    And I am on the reservable_asset_type "index" page
 	    When I delete the reservable_asset_type named "Carrel"
 	    Then I should see "Deleted reservable asset type Carrel"

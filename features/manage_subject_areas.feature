@@ -40,6 +40,7 @@ Feature: Manage Subject Areas
 	    And I check "Floor 1"
 	    And I check "Floor 2"
 	    And I press "Update"
+	    And I am on the subject_area "show" page
 	    Then I should see "Floor 1"
 	    And I should see "Floor 2"
 

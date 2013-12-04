@@ -12,7 +12,7 @@ Scenario: Fail to register a call_number
 
 Scenario: Register new call_number successfully
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the call_number "new" page
     When I fill in "Call number" with "CN-5"
     And I fill in "Description" with "Call Number 5"
@@ -26,14 +26,14 @@ Scenario: Register new call_number successfully
 Scenario: View a call number page
     Given a library named "Widener"
     And a call_number of "CN-1"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the call_number "show" page for "CN-1"
     Then I should see "Floor 1"
 
 Scenario: Edit a call number
     Given a library named "Widener"
     And a call_number of "CN-1"
-    And an administrator
+    And a logged in user of type "admin"
     When I am on the call_number "edit" page
     And I check "Floor 1"
     And I check "Floor 2"
@@ -43,7 +43,7 @@ Scenario: Edit a call number
 
 Scenario: Register a new call_number without a floor
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the call_number "new" page
     When I fill in "Description" with "Call Number 6"
     When I fill in "Call number" with "CN-6"
@@ -53,7 +53,7 @@ Scenario: Register a new call_number without a floor
 
 Scenario: Register a new call_number with a floor
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the call_number "new" page
     When I fill in "Description" with "Call Number 6"
     When I fill in "Call number" with "CN-6"
@@ -65,7 +65,7 @@ Scenario: Register a new call_number with a floor
 
 Scenario: Delete a call number
     Given a library named "Widener"
-    And an administrator
+    And a logged in user of type "admin"
     And I am on the call_number "index" page
     When I delete the call_number named "CN-1"
     Then I should see "Deleted call number CN-1"
