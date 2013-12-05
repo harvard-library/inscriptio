@@ -1,5 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+
+# This will nuke the DB, therefore, do NOT let specs run outside test env
+ENV["RAILS_ENV"] = 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
@@ -32,6 +34,11 @@ RSpec.configure do |config|
 
   config.after(:type => :request) do
     DatabaseCleaner.strategy = :transaction
+  end
+
+  config.after(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean
   end
 
   # == Mock Framework
