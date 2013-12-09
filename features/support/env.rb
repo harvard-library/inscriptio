@@ -19,6 +19,20 @@
 #
 
 require 'cucumber/rails'
+require 'capybara/poltergeist'
+
+Capybara.default_driver = :rack_test
+Capybara.javascript_driver = :poltergeist
+Capybara.register_driver :poltergeist do |app|
+  options = {
+    :js_errors => true,
+    :timeout => 120,
+    :debug => false,
+    :phantomjs_options => ['--disk-cache=false'],
+    :inspector => true
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
+end
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
@@ -45,8 +59,7 @@ ActionController::Base.allow_rescue = false
 
 # Remove this line if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-DatabaseCleaner.strategy = :transaction
-
+DatabaseCleaner.strategy = :truncation
 Before do
   FactoryGirl.create_list(:message, 3)
   #Load factories before running cucumber.
@@ -70,6 +83,7 @@ Before do
   @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status => @statuses[1], :start_date => Date.today, :end_date => Date.today + 59)
   @subject_area = FactoryGirl.create(:subject_area, :name => "Phrenology", :floors => [Floor.find_by_name('Floor 1')])
 end
+
 
 #TODO - figure out multiple profiles for running cucumber tasks.
 # It seems that selenium is unable to attach files in chrome.

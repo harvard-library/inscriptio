@@ -6,10 +6,14 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 
 ## System Requirements
 
+### General
 * Ruby 1.9.3 and a bunch of gems included in the Gemfile
 * A postgresql 8.x+ database server.
 * A webserver capable of interfacing with Rails applications. Ideally, apache or nginx with mod_passenger installed.
 * Linux or OSX. Linux would be easier.
+
+### Development/Test
+* In order to run the test suite, you will need to install PhantomJS (http://phantomjs.org/)
 
 ## Application Set-up Steps
 

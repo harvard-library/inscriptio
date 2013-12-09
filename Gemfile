@@ -37,6 +37,7 @@ end
 group :development,:test do
   gem 'pry'
   gem 'capybara', '~> 2.1'
+  gem 'poltergeist'
   gem 'database_cleaner', '0.6.6'
   gem 'shoulda-matchers', '2.4.0'
   gem 'sqlite3'

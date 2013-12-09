@@ -28,7 +28,9 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
     # For non-special cases, construct their class from their object type
     klass = object_type.camelcase.constantize
     target = klass.send(method, name)
-    click_link "delete-#{target.id}"
+    within("\##{object_type}-#{target.id} > .actions") do
+      click_link "delete-#{target.id}"
+    end
   end
 end
 
