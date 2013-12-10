@@ -1,4 +1,6 @@
 class CallNumber < ActiveRecord::Base
+  attr_accessible :subject_area_id, :call_number, :long_name, :description, :floor_ids
+
   has_and_belongs_to_many :floors, :order => :name
   belongs_to :subject_area
 
@@ -12,7 +14,7 @@ class CallNumber < ActiveRecord::Base
   def to_s
     "#{call_number}"
   end
-  
+
   def self.search(search)
     if search
       find(:all, :conditions => ['lower(call_number) LIKE ? or lower(long_name) LIKE ?', "%#{search}%", "%#{search}%"])
