@@ -140,10 +140,11 @@ namespace :inscriptio do
 
     desc "Set up crontab"
     task :setup_crontab do
+      puts Rails.root
       tmp = Tempfile.new('crontab')
-      tmp.write `crontab -l`.sub(/#INSCRIPTIO_AUTO_CRON_BEGIN.*#INSCRIPTIO_AUTO_CRON_END\n?/m, '')
+      tmp.write `crontab -l`.sub(/^[^\n#]*#INSCRIPTIO_AUTO_CRON_BEGIN.*#INSCRIPTIO_AUTO_CRON_END\n?/m, '')
       tmp.write "#INSCRIPTIO_AUTO_CRON_BEGIN
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * cd #{Rails.root} && rvm 1.9 do bundle exec #{`which rake`.chomp} inscriptio:cron_task:run_all
+*/5 * * * * cd #{Rails.root} && rvm 1.9 do bundle exec #{`which rake`.chomp} inscriptio:cron_task:run_all
 #INSCRIPTIO_AUTO_CRON_END\n"
       tmp.close
       success = system 'crontab', tmp.path
