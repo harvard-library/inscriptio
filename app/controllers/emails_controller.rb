@@ -1,5 +1,5 @@
 class EmailsController < ApplicationController
-  
+  before_filter :authenticate_admin!
   def new
     @library = Library.find(params[:library])
     @users = Array.new
@@ -15,13 +15,13 @@ class EmailsController < ApplicationController
             :body => params[:content]
           )
           p r.user.email
-        end  
-      end      
-    end  
+        end
+      end
+    end
     flash[:notice] = "Message Sent!"
     redirect_to :back
-  end 
-  
+  end
+
   def asset_type
     @reservable_asset_type = ReservableAssetType.find(params[:reservable_asset_type])
     @users = Array.new
@@ -36,9 +36,9 @@ class EmailsController < ApplicationController
           :body => params[:content]
         )
         p r.user.email
-      end  
-    end      
+      end
+    end
     flash[:notice] = "Message Sent!"
     redirect_to :back
-  end   
+  end
 end
