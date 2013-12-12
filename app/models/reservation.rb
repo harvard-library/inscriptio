@@ -1,4 +1,5 @@
 class Reservation < ActiveRecord::Base
+  attr_accessible :reservable_asset_id, :reservable_asset, :user_id, :user, :status_id, :status, :start_date, :end_date, :tos, :slot
 
   belongs_to :reservable_asset
   belongs_to :user

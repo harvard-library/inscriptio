@@ -1,4 +1,14 @@
 class Library < ActiveRecord::Base
+  attr_accessible( :name, :url,
+                   :address_1, :address_2,
+                   :city, :state, :zip,
+                   :latitude, :longitude,
+                   :contact_info,
+                   :description,
+                   :tos,
+                   :bcc,:from,
+                   :floor_ids, :reservable_asset_type_ids, :reservation_notice_ids)
+
   has_many :floors, :dependent => :destroy, :order => :position
   has_many :reservable_asset_types, :dependent => :destroy
   has_many :reservation_notices
@@ -12,14 +22,14 @@ class Library < ActiveRecord::Base
   def to_s
     %Q|#{name}|
   end
-  
+
   def self.search(search)
     if search
       find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
     end
   end
-  
+
   def bcc_list
     self.bcc.split(',')
-  end  
+  end
 end
