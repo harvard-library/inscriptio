@@ -11,6 +11,9 @@ class Reservation < ActiveRecord::Base
   after_save :post_save_hooks
   after_destroy :post_destroy_hooks
 
+  scope :archived, joins(:status).where("statuses.name = 'Archived'")
+  scope :active, joins(:status).where("statuses.name <> 'Archived'")
+
   def post_save_hooks
     notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id, :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
     Email.create(
@@ -57,8 +60,7 @@ class Reservation < ActiveRecord::Base
 
   def assign_slot
     slots = self.reservable_asset.slots.split(",")
-    used_slots = []
-    self.reservable_asset.current_reservations.collect{|s| used_slots << s.slot}
+    used_slots = self.reservable_asset.current_reservations.map{|s| s.slot}
     available_slots = slots - used_slots
     unless available_slots.nil?
       available_slots.first
@@ -81,6 +83,6 @@ class Reservation < ActiveRecord::Base
   end
 
   def expiring?
-    Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date <= ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), self.reservable_asset.reservable_asset_type.expiration_extension_time.to_i]).include?(self)
+    self.status == Status.find(:first, :conditions => ["lower(name) = 'approved'"]) && self.end_date - Date.today <= self.reservable_asset.reservable_asset_type.expiration_extension_time.to_i
   end
 end

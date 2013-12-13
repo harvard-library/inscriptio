@@ -16,8 +16,21 @@ namespace :inscriptio do
 
     desc "Add the default statuses"
     task :default_statuses => :environment do
-      statuses = ["Approved", "Pending", "Declined", "Waitlist", "Expired", "Expiring", "Cancelled", "Renewal Confirmation"]
-      statuses.each do |s|
+      adapter_type = ActiveRecord::Base.connection.adapter_name.downcase.to_sym
+      case adapter_type
+      when :mysql, :mysql2
+        ActiveRecord::Base.connection.execute('TRUNCATE TABLE statuses')
+      when :sqlite
+        Status.destroy_all
+        ActiveRecord::Base.connection.execute("DELETE FROM statuses;DELETE FROM sqlite_sequence WHERE name = 'statuses';")
+      when :postgresql
+        Status.destroy_all
+        ActiveRecord::Base.connection.reset_pk_sequence!('statuses')
+      else
+        raise NotImplementedError, "Unknown adapter type '#{adapter_type}'"
+      end
+
+      STATUSES.each do |s|
         status = Status.new(:name => s)
         status.save
         puts "Successfully created #{status.name}!"
