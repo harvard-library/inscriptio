@@ -6,11 +6,11 @@
     <%= f.input :max_reservation_time, :label => "Maximum reservation time in days" %>
     <%= f.input :max_concurrent_users %>
     <%= f.input :slots, :hint => "If max concurrent users is 3 then Slots will be 'A,B,C'" %>
-    <%= f.input :has_code, :label => "Does this asset have an Access Code?" %>
-	<%= f.input :require_moderation, :label => "Does this asset require moderation?" %>
+    <%= f.input :has_code, :label => 'Access Code', :hint => "An Access Code is needed to reserve this type of asset" %>
+	  <%= f.input :require_moderation, :label => 'Requires Moderation', :hint => "An admin must authorize reservations of this type of asset" %>
+    <%= f.input :has_bulletin_board, :lable => 'Bulletin Board', :hint => "This type of asset has a bulletin board" %>
     <%= f.input :welcome_message %>
     <%= f.input :expiration_extension_time, :label => "Expiration extension time in days" %>
-    <%= f.input :has_bulletin_board %>
 	<%= f.input :user_types %>
 
   	<% unless f.object.photo.blank? %>

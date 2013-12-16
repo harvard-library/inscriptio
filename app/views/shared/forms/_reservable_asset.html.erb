@@ -8,7 +8,7 @@
       <%= f.input :reservable_asset_type %>
 	<% end %>
 	<%= f.input :name %>
-	<%= f.input :access_code %>
+	<%= f.input :access_code, :label => 'Access Code', :hint => "Access Code is needed to reserve this asset" %>
 	<%= f.input :description %>
     <%= f.input :min_reservation_time, :label => "Minimum reservation time in days" %>
     <%= f.input :max_reservation_time, :label => "Maximum reservation time in days" %>

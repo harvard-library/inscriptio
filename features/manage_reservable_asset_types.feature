@@ -25,8 +25,9 @@ Feature: Manage Reservable Asset Types
     And I fill in "Expiration extension time in days" with "1"
     And I select "Administrator" from "User types"
     And I attach the file "public/images/rails.png" to "Upload a Photo"
-    And I check "Access Code"
-    And I check "require moderation"
+    #used ids here to work around capybara trouble with input nested in label
+    And I check "Asset Code"
+    And I check "Requires Moderation"
     And I press "Create"
     Then I should see "Carrel"
     And I should see "Widener"
