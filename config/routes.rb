@@ -3,7 +3,7 @@ Inscriptio::Application.routes.draw do
     collection do
       get 'asset_type'
     end
-  end  
+  end
 
   resources :school_affiliations
 
@@ -11,27 +11,27 @@ Inscriptio::Application.routes.draw do
     collection do
       get 'help'
     end
-  end  
+  end
 
   resources :reports
 
   resources :reservation_notices do
     collection do
-      get 'generate_notices'
+      put 'reset_notices'
     end
-  end  
+  end
 
   resources :statuses
 
   devise_for :users
-  
+
   resources :users do
     collection do
       post 'import'
       get 'export'
     end
-  end  
-  
+  end
+
   resources :moderator_flags
 
   resources :posts
@@ -41,7 +41,7 @@ Inscriptio::Application.routes.draw do
   resources :user_types
 
   resources :reservations
-  
+
   resources :search
 
   resources :reservable_assets do
@@ -51,13 +51,13 @@ Inscriptio::Application.routes.draw do
     collection do
       post 'import'
     end
-    
+
   end
 
   resources :reservable_asset_types
 
   resources :call_numbers
-  
+
   resources :subject_areas
 
   resources :libraries do

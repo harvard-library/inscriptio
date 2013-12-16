@@ -22,6 +22,12 @@ class ReservableAssetType < ActiveRecord::Base
   validates_numericality_of :expiration_extension_time, :only_integer => true, :message => "can only be whole number."
   validates_format_of :slots, :with => /^[A-Z]+(,[A-Z]+)*$/, :message => "must be in the format of 'A,B,C'", :if => Proc.new {|this| this.slots != ""}
 
+  after_create :generate_notices
+
+  def generate_notices
+    ReservationNotice.regenerate_notices(self)
+  end
+
   def to_s
     %Q|#{name}|
   end

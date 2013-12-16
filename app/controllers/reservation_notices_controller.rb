@@ -1,10 +1,10 @@
 class ReservationNoticesController < ApplicationController
   before_filter :authenticate_admin!
-  
+
   def index
     @reservation_notices = ReservationNotice.all
     @libraries = Library.all
-    
+
     breadcrumbs.add "Reservation Notices"
   end
 
@@ -19,7 +19,7 @@ class ReservationNoticesController < ApplicationController
   def edit
     @reservation_notice = ReservationNotice.find(params[:id])
   end
-  
+
   def create
     @reservation_notice = ReservationNotice.new
     @reservation_notice.attributes = params[:reservation_notice]
@@ -56,17 +56,11 @@ class ReservationNoticesController < ApplicationController
       end
     end
   end
-  
-  def generate_notices
+
+  def reset_notices
     asset_type = ReservableAssetType.find(params[:asset_type])
-    ReservationNotice.destroy_all(:reservable_asset_type_id => asset_type.id)
-    statuses = Status.all
-    
-    statuses.each do |s|
-      notice = ReservationNotice.new(:library => asset_type.library, :reservable_asset_type => asset_type, :status => s, :subject => s.name, :message => s.name)
-      notice.save
-      puts "Successfully created #{notice.subject}"
-    end    
+    ReservationNotice.regenerate_notices(asset_type)
     redirect_to reservation_notices_path
-  end  
+  end
+
 end

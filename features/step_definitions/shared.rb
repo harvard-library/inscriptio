@@ -137,6 +137,14 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
       visit(edit_reservation_path(@reservation))
     end
 
+  elsif object_type == 'reservation_notice'
+    case page_name
+    when 'index'
+      visit(reservation_notices_path)
+    when 'edit'
+      visit(edit_reservation_notice_path(@reservation_notice))
+    end
+
   elsif object_type == 'user_type'
     case page_name
     when 'index'
@@ -192,6 +200,12 @@ When /^I click the "([^"]*)" link on "([^"]*)"$/ do |link_name, item_name|
   floor = @library.floors.find(:first, :conditions => {:name => item_name})
   within("#floor-#{floor.id}") do
     click_link(link_name)
+  end
+end
+
+When /^I click "([^"]*)" within "([^"])"$/ do |link_name, scope|
+  within(scope) do
+    click_link(find_link("#{link_name}"))
   end
 end
 
