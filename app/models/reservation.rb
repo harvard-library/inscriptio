@@ -6,9 +6,9 @@ class Reservation < ActiveRecord::Base
   belongs_to :status
 
   validates_presence_of :user, :reservable_asset
-  validate :validate_date_span
+  validate :validate_date_span => {:except => [:archive]}
 
-  after_save :post_save_hooks
+  after_save :post_save_hooks, :except => [:archive]
   after_destroy :post_destroy_hooks
 
   scope :archived, joins(:status).where("statuses.name = 'Archived'")
@@ -24,7 +24,6 @@ class Reservation < ActiveRecord::Base
       :subject => notice.subject,
       :body => notice.message
     )
-
   end
 
   def post_destroy_hooks
@@ -37,6 +36,11 @@ class Reservation < ActiveRecord::Base
       :subject => notice.subject + " " + self.reservable_asset.name,
       :body => notice.message
     )
+  end
+
+  def archive
+    self.status_id = Status.find_by_name('Archived').id
+    self.save!
   end
 
   def to_s

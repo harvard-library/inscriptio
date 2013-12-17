@@ -61,41 +61,41 @@ class ReservableAsset < ActiveRecord::Base
   end
 
   def current_users
-    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
-    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
-    self.users.where('reservations.end_date > current_date') && self.users.where('reservations.status_id = ? or reservations.status_id = ?', approved, pending)
+    approved = Status.where("lower(name) = 'approved'").pluck(:id).first
+    pending = Status.where("lower(name) = 'pending'").pluck(:id).first
+    self.users.where('reservations.end_date > current_date').where('reservations.status_id = ? OR reservations.status_id = ?', approved, pending)
   end
 
   def current_reservations
-    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
-    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ? or reservations.status_id = ?', approved, pending)
+    approved = Status.where("lower(name) = 'approved'").pluck(:id).first
+    pending = Status.where("lower(name) = 'pending'").pluck(:id).first
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ? OR reservations.status_id = ?', approved, pending)
   end
 
   def reservations_pending
-    pending = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', pending)
+    pending = Status.where("lower(name) = 'pending'").pluck(:id).first
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', pending)
   end
 
   def reservations_declined
-    declined = Status.find(:first, :conditions => ["lower(name) = 'declined'"])
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', declined)
+    declined = Status.where("lower(name) = 'declined'").pluck(:id).first
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', declined)
   end
 
   def reservations_approved
-    approved = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', approved)
+    approved = Status.where("lower(name) = 'approved'").pluck(:id).first
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', approved)
   end
 
   def reservations_waitlist
-    waitlist = Status.find(:first, :conditions => ["lower(name) = 'waitlist'"])
-    self.reservations.where('reservations.end_date > current_date') && self.reservations.where('reservations.status_id = ?', waitlist)
+    waitlist = Status.where("lower(name) = 'waitlist'").pluck(:id).first
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', waitlist)
   end
 
   def reservations_recently_expired
-    expired = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
+    expired = Status.where("lower(name) = 'expired'").pluck(:id).first
     year = Date.today.prev_month.month == 12 ? Date.today.prev_year.year : Date.today.year
-    self.reservations.where('reservations.status_id = ?', expired) && self.reservations.where('EXTRACT(month from reservations.end_date) = ? and EXTRACT(year from reservations.end_date) = ?', Date.today.prev_month.month, year)
+    self.reservations.where('reservations.status_id = ?', expired).where('EXTRACT(month from reservations.end_date) = ? and EXTRACT(year from reservations.end_date) = ?', Date.today.prev_month.month, year)
   end
 
   def slots_equal_users?
@@ -108,7 +108,7 @@ class ReservableAsset < ActiveRecord::Base
 
   def allow_reservation?(current_user)
     all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
-    current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) and user_id = ?", Status.find(:all, :conditions => ["lower(name) = 'approved' or lower(name) = 'pending'"]).collect{|s| s.id}, current_user.id])
+    current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) and user_id = ?", Status.find(:all, :conditions => ["lower(name) = 'approved' OR lower(name) = 'pending'"]).collect{|s| s.id}, current_user.id])
     if current_user.admin
       true
     elsif self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.include?(current_user.user_type)

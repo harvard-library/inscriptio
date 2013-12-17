@@ -5,11 +5,11 @@
   <% if reservation.expiring? %>
     <li><%= link_to('Renew', edit_reservation_path(reservation, :renew => true)) %></li>
   <% end %>
-  
+
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>
     <li><%= link_to('Edit', edit_reservation_path(reservation), :class => "action-edit") %></li>
   <% end %>
-	<li><%= link_to('Delete', reservation_path(reservation), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete") %></li>
+	<li><%= link_to('Clear', "#{reservation_path(reservation)}/clear", :action => 'clear', :reservation_id => reservation.id, :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :put, :id => "clear-#{reservation.id}", :class => "action-clear") %></li>
   </ul>
   <dl>
 	<% unless !reservation.approved? %>
@@ -42,5 +42,5 @@
       <h3>Bulletin Board</h3>
       <%= link_to "Access Board", bulletin_board_path(reservation.reservable_asset.bulletin_board) %>
     <% end %>
-  
+
 </div>
