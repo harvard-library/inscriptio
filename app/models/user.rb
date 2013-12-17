@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  acts_as_paranoid
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
   # Include default devise modules. Others available are:

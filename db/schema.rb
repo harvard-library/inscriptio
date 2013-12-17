@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131212200318) do
+ActiveRecord::Schema.define(:version => 20131217200224) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(:version => 20131212200318) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slots"
+    t.datetime "deleted_at"
   end
 
   add_index "reservable_assets", ["floor_id"], :name => "index_reservable_assets_on_floor_id"
@@ -201,6 +202,7 @@ ActiveRecord::Schema.define(:version => 20131212200318) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slot"
+    t.datetime "deleted_at"
   end
 
   add_index "reservations", ["reservable_asset_id"], :name => "index_reservations_on_reservable_asset_id"
@@ -253,6 +255,7 @@ ActiveRecord::Schema.define(:version => 20131212200318) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin",                                :default => false
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

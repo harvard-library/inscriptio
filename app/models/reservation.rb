@@ -1,4 +1,5 @@
 class Reservation < ActiveRecord::Base
+  acts_as_paranoid
   attr_accessible :reservable_asset_id, :reservable_asset, :user_id, :user, :status_id, :status, :start_date, :end_date, :tos, :slot
 
   belongs_to :reservable_asset
@@ -36,6 +37,7 @@ class Reservation < ActiveRecord::Base
       :subject => notice.subject + " " + self.reservable_asset.name,
       :body => notice.message
     )
+
   end
 
   def archive
