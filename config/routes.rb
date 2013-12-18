@@ -40,11 +40,8 @@ Inscriptio::Application.routes.draw do
 
   resources :user_types
 
-  resources :reservations do
-    member do
-      match 'clear'
-    end
-  end
+  resources :reservations
+
 
   resources :search
 

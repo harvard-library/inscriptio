@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131217200224) do
+ActiveRecord::Schema.define(:version => 20131218205916) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"

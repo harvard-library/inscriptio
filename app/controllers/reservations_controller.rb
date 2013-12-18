@@ -9,11 +9,11 @@ class ReservationsController < ApplicationController
 
   def index
     if current_user.admin?
-      @reservations = Reservation.active.all
+      @reservations = Reservation.all
     else
-      @pending = Reservation.active.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'pending'"])}, :order => ['created_at DESC'])
-      @active = Reservation.active.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"])}, :order => ['created_at DESC'])
-      @expired = Reservation.active.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])}, :order => ['created_at DESC'])
+      @pending = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'pending'"])}, :order => ['created_at DESC'])
+      @active = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"])}, :order => ['created_at DESC'])
+      @expired = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])}, :order => ['created_at DESC'])
     end
 
     breadcrumbs.add 'Reservations'
@@ -27,7 +27,11 @@ class ReservationsController < ApplicationController
   end
 
   def show
-    @reservation = Reservation.find(params[:id])
+    relation = Reservation
+    relation = relation.with_deleted if current_user.admin?
+    @reservation = relation.find(params[:id])
+
+    @del_or_clear = @reservation.deleted_at ? 'Delete' : 'Clear'
 
     unless current_user.admin? || @reservation.user_id == current_user.id
        redirect_to('/') and return
@@ -35,7 +39,9 @@ class ReservationsController < ApplicationController
   end
 
   def edit
-    @reservation = Reservation.find(params[:id])
+    relation = Reservation
+    relation = relation.with_deleted if current_user.admin?
+    @reservation = relation.find(params[:id])
 
     unless current_user.admin? || @reservation.user_id == current_user.id
        redirect_to('/') and return
@@ -76,22 +82,12 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def clear
-    @reservation = Reservation.find(params[:id])
-    respond_to do |format|
-      if @reservation.archive
-        flash[:notice] = "Reservation of #{@reservation.reservable_asset.name}, slot #{@reservation.slot} for #{@reservation.user.email} cleared."
-        format.html{ redirect_to :reports, :action => :index }
-      else
-        flash[:error] = "Reservation could not be cleared."
-        format.html{ render :action => :index }
-      end
-    end
-  end
-
-
   def destroy
-    @reservation = Reservation.find(params[:id])
+    relation = Reservation
+    relation = relation.with_deleted if current_user.admin?
+    @reservation = relation.find(params[:id])
+
+    @del_or_clear = @reservation.deleted_at ? 'Delete' : 'Clear'
 
     unless current_user.admin? || @reservation.user_id == current_user.id
        redirect_to('/') and return
@@ -99,17 +95,22 @@ class ReservationsController < ApplicationController
 
     reservation = @reservation
     if @reservation.destroy
-      flash[:notice] = %Q|Deleted reservation #{reservation.id}|
+      flash[:notice] = "#{@del_or_clear.sub(/e$/, '')}ed reservation #{reservation.id}"
       if request.referer.match(/#{reservation.id}$/)
         redirect_to ('/')
       else
         redirect_to :back
       end
+    else
+      flash[:error] = "Could not #{@del_or_clear.downcase} reservation #{reservation.id}"
+      redirect_to :back
     end
   end
 
   def update
-    @reservation = Reservation.find(params[:id])
+    relation = Reservation
+    relation = relation.with_deleted if current_user.admin?
+    @reservation = relation.find(params[:id])
 
     unless current_user.admin? || @reservation.user_id == current_user.id
        redirect_to('/') and return

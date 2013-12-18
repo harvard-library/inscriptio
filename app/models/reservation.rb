@@ -12,9 +12,6 @@ class Reservation < ActiveRecord::Base
   after_save :post_save_hooks, :except => [:archive]
   after_destroy :post_destroy_hooks
 
-  scope :archived, joins(:status).where("statuses.name = 'Archived'")
-  scope :active, joins(:status).where("statuses.name <> 'Archived'")
-
   def post_save_hooks
     notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id, :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
     Email.create(

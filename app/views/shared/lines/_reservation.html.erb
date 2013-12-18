@@ -8,8 +8,9 @@
 
   <% if current_user.admin? || reservation.allow_edit?(current_user) %>
     <li><%= link_to('Edit', edit_reservation_path(reservation), :class => "action-edit") %></li>
+    <li><%= link_to(reservation.deleted_at ? 'Delete' : 'Clear', reservation_path(reservation), :confirm => "Are you sure you want to #{reservation.deleted_at ? 'delete' : 'Clear'} this reservation?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete") %></li>
   <% end %>
-	<li><%= link_to('Clear', "#{reservation_path(reservation)}/clear", :action => 'clear', :reservation_id => reservation.id, :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :put, :id => "clear-#{reservation.id}", :class => "action-clear") %></li>
+
   </ul>
   <dl>
 	<% unless !reservation.approved? %>
