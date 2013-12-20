@@ -1,5 +1,5 @@
 class ReservableAsset < ActiveRecord::Base
-  acts_as_paranoid
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible( :floor_id, :reservable_asset_type_id,
                    :name, :description, :location, :access_code, :notes,
                    :x1, :x2, :y1, :y2,

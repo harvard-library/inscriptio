@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  acts_as_paranoid
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
   # Include default devise modules. Others available are:

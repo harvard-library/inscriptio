@@ -1,5 +1,5 @@
 class Reservation < ActiveRecord::Base
-  acts_as_paranoid
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible :reservable_asset_id, :reservable_asset, :user_id, :user, :status_id, :status, :start_date, :end_date, :tos, :slot
 
   belongs_to :reservable_asset
