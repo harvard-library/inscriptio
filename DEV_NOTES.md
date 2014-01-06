@@ -10,7 +10,7 @@ One thing to especially watch out for - [Paranoia](https://github.com/radar/para
 ### pluck_all
 In versions of Rails < 4, `pluck` can only be used on a single column.  Inscriptio uses an initializer located at `ROOT/config/pluck_all.rb` to add a `pluck_all` method to ActiveRecord relations and base classes, to allow convenient memory-efficient operations on multiple columns.
 
-The basic code is taken from [here](http://meltingice.net/2013/06/11/pluck-multiple-columns-rails/), and wrapped in an `ActiveRecord::Concern`
+The basic code is taken from [here](http://meltingice.net/2013/06/11/pluck-multiple-columns-rails/), and wrapped in an `ActiveSupport::Concern`
 
 ## Git Integration
 
