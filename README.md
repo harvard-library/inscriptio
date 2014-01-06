@@ -52,25 +52,7 @@ This populates the instance with some necessary basic items, and creates a cron 
 6. Create asset types
 7. Upload/create assets (for upload you will need floor and asset types ID's)
 8. Add assets to floor map (remember to hit 'Apply' button to save asset on map)
-9. Go to 'Reservation Notices' section and click 'Generate Notices'
-
-## Suggested Step for Developers
-
-A git pre-commit hook is provided whose purpose is to keep those pesky 'console.log' and 'binding.pry' statements  out of the repository.
-
-To install:
-
-```Shell
-  ln -s /path/to/Inscriptio/pre-commit.sh .git/hooks/pre-commit
-```
-
-You can suppress the pre-commit hook by doing:
-
-```Shell
-  git commit --no-verify
-```
-
-... but don't.
+9. Go to 'Reservation Notices' section and alter Notices as desired.
 
 ## Capistrano
 
@@ -85,6 +67,10 @@ Some basic notes:
   ```Shell
   cap qa deploy:rrake T=inscriptio:bootstrap
   ```
+
+## Additional Dev Notes
+
+Additional development notes can be found [here](DEV_NOTES.md)
 
 ## Contributors
 
