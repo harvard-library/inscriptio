@@ -5,18 +5,17 @@ class AddArchivedStatus < ActiveRecord::Migration
   class ReservationNotice < ActiveRecord::Base
   end
 
+  # NOTE: Altered from additional migration - it used to raise unless
+  #       STATUSES included Archived, but this broke migration
   def up
-    if STATUSES.include?('Archived')
-      Rake::Task['inscriptio:bootstrap:default_statuses'].invoke
-      ReservableAssetType.all.each do |rat|
-        ReservationNotice.create(:library_id => rat.library.id,
-                                 :reservable_asset_type_id => rat.id,
-                                 :status_id => Status.find_by_name('Archived').id,
-                                 :subject => 'Archived',
-                                 :message => 'Archived')
-      end
-    else
-      raise "Needs updated status in 'config/initializers/00_inscriptio_init.rb'"
+    STATUSES.push('Archived') unless STATUSES.include?('Archived')
+    Rake::Task['inscriptio:bootstrap:default_statuses'].invoke
+    ReservableAssetType.all.each do |rat|
+      ReservationNotice.create(:library_id => rat.library.id,
+                               :reservable_asset_type_id => rat.id,
+                               :status_id => Status.find_by_name('Archived').id,
+                               :subject => 'Archived',
+                               :message => 'Archived')
     end
   end
 
