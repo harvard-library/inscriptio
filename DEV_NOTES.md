@@ -8,9 +8,11 @@ Inscriptio makes fairly extensive use of [Paranoia](https://github.com/radar/par
 One thing to especially watch out for - [Paranoia](https://github.com/radar/paranoia) uses a default scope to hide soft-deleted records.  I suggest at minimum reading through the readme for [Paranoia](https://github.com/radar/paranoia) before doing any work in models or at the Rails console.
 
 ### pluck_all
-In versions of Rails < 4, `pluck` can only be used on a single column.  Inscriptio uses an initializer located at `ROOT/config/pluck_all.rb` to add a `pluck_all` method to ActiveRecord relations and base classes, to allow convenient memory-efficient operations on multiple columns.
+In versions of Rails < 4, the `pluck` method can only be used on a single column.  Inscriptio uses an initializer located at `ROOT/config/pluck_all.rb` to add a `pluck_all` method to the `ActiveRecord::Relation` and `ActiveRecord::Base` classes, to allow convenient memory-efficient operations on multiple columns.
 
 The basic code is taken from [here](http://meltingice.net/2013/06/11/pluck-multiple-columns-rails/), and wrapped in an `ActiveSupport::Concern`
+
+Documentation for Rails 3.2 API objects and methods can be found here: http://rails.documentation.codyrobbins.com/3.2.13/
 
 ## Git Integration
 
