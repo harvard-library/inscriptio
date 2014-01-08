@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :bulletin_board_id, :user_id, :message, :media
+  attr_accessible :bulletin_board_id, :bulletin_board, :user_id, :user, :message, :media
 
   belongs_to :bulletin_board
   belongs_to :user

@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  
+
   def index
     @posts = Post.all
   end
@@ -11,21 +11,21 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    
+
     breadcrumbs.add 'Bulletin Board', bulletin_board_path(@post.bulletin_board)
     breadcrumbs.add 'Post', @post.id
   end
 
   def edit
     @post = Post.find(params[:id])
-    
+
     unless current_user.admin? || @post.user_id == current_user.id
        redirect_to('/') and return
     end
-    
+
     @bulletin_board = @post.bulletin_board.id
   end
-  
+
   def create
     @post = Post.new
     params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
@@ -44,25 +44,25 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    
+    bb = @post.bulletin_board
     unless current_user.admin? || @post.user_id == current_user.id
        redirect_to('/') and return
     end
-    
+
     post = @post.id
     if @post.destroy
       flash[:notice] = %Q|Deleted post #{post}|
-      redirect_to :action => :index
+      redirect_to bb, :action => :show
     end
   end
 
   def update
     @post = Post.find(params[:id])
-    
+
     unless current_user.admin? || @post.user_id == current_user.id
        redirect_to('/') and return
     end
-    
+
     params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
     params[:post][:user] = User.find(current_user)
     @post.attributes = params[:post]

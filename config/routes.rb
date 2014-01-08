@@ -34,7 +34,7 @@ Inscriptio::Application.routes.draw do
 
   resources :moderator_flags
 
-  resources :posts
+  resources :posts, :except => [:index]
 
   resources :bulletin_boards
 
