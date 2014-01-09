@@ -1,7 +1,7 @@
 require 'csv'
 class ReservableAssetsController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
-  
+
   def index
     @reservable_assets = ReservableAsset.all
     @libraries = Library.all
@@ -14,7 +14,7 @@ class ReservableAssetsController < ApplicationController
 
   def show
     @reservable_asset = ReservableAsset.find(params[:id])
-    
+
     breadcrumbs.add @reservable_asset.floor.library.name, library_path(@reservable_asset.floor.library.id)
     breadcrumbs.add @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library.id,@reservable_asset.floor.id)
     breadcrumbs.add @reservable_asset.name, @reservable_asset.id
@@ -23,13 +23,13 @@ class ReservableAssetsController < ApplicationController
   def edit
     @reservable_asset = ReservableAsset.find(params[:id])
   end
-  
+
   def create
     @reservable_asset = ReservableAsset.new
-  
+
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-      
+
       if @reservable_asset.slots_equal_users?
         if @reservable_asset.save
           if @reservable_asset.reservable_asset_type.has_bulletin_board
@@ -37,7 +37,7 @@ class ReservableAssetsController < ApplicationController
             @bulletin_board.reservable_asset = @reservable_asset
             @bulletin_board.post_lifetime = 30
             @bulletin_board.save!
-          end  
+          end
           flash[:notice] = 'Added that Reservable Asset'
           format.html {render :action => :show}
         else
@@ -46,9 +46,9 @@ class ReservableAssetsController < ApplicationController
         end
       else
         flash[:error] = 'Number of slots does not match number of concurrent users.'
-        format.html {render :action => :new}    
+        format.html {render :action => :new}
       end
-      
+
     end
   end
 
@@ -56,8 +56,13 @@ class ReservableAssetsController < ApplicationController
     @reservable_asset = ReservableAsset.find(params[:id])
     reservable_asset = @reservable_asset.id
     if @reservable_asset.destroy
-      flash[:notice] = %Q|Deleted reservable asset #{reservable_asset}|
-      redirect_to :action => :index
+      respond_to do |format|
+        format.html do
+          flash[:notice] = %Q|Deleted reservable asset #{reservable_asset}|
+          redirect_to reservable_asset_types_url
+        end
+        format.js
+      end
     end
   end
 
@@ -65,7 +70,7 @@ class ReservableAssetsController < ApplicationController
     @reservable_asset = ReservableAsset.find(params[:id])
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
-      
+
       if @reservable_asset.slots_equal_users?
         if @reservable_asset.save
           flash[:notice] = %Q|#{@reservable_asset} updated|
@@ -76,9 +81,9 @@ class ReservableAssetsController < ApplicationController
         end
       else
         flash[:error] = 'Number of slots does not match number of concurrent users.'
-        format.html {render :action => :new}    
+        format.html {render :action => :new}
       end
-      
+
     end
   end
 
@@ -98,16 +103,16 @@ class ReservableAssetsController < ApplicationController
       end
     end
   end
-  
+
   def import
     @file = params[:upload][:datafile] unless params[:upload].blank?
     CSV.parse(@file.read).each do |cell|
 
         floor = Floor.find(cell[0].to_i)
         asset_type = ReservableAssetType.find(cell[1].to_i)
-        
+
         asset={}
-        
+
         asset[:floor] = floor
         asset[:reservable_asset_type] = asset_type
         asset[:name] = cell[2]
@@ -119,11 +124,11 @@ class ReservableAssetsController < ApplicationController
         asset[:slots] = cell[8]
         asset[:access_code] = cell[9]
         asset[:notes] = cell[10]
-        
+
         @reservable_asset = ReservableAsset.new
- 
+
         @reservable_asset.attributes = asset
-    
+
         if @reservable_asset.save
           if @reservable_asset.reservable_asset_type.has_bulletin_board
             @bulletin_board = BulletinBoard.new
@@ -134,5 +139,5 @@ class ReservableAssetsController < ApplicationController
         end
     end
     redirect_to reservable_asset_types_path
-  end  
+  end
 end

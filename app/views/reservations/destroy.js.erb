@@ -1,0 +1,9 @@
+(function () {
+  var sel = '#reservation-' + <%= @reservable_asset.id %>;
+  if ($(sel).siblings('li').length == 0) {
+    $(sel).replaceWith('<li class="empty">No reservations.</li>');
+  }
+  else {
+    $(sel).remove();
+  }
+})()

@@ -1,16 +1,16 @@
-<div class="reservation line" id="reservation-<%= reservation.id %>">
-  <h3><%= link_to("Reservation ID-#{reservation.id}", reservation ) %></h3>
-
+<li class="reservation line" id="reservation-<%= reservation.id %>">
+  ID: <%= link_to("#{reservation.id}", reservation ) %>,
+  User: <%= link_to("#{[reservation.user.first_name, reservation.user.last_name].join(' ')} (#{reservation.user.email})", reservation.user) %>,
+  <%= "from #{reservation.start_date} to #{reservation.end_date}" %>
   <ul class="actions">
-  <% if reservation.expiring? %>
-    <li><%= link_to('Renew', edit_reservation_path(reservation, :renew => true)) %></li>
-  <% end %>
-
-  <% if current_user.admin? || reservation.allow_edit?(current_user) %>
+    <% if current_user.admin? || reservation.allow_edit?(current_user) %>
     <li><%= link_to('Edit', edit_reservation_path(reservation), :class => "action-edit") %></li>
     <li><%= link_to(reservation.deleted_at ? 'Delete' : 'Clear', reservation_path(reservation), :confirm => "Are you sure you want to #{reservation.deleted_at ? 'delete' : 'Clear'} this reservation?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete") %></li>
-  <% end %>
+    <% end %>
+  </ul>
+</li>
 
+<!--
   </ul>
   <dl>
 	<% unless !reservation.approved? %>
@@ -43,5 +43,4 @@
       <h3>Bulletin Board</h3>
       <%= link_to "Access Board", bulletin_board_path(reservation.reservable_asset.bulletin_board) %>
     <% end %>
-
-</div>
+-->

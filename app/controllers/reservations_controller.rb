@@ -93,17 +93,22 @@ class ReservationsController < ApplicationController
        redirect_to('/') and return
     end
 
-    reservation = @reservation
-    if @reservation.destroy
-      flash[:notice] = "#{@del_or_clear.sub(/e$/, '')}ed reservation #{reservation.id}"
-      if request.referer.match(/#{reservation.id}$/)
-        redirect_to ('/')
-      else
-        redirect_to :back
+    respond_to do |format|
+      reservation = @reservation
+      format.html do
+        if @reservation.destroy
+          flash[:notice] = "#{@del_or_clear.sub(/e$/, '')}ed reservation #{reservation.id}"
+          if request.referer.match(/#{reservation.id}$/)
+            redirect_to ('/')
+          else
+            redirect_to :back
+          end
+        else
+          flash[:error] = "Could not #{@del_or_clear.downcase} reservation #{reservation.id}"
+          redirect_to :back
+        end
       end
-    else
-      flash[:error] = "Could not #{@del_or_clear.downcase} reservation #{reservation.id}"
-      redirect_to :back
+      format.js
     end
   end
 

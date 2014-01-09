@@ -13,7 +13,7 @@
 			  <% unless rat.reservable_assets.blank? %>
 			    <% rat.reservable_assets.each do |ra| %>
 				  <% unless ra.reservations_pending.blank? %>
-				    <h3><%= ra.name %></h3>
+				    <h3>Asset: <%= link_to(ra.name, ra) %></h3>
 				    <%= render :partial => 'shared/lines/reservation', :collection => ra.reservations_pending %>
 				  <% end %>
 			    <% end %>
@@ -26,34 +26,6 @@
       <% end %>
     <% end %>
   </div>
-
-	<!-- Available Assets -->
-	<h2 class="collapsible available_reservable_assets">Available Assets</h2>
-	<div class="available_reservable_assets available_reservable_assets-target">
-	  <% unless @libraries.blank? %>
-	    <% @libraries.each do |library| %>
-		  <h2><%= library.name %></h2>
-	      <% unless library.reservable_asset_types.blank? %>
-	        <% library.reservable_asset_types.each do |rat| %>
-			  <h3 class="collapsible asset_type_2"><%= rat.name %></h3>
-			  <ul class="asset_type_2 asset_type_2-target">
-			    <% unless rat.reservable_assets.blank? %>
-			      <% rat.reservable_assets.each do |ra| %>
-					<% if ra.max_concurrent_users > ra.current_users.length %>
-					  <li><%= link_to("#{ra.reservable_asset_type.name}-#{ra.name}", ra ) %></li>
-					<% end %>
-				  <% end %>
-			    <% else %>
-			      <li class="empty">No available assets.</li>
-			    <% end %>
-			  </ul>
-			<% end %>
-	      <% else %>
-	        <h3>No available assets for this library.</h3>
-	      <% end %>
-	    <% end %>
-	  <% end %>
-	</div>
 
 	<!-- Expired Reservations -->
 	<h2 class="collapsible expired_reservations">Recently Expired Reservations - <%= @assets.collect{|a| a.reservations_recently_expired}.flatten.length %></h2>
