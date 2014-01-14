@@ -6,11 +6,8 @@ set :repo_url, 'git@github.com:harvard-library/inscriptio.git'
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-#Change These
-set :user, 'username'
-set :deploy_to, '/path/to/deploy'
-
 set :deploy_via, :copy
+
 set :scm, :git
 
 set :format, :pretty
