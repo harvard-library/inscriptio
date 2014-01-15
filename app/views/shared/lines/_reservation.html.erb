@@ -1,11 +1,14 @@
 <li class="reservation line" id="reservation-<%= reservation.id %>">
-  ID: <%= link_to("#{reservation.id}", reservation ) %>,
+  ID: <%= link_to("#{reservation.id}", (reservation.allow_edit?(current_user) || current_user.admin? ? edit_reservation_path(reservation) : reservation) ) %>,
   User: <%= link_to("#{[reservation.user.first_name, reservation.user.last_name].join(' ')} (#{reservation.user.email})", reservation.user) %>,
   <%= "from #{reservation.start_date} to #{reservation.end_date}" %>
   <ul class="actions">
     <% if current_user.admin? || reservation.allow_edit?(current_user) %>
-    <li><%= link_to('Edit', edit_reservation_path(reservation), :class => "action-edit") %></li>
-    <li><%= link_to(reservation.deleted_at ? 'Delete' : 'Clear', reservation_path(reservation), :confirm => "Are you sure you want to #{reservation.deleted_at ? 'delete' : 'Clear'} this reservation?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete") %></li>
+      <% if reservation.status_id == @statuses['Pending'] %>
+        <li><%= link_to('Approve', approve_reservation_path(reservation), :class => "action-approve", :status_id => @statuses['Approved'], :approve => true, :remote => true, :method => :put) %></li>
+      <% end %>
+
+    <li><%= link_to(reservation.deleted_at ? 'Delete' : 'Clear', reservation_path(reservation), :confirm => "Are you sure you want to #{reservation.deleted_at ? 'delete' : 'Clear'} this reservation?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete", :remote => true) %></li>
     <% end %>
   </ul>
 </li>

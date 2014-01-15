@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
   before_filter :verify_credentials, :only => [:index, :new, :show, :create, :update, :destroy]
   before_filter :process_dates, :only => [:create, :update]
+  before_filter :authenticate_admin!, :only => [:index]
 
   def process_dates
     params[:reservation][:start_date] = Date.strptime(params[:reservation][:start_date], "%m/%d/%Y")
@@ -8,12 +9,29 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    if current_user.admin?
-      @reservations = Reservation.all
-    else
-      @pending = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'pending'"])}, :order => ['created_at DESC'])
-      @active = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'approved'"])}, :order => ['created_at DESC'])
-      @expired = Reservation.find(:all, :conditions => {:user_id => current_user.id, :status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])}, :order => ['created_at DESC'])
+    @statuses = Status.where(:name => ['Pending', 'Expired', 'Approved']).select([:name, :id]).reduce({}) {|acc, el| acc[el.name] = el.id;acc }
+    rel = Library.includes(:reservable_asset_types => {:reservable_assets => {:reservations => [:status, :user]}})
+    rel = rel.where("statuses.id IN (?)", @statuses.values)
+    rel = rel.where('reservations.deleted_at IS NULL')
+    @libraries = rel.order('libraries.id, reservable_asset_types.id, users.email')
+
+    # The output of the following nested reduce is a nested hash of arrays of Reservations,
+    # keyed by [:library_id][:reservable_asset_type_id][:status_name]
+    @reservations = @libraries.reduce({}) do |libs, l|
+      libs[l.id] = l.reservable_asset_types.reduce({}) do |rats, rat|
+        rats[rat.id] = rat.reservable_assets.reduce({}) do |ras, ra|
+          ra.reservations.each do |r|
+            case r.status_id
+            when @statuses['Pending']
+              ras['Pending'] ? ras['Pending'].push(r) : (ras['Pending'] = [r])
+            when @statuses['Expired']
+              ras['Expired'] ? ras['Expired'].push(r) : (ras['Expired'] = [r])
+           when @statuses['Approved']
+              ras['Approved'] ? ras['Approved'].push(r) : (ras['Approved'] = [r])
+            end
+          end;ras
+        end;rats
+      end;libs
     end
 
     breadcrumbs.add 'Reservations'
@@ -143,6 +161,19 @@ class ReservationsController < ApplicationController
         flash[:error] = 'Could not update that Reservation'
         format.html {redirect_to new_reservation_path(:reservable_asset => @reservation.reservable_asset)}
       end
+    end
+  end
+
+  def approve
+    relation = Reservation
+    relation = relation.with_deleted if current_user.admin?
+    @reservation = relation.find(params[:id])
+
+    @reservation.status = Status.find_by_name('Approved')
+    @reservation.save
+
+    respond_to do |format|
+      format.js
     end
   end
 end

@@ -1,0 +1,17 @@
+(function () {
+  var sel = '#reservation-' + <%= @reservation.id %>;
+  var target_ul = $(sel).closest('.rat').find('.approved');
+  var num_to_dec = $(sel).closest('.rat').find('.pending').prev().find('.count');
+  var num_to_inc = target_ul.prev().find('.count');
+
+  num_to_inc.text(parseInt(num_to_inc.text()) + 1);
+  num_to_dec.text(num_to_dec.text() - 1);
+
+  if ($(sel).siblings('li').length == 0) {
+    $(sel).parent().append('<li class="empty">No reservations.</li>');
+  }
+
+  $(sel).detach().appendTo(target_ul);
+  $(sel + ' a.action-approve').parent().remove();
+
+})()

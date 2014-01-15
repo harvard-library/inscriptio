@@ -1,5 +1,5 @@
 (function () {
-  var sel = '#reservation-' + <%= @reservable_asset.id %>;
+  var sel = '#reservation-' + <%= @reservation.id %>;
   if ($(sel).siblings('li').length == 0) {
     $(sel).replaceWith('<li class="empty">No reservations.</li>');
   }

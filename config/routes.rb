@@ -40,7 +40,11 @@ Inscriptio::Application.routes.draw do
 
   resources :user_types
 
-  resources :reservations
+  resources :reservations do
+    member do
+      put 'approve'
+    end
+  end
 
 
   resources :search

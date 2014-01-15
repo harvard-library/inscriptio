@@ -12,6 +12,21 @@ class Reservation < ActiveRecord::Base
   after_save :post_save_hooks, :except => [:archive]
   after_destroy :post_destroy_hooks
 
+  scope :status, ->(s) {
+    rel = joins(:status)
+
+    case s
+    when String
+      rel.where('statuses.name = ?', s)
+    when Symbol
+      rel.where('statuses.name = ?', s.to_s.split('_').map(&:capitalize).join(' '))
+    when Array
+      rel.where('statuses.name IN (?)', s.map {|s| s.to_s.split('_').map(&:capitalize).join(' ')})
+    else
+      raise "I don't understand that as a status or list of statuses"
+    end
+  }
+
   def post_save_hooks
     notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id, :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
     Email.create(
