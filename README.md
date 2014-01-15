@@ -8,9 +8,9 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 
 ### General
 * Ruby 1.9.3 and a bunch of gems included in the Gemfile
-* A postgresql 8.x+ database server.
+* A postgresql 9.x+ database server.
 * A webserver capable of interfacing with Rails applications. Ideally, apache or nginx with mod_passenger installed.
-* Linux or OSX. Linux would be easier.
+* Linux or OSX.
 * ImageMagick
 
 ### Development/Test
@@ -18,7 +18,7 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 
 ## Application Set-up Steps
 
-1. Get code from: https://github.com/berkmancenter/Inscriptio
+1. Get code from: https://github.com/harvard-library/Inscriptio
 2. Run bundle install. You will probably have to install OS-vendor supplied libraries to satisfy some gem install requirements.
 3. Create the database and run rake , modifying "config/database.yml" to suit your environment.
 4. Create a .env file for your environment. Currently, the following variables are needed to run Inscriptio:
