@@ -9,7 +9,11 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @statuses = Status.where(:name => ['Pending', 'Expired', 'Approved']).select([:name, :id]).reduce({}) {|acc, el| acc[el.name] = el.id;acc }
+    @statuses = Status.
+      where(:name => ['Pending', 'Expired', 'Approved']).
+      select([:name, :id]).
+      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
+
     rel = Library.includes(:reservable_asset_types => {:reservable_assets => {:reservations => [:status, :user]}})
     rel = rel.where("statuses.id IN (?)", @statuses.values)
     rel = rel.where('reservations.deleted_at IS NULL')

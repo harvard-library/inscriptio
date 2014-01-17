@@ -1,8 +1,8 @@
 require 'csv'
 
 class UsersController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:edit, :update]
-  
+  before_filter :authenticate_admin!, :except => [:edit, :update, :reservations]
+
   def index
     @users = User.find(:all, :order => ['created_at ASC'])
     breadcrumbs.add 'Users'
@@ -11,11 +11,11 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    
+
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add 'New'
   end
-  
+
   def create
     @user = User.new
     @user.user_type_id = params[:user][:user_type_id]
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     @user.first_name = params[:user][:first_name]
     @user.last_name = params[:user][:last_name]
     params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
-    
+
     respond_to do|format|
       if @user.save
         flash[:notice] = 'Added that User'
@@ -40,18 +40,18 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @reservations = Reservation.find(:all, :conditions => {:user_id => @user.id}, :order => ['created_at DESC'])
-    
+
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
   end
 
   def edit
     @user = User.find(params[:id])
-    
+
     unless current_user.admin? || @user.email == current_user.mail
        redirect_to('/') and return
     end
-     
+
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
     breadcrumbs.add 'Edit'
@@ -59,11 +59,11 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    
+
     unless current_user.admin? || @user.email == current_user.mail
        redirect_to('/') and return
     end
-    
+
     user = @user.email
     if @user.destroy
       flash[:notice] = %Q|Deleted user #{user}|
@@ -75,13 +75,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    
+
     unless current_user.admin? || @user.email == current_user.mail
        redirect_to('/') and return
     end
-    
+
     @user.attributes = params[:user]
-    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false  
+    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|
@@ -92,11 +92,11 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   def import
     @file = params[:upload][:datafile] unless params[:upload].blank?
     CSV.parse(@file.read).each do |cell|
-      @user = User.new  
+      @user = User.new
       user_type = UserType.find(cell[0].to_i)
       school_affiliation = SchoolAffiliation.find(cell[1].to_i)
 
@@ -111,7 +111,7 @@ class UsersController < ApplicationController
     end
     redirect_to users_path
   end
-  
+
   def export
     @users = User.find(:all, :order => ['email ASC'])
     CSV.open("#{RAILS_ROOT}/public/uploads/users.csv", "w") do |csv|
@@ -122,6 +122,16 @@ class UsersController < ApplicationController
     @csv = true
     flash[:notice] = 'Exported!'
     redirect_to users_path(:csv => @csv)
-  end  
+  end
+
+  def reservations
+    @user = User.find(params[:id])
+    @statuses = Status.
+      where(:name => ['Pending', 'Expired', 'Approved']).
+      select([:name, :id]).
+      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
+
+    @reservations = @user.reservations.status([:pending,:approved]).group_by {|r| r.status.name}
+  end
 
 end

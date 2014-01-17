@@ -1,30 +1,24 @@
 <% content_for :header do %>Reservations<% end %>
 <div class="reservations collection-list">
-
-  <% if current_user.admin? %>
-  <h2 class="action-button"><%= link_to('New Reservation', new_reservation_path) %></h2>
-  <% end %>
-
-
   <% @libraries.each do |l| %>
     <div>
       <h2><%= l.name %></h2>
       <div class="lib" id="library-<%= l.id %>">
-      <% l.reservable_asset_types.each do |rat| %>
-        <h3><%= rat.name %></h3>
-        <div class="rat" id="rat-<%= rat.id %>">
-        <% res = @reservations[l.id][rat.id] %>
-        <% ['Pending', 'Expired', 'Approved'].each do |status| %>
-          <% unless res[status].blank? %>
-          <h2 class='collapsible'><%= status %> Reservations <%= raw "(<span class='count'>#{res[status].length}</span>)" %></h2>
-          <ul class="<%= status.downcase %>">
-	          <%= render :partial => 'shared/lines/reservation', :collection => res[status] %>
-          </ul> <!-- end <%= status.downcase %> -->
-          <% end %>
-        <% end %>
-      </div> <!-- END rat-<%= rat.id %> -->
-      <% end %>
-      <!-- END library-<%= l.id %> -->
-  <% end %>
-
+        <% l.reservable_asset_types.each do |rat| %>
+          <h3><%= rat.name %></h3>
+          <div class="rat" id="rat-<%= rat.id %>">
+            <% res = @reservations[l.id][rat.id] %>
+            <% ['Pending', 'Expired', 'Approved'].each do |status| %>
+              <% unless res[status].blank? %>
+                <h2 class='collapsible'><%= status %> Reservations <%= raw "(<span class='count'>#{res[status].length}</span>)" %></h2>
+                <ul class="<%= status.downcase %>">
+	                <%= render :partial => 'shared/lines/reservation', :collection => res[status] %>
+                </ul> <!-- end <%= status.downcase %> -->
+              <% end %>  <!-- END unless -->
+            <% end %> <!-- END [status,...].each -->
+          </div> <!-- END .rat -->
+        <% end %> <!-- END l.reservable_asset_types.each -->
+      </div> <!-- END .lib -->
+    </div>
+  <% end %> <!-- END @libraries.each -->
 </div>

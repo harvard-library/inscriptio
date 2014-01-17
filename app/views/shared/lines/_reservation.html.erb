@@ -1,10 +1,10 @@
 <li class="reservation line" id="reservation-<%= reservation.id %>">
-  ID: <%= link_to("#{reservation.id}", (reservation.allow_edit?(current_user) || current_user.admin? ? edit_reservation_path(reservation) : reservation) ) %>,
-  User: <%= link_to("#{[reservation.user.first_name, reservation.user.last_name].join(' ')} (#{reservation.user.email})", reservation.user) %>,
+  ID: <%= link_to("#{reservation.id}", (reservation.allow_edit?(current_user) || current_user.try(:admin?) ? edit_reservation_path(reservation) : reservation) ) %>,
+  User: <%= link_to("#{[reservation.user.first_name.to_s, reservation.user.last_name.to_s].join(' ')} (#{reservation.user.email.to_s})", reservation.user) %>,
   <%= "from #{reservation.start_date} to #{reservation.end_date}" %>
   <ul class="actions">
-    <% if current_user.admin? || reservation.allow_edit?(current_user) %>
-      <% if reservation.status_id == @statuses['Pending'] %>
+    <% if current_user.try(:admin?) || reservation.allow_edit?(current_user) %>
+      <% if reservation.status_id == @statuses['Pending'] && current_user.try(:admin?) %>
         <li><%= link_to('Approve', approve_reservation_path(reservation), :class => "action-approve", :status_id => @statuses['Approved'], :approve => true, :remote => true, :method => :put) %></li>
       <% end %>
 

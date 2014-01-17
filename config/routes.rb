@@ -26,6 +26,9 @@ Inscriptio::Application.routes.draw do
   devise_for :users
 
   resources :users do
+    member do
+      get 'reservations'
+    end
     collection do
       post 'import'
       get 'export'

@@ -12,6 +12,8 @@ class Reservation < ActiveRecord::Base
   after_save :post_save_hooks, :except => [:archive]
   after_destroy :post_destroy_hooks
 
+  # This scope is meant to allow for easily selecting reservations by
+  # status names, via the usual options of keyword, string, and array of same
   scope :status, ->(s) {
     rel = joins(:status)
 
