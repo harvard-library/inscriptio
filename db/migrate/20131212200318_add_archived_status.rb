@@ -37,7 +37,7 @@ class AddArchivedStatus < ActiveRecord::Migration
       ActiveRecord::Base.connection.execute("DELETE FROM statuses;DELETE FROM sqlite_sequence WHERE name = 'statuses';")
     when :postgresql
       Status.destroy_all
-      ActiveRecord::Base.connection.reset_pk_sequence!('statuses')
+      ActiveRecord::Base.connection.execute("ALTER SEQUENCE statuses_id_seq RESTART WITH 1")
     else
       raise NotImplementedError, "Unknown adapter type '#{adapter_type}'"
     end
