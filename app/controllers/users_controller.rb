@@ -2,6 +2,14 @@ require 'csv'
 
 class UsersController < ApplicationController
   before_filter :authenticate_admin!, :except => [:edit, :update, :reservations]
+  before_filter :fetch_statuses, :only => [:show, :reservations]
+
+  def fetch_statuses
+    @statuses = Status.
+      where(:name => ['Pending', 'Expired', 'Approved']).
+      select([:name, :id]).
+      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
+  end
 
   def index
     @users = User.find(:all, :order => ['created_at ASC'])
@@ -39,7 +47,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @reservations = Reservation.find(:all, :conditions => {:user_id => @user.id}, :order => ['created_at DESC'])
+    @reservations = @user.reservations.order('created_at DESC')
 
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
@@ -80,8 +88,12 @@ class UsersController < ApplicationController
        redirect_to('/') and return
     end
 
-    @user.attributes = params[:user]
-    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    @user.attributes = params[:user].except(:admin)
+
+    if params[:user][:admin]
+      params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    end
+
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|
@@ -126,10 +138,6 @@ class UsersController < ApplicationController
 
   def reservations
     @user = User.find(params[:id])
-    @statuses = Status.
-      where(:name => ['Pending', 'Expired', 'Approved']).
-      select([:name, :id]).
-      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
 
     @reservations = @user.reservations.status([:pending,:approved]).group_by {|r| r.status.name}
   end

@@ -5,9 +5,10 @@
 	<%= f.input :school_affiliation %>
 	<% if current_user.admin? %>
 	  <%= f.input :email %>
+    <%= f.input :password %>
 	  <%= f.input :user_type %>
 	<% end %>
-	<% unless @user == current_user %>
+	<%  if current_user.admin? && @user != current_user %>
 	  <span id='admin_box'><%= f.input :admin %></span>
 	<% end %>
   <% end %>
