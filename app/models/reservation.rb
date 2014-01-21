@@ -54,11 +54,6 @@ class Reservation < ActiveRecord::Base
 
   end
 
-  def archive
-    self.status_id = Status.find_by_name('Archived').id
-    self.save!
-  end
-
   def to_s
     %Q|#{id}|
   end
