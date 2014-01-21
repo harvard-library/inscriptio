@@ -1,1 +1,15 @@
 <% content_for :header do %>Reporting and Stats<% end %>
+<div>
+<h2>Active Carrels in library per time</h2>
+<%= semantic_form_for :active_carrels, :url => url_for(:action => :active_carrels, :format => :csv), :method => :get do |f|%>
+  <%= f.inputs do %>
+    <%= f.input :start_horizon, :as => :string %>
+    <%= f.input :end_horizon, :as => :string %>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, :label => "Download Report" %>
+  <% end %>
+<% end %>
+<script type="text/javascript">
+$(function () {$('#active_carrels_start_horizon, #active_carrels_end_horizon').datepicker();})
+</script>
