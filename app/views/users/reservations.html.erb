@@ -1,11 +1,14 @@
 <% content_for :header do %>My Reservations<% end %>
 <div class="reservations collection-list">
   <% ['Pending', 'Approved'].each do |status| %>
-    <% unless @reservations[status].blank? %>
-      <h2><%= status %> Reservations</h2>
+    <h2><%= status %> Reservations</h2>
       <ul class="<%= status.downcase %>">
-	      <%= render :partial => 'shared/lines/reservation', :collection => @reservations[status] %>
+        <% unless @reservations[status].blank? %>
+	        <%= render :partial => 'shared/lines/reservation', :collection => @reservations[status] %>
+        <% else %>
+          <li>No <%= status.downcase %> reservations.</li>
+        <% end %> <!-- END unless/else -->
       </ul>
-    <% end %> <!-- END unless -->
+
   <% end %> <!-- END each -->
 </div>

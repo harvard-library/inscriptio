@@ -117,8 +117,9 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       reservation = @reservation
+      destroyed = @reservation.destroy
       format.html do
-        if @reservation.destroy
+        if destroyed
           flash[:notice] = "#{@del_or_clear.sub(/e$/, '')}ed reservation #{reservation.id}"
           if request.referer.match(/#{reservation.id}$/)
             redirect_to ('/')
@@ -130,7 +131,11 @@ class ReservationsController < ApplicationController
           redirect_to :back
         end
       end
-      format.js
+      format.js do
+        if not destroyed
+          render :js => "alert('Deletion of Reservation #{@reservation.id} failed');"
+        end
+      end
     end
   end
 
