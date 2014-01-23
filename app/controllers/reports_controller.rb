@@ -8,13 +8,19 @@ class ReportsController < ApplicationController
   end
 
   def active_carrels
-    start_horizon = !params[:active_carrels][:start_horizon].blank? ? Date.strptime(params[:active_carrels][:start_horizon], "%m/%d/%Y") : nil
-    end_horizon = !params[:active_carrels][:end_horizon].blank? ? Date.strptime(params[:active_carrels][:end_horizon], "%m/%d/%Y") : nil
+    begin
+      start_horizon = !params[:active_carrels][:start_horizon].blank? ? Date.strptime(params[:active_carrels][:start_horizon], "%m/%d/%Y") : nil
+      end_horizon = !params[:active_carrels][:end_horizon].blank? ? Date.strptime(params[:active_carrels][:end_horizon], "%m/%d/%Y") : nil
+    rescue ArgumentError => e
+      flash[:error] = "Please make sure your dates are valid, and take the form M/D/Y"
+      redirect_to :back
+      return
+    end
 
     result = Report.active_carrels(start_horizon, end_horizon)
     respond_to do |format|
       format.csv do
-        csv = CSV.generate do |csv|
+        csv = CSV.generate(:encoding => 'utf-8') do |csv|
           result.each do |el|
             csv << el
           end

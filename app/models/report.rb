@@ -35,7 +35,7 @@ class Report
      GROUP BY l_name, rat_name
     SQL
 
-    results.unshift %w(library_name, rat_name, active_carrels_during_period)
+    results.unshift %w(library_name, rat_name, active_carrels)
   end
 
 end
