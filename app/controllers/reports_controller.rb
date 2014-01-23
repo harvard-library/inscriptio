@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-  require 'CSV'
+  require 'csv'
   before_filter :authenticate_admin!
 
   def index
