@@ -1,6 +1,5 @@
-require 'csv'
-
 class UsersController < ApplicationController
+  require 'csv'
   before_filter :authenticate_admin!, :except => [:edit, :update, :reservations]
   before_filter :fetch_statuses, :only => [:show, :reservations]
 

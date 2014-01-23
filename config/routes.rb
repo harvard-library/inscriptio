@@ -13,7 +13,11 @@ Inscriptio::Application.routes.draw do
     end
   end
 
-  resources :reports
+  resources :reports, :only => ['index'] do
+    collection do
+      get 'active-carrels', :to => 'reports#active_carrels'
+    end
+  end
 
   resources :reservation_notices do
     collection do
