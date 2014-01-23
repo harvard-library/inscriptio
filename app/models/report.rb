@@ -3,8 +3,7 @@ class Report
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  def self.active_carrels (start_horizon = nil, end_horizon = nil)
-    # Only bound search if args exist and are datey
+  def self.process_horizons(start_horizon, end_horizon)
     start_end_clause = ''
     if start_horizon.is_a? Date
       start_end_clause += "AND end_date > '#{start_horizon.to_s}'"
@@ -12,6 +11,12 @@ class Report
     if end_horizon.is_a? Date
       start_end_clause += "AND start_date < '#{end_horizon.to_s}'"
     end
+    start_end_clause
+  end
+
+  def self.active_assets (start_horizon = nil, end_horizon = nil)
+    # Only bound search if args exist and are datey
+    start_end_clause = process_horizons(start_horizon, end_horizon)
 
     results = ActiveRecord::Base.connection.query(<<-SQL)
      SELECT l.name AS l_name,
@@ -38,4 +43,25 @@ class Report
     results.unshift %w(library_name, rat_name, active_carrels)
   end
 
+  def self.user_types (start_horizon = nil, end_horizon = nil)
+    # Only bound search if args exist and are datey
+    start_end_clause = process_horizons(start_horizon, end_horizon)
+
+    results = ActiveRecord::Base.connection.query(<<-SQL)
+      SELECT ut.name, l.name, COUNT(u.id)
+      FROM user_types ut, libraries l, reservable_asset_types rat, reservable_assets ra, reservations r, statuses s, users u
+      WHERE l.id = rat.library_id
+        AND rat.id = ra.reservable_asset_type_id
+        AND ra.id = r.reservable_asset_id
+        AND r.status_id = s.id
+        AND s.name IN ('Pending', 'Approved')
+        AND r.user_id = u.id
+        AND ut.id = u.user_type_id
+        #{start_end_clause}
+      GROUP BY ut.name, l.name
+      ORDER BY ut.name, l.name;
+      SQL
+
+    results.unshift %w(user_type l_name active_res)
+  end
 end

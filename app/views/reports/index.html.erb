@@ -1,19 +1,20 @@
 <% content_for :header do %>Reporting and Stats<% end %>
 <div>
-<h2>Active Carrels in library</h2>
-<p>This report shows the number of carrels which were active in the library (optionally between a starting date and ending date).</p>
-<p>This will reflect any reservations that are active during any days between the start date and end date.</p>
-<p>Also note that any slots aren't taken into account - partial occupancy is identical to full occupancy.</p>
-<%= semantic_form_for :active_carrels, :url => url_for(:action => :active_carrels, :format => :csv), :method => :get do |f|%>
-  <%= f.inputs do %>
-    <%= f.input :start_horizon, :label => "Start date:", :as => :string, :required => false, :input_html => {:size => 11, :maxlength => 10, :placeholder => 'MM/DD/YYYY'} %>
-    <%= f.input :end_horizon, :label => "End date:", :as => :string, :required => false, :input_html => {:size => 11, :maxlength => 10, :placeholder => 'MM/DD/YYYY'} %>
-  <% end %>
-  <%= f.actions do %>
-    <%= f.action :submit, :label => "Download Report" %>
+  <% @reports.keys.sort.each do |action| %>
+  <h2><%= @reports[action][:header] %></h2>
+  <p><%= @reports[action][:description] %></p>
+  <%= semantic_form_for action, :url => url_for(:action => action, :format => :csv), :method => :get do |f|%>
+    <%= f.inputs do %>
+      <%= f.input :start_horizon, :label => "Start date:", :as => :string, :required => false, :input_html => {:class => 'horizon', :size => 11, :maxlength => 10, :placeholder => 'MM/DD/YYYY'} %>
+      <%= f.input :end_horizon, :label => "End date:", :as => :string, :required => false, :input_html => {:class => 'horizon', :size => 11, :maxlength => 10, :placeholder => 'MM/DD/YYYY'} %>
+    <% end %>
+    <%= f.actions do %>
+      <%= f.action :submit, :label => "Download Report" %>
+    <% end %>
   <% end %>
 <% end %>
+
 <script type="text/javascript">
-$(function () {$('#active_carrels_start_horizon, #active_carrels_end_horizon').datepicker();})
+$(function () {$('.horizon').datepicker();})
 </script>
 </div>

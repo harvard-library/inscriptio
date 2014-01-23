@@ -15,7 +15,8 @@ Inscriptio::Application.routes.draw do
 
   resources :reports, :only => ['index'] do
     collection do
-      get 'active-carrels', :to => 'reports#active_carrels'
+      get 'active-assets', :to => 'reports#active_assets'
+      get 'user-types', :to => 'reports#user_types'
     end
   end
 
