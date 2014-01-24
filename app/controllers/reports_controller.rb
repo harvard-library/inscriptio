@@ -1,14 +1,16 @@
 class ReportsController < ApplicationController
   require 'csv'
 
+  # The structure here is REPORTS[:action] = {:header => "...", :description => "..."}
+  # Used in this controller for building actions and in the view for display.
   REPORTS = {
     :active_assets => {
       :header => "Active Assets Per Library",
-      :description => "This report shows the number of reservable assets which were active in the libraries (optionally between a starting date and ending date). This will reflect any reservations that are active during any days between the start date and end date. Also note that any slots aren't taken into account - partial occupancy is identical to full occupancy."
+      :description => "This report shows the number of reservable assets which were active in the libraries (optionally between a starting date and ending date). This will reflect any reservations that are active during any days between the start date and end date. Assets are counted as active if they have any occupied slots."
     },
     :user_types => {
-      :header => "Carrel Reservations per User Type, Library",
-      :description => " This report shows the number of users of each type that have carrels reserved in each library (optionally between a starting and ending date).",
+      :header => "Asset Reservations per User Type, Library",
+      :description => " This report shows the number of users of each type that have assets reserved in each library (optionally between a starting and ending date).",
     }
   }
 
@@ -32,6 +34,7 @@ class ReportsController < ApplicationController
     breadcrumbs.add 'Reports'
   end
 
+  # Build each action from REPORTS
   REPORTS.keys.each do |report|
     define_method(report) do
       result = Report.send(report, @start_horizon, @end_horizon)
