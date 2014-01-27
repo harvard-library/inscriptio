@@ -2,5 +2,6 @@
 *= require_self
 *= require jquery.ui.resizable
 *= require jquery.ui.datepicker
+*= require jquery.ui.autocomplete
 *= require_tree .
 */

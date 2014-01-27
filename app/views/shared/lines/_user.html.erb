@@ -1,5 +1,6 @@
 <li class="user line" id="user-<%= user.id %>">
-  <%= link_to(user.email, user ) %>
+  <% display_name = "#{user.try(:first_name) ? user.first_name : ''} #{user.try(:last_name) ? user.last_name : ''}".strip %>
+  <%= link_to("#{display_name} (#{user.email})", user ) %>
 
   <% if current_user.admin? %>
 	<ul class="actions">

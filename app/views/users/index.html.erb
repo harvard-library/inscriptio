@@ -5,52 +5,46 @@
     <% unless @csv.nil? %>
   	  <h4><%= link_to "Download CSV", "/uploads/users.csv" %></h4>
     <% end %>
-  <% end %>
+    <h2 class="collapsible user_upload">Batch Upload</h2>
 
+    <div class="user_upload user_upload-target">
+
+      <h3>Import Users via CSV</h3>
+
+      <p>Use the form below to import choices via a CSV (comma separated value) file. All 6 fields must be present even if they are left blank.
+      Do not use column headings or quotes around text in any field. Each row will be separated by a new line or carriage return.</p>
+      <p>These are the fields to be populated:
+	      <ul>
+		      <li>user type id</li>
+		      <li>school_affiliation id</li>
+		      <li>email</li>
+		      <li>first_name</li>
+		      <li>last_name</li>
+	      </ul>
+	      Note: The password will be automatically generated and sent via email to the user.</p>
+
+      <p><b><i>Format example:</i></b><br />
+
+        <code>
+          2,1,undergrad@email.com,Joe,Schmo<br />
+          4,2,faculty@email.com,Jane,Smith<br />
+          3,1,graduate@email.com,Alex,Clark<br />
+          1,1,user@email.com,Dan,Johnson<br />
+        </code>
+
+      </p>
+      <%= form_tag import_users_path, :multipart => true do -%>
+      <%= file_field 'upload', 'datafile' %>
+      <%= submit_tag "Upload", :disable_with => 'Uploading...' %>
+      <% end %>
+    </div>
+
+  <% end %>
   <% unless @users.blank? %>
+  <h2 id='users-header'>Users</h2>
   <ul class="users collection-list">
 	<%= render :partial => 'shared/lines/user', :collection => @users %>
   </ul>
   <% else %>
 	<h2>No users yet.</h2>
   <% end %>
-
-
-<h2 class="collapsible user_upload">Batch Upload</h2>
-
-<div class="user_upload user_upload-target">
-
-    <h3>Import Users via CSV</h3>
-
-    <p>
-      Use the form below to import choices via a CSV (comma separated value) file. All 6 fields must be present even if they are left blank.
-      Do not use column headings or quotes around text in any field. Each row will be separated by a new line or carriage return.
-    </p>
-    <p>
-      These are the fields to be populated:
-	  <ul>
-		<li>user type id</li>
-		<li>school_affiliation id</li>
-		<li>email</li>
-		<li>first_name</li>
-		<li>last_name</li>
-	  </ul>
-	  Note: The password will be automatically generated and sent via email to the user.
-    </p>
-
-  <p>
-    <b><i>Format example:</i></b><br />
-
-    <code>
-      2,1,undergrad@email.com,Joe,Schmo<br />
-      4,2,faculty@email.com,Jane,Smith<br />
-      3,1,graduate@email.com,Alex,Clark<br />
-      1,1,user@email.com,Dan,Johnson<br />
-    </code>
-
-</p>
-  <%= form_tag import_users_path, :multipart => true do -%>
-    <%= file_field 'upload', 'datafile' %></p>
-	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
-  <% end -%>
-</div>
