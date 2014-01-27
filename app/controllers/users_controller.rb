@@ -67,16 +67,23 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
 
-    unless current_user.admin? || @user.email == current_user.mail
+    unless current_user.admin? || @user.email == current_user.email
        redirect_to('/') and return
     end
 
     user = @user.email
-    if @user.destroy
-      flash[:notice] = %Q|Deleted user #{user}|
-      redirect_to :action => :index
-    else
+    respond_to do |format|
 
+      if @user.destroy
+        format.html do
+          flash[:notice] = %Q|Deleted user #{user}|
+          redirect_to :action => :index
+        end
+        format.js
+      else
+        flash[:notice] = %Q|Failed to delete user #{user}|
+        redirect_to :action => :index
+      end
     end
   end
 

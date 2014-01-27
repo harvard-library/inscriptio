@@ -1,0 +1,9 @@
+(function () {
+  var sel = '#user-' + <%= @user.id %>;
+  if ($(sel).siblings('li').length == 0) {
+    $(sel).replaceWith('<li class="empty">No users.</li>');
+  }
+  else {
+    $(sel).remove();
+  }
+})()

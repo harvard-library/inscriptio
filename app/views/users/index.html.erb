@@ -1,7 +1,4 @@
 <% content_for :header do %>Users<% end %>
-
-<div class="users collection-list">
-
   <% if current_user.admin? %>
     <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2>
     <h3><%= link_to('Export Users to CSV', export_users_path) %></h3>
@@ -11,11 +8,13 @@
   <% end %>
 
   <% unless @users.blank? %>
+  <ul class="users collection-list">
 	<%= render :partial => 'shared/lines/user', :collection => @users %>
+  </ul>
   <% else %>
 	<h2>No users yet.</h2>
   <% end %>
-</div>
+
 
 <h2 class="collapsible user_upload">Batch Upload</h2>
 

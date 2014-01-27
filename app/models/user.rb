@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :reservable_assets, :through => :reservations
   has_many :posts, :dependent => :destroy
   has_many :moderator_flags, :dependent => :destroy
-  has_many :emails, :dependent => :destroy
+  has_many :emails, :primary_key => :email, :foreign_key => :to, :dependent => :destroy
 #  has_one :authentication_source, :through => :user_type
 
   validates_presence_of :email
