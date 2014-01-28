@@ -14,13 +14,18 @@ $(function () {
     var tokens = s.split(/\s+/);
     var len = tokens.length;
     while (len--) {
+      tokens[len] = tokens[len].replace(/([.+$?^{}|~])/g, '\\$1').replace(/\*/g, '.*?')
       tokens[len] = '(?=.*' + tokens[len] + ')';
     }
     return new RegExp('^' + tokens.join(''), 'i');
   };
 
   /* Build necessary DOM elements */
-  $users_list.prev().after('<label for="user-filter">Filter: </label><input type="text" id="user-filter" placeholder="case insensitive ANDed search" style="max-width:50%;width: 100%" />');
+  $users_list.prev().after(
+    '<label for="user-filter">Filter: </label>' +
+    '<input type="text" id="user-filter"' +
+      'placeholder="Case-insensitive, ANDed search"style="max-width:50%;width: 100%" />');
+
   $('#user-filter').on('input propertychange', function (e) {
     /* Timeout prevents callback from bogging down user input */
     if (TO_filter) {
