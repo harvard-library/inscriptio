@@ -35,10 +35,10 @@ Feature: Manage Reservation
 	    And I press "Update Reservation"
 	    Then I should see "Reservation updated"
 
-	Scenario: Delete a reservation
+	Scenario: Clear a reservation
     Given a library named "Widener"
 		And a library_floor named "Floor 1"
     And a logged in user of type "admin"
     And I am on the reservation "show" page for "9001"
     When I click ".action-delete"
-    Then I should see "Deleted reservation 9001"
+    Then I should see "Cleared reservation 9001"

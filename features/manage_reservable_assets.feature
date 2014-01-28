@@ -17,7 +17,7 @@ Feature: Manage Reservable Asset
     When I select "Floor 1" from "Floor"
     And I select "Carrel" from "Reservable asset type"
     And I fill in "Name" with "CAR-EL-ANNE"
-    And I fill in "Access code" with "8675309"
+    And I fill in "Access Code" with "8675309"
     And I fill in "Location" with "Floating above the others"
     And I fill in "Notes" with "Passing notes is forbidden"
 		And I attach the file "public/images/rails.png" to "Upload a Photo"

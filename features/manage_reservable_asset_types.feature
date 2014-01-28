@@ -26,7 +26,7 @@ Feature: Manage Reservable Asset Types
     And I select "Administrator" from "User types"
     And I attach the file "public/images/rails.png" to "Upload a Photo"
     #used ids here to work around capybara trouble with input nested in label
-    And I check "Asset Code"
+    And I check "Access Code"
     And I check "Requires Moderation"
     And I press "Create"
     Then I should see "Carrel"
