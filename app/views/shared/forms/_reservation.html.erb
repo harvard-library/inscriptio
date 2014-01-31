@@ -4,7 +4,7 @@
 	  Note: Minimum reservation time is <%= @min_time %> days and maximum reservation time is <%= @max_time %>.
 	  <br /><br />
 	  <%= f.input :reservable_asset_id, :as => :hidden, :input_html => {:value => @reservable_asset} %>
-	  Chosen Asset: <%= ReservableAsset.find(@reservable_asset).reservable_asset_type.name %> <%= ReservableAsset.find(@reservable_asset).name %>
+	  Chosen Asset: <%= @reservable_asset.reservable_asset_type.name %> <%= @reservable_asset.name %>
 	  <br /><br />
 	  <% if current_user.admin? %>
 	    <% if @reservation.start_date.nil? %>
@@ -32,10 +32,10 @@
 	  <% end %>
 	  <br />
 	  <% if current_user.admin? %>
-      <%= f.input :user %>
+      <%= f.input :user, :as => :select, :collection => User.can_reserve(@reservable_asset.reservable_asset_type.id) %>
       <%= f.input :status, :include_blank => false %>
 	  <% end %>
-    You must agree to the library's Terms of Service before you can make your reservation. <%= raw ReservableAsset.find(@reservable_asset).reservable_asset_type.library.tos %>
+    You must agree to the library's Terms of Service before you can make your reservation. <%= raw @reservable_asset.reservable_asset_type.library.tos %>
 	  <br /><br />
 
     <%= f.input :tos, :label => "Agree to Terms of Service?" %>
