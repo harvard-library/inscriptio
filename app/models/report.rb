@@ -6,10 +6,10 @@ class Report
   def self.process_horizons(start_horizon, end_horizon)
     start_end_clause = ''
     if start_horizon.is_a? Date
-      start_end_clause += "AND end_date > '#{start_horizon.to_s}'"
+      start_end_clause += "AND end_date >= '#{start_horizon.to_s}'"
     end
     if end_horizon.is_a? Date
-      start_end_clause += "AND start_date < '#{end_horizon.to_s}'"
+      start_end_clause += "AND start_date <= '#{end_horizon.to_s}'"
     end
     start_end_clause
   end
