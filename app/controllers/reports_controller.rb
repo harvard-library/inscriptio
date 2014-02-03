@@ -6,11 +6,11 @@ class ReportsController < ApplicationController
   REPORTS = {
     :active_assets => {
       :header => "Active Assets Per Library",
-      :description => "This report shows the number of reservable assets which were active in the libraries (optionally between a starting date and ending date). This will reflect any reservations that are active during any days between the start date and end date. Assets are counted as active if they have any occupied slots."
+      :description => "This report shows the number of reservable assets which were active in the libraries (optionally between a starting date and ending date). This will reflect any reservations that are active during any days between the start date and end date, exclusive. Assets are counted as active if they have any occupied slots."
     },
     :user_types => {
       :header => "Asset Reservations per User Type, Library",
-      :description => " This report shows the number of users of each type that have assets reserved in each library (optionally between a starting and ending date).",
+      :description => " This report shows the number of users of each type that have assets reserved in each library (optionally between a starting and ending date, exclusive).",
     }
   }
 
