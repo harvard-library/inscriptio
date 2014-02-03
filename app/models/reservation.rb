@@ -10,7 +10,6 @@ class Reservation < ActiveRecord::Base
   validate :validate_date_span
 
   after_save :post_save_hooks
-  after_destroy :post_destroy_hooks
 
   # This scope is meant to allow for easily selecting reservations by
   # status names, via the usual options of keyword, string, and array of same
@@ -39,19 +38,6 @@ class Reservation < ActiveRecord::Base
       :subject => notice.subject,
       :body => notice.message
     )
-  end
-
-  def post_destroy_hooks
-    notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'cancelled'"]), :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
-    Email.create(
-      :from => self.reservable_asset.reservable_asset_type.library.from,
-      :reply_to => self.reservable_asset.reservable_asset_type.library.from,
-      :to => self.user.email,
-      :bcc => self.reservable_asset.reservable_asset_type.library.bcc,
-      :subject => notice.subject + " " + self.reservable_asset.name,
-      :body => notice.message
-    )
-
   end
 
   def to_s
