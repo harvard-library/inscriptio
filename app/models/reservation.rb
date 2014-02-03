@@ -7,9 +7,9 @@ class Reservation < ActiveRecord::Base
   belongs_to :status
 
   validates_presence_of :user, :reservable_asset
-  validate :validate_date_span => {:except => [:archive]}
+  validate :validate_date_span
 
-  after_save :post_save_hooks, :except => [:archive]
+  after_save :post_save_hooks
   after_destroy :post_destroy_hooks
 
   # This scope is meant to allow for easily selecting reservations by
