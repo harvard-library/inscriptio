@@ -162,7 +162,7 @@ namespace :inscriptio do
 
       per_min_time = "*/5 * * * *"
       per_diem_time = "0 12 * * *"
-      preamble = "cd #{ENV['RAKE_ROOT'] || Rails.root} && #{`which rvm`.chomp} default do bundle ec #{`which rake`.chomp} inscriptio:cron_task:"
+      preamble = "cd #{ENV['RAKE_ROOT'] || Rails.root} && #{`which rvm`.chomp} default do bundle exec #{`which rake`.chomp} inscriptio:cron_task:"
       env = "RAILS_ENV=#{ENV['RAILS_ENV']}"
 
       @per_minutes.each do |pm|
