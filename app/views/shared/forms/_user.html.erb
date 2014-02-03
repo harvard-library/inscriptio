@@ -5,7 +5,7 @@
 	<%= f.input :school_affiliation %>
 	<% if current_user.admin? %>
 	  <%= f.input :email %>
-    <%= f.input :password %>
+    <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => 'Leave password blank for no change' %>
 	  <%= f.input :user_type %>
 	<% end %>
 	<%  if current_user.admin? && @user != current_user %>

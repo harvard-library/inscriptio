@@ -94,10 +94,14 @@ class UsersController < ApplicationController
        redirect_to('/') and return
     end
 
-    @user.attributes = params[:user].except(:admin)
+    @user.attributes = params[:user].except(:admin,:password)
 
     if params[:user][:admin]
       params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    end
+
+    if params[:user][:password] && !params[:user][:password].blank?
+      @user.password = params[:user][:password]
     end
 
     respond_to do|format|
