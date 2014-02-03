@@ -3,6 +3,8 @@ namespace :inscriptio do
     desc "Add the default admin"
     task :default_admin => :environment do
       user = User.new(:email => 'admin@example.com')
+      user.first_name = ''
+      user.last_name = ''
       if %w[development test dev local].include?(Rails.env)
         user.password = User.random_password(size = 6)
       else
@@ -69,7 +71,8 @@ namespace :inscriptio do
   end
 
   namespace :cron_task do
-    @cron_tasks = [:send_expiration_notices, :send_expired_notices, :send_queued_emails, :delete_posts]
+    @per_minutes = [:send_expiration_notices, :send_queued_emails, :delete_posts]
+    @per_diems = [:expire_reservations_send_notices]
     desc "Send scheduled emails daily"
     task :send_expiration_notices => :environment do
       @reservations = Array.new
@@ -92,7 +95,7 @@ namespace :inscriptio do
     end
 
     desc "Sets expired status on reservations and generates an email."
-    task :send_expired_notices => :environment do
+    task :expire_reservations_send_notices => :environment do
       @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date <= current_date', Status.find(:first, :conditions => ["lower(name) = 'approved'"])])
       notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])})
       @reservations.each do |reservation|
@@ -147,7 +150,7 @@ namespace :inscriptio do
     end
 
     desc "run all tasks in cron_task"
-    task :run_all => @cron_tasks do
+    task :run_all => @per_minutes do
       puts "Sent all notices and deleted old bulletin board posts!"
     end
 
@@ -155,9 +158,20 @@ namespace :inscriptio do
     task :setup_crontab do
       tmp = Tempfile.new('crontab')
       tmp.write `crontab -l`.sub(/^[^\n#]*#INSCRIPTIO_AUTO_CRON_BEGIN.*#INSCRIPTIO_AUTO_CRON_END\n?/m, '')
-      tmp.write "#INSCRIPTIO_AUTO_CRON_BEGIN
-*/5 * * * * cd #{ENV['RAKE_ROOT'] || Rails.root} && #{`which rvm`.chomp} default do bundle exec #{`which rake`.chomp} inscriptio:cron_task:run_all RAILS_ENV=#{ENV['RAILS_ENV']}
-#INSCRIPTIO_AUTO_CRON_END\n"
+      tmp.write "#INSCRIPTIO_AUTO_CRON_BEGIN\n"
+
+      per_min_time = "*/5 * * * *"
+      per_diem_time = "0 12 * * *"
+      preamble = "cd #{ENV['RAKE_ROOT'] || Rails.root} && #{`which rvm`.chomp} default do bundle ec #{`which rake`.chomp} inscriptio:cron_task:"
+      env = "RAILS_ENV=#{ENV['RAILS_ENV']}"
+
+      @per_minutes.each do |pm|
+        tmp.write "#{per_min_time} #{preamble}#{pm.to_s} #{env}\n"
+      end
+      @per_diems.each do |pm|
+        tmp.write "#{per_diem_time} #{preamble}#{pm.to_s} #{env}\n"
+      end
+      tmp.write "#INSCRIPTIO_AUTO_CRON_END\n"
       tmp.close
       success = system 'crontab', tmp.path
       puts 'Crontab added' if success
