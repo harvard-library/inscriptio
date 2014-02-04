@@ -62,41 +62,32 @@ class ReservableAsset < ActiveRecord::Base
   end
 
   def current_users
-    approved = Status.where("lower(name) = 'approved'").pluck(:id).first
-    pending = Status.where("lower(name) = 'pending'").pluck(:id).first
-    self.users.where('reservations.end_date > current_date').where('reservations.status_id = ? OR reservations.status_id = ?', approved, pending)
+    self.users.where('reservations.end_date > current_date').status(Status::ACTIVE_IDS)
   end
 
   def current_reservations
-    approved = Status.where("lower(name) = 'approved'").pluck(:id).first
-    pending = Status.where("lower(name) = 'pending'").pluck(:id).first
-    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ? OR reservations.status_id = ?', approved, pending)
+    self.reservations.where('reservations.end_date > current_date').status(Status::ACTIVE_IDS)
   end
 
   def reservations_pending
-    pending = Status.where("lower(name) = 'pending'").pluck(:id).first
-    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', pending)
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', Status[:pending])
   end
 
   def reservations_declined
-    declined = Status.where("lower(name) = 'declined'").pluck(:id).first
-    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', declined)
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', Status[:declined])
   end
 
   def reservations_approved
-    approved = Status.where("lower(name) = 'approved'").pluck(:id).first
-    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', approved)
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', Status[:approved])
   end
 
   def reservations_waitlist
-    waitlist = Status.where("lower(name) = 'waitlist'").pluck(:id).first
-    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', waitlist)
+    self.reservations.where('reservations.end_date > current_date').where('reservations.status_id = ?', Status[:waitlist])
   end
 
   def reservations_recently_expired
-    expired = Status.where("lower(name) = 'expired'").pluck(:id).first
     year = Date.today.prev_month.month == 12 ? Date.today.prev_year.year : Date.today.year
-    self.reservations.where('reservations.status_id = ?', expired).where('EXTRACT(month from reservations.end_date) = ? and EXTRACT(year from reservations.end_date) = ?', Date.today.prev_month.month, year)
+    self.reservations.where('reservations.status_id = ?', Status[:expired]).where('EXTRACT(month from reservations.end_date) = ? and EXTRACT(year from reservations.end_date) = ?', Date.today.prev_month.month, year)
   end
 
   def slots_equal_users?
@@ -109,7 +100,7 @@ class ReservableAsset < ActiveRecord::Base
 
   def allow_reservation?(current_user)
     all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
-    current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) and user_id = ?", Status.find(:all, :conditions => ["lower(name) = 'approved' OR lower(name) = 'pending'"]).collect{|s| s.id}, current_user.id])
+    current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) AND user_id = ?", Status::ACTIVE_IDS, current_user.id])
     if current_user.admin
       true
     elsif self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.include?(current_user.user_type)
@@ -118,11 +109,11 @@ class ReservableAsset < ActiveRecord::Base
       elsif all_current.include?(current_user) && current_user_reservation.expiring?
         true
       else
-        p "has a current reservation and not current expiring"
+        raise "has a current reservation and not current expiring"
         false
       end
     else
-      p "not admin or asset is full or not the right user type"
+      raise "not admin or asset is full or not the right user type"
       false
     end
   end

@@ -26,8 +26,6 @@ Inscriptio::Application.routes.draw do
     end
   end
 
-  resources :statuses
-
   devise_for :users
 
   resources :users do

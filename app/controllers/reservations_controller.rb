@@ -9,13 +9,8 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @statuses = Status.
-      where(:name => ['Pending', 'Expired', 'Approved']).
-      select([:name, :id]).
-      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
-
-    rel = Library.includes(:reservable_asset_types => {:reservable_assets => {:reservations => [:status, :user]}})
-    rel = rel.where("statuses.id IN (?)", @statuses.values)
+    rel = Library.includes(:reservable_asset_types => {:reservable_assets => {:reservations => :user}})
+    rel = rel.where("status_id IN (?)", Status[:pending, :expired, :approved, :expiring])
     rel = rel.where('reservations.deleted_at IS NULL')
     @libraries = rel.order('libraries.id, reservable_asset_types.id, users.email')
 
@@ -26,11 +21,11 @@ class ReservationsController < ApplicationController
         rats[rat.id] = rat.reservable_assets.reduce({}) do |ras, ra|
           ra.reservations.each do |r|
             case r.status_id
-            when @statuses['Pending']
+            when Status[:pending]
               ras['Pending'] ? ras['Pending'].push(r) : (ras['Pending'] = [r])
-            when @statuses['Expired']
+            when Status[:expired]
               ras['Expired'] ? ras['Expired'].push(r) : (ras['Expired'] = [r])
-           when @statuses['Approved']
+            when Status[:approved], Status[:expiring]
               ras['Approved'] ? ras['Approved'].push(r) : (ras['Approved'] = [r])
             end
           end;ras
@@ -84,9 +79,9 @@ class ReservationsController < ApplicationController
 
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
-        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+        params[:reservation][:status_id] = Status[:pending]
       else
-        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+        params[:reservation][:status_id] = Status[:approved]
       end
     end
 
@@ -148,16 +143,15 @@ class ReservationsController < ApplicationController
        redirect_to('/') and return
     end
 
-    prev_status = @reservation.status
     params[:reservation][:reservable_asset] = @reservation.reservable_asset
 
     current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
 
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
-        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'pending'"])
+        params[:reservation][:status_id] = Status[:pending]
       else
-        params[:reservation][:status] = Status.find(:first, :conditions => ["lower(name) = 'approved'"])
+        params[:reservation][:status_id] = Status[:approved]
       end
     end
 
@@ -178,7 +172,7 @@ class ReservationsController < ApplicationController
     relation = relation.with_deleted if current_user.admin?
     @reservation = relation.find(params[:id])
 
-    @reservation.status = Status.find_by_name('Approved')
+    @reservation.status_id = Status[:approved]
     @reservation.save
 
     respond_to do |format|

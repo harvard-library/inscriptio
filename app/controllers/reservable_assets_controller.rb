@@ -1,14 +1,6 @@
 require 'csv'
 class ReservableAssetsController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
-  before_filter :setup_statuses, :only => [:show, :update]
-
-  def setup_statuses
-    @statuses = Status.
-      where(:name => ['Pending', 'Expired', 'Approved']).
-      select([:name, :id]).
-      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
-  end
 
   def index
     @reservable_assets = ReservableAsset.all

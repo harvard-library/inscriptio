@@ -4,10 +4,7 @@ class UsersController < ApplicationController
   before_filter :fetch_statuses, :only => [:show, :reservations]
 
   def fetch_statuses
-    @statuses = Status.
-      where(:name => ['Pending', 'Expired', 'Approved']).
-      select([:name, :id]).
-      reduce({}) {|statuses, s| statuses[s.name] = s.id; statuses }
+    @statuses = Status.to_hash.select {|k| %w(Pending Expired Approved).include? k}
   end
 
   def index

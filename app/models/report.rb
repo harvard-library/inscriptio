@@ -18,6 +18,9 @@ class Report
     # Only bound search if args exist and are datey
     start_end_clause = process_horizons(start_horizon, end_horizon)
 
+    # Stringify list of statuses
+    active_statuses = Status::ACTIVE_IDS.join(', ')
+
     results = ActiveRecord::Base.connection.query(<<-SQL)
      SELECT l.name AS l_name,
        rat.name AS rat_name,
@@ -29,11 +32,10 @@ class Report
        ON rat.id = ra.reservable_asset_type_id
      JOIN (SELECT reservable_assets.id,
                   count(reservations.id) AS num_res
-           FROM reservable_assets, reservations, statuses
+           FROM reservable_assets, reservations
            WHERE reservable_assets.id = reservations.reservable_asset_id
              AND reservations.deleted_at IS NULL
-             AND reservations.status_id = statuses.id
-             AND statuses.name IN ('Pending', 'Approved')
+             AND reservations.status_id IN (#{active_statuses})
              #{start_end_clause}
            GROUP BY reservable_assets.id) r
        ON ra.id = r.id WHERE num_res > 0
@@ -49,12 +51,11 @@ class Report
 
     results = ActiveRecord::Base.connection.query(<<-SQL)
       SELECT ut.name, l.name, COUNT(u.id)
-      FROM user_types ut, libraries l, reservable_asset_types rat, reservable_assets ra, reservations r, statuses s, users u
+      FROM user_types ut, libraries l, reservable_asset_types rat, reservable_assets ra, reservations r, users u
       WHERE l.id = rat.library_id
         AND rat.id = ra.reservable_asset_type_id
         AND ra.id = r.reservable_asset_id
-        AND r.status_id = s.id
-        AND s.name IN ('Pending', 'Approved')
+        AND r.status_id IN (#{active_statuses})
         AND r.user_id = u.id
         AND ut.id = u.user_type_id
         #{start_end_clause}
