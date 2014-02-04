@@ -1,5 +1,6 @@
 /* User list filtering */
 $(function () {
+  if ($('html.c_users.a_index').length == 0) { return };
   /* Get ahold of relevant DOM elements */
   var $users_list = $('ul.users.collection-list')
   var els = $('li.user.line > a').get() /* All users in list */

@@ -55,7 +55,7 @@ class Reservation < ActiveRecord::Base
     errors[:base] << "Start and end date overlap" if time_in_days <= 0
     errors[:base] << "Reservation must be for at least #{min_time} days" if time_in_days < min_time
     errors[:base] << "Reservation cannot be for more than #{max_time} days" if time_in_days > max_time
-    errors[:start_date] << "Reservation cannot start in the past" unless start_date >= Date.today
+    errors[:start_date] << "Reservation cannot start in the past" unless start_date >= Date.today or (self.start_date && self.start_date == start_date)
     errors[:end_date] << "End date cannot be before start date" if end_date < start_date
   end
 
