@@ -32,7 +32,7 @@
 	  <br />
 	  <% if current_user.admin? %>
       <%= f.input :user, :as => :select, :collection => User.can_reserve(@reservable_asset.reservable_asset_type.id).order(:email) %>
-      <%= f.input :status, :include_blank => false %>
+      <%= f.input :status_id, :as => :select, :include_blank => false, :collection => Status.to_hash  %>
 	  <% end %>
     You must agree to the library's Terms of Service before you can make your reservation. <%= raw @reservable_asset.reservable_asset_type.library.tos %>
 	  <br /><br />

@@ -1,8 +1,7 @@
 class ReservationNotice < ActiveRecord::Base
-  attr_accessible :library, :library_id, :reservable_asset_type, :reservable_asset_type_id, :status,:status_id, :subject, :message, :reply_to
+  attr_accessible :library, :library_id, :reservable_asset_type, :reservable_asset_type_id, :status_id, :subject, :message, :reply_to
 
   belongs_to :reservable_asset_type
-  belongs_to :status
   belongs_to :library
   belongs_to :reservable_asset_type
 
@@ -20,14 +19,22 @@ class ReservationNotice < ActiveRecord::Base
 
   }
 
+  def status
+    Status.new(self.status_id)
+  end
+
   def self.regenerate_notices(rat)
     ReservationNotice.destroy_all(:reservable_asset_type_id => rat.id)
 
-
-    Status.all.each do |s|
-      message = DEFAULT_MESSAGES[s.name] ? DEFAULT_MESSAGES[s.name] : s.name
+    Status.to_hash.each do |s_name, s_id|
+      message = DEFAULT_MESSAGES[s_name] ? DEFAULT_MESSAGES[s_name] : s_name
       reply_to = rat.library.from ? rat.library.from : nil
-      notice = ReservationNotice.new(:library => rat.library, :reservable_asset_type => rat, :status => s, :subject => s.name, :message => message, :reply_to => reply_to)
+      notice = ReservationNotice.new(:library => rat.library,
+                                     :reservable_asset_type => rat,
+                                     :status_id => s_id,
+                                     :subject => s_name,
+                                     :message => message,
+                                     :reply_to => reply_to)
       notice.save
       puts "Successfully created #{notice.subject}"
     end

@@ -132,7 +132,7 @@ FactoryGirl.define do
   factory :reservation do
     timestamped
     user
-    status
+    status_id
     reservable_asset
     tos "Be excellent to each other"
     slot "A"
@@ -144,15 +144,10 @@ FactoryGirl.define do
     timestamped
     library
     reservable_asset_type
-    status
+    status_id
     subject 'Reservation Approval'
     message 'Reservation approved'
     reply_to 'bum@rush.edu'
-  end
-
-  status_names = %w(Approved Pending Declined Waitlist Expired Expiring Cancelled Renewal Confirmation)
-  factory :status do
-    sequence(:name) {|n| status_names[n - 1] ? status_names[n - 1] : "#{n.ordinalize} status"}
   end
 
   factory :subject_area do

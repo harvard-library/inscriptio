@@ -65,4 +65,8 @@ class Status
     STATUSES
   end
 
+  def to_s
+    @name
+  end
+
 end

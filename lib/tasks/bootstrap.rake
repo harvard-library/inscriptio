@@ -16,29 +16,6 @@ namespace :inscriptio do
       puts "Admin password is: #{user.password}"
     end
 
-    desc "Add the default statuses"
-    task :default_statuses => :environment do
-      adapter_type = ActiveRecord::Base.connection.adapter_name.downcase.to_sym
-      case adapter_type
-      when :mysql, :mysql2
-        ActiveRecord::Base.connection.execute('TRUNCATE TABLE statuses')
-      when :sqlite
-        Status.destroy_all
-        ActiveRecord::Base.connection.execute("DELETE FROM statuses;DELETE FROM sqlite_sequence WHERE name = 'statuses';")
-      when :postgresql
-        Status.destroy_all
-        ActiveRecord::Base.connection.execute("ALTER SEQUENCE statuses_id_seq RESTART WITH 1")
-      else
-        raise NotImplementedError, "Unknown adapter type '#{adapter_type}'"
-      end
-
-      STATUSES.each do |s|
-        status = Status.new(:name => s)
-        status.save
-        puts "Successfully created #{status.name}!"
-      end
-    end
-
     desc "Add the default message"
     task :default_message => :environment do
       message = Message.new(:title => "Default Message", :content => "Please create this message.", :description => "default")
@@ -65,8 +42,8 @@ namespace :inscriptio do
     end
 
     desc "run all tasks in bootstrap"
-    task :run_all => [:default_admin, :default_statuses, :default_message, :default_footer_message, :default_welcome_message, :default_help_message] do
-      puts "Created Admin account, Statuses and Notices!"
+    task :run_all => [:default_admin, :default_message, :default_footer_message, :default_welcome_message, :default_help_message] do
+      puts "Created Admin account, Messages, and Notices!"
     end
   end
 
@@ -77,18 +54,24 @@ namespace :inscriptio do
     task :send_expiration_notices => :environment do
       @reservations = Array.new
       ReservableAssetType.all.each do |at|
-        @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status.find(:first, :conditions => ["lower(name) = 'approved'"]), at.expiration_extension_time.to_i])
+        @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status[:approved], at.expiration_extension_time.to_i])
       end
       @reservations.flatten!
-      notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expiring'"])})
+
+      notices = ReservationNotice.where(:status_id => Status[:approved]).reduce({}) do |notices, rn|
+        notices[rn.reservable_asset_type_id] = rn
+        notices
+      end
+
       @reservations.each do |reservation|
+        rat = reservation.reservable_asset.reservable_asset_type
         Email.create(
-          :from => reservation.reservable_asset.reservable_asset_type.library.from,
-          :reply_to => reservation.reservable_asset.reservable_asset_type.library.from,
+          :from => rat.library.from,
+          :reply_to => rat.library.from,
           :to => reservation.user.email,
-          :bcc => reservation.reservable_asset.reservable_asset_type.library.bcc,
-          :subject => notice.subject,
-          :body => notice.message
+          :bcc => rat.library.bcc,
+          :subject => notices[rat.id].subject,
+          :body => notices[rat.id].message
         )
       end
       puts "Successfully delivered expiration notices!"
@@ -96,21 +79,29 @@ namespace :inscriptio do
 
     desc "Sets expired status on reservations and generates an email."
     task :expire_reservations_send_notices => :environment do
-      @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date <= current_date', Status.find(:first, :conditions => ["lower(name) = 'approved'"])])
-      notice = ReservationNotice.find(:first, :conditions => {:status_id => Status.find(:first, :conditions => ["lower(name) = 'expired'"])})
-      @reservations.each do |reservation|
-        reservation.status = Status.find(:first, :conditions => ["lower(name) = 'expired'"])
-        reservation.save
-        Email.create(
-          :from => reservation.reservable_asset.reservable_asset_type.library.from,
-          :reply_to => reservation.reservable_asset.reservable_asset_type.library.from,
-          :to => reservation.user.email,
-          :bcc => reservation.reservable_asset.reservable_asset_type.library.bcc,
-          :subject => notice.subject,
-          :body => notice.message
-        )
+      @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date <= current_date', Status[:approved]])
+      notices = ReservationNotice.where(:status_id => Status[:expired]).reduce({}) do |notices, rn|
+        notices[rn.reservable_asset_type_id] = rn
+        notices
       end
-      puts "Successfully delivered expired notices!"
+
+      @reservations.each do |reservation|
+        reservation.status_id = Status[:expired]
+        if reservation.save
+          rat = reservation.reservable_asset.reservable_asset_type
+          Email.create(
+            :from => rat.library.from,
+            :reply_to => rat.library.from,
+            :to => reservation.user.email,
+            :bcc => rat.library.bcc,
+            :subject => notices[rat.id].subject,
+            :body => notices[rat.id].message
+          )
+        else
+          logger.error "Could not expire reservation: #{reservation.id}"
+        end
+        puts "Successfully delivered expired notices!"
+      end
     end
 
     desc "Delete bulletin board posts after lifetime"

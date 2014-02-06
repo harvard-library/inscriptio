@@ -61,7 +61,6 @@ ActionController::Base.allow_rescue = false
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 DatabaseCleaner.strategy = :truncation
 Before do
-  @statuses = ["Approved", "Pending", "Declined", "Waitlist", "Expired", "Expiring", "Cancelled", "Renewal Confirmation"].map.with_index {|s, i| FactoryGirl.create(:status, :id => i+1, :name => s)}
   FactoryGirl.create_list(:message, 3)
   #Load factories before running cucumber.
   @library = FactoryGirl.create(:library, :name => 'Widener')
@@ -79,7 +78,7 @@ Before do
   @user_t = FactoryGirl.create(:user_type, :name => 'User')
   @user = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
   @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456', :user_type => @user_t)
-  @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status => @statuses[1], :start_date => Date.today, :end_date => Date.today + 59)
+  @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status_id => Status[:approved], :start_date => Date.today, :end_date => Date.today + 59)
   @subject_area = FactoryGirl.create(:subject_area, :name => "Phrenology", :floors => [Floor.find_by_name('Floor 1')])
 end
 
