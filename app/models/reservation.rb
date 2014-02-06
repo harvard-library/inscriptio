@@ -11,11 +11,11 @@ class Reservation < ActiveRecord::Base
   after_save :post_save_hooks
 
   # This scope is meant to allow for easily selecting reservations by
-  # status names, via the usual options of keyword, string, and array of same
+  # status names, via the usual options of keyword, string, and array of same or integers
   scope :status, ->(s) {
     case s
     when Array
-      where('status_id IN (?)', Status[s])
+      where('status_id IN (?)', s.map {|el| el.is_a?(Integer) ? el : Status[el]})
     else
       where('status_id = ?', Status[s])
     end

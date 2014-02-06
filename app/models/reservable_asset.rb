@@ -62,7 +62,7 @@ class ReservableAsset < ActiveRecord::Base
   end
 
   def current_users
-    self.users.where('reservations.end_date > current_date').status(Status::ACTIVE_IDS)
+    self.users.joins(:reservations).where('reservations.end_date > current_date').where('reservations.status_id IN (?)', Status::ACTIVE_IDS)
   end
 
   def current_reservations
