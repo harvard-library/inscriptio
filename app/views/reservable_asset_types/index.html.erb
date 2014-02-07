@@ -1,36 +1,41 @@
 <% content_for :header do %>Reservable Assets<% end %>
 <div class="reservable_asset_types collection-list">
   <% unless @libraries.blank? %>
-    <% if current_user.admin? %>
-      <h2 class="action-new-asset-type"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
-    <% end %>
-	<% @libraries.each do |library| %>
-	  <h2><%= library.name %></h2>
-	  <% if current_user.admin? %>
-	    <h3 class="collapsible email_all">Email All in <%= library %></h3>
-	    <div class="email_all email_all-target">
-		  <p>
-			<%= form_tag new_email_path, :method => 'get' do %>
-			  <%= text_field_tag :subject %><br />
-			  <%= text_area_tag :content, nil, :rows => 10, :cols => 35 %><br />
-			  <%= hidden_field_tag :library, library.id %>
-			  <%= submit_tag "Send", :name => nil %>
-			<% end %>
-	      </p>
-	    </div>
-      <% end %>
+    <h2 class="action-new-asset-type"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
+  	<% @libraries.each do |library| %>
+  	  <h2><%= library.name %></h2>
       <% unless library.reservable_asset_types.blank? %>
         <h3>Assets</h3>
         <%= render :partial => 'shared/lines/reservable_asset_type', :collection => library.reservable_asset_types %>
       <% else %>
         <h3>No reservable asset types for this library yet.</h3>
       <% end %>
-    <% end %>
-
-  <% end %>
+    <% end %> <!-- END @libraries.each -->
+  <% else %>
+    <h2>No Libraries exist yet</h2>
+  <% end %> <!-- END outer unless/else -->
+</div> <!-- END .reservable_asset_types.collection-list -->
+<hr style="max-width: 100%; margin: 20px 20px 20px -20px;">
+<h2> Email All in Library</h2>
+<div>
+  <% unless @libraries.blank? %>
+    <% @libraries.each do |library| %>
+      <h4 class="email_all collapsible">Email All in <%= library %></h3>
+      <div class="email_all email_all-target">
+  	    <p>
+  		    <%= form_tag new_email_path, :method => 'get' do %>
+  		      <%= text_field_tag :subject %><br />
+  		      <%= text_area_tag :content, nil, :rows => 10, :cols => 35 %><br />
+  		      <%= hidden_field_tag :library, library.id %>
+  		      <%= submit_tag "Send", :name => nil %>
+  		    <% end %> <!-- END form -->
+        </p>
+      </div> <!-- END email_all -->
+    <% end %> <!-- END each -->
+  <% end %><!-- END unless -->
 </div>
-
-<h2 class="collapsible asset_upload">Batch Upload</h2>
+<hr style="max-width: 100%; margin: 20px 20px 20px -20px;">
+<h2 class="asset_upload">Batch Upload</h2>
 
 <div class="asset_upload asset_upload-target">
 

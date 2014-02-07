@@ -1,9 +1,9 @@
 class ReservableAssetTypesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show]
-  
+  before_filter :authenticate_admin!, :except => [:show]
+
   def index
     @libraries = Library.all
-    
+
     breadcrumbs.add 'Reservable Assets'
   end
 
@@ -18,7 +18,7 @@ class ReservableAssetTypesController < ApplicationController
   def edit
     @reservable_asset_type = ReservableAssetType.find(params[:id])
   end
-  
+
   def create
     @reservable_asset_type = ReservableAssetType.new
     @reservable_asset_type.attributes = params[:reservable_asset_type]
@@ -33,7 +33,7 @@ class ReservableAssetTypesController < ApplicationController
         end
       else
         flash[:error] = 'Number of slots does not match number of concurrent users.'
-        format.html {render :action => :new}    
+        format.html {render :action => :new}
       end
     end
   end
@@ -63,7 +63,7 @@ class ReservableAssetTypesController < ApplicationController
         end
       else
         flash[:error] = 'Number of slots does not match number of concurrent users.'
-        format.html {render :action => :new}    
+        format.html {render :action => :new}
       end
     end
   end
