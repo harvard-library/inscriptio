@@ -5,7 +5,7 @@
   	<% @libraries.each do |library| %>
   	  <h2><%= library.name %></h2>
       <% unless library.reservable_asset_types.blank? %>
-        <h3>Assets</h3>
+        <h3>Asset Types</h3>
         <%= render :partial => 'shared/lines/reservable_asset_type', :collection => library.reservable_asset_types %>
       <% else %>
         <h3>No reservable asset types for this library yet.</h3>
