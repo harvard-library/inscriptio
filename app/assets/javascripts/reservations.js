@@ -2,7 +2,7 @@ $(function () {
   var $select = $('select#reservation_user_id');
   var options = $select.find('option').get();
   var source = [];
-  var u_sel_length = 0;
+  var options_len = 0;
 
   if ($('html.c_reservations.a_new, html.c_reservations.a_edit').length == 0) {return;}
 
