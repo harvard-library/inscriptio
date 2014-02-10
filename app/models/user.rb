@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :user_type_id, :school_affiliation_id, :first_name, :last_name
 
-  belongs_to :user_type
+  has_and_belongs_to_many :user_types
   belongs_to :school_affiliation
   has_many :reservations, :dependent => :destroy
   has_many :reservable_assets, :through => :reservations

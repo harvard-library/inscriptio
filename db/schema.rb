@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140130201150) do
+ActiveRecord::Schema.define(:version => 20140210192640) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -214,12 +214,6 @@ ActiveRecord::Schema.define(:version => 20140130201150) do
     t.datetime "updated_at"
   end
 
-  create_table "statuses", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "subject_areas", :force => true do |t|
     t.string   "name",        :null => false
     t.string   "long_name"
@@ -234,9 +228,19 @@ ActiveRecord::Schema.define(:version => 20140130201150) do
     t.string   "name",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "library_id", :null => false
   end
 
   add_index "user_types", ["name"], :name => "index_user_types_on_name"
+
+  create_table "user_types_users", :id => false, :force => true do |t|
+    t.integer "user_id",      :null => false
+    t.integer "user_type_id", :null => false
+  end
+
+  add_index "user_types_users", ["user_id", "user_type_id"], :name => "index_user_types_users_on_user_id_and_user_type_id", :unique => true
+  add_index "user_types_users", ["user_id"], :name => "index_user_types_users_on_user_id"
+  add_index "user_types_users", ["user_type_id"], :name => "index_user_types_users_on_user_type_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",    :null => false
@@ -248,7 +252,6 @@ ActiveRecord::Schema.define(:version => 20140130201150) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "user_type_id"
     t.integer  "school_affiliation_id"
     t.string   "first_name"
     t.string   "last_name"
