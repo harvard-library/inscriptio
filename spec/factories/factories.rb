@@ -132,7 +132,7 @@ FactoryGirl.define do
   factory :reservation do
     timestamped
     user
-    status_id
+    status_id 1
     reservable_asset
     tos "Be excellent to each other"
     slot "A"
