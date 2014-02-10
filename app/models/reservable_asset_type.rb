@@ -20,7 +20,7 @@ class ReservableAssetType < ActiveRecord::Base
   validates_numericality_of :max_reservation_time, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :max_concurrent_users, :only_integer => true, :message => "can only be whole number."
   validates_numericality_of :expiration_extension_time, :only_integer => true, :message => "can only be whole number."
-  validates_format_of :slots, :with => /^[A-Z]+(,[A-Z]+)*$/, :message => "must be in the format of 'A,B,C'", :if => Proc.new {|this| this.slots != ""}
+  validates_format_of :slots, :with => /\A[A-Z]+(,[A-Z]+)*\Z/, :message => "must be in the format of 'A,B,C'", :if => Proc.new {|this| this.slots != ""}
 
   after_create :generate_notices
 
