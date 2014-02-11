@@ -78,36 +78,39 @@
 		 * the user doesn't get useless markup. */
 		addHtml: function() {
 			$(opts.parentSelector).append(
-				'<div id="tooltip">' +
-					'<div id="loading">' +
-						'<img src="/images/ajax-loader.gif" alt="Loading" />' +
-					'</div>' +
-					'<div id="tooltipTools">' +
-						'<label for="overlayId" id="overlayIdLabel">Asset: </label>' +
-						'<select id="overlayId"></select>' +
-						'<button id="closeTooltip">x</button>' +
-						'<br />' +
-						'<div id="movers">' +
-						  '<button class="nudger" id="moveUp" title="w">&#9650</button>' +
-						  '<br />' +
-						  '<button class="nudger" id="moveLeft" title="a">&#9668</button>' +
-						  '<button class="nudger" id="moveRight" title="d">&#9658</button>' +
-						  '<br />' +
-						  '<button class="nudger" id="moveDown" title="s">&#9660</button>' +
-						'</div>' +
-						'<div id="sizers">' +
-						  '<button class="nudger" id="shorten" title="i">&ndash;</button>' +
-						  '<br />' +
-						  '<button class="nudger" id="narrow" title="j">&ndash;</button>' +
-						  '<button class="nudger" id="widen" title="l">+</button>' +
-						  '<br />' +
-						  '<button class="nudger" id="heighten" title="k">+</button>' +
-						'</div>' +
-						'<div id="overlayButtons">' +
-							'<button id="removeOverlay">Remove</button>' +
-							'<button id="copyOverlay">Copy</button>' +
-							'<button id="applyOverlay">Apply</button>' +
-						'</div>' +
+        '<div id="tooltip">' +
+          '<div id="loading">' +
+            '<img src="/images/ajax-loader.gif" alt="Loading" />' +
+          '</div>' +
+          '<div id="tooltipTools">' +
+            '<label for="overlayId" id="overlayIdLabel">Asset: </label>' +
+            '<select id="overlayId"></select>' +
+            '<button id="closeTooltip">x</button>' +
+            '<br />' +
+            '<div id="movers">' +
+              '<button class="nudger" id="moveUp" title="w">&#9650</button>' +
+              '<br />' +
+              '<button class="nudger" id="moveLeft" title="a">&#9668</button>' +
+              '<button class="nudger" id="moveRight" title="d">&#9658</button>' +
+              '<br />' +
+              '<button class="nudger" id="moveDown" title="s">&#9660</button>' +
+            '</div>' +
+            '<div id="sizers">' +
+              '<button class="nudger" id="shorten" title="i">&ndash;</button>' +
+              '<br />' +
+              '<button class="nudger" id="narrow" title="j">&ndash;</button>' +
+              '<button class="nudger" id="widen" title="l">+</button>' +
+              '<br />' +
+					    '<button class="nudger" id="heighten" title="k">+</button>' +
+					  '</div>' +
+					  '<div id="overlayButtons">' +
+					    '<button id="removeOverlay">Remove</button>' +
+					    '<button id="copyOverlay">Copy</button>' +
+					    '<button id="applyOverlay">Apply</button>' +
+					  '</div>' +
+            '<div style="margin:20px auto 0;text-align:center">' +
+              '<button id="showSelectedAsset">Go to Asset</button>' +
+            '</div>' +
 					'</div>' +
 				'</div>'
 			);
@@ -194,6 +197,17 @@
 						});
 					}
 				);
+
+        /* Go to Asset button in tooltip */
+        $(document).on('click', '#showSelectedAsset', function (e) {
+          var id = $(e.currentTarget).parents('#tooltipTools').find('select#overlayId').val();
+          if (id) {
+            window.location.href = '/reservable_assets/' + id;
+          }
+          else {
+            return false;
+          }
+        });
 
 				/* Add a few keypress handlers to make it easier to move overlays around */
 				$(document).keypress(function(event) {
