@@ -48,10 +48,15 @@ class ReservationsController < ApplicationController
     relation = relation.with_deleted if current_user.admin?
     @reservation = relation.find(params[:id])
 
-    @del_or_clear = @reservation.deleted_at ? 'Delete' : 'Clear'
+    if @reservation.deleted_at
+      flash.now[:notice] = "DELETED AT #{@reservation.deleted_at}"
+      @del_or_clear = 'Delete'
+    else
+      @del_or_clear = 'Clear'
+    end
 
     unless current_user.admin? || @reservation.user_id == current_user.id
-       redirect_to('/') and return
+      redirect_to('/') and return
     end
   end
 
@@ -63,6 +68,8 @@ class ReservationsController < ApplicationController
     unless current_user.admin? || @reservation.user_id == current_user.id
        redirect_to('/') and return
     end
+
+    flash.now[:notice] = "DELETED AT #{@reservation.deleted_at}" if @reservation.deleted_at
 
     @reservable_asset = @reservation.reservable_asset
     @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
