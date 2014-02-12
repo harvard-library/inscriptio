@@ -2,7 +2,6 @@
 <h2 class="show-object">All Reservations</h2>
 
 <div class="user show-object show-object-target">
-
   <% unless @reservations.blank? %>
     <%= render :partial => 'shared/lines/reservation', :collection => @reservations %>
   <% else %>

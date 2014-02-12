@@ -6,7 +6,9 @@
 	<% if current_user.admin? %>
 	  <%= f.input :email %>
     <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => 'Leave password blank for no change' %>
-	  <%= f.input :user_type %>
+    <% Library.all.each do |l| %>
+	    <%= f.input :user_types, :for => l, :label => "User Types (#{l.name})", :collection => l.user_types %>
+    <% end %>
 	<% end %>
 	<%  if current_user.admin? && @user != current_user %>
 	  <span id='admin_box'><%= f.input :admin %></span>

@@ -10,7 +10,7 @@
       <% end %>
     </div>
     <% if current_user.admin? %>
-      <h2 class="action-button"><%= link_to('New User Type', new_user_type_path) %></h2>
+      <h2 class="action-button"><%= link_to('New User Type', new_library_user_type_path(l)) %></h2>
     <% end %>
 
   </div>

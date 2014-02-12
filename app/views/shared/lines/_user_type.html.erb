@@ -1,10 +1,10 @@
 <div class="user_type line" id="user_type-<%= user_type.id %>">
-  <%= link_to("(ID #{user_type.id}) #{user_type.name}", user_type ) %>
-  
+  <%= link_to("(ID #{user_type.id}) #{user_type.name}", library_user_type_path(user_type.library, user_type) ) %>
+
   <% if current_user.admin? %>
 	<ul class="actions">
-      <li><%= link_to('Edit', edit_user_type_path(user_type), :class => "action-edit") %></li>
-      <li><%= link_to('Delete', user_type_path(user_type), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{user_type.id}", :class => "action-delete") %></li>
+      <li><%= link_to('Edit', edit_library_user_type_path(user_type.library, user_type), :class => "action-edit") %></li>
+      <li><%= link_to('Delete', library_user_type_path(user_type.library, user_type), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{user_type.id}", :class => "action-delete") %></li>
     </ul>
   <% end %>
 </div>

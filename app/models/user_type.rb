@@ -1,5 +1,5 @@
 class UserType < ActiveRecord::Base
-  attr_accessible :name, :user_ids, :reservable_asset_type_ids
+  attr_accessible :name, :user_ids, :reservable_asset_type_ids, :library_id
 
   belongs_to :library
 

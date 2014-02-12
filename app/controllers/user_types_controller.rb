@@ -9,6 +9,7 @@ class UserTypesController < ApplicationController
 
   def new
     @user_type = UserType.new
+    @user_type.library = Library.find(params[:library_id])
   end
 
   def show
@@ -27,10 +28,10 @@ class UserTypesController < ApplicationController
     @user_type.attributes = params[:user_type]
     respond_to do|format|
       if @user_type.save
-        flash[:notice] = 'Added that User Type'
+        flash[:notice] = "Added #{@user_type} to #{@user_type.library.name}"
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = 'Could not add that User Type'
+        flash[:error] = "Could not add #{@user_type} to #{@user_type.library}"
         format.html {render :action => :new}
       end
     end
@@ -40,7 +41,7 @@ class UserTypesController < ApplicationController
     @user_type = UserType.find(params[:id])
     user_type = @user_type.name
     if @user_type.destroy
-      flash[:notice] = %Q|Deleted user type #{user_type}|
+      flash[:notice] = %Q|Deleted #{user_type} from #{@user_type.library}|
       redirect_to :action => :index
     end
   end
@@ -50,10 +51,10 @@ class UserTypesController < ApplicationController
     @user_type.attributes = params[:user_type]
     respond_to do|format|
       if @user_type.save
-        flash[:notice] = %Q|#{@user_type} updated|
+        flash[:notice] = %Q|#{@user_type} (at #{@user_type.library}) updated|
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = 'Could not update that User Type'
+        flash[:error] = "Could not update #{@user_type} (at #{@user_type.library})"
         format.html {render :action => :new}
       end
     end

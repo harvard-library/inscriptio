@@ -44,7 +44,7 @@ Inscriptio::Application.routes.draw do
 
   resources :bulletin_boards
 
-  resources :user_types
+  resources :user_types, :except => [:new]
 
   resources :reservations do
     member do
@@ -79,6 +79,7 @@ Inscriptio::Application.routes.draw do
         get 'assets'
       end
     end
+    resources :user_types
   end
 
   root :to => 'libraries#index'
