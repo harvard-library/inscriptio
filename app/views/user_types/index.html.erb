@@ -1,12 +1,17 @@
 <% content_for :header do %>User Types<% end %>
-<div class="user_types collection-list">
-  <% unless @user_types.blank? %>
-	<%= render :partial => 'shared/lines/user_type', :collection => @user_types %>
-  <% else %>
-	<h2>No user types yet.</h2>
-  <% end %>
-  <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New User Type', new_user_type_path) %></h2>
-  <% end %>
-</div>
+<% @libraries.each do |l| %>
+  <h2 class="collapsible"><%= l.name %></h2>
+  <div class="library-<%= l.id %>">
+    <div class="user_types collection-list">
+      <% unless l.user_types.blank? %>
+	      <%= render :partial => 'shared/lines/user_type', :collection => l.user_types %>
+      <% else %>
+	      <h2>No user types yet.</h2>
+      <% end %>
+    </div>
+    <% if current_user.admin? %>
+      <h2 class="action-button"><%= link_to('New User Type', new_user_type_path) %></h2>
+    <% end %>
 
+  </div>
+<% end %> <!-- END @libraries.each -->

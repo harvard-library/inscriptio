@@ -1,9 +1,9 @@
 class UserTypesController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
-  
+
   def index
-    @user_types = UserType.all
-    
+    @libraries = Library.includes(:user_types)
+
     breadcrumbs.add 'User Types'
   end
 
@@ -13,7 +13,7 @@ class UserTypesController < ApplicationController
 
   def show
     @user_type = UserType.find(params[:id])
-    
+
     breadcrumbs.add 'User Types', user_types_path
     breadcrumbs.add @user_type.name, @user_type.id
   end
@@ -21,7 +21,7 @@ class UserTypesController < ApplicationController
   def edit
     @user_type = UserType.find(params[:id])
   end
-  
+
   def create
     @user_type = UserType.new
     @user_type.attributes = params[:user_type]
