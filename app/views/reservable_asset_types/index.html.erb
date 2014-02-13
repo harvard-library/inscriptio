@@ -1,7 +1,6 @@
 <% content_for :header do %>Reservable Assets<% end %>
 <div class="reservable_asset_types collection-list">
   <% unless @libraries.blank? %>
-    <h2 class="action-new-asset-type"><%= link_to('New Reservable Asset Type', new_reservable_asset_type_path) %></h2>
   	<% @libraries.each do |library| %>
   	  <h2><%= library.name %></h2>
       <% unless library.reservable_asset_types.blank? %>
@@ -10,6 +9,7 @@
       <% else %>
         <h3>No reservable asset types for this library yet.</h3>
       <% end %>
+      <p><%= link_to('New Reservable Asset Type', new_library_reservable_asset_type_path(library), :class => 'action-new') %></p>
     <% end %> <!-- END @libraries.each -->
   <% else %>
     <h2>No Libraries exist yet</h2>

@@ -55,6 +55,8 @@ Inscriptio::Application.routes.draw do
 
   resources :search
 
+  resources :reservable_asset_types, :only => [:index]
+
   resources :reservable_assets do
     member do
       get 'locate'
@@ -64,8 +66,6 @@ Inscriptio::Application.routes.draw do
     end
 
   end
-
-  resources :reservable_asset_types
 
   resources :call_numbers
 
@@ -80,6 +80,7 @@ Inscriptio::Application.routes.draw do
       end
     end
     resources :user_types
+    resources :reservable_asset_types, :except => [:index]
   end
 
   root :to => 'libraries#index'

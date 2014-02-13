@@ -1,5 +1,10 @@
 class ReservableAssetTypesController < ApplicationController
   before_filter :authenticate_admin!, :except => [:show]
+  before_filter :get_library, :except => [:index]
+
+  def get_library
+    @library = Library.find(params[:library_id])
+  end
 
   def index
     @libraries = Library.all
@@ -22,6 +27,7 @@ class ReservableAssetTypesController < ApplicationController
   def create
     @reservable_asset_type = ReservableAssetType.new
     @reservable_asset_type.attributes = params[:reservable_asset_type]
+
     respond_to do|format|
       if @reservable_asset_type.slots_equal_users?
         if @reservable_asset_type.save

@@ -1,6 +1,6 @@
-<%= semantic_form_for(@reservable_asset_type, :html => {:multipart => true}) do |f| %>
+<%= semantic_form_for([@library, @reservable_asset_type], :html => {:multipart => true}) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :library %>
+    <%= f.input :library_id, :as => :hidden, :value => @library.id %>
     <%= f.input :name %>
     <%= f.input :min_reservation_time, :label => "Minimum reservation time in days" %>
     <%= f.input :max_reservation_time, :label => "Maximum reservation time in days" %>
@@ -11,7 +11,7 @@
     <%= f.input :has_bulletin_board, :lable => 'Bulletin Board', :hint => "This type of asset has a bulletin board" %>
     <%= f.input :welcome_message %>
     <%= f.input :expiration_extension_time, :label => "Expiration extension time in days" %>
-	  <%= f.input :user_types, :collection => @reservable_asset_type.library.user_types %>
+	  <%= f.input :user_types, :collection => Library.find(params[:library_id]).user_types %>
 
   	<% unless f.object.photo.blank? %>
       <h4>Current Photo</h4>
