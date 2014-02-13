@@ -49,15 +49,19 @@ class Report
     # Only bound search if args exist and are datey
     start_end_clause = process_horizons(start_horizon, end_horizon)
 
+    # Stringify list of statuses
+    active_statuses = Status::ACTIVE_IDS.join(', ')
+
     results = ActiveRecord::Base.connection.query(<<-SQL)
       SELECT ut.name, l.name, COUNT(u.id)
-      FROM user_types ut, libraries l, reservable_asset_types rat, reservable_assets ra, reservations r, users u
+      FROM user_types ut, user_types_users utu, libraries l, reservable_asset_types rat, reservable_assets ra, reservations r, users u
       WHERE l.id = rat.library_id
         AND rat.id = ra.reservable_asset_type_id
         AND ra.id = r.reservable_asset_id
         AND r.status_id IN (#{active_statuses})
         AND r.user_id = u.id
-        AND ut.id = u.user_type_id
+        AND utu.user_id = u.id
+        AND ut.id = utu.user_type_id
         #{start_end_clause}
       GROUP BY ut.name, l.name
       ORDER BY ut.name, l.name;
