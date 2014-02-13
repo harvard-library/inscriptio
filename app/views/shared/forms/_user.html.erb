@@ -5,7 +5,7 @@
 	<%= f.input :school_affiliation %>
 	<% if current_user.admin? %>
 	  <%= f.input :email %>
-    <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => 'Leave password blank for no change' %>
+    <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => "Leave password blank for #{controller.action_name == 'new' ? 'random password' : 'no change'}" %>
     <% Library.all.each do |l| %>
 	    <%= f.input :user_types, :for => l, :label => "User Types (#{l.name})", :collection => l.user_types %>
     <% end %>

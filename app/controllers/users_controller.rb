@@ -22,20 +22,20 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new
-    @user.user_type_id = params[:user][:user_type_id]
-    @user.school_affiliation_id = params[:user][:school_affiliation_id]
-    @user.email = params[:user][:email]
-    @user.password = User.random_password
-    @user.first_name = params[:user][:first_name]
-    @user.last_name = params[:user][:last_name]
-    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    @user.attributes = params[:user].except(:admin, :password)
+
+    @user.password = params[:user][:password].blank? ? User.random_password : params[:user][:password]
+
+    if params[:user][:admin]
+      params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    end
 
     respond_to do|format|
       if @user.save
-        flash[:notice] = 'Added that User'
+        flash[:notice] = "Added #{@user.email}"
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = 'Could not add that User'
+        flash[:error] = "Could not add #{@user.email}"
         format.html {render :action => :new}
       end
     end

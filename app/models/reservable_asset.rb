@@ -101,7 +101,7 @@ class ReservableAsset < ActiveRecord::Base
   def allow_reservation?(current_user)
     if current_user.admin
       true
-    elsif self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.include?(current_user.user_type)
+    elsif self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.where('user_types.id NOT IN (?)', current_user.user_type_ids)
       all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
       current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) AND user_id = ?", Status::ACTIVE_IDS, current_user.id])
       if current_user_reservation.nil?
