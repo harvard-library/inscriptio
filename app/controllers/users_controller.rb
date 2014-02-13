@@ -116,10 +116,9 @@ class UsersController < ApplicationController
     @file = params[:upload][:datafile] unless params[:upload].blank?
     CSV.parse(@file.read).each do |cell|
       @user = User.new
-      user_type = UserType.find(cell[0].to_i)
+      @user.user_types = UserType.find(cell[0].split(/[\s+,;]/).map(&:to_i))
       school_affiliation = SchoolAffiliation.find(cell[1].to_i)
 
-      @user.user_type_id = user_type.id
       @user.school_affiliation_id = school_affiliation.id
       @user.email = cell[2]
       @user.password = User.random_password
@@ -133,9 +132,9 @@ class UsersController < ApplicationController
 
   def export
     @users = User.find(:all, :order => ['email ASC'])
-    CSV.open("#{RAILS_ROOT}/public/uploads/users.csv", "w") do |csv|
+    CSV.open("#{Rails.root}/public/uploads/users.csv", "w") do |csv|
       @users.each do |user|
-        csv << [user.first_name, user.last_name, user.email]
+        csv << [user.user_type_ids.join(' '), user.school_affiliation.try(:id) , user.email, user.first_name, user.last_name]
       end
     end
     @csv = true
