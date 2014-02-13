@@ -11,7 +11,7 @@
     <%= f.input :has_bulletin_board, :lable => 'Bulletin Board', :hint => "This type of asset has a bulletin board" %>
     <%= f.input :welcome_message %>
     <%= f.input :expiration_extension_time, :label => "Expiration extension time in days" %>
-	<%= f.input :user_types %>
+	  <%= f.input :user_types, :collection => @reservable_asset_type.library.user_types %>
 
   	<% unless f.object.photo.blank? %>
       <h4>Current Photo</h4>
