@@ -36,8 +36,8 @@ class User < ActiveRecord::Base
   end
 
   def self.can_reserve(rat_id)
-    allowed_types = ReservableAssetType.find(rat_id).user_types.pluck(:id)
-    User.where(:user_type_id => allowed_types)
+    allowed_types = ReservableAssetType.find(rat_id).user_type_ids
+    User.joins(:user_types).where('user_types.id IN (?)', allowed_types)
   end
 
 
