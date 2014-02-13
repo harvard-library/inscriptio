@@ -17,6 +17,9 @@ $(function () {
       $select.val(ui.item.value);
       $(this).val(ui.item.label);
       return false;
+    },
+    focus: function (e, ui) {
+      return false;
     }
   });
 })
