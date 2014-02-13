@@ -1,6 +1,6 @@
 <% content_for :header do %>User Types<% end %>
 <% @libraries.each do |l| %>
-  <h2 class="collapsible"><%= l.name %></h2>
+  <h2><%= l.name %></h2>
   <div class="library-<%= l.id %>">
     <div class="user_types collection-list">
       <% unless l.user_types.blank? %>
