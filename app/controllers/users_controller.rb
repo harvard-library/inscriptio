@@ -145,7 +145,7 @@ class UsersController < ApplicationController
   def reservations
     @user = User.find(params[:id])
 
-    @reservations = @user.reservations.status([:pending,:approved]).group_by {|r| r.status.name}
+    @reservations = @user.reservations.status(Status::ACTIVE_IDS).group_by {|r| r.status.name}
   end
 
 end

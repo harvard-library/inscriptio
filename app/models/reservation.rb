@@ -33,7 +33,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def post_save_hooks
-    notice = ReservationNotice.find(:first, :conditions => {:status_id => self.status_id, :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id})
+    notice = ReservationNotice.where(:status_id => self.status_id, :reservable_asset_type_id => self.reservable_asset.reservable_asset_type.id, :library_id => self.reservable_asset.reservable_asset_type.library.id).first
     Email.create(
       :from => self.reservable_asset.reservable_asset_type.library.from,
       :reply_to => self.reservable_asset.reservable_asset_type.library.from,
@@ -42,6 +42,41 @@ class Reservation < ActiveRecord::Base
       :subject => notice.subject,
       :body => notice.message
     )
+    Rails.logger.info "Reservation #{self.id} #{self.status.name} notice email created"
+  end
+
+  def self.set_expiring_status
+    # Find all reservations that are within the expiration extension window,
+    #   and set the "expiring" status on it.
+
+    # The trigger for this is located in lib/tasks/bootstrap.rake
+
+    # The select on the end of the query is to prevent an ActiveRecord::ReadOnlyError
+    @reservations = ReservableAssetType.all.map do |rat|
+      Reservation.joins(:reservable_asset => :reservable_asset_type).
+        where('reservable_asset_types.id = ? AND status_id = ? AND end_date - current_date <= ?',
+              rat.id,
+              Status[:approved],
+              rat.expiration_extension_time.to_i).select('reservations.*')
+    end.flatten!
+
+    @reservations.each do |reservation|
+      rat = reservation.reservable_asset.reservable_asset_type
+      reservation.status_id = Status[:expiring]
+      reservation.save || Rails.logger.error("ERROR: #{Time.now} Failed to set expiring on reservation #{reservation.id}")
+    end
+  end
+
+  def self.expire_reservations
+    # Find all reservations that should be expired, and expire them
+    # The trigger for this is located in lib/tasks/bootstrap.rake
+
+    @reservations = Reservation.where('status_id IN (?) AND end_date <= current_date', Status::ACTIVE_IDS)
+
+    @reservations.each do |reservation|
+      reservation.status_id = Status[:expired]
+      reservation.save || Rails.logger.error("Could not expire reservation: #{reservation.id}")
+    end
   end
 
   def status
@@ -78,6 +113,6 @@ class Reservation < ActiveRecord::Base
   end
 
   def expiring?
-    self.status_id == Status[:approved] && self.end_date - Date.today <= self.reservable_asset.reservable_asset_type.expiration_extension_time.to_i
+    self.status_id == Status[:expiring]
   end
 end

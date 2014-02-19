@@ -48,101 +48,28 @@ namespace :inscriptio do
   end
 
   namespace :cron_task do
-    @per_minutes = [:send_expiration_notices, :send_queued_emails, :delete_posts]
-    @per_diems = [:expire_reservations_send_notices]
+    @per_minutes = [:set_expiring_status, :send_queued_emails, :delete_posts]
+    @per_diems = [:expire_reservations]
     desc "Send scheduled emails daily"
-    task :send_expiration_notices => :environment do
-      @reservations = Array.new
-      ReservableAssetType.all.each do |at|
-        @reservations << Reservation.find(:all, :conditions => ['status_id = ? AND end_date - current_date = ?', Status[:approved], at.expiration_extension_time.to_i])
-      end
-      @reservations.flatten!
-
-      notices = ReservationNotice.where(:status_id => Status[:approved]).reduce({}) do |notices, rn|
-        notices[rn.reservable_asset_type_id] = rn
-        notices
-      end
-
-      @reservations.each do |reservation|
-        rat = reservation.reservable_asset.reservable_asset_type
-        Email.create(
-          :from => rat.library.from,
-          :reply_to => rat.library.from,
-          :to => reservation.user.email,
-          :bcc => rat.library.bcc,
-          :subject => notices[rat.id].subject,
-          :body => notices[rat.id].message
-        )
-      end
-      puts "Successfully delivered expiration notices!"
+    task :set_expiring_status => :environment do
+      Reservation.set_expiring_status
     end
 
     desc "Sets expired status on reservations and generates an email."
-    task :expire_reservations_send_notices => :environment do
-      @reservations = Reservation.find(:all, :conditions => ['status_id = ? AND end_date <= current_date', Status[:approved]])
-      notices = ReservationNotice.where(:status_id => Status[:expired]).reduce({}) do |notices, rn|
-        notices[rn.reservable_asset_type_id] = rn
-        notices
-      end
-
-      @reservations.each do |reservation|
-        reservation.status_id = Status[:expired]
-        if reservation.save
-          rat = reservation.reservable_asset.reservable_asset_type
-          Email.create(
-            :from => rat.library.from,
-            :reply_to => rat.library.from,
-            :to => reservation.user.email,
-            :bcc => rat.library.bcc,
-            :subject => notices[rat.id].subject,
-            :body => notices[rat.id].message
-          )
-        else
-          logger.error "Could not expire reservation: #{reservation.id}"
-        end
-        puts "Successfully delivered expired notices!"
-      end
+    task :expire_reservations => :environment do
+      Reservation.expire_reservations
     end
 
     desc "Delete bulletin board posts after lifetime"
     task :delete_posts => :environment do
-      @bulletin_boards = BulletinBoard.all
-      unless @bulletin_boards.nil?
-        @bulletin_boards.each do |bb|
-          unless bb.posts.nil?
-            bb.posts.each do |post|
-              if Date.today - post.created_at.to_date >= bb.post_lifetime
-                Post.destroy(post)
-              end
-            end
-          end
-        end
-      end
+      BulletinBoard.prune_posts
       puts "Successfully deleted expired posts!"
     end
 
     desc "Send emails that are queued up"
     task :send_queued_emails => :environment do
-      emails = Email.to_send
-      emails.each do |email|
-        begin
-          Notification.send_queued(email).deliver
-          email.message_sent = true
-          email.date_sent = Time.now
-          email.save
-        rescue Exception => e
-          #FAIL!
-          email.error_message = e.inspect[0..4999]
-          email.to_send = false
-          email.save
-        end
-      end
+      Email.send_queued_emails
       puts "Successfully sent queued emails!"
-    end
-
-    desc "run all tasks in cron_task"
-    task :run_all => @per_minutes do
-      puts "Sent all notices and deleted old bulletin board posts!"
     end
 
     desc "Set up crontab"
@@ -152,7 +79,7 @@ namespace :inscriptio do
       tmp.write "#INSCRIPTIO_AUTO_CRON_BEGIN\n"
 
       per_min_time = "*/5 * * * *"
-      per_diem_time = "0 12 * * *"
+      per_diem_time = "1 12 * * *"
       preamble = "cd #{ENV['RAKE_ROOT'] || Rails.root} && #{`which rvm`.chomp} default do bundle exec #{`which rake`.chomp} inscriptio:cron_task:"
       env = "RAILS_ENV=#{ENV['RAILS_ENV']}"
 

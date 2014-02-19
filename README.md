@@ -36,11 +36,7 @@ INSCRIPTIO_MAIL_SENDER=email.address.for.mails@my.inscriptio.host.com
  rake inscriptio:cron_task:setup_crontab
 ```
 
-This populates the instance with some necessary basic items, and creates a cron task to periodically do things like expire notifications, send notices, et cetera. To run this cron task manually, do:
-
-```Shell
- rake inscriptio:cron_task:run_all
-```
+This populates the instance with some necessary basic items, and creates several cron tasks which manage the reservation lifecyle and delete old posts from bulletin boards.
 
 ## Order of Operations for Fresh Install
 

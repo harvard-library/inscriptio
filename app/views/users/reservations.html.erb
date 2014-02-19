@@ -1,6 +1,6 @@
 <% content_for :header do %>My Reservations<% end %>
 <div class="reservations collection-list">
-  <% ['Pending', 'Approved'].each do |status| %>
+  <% %w(Approved Expiring Pending).each do |status| %>
     <h2><%= status %> Reservations</h2>
       <ul class="<%= status.downcase %>">
         <% unless @reservations[status].blank? %>
