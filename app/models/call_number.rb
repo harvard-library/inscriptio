@@ -9,7 +9,7 @@ class CallNumber < ActiveRecord::Base
   validates_length_of :call_number, :minimum => 1, :maximum => 50
 
   validates_length_of :description, :maximum => 16.kilobytes, :allow_blank => true
-  has_many :libraries, :through => :floors
+  belongs_to :library
 
   def to_s
     "#{call_number}"
