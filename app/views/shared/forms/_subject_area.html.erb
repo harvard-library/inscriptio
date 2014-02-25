@@ -1,9 +1,9 @@
-<%= semantic_form_for(@subject_area) do |f| %>
+<%= semantic_form_for([@subject_area.library, @subject_area]) do |f| %>
   <%= f.inputs do %>
     <%= f.input :name %>
 	<%= f.input :long_name %>
     <%= f.input :description %>
-    <%= f.input :floors, :as => :check_boxes, :collection => @floors %>
+    <%= f.input :floors, :as => :check_boxes, :collection => @subject_area.library.floors %>
   <% end %>
   <%= f.actions %>
 <% end %>

@@ -9,8 +9,8 @@ class SubjectAreasController < ApplicationController
 
   def new
     @subject_area = SubjectArea.new
+    @subject_area.library_id = params[:library_id]
     @floors = Array.new
-    Floor.all.collect {|f| @floors << ["#{f.name} - #{f.library.name}", f.id] }
   end
 
   def show
@@ -25,7 +25,8 @@ class SubjectAreasController < ApplicationController
 
   def create
     @subject_area = SubjectArea.new
-    @subject_area.attributes = params[:subject_area]
+    @subject_area.attributes = params[:subject_area].except(:library_id)
+    @subject_area.library = Library.find(params[:library_id])
     respond_to do|format|
       if @subject_area.save
         flash[:notice] = 'Added that Subject Area'
