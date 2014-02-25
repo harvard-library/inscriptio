@@ -17,7 +17,7 @@ class CallNumbersController < ApplicationController
   def show
     @call_number = CallNumber.find(params[:id])
     if @call_number.subject_area
-      breadcrumbs.add @call_number.subject_area.name, subject_area_path(@call_number.subject_area.id)
+      breadcrumbs.add @call_number.subject_area.name, library_subject_area_path(@call_number.subject_area.library, @call_number.subject_area)
     end
     breadcrumbs.add @call_number.call_number, @call_number.id
   end

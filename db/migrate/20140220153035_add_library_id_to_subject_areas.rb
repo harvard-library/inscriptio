@@ -13,14 +13,18 @@ class AddLibraryIdToSubjectAreas < ActiveRecord::Migration
 
     # Map of which floors belong to which libraries
     # Note: Deliberately left a string because it's being fed directly to an IN clause in a query
-    floor_map = query("SELECT libraries.id, string_agg(floors.id::text, ',') FROM libraries LEFT OUTER JOIN floors ON libraries.id = floors.library_id GROUP BY libraries.id").map do |pair|
-      [pair.first.to_i, pair.last]
-    end.to_h
+    floor_map = query(<<-SQL).map {|pair| [pair.first.to_i, pair.last]}.to_h
+      SELECT libraries.id, string_agg(floors.id::text, ',')
+        FROM libraries
+        LEFT OUTER JOIN floors
+          ON libraries.id = floors.library_id
+      GROUP BY libraries.id
+    SQL
 
-    # All subject area ids, with attendant libraries
+   # All subject area ids, with attendant libraries
     result = query(<<-SQL)
-       SELECT sa.id,
-              string_agg(DISTINCT l.id::text, ',') libraries
+      SELECT sa.id,
+             string_agg(DISTINCT l.id::text, ',') libraries
         FROM subject_areas sa
         LEFT OUTER JOIN floors_subject_areas fsa
           ON sa.id = fsa.subject_area_id
@@ -28,7 +32,7 @@ class AddLibraryIdToSubjectAreas < ActiveRecord::Migration
           ON fsa.floor_id = f.id
         LEFT OUTER JOIN libraries l
           ON f.library_id = l.id
-        GROUP BY sa.id;
+      GROUP BY sa.id;
     SQL
 
     # Hashify the resulting mess, splitting aggregates and replacing nils with empty arrays
@@ -77,7 +81,11 @@ class AddLibraryIdToSubjectAreas < ActiveRecord::Migration
         old_call_nums.each do |old_cn|
           rest.each do |l_id|
             # create a new call number
-            new_cn = CallNumber.create(old_cn.attributes.except("id", "created_at", "updated_at", "subject_area_id").merge("subject_area_id" => SubjectArea.where(:library_id => l_id, :id => new_sa_ids).all(false).first.id))
+            new_cn = CallNumber.create(old_cn.attributes.except("id",
+                                                                "created_at",
+                                                                "updated_at",
+                                                                "subject_area_id").merge("subject_area_id" => SubjectArea.where(:library_id => l_id,
+                                                                                                                                :id => new_sa_ids)[0].id))
             # if this library has floors, assign floors for this library to new call number
             execute(<<-SQL) if floor_map[l_id]
               UPDATE call_numbers_floors SET call_number_id = #{new_cn.id} WHERE call_number_id = #{old_cn.id} AND floor_id IN (#{floor_map[l_id]})
@@ -86,10 +94,18 @@ class AddLibraryIdToSubjectAreas < ActiveRecord::Migration
         end #old_call_nums.each
       end # unless rest.empty?
     end # sa_map.each
+    execute <<-SQL
+      ALTER TABLE subject_areas
+        ALTER COLUMN library_id SET NOT NULL,
+        ADD CONSTRAINT fk_subject_areas_libraries
+        FOREIGN KEY (library_id)
+        REFERENCES libraries(id)
+    SQL
+
   end
 
   def down
-    # returns a pair of comma separated strings: [SA_IDS_TO_MERGE, SA_ID:FLOOR_ID_PAIRS]
+    # returns a pair of comma separated strings: [SA_IDS_TO_MERGE, FLOOR_IDS]
     result = query(<<-SQL)
       SELECT string_agg(DISTINCT sa.id::text, ',') ids,
              string_agg(DISTINCT f.id::text, ',') as floor_ids
@@ -129,6 +145,11 @@ class AddLibraryIdToSubjectAreas < ActiveRecord::Migration
         execute "DELETE FROM subject_areas WHERE id IN (#{v[:dup_sa_ids].join(',')})"
       end
     end
+
+    execute <<-SQL
+      ALTER TABLE subject_areas
+      DROP CONSTRAINT fk_subject_areas_libraries
+    SQL
     remove_column :subject_areas, :library_id # last step!
   end
 end

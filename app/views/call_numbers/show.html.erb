@@ -9,7 +9,7 @@
     <dd><%= @call_number.floors.join(', ') %></dd>
     <% if @call_number.subject_area %>
     <dt>Subject Area:</dt>
-    <dd><%= link_to @call_number.subject_area, subject_area_path(@call_number.subject_area.id) %></dd>
+    <dd><%= link_to @call_number.subject_area, library_subject_area_path(@call_number.subject_area.library, @call_number.subject_area) %></dd>
     <% end %>
   </dl>
 </div>

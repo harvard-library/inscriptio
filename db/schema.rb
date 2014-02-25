@@ -220,7 +220,7 @@ ActiveRecord::Schema.define(:version => 20140220153035) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "library_id"
+    t.integer  "library_id",  :null => false
   end
 
   add_index "subject_areas", ["name"], :name => "index_subject_areas_on_name"

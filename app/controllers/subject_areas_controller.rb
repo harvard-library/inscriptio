@@ -2,7 +2,7 @@ class SubjectAreasController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
 
   def index
-    @subject_areas = SubjectArea.all
+    @libraries = Library.includes(:subject_areas).all
 
     breadcrumbs.add "Subject Areas"
   end
@@ -15,7 +15,7 @@ class SubjectAreasController < ApplicationController
 
   def show
     @subject_area = SubjectArea.find(params[:id])
-    breadcrumbs.add @subject_area.floors[0].library.name, library_path(@subject_area.floors[0].library.id)
+    breadcrumbs.add @subject_area.library.name, library_path(@subject_area.library)
     breadcrumbs.add @subject_area.name, @subject_area.id
   end
 
