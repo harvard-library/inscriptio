@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140220153035) do
+ActiveRecord::Schema.define(:version => 20140225212342) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20140220153035) do
   add_index "bulletin_boards", ["reservable_asset_id"], :name => "index_bulletin_boards_on_reservable_asset_id"
 
   create_table "call_numbers", :force => true do |t|
-    t.integer  "subject_area_id"
+    t.integer  "subject_area_id",               :null => false
     t.string   "call_number",     :limit => 50, :null => false
     t.string   "long_name"
     t.string   "description"

@@ -3,7 +3,7 @@
     <%= f.input :call_number %>
 	<%= f.input :long_name %>
     <%= f.input :description %>
-    <%= f.input :subject_area %>
+    <%= f.input :subject_area, :required => true, :include_blank => false %>
     <%= f.input :floors, :as => :check_boxes %>
   <% end %>
   <%= f.actions %>
