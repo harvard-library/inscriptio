@@ -1,7 +1,7 @@
 class SubjectArea < ActiveRecord::Base
   attr_accessible :name, :long_name, :description, :floor_ids, :call_number_ids, :floor_ids
 
-  has_and_belongs_to_many :floors, :order => :name
+  has_many :floors, :through => :call_numbers, :order => :name
   has_many :call_numbers
   belongs_to :library
 

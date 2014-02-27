@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140225212342) do
+ActiveRecord::Schema.define(:version => 20140226202653) do
 
   create_table "bulletin_boards", :force => true do |t|
     t.integer  "reservable_asset_id"
@@ -67,14 +67,6 @@ ActiveRecord::Schema.define(:version => 20140225212342) do
   add_index "floors", ["floor_map"], :name => "index_floors_on_floor_map"
   add_index "floors", ["library_id"], :name => "index_floors_on_library_id"
   add_index "floors", ["position"], :name => "index_floors_on_position"
-
-  create_table "floors_subject_areas", :id => false, :force => true do |t|
-    t.integer "subject_area_id"
-    t.integer "floor_id"
-  end
-
-  add_index "floors_subject_areas", ["floor_id"], :name => "index_floors_subject_areas_on_floor_id"
-  add_index "floors_subject_areas", ["subject_area_id"], :name => "index_floors_subject_areas_on_subject_area_id"
 
   create_table "libraries", :force => true do |t|
     t.string   "name",         :null => false
