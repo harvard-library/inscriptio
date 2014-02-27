@@ -34,7 +34,7 @@
       <li class="empty">No call numbers yet.</li>
     <% end %>
     <% if current_user.admin? %>
-      <h2 class="action-button"><%= link_to('New Call Number', new_call_number_path) %></h2>
+      <h2 class="action-button"><%= link_to('New Call Number', new_library_call_number_path(@floor.library)) %></h2>
     <% end %>
   </ul>
 

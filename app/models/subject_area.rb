@@ -1,5 +1,5 @@
 class SubjectArea < ActiveRecord::Base
-  attr_accessible :name, :long_name, :description, :floor_ids, :call_number_ids, :floor_ids
+  attr_accessible :name, :long_name, :description, :call_number_ids, :library_id
 
   has_many :floors, :through => :call_numbers, :order => :name
   has_many :call_numbers

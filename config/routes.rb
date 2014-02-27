@@ -67,10 +67,6 @@ Inscriptio::Application.routes.draw do
 
   end
 
-  resources :call_numbers
-
-  resources :subject_areas, :only => [:index]
-
   resources :libraries do
     resources :floors do
       member do
@@ -79,10 +75,16 @@ Inscriptio::Application.routes.draw do
         get 'assets'
       end
     end
-    resources :subject_areas, :except => [:index]
+    resources :subject_areas, :shallow => true do
+      resources :call_numbers, :shallow => true
+    end
+    resources :call_numbers, :shallow => true
     resources :user_types
     resources :reservable_asset_types, :except => [:index]
   end
+
+  resources 'subject_areas', :only => [:index]
+  resources 'call_numbers', :only => [:index]
 
   root :to => 'libraries#index'
 

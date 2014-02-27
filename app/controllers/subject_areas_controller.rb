@@ -2,15 +2,16 @@ class SubjectAreasController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show]
 
   def index
-    @libraries = Library.includes(:subject_areas).all
-
+    @libraries = Library.includes(:subject_areas)
+    if params[:library_id]
+      @libraries = @libraries.where(:id => params[:library_id])
+    end
     breadcrumbs.add "Subject Areas"
   end
 
   def new
     @subject_area = SubjectArea.new
     @subject_area.library_id = params[:library_id]
-    @floors = Array.new
   end
 
   def show
@@ -25,14 +26,13 @@ class SubjectAreasController < ApplicationController
 
   def create
     @subject_area = SubjectArea.new
-    @subject_area.attributes = params[:subject_area].except(:library_id)
-    @subject_area.library = Library.find(params[:library_id])
+    @subject_area.attributes = params[:subject_area]
     respond_to do|format|
-      if @subject_area.save
+      if @subject_area.save!
         flash[:notice] = 'Added that Subject Area'
-        format.html {redirect_to subject_areas_path}
+        format.html {redirect_to library_subject_areas_path(@subject_area.library, @subject_area)}
       else
-        flash[:error] = 'Could not add that Subject Area'
+        flash.now[:error] = 'Could not add that Subject Area'
         format.html {render :action => :new}
       end
     end
@@ -49,7 +49,7 @@ class SubjectAreasController < ApplicationController
 
   def update
     @subject_area = SubjectArea.find(params[:id])
-    @subject_area.attributes = params[:subject_area]
+    @subject_area.attributes = params[:subject_area].except(:library_id).merge(:library_id => @subject_area.library_id)
     respond_to do|format|
       if @subject_area.save
         flash[:notice] = %Q|#{@subject_area} updated|

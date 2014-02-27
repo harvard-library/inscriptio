@@ -1,10 +1,18 @@
-<%= semantic_form_for(@call_number) do |f| %>
+<%
+   if action_name == 'new'
+      target = [@call_number.library, @call_number]
+    else
+      target = @call_number
+    end
+%>
+
+<%= semantic_form_for(target) do |f| %>
   <%= f.inputs do %>
     <%= f.input :call_number %>
 	<%= f.input :long_name %>
     <%= f.input :description %>
     <%= f.input :subject_area, :required => true, :include_blank => false %>
-    <%= f.input :floors, :as => :check_boxes %>
+    <%= f.input :floors, :as => :check_boxes, :collection => @call_number.library.floors %>
   <% end %>
   <%= f.actions %>
 <% end %>

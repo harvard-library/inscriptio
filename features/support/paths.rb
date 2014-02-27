@@ -11,7 +11,7 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
     when /the new call_number page/
-      new_call_number_path
+      new_library_call_number_path(@library)
 
 
     when /the new library page/

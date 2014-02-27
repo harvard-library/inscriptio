@@ -92,7 +92,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(call_numbers_path)
     when 'new'
-      visit(new_call_number_path)
+      visit(new_library_call_number_path(@library))
     when 'edit'
       visit(edit_call_number_path(@call_number))
     end

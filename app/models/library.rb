@@ -14,6 +14,7 @@ class Library < ActiveRecord::Base
   has_many :reservable_asset_types, :dependent => :destroy
   has_many :reservation_notices, :dependent => :destroy
   has_many :subject_areas, :dependent => :destroy
+  has_many :call_numbers, :through => :subject_areas
 
   validates_presence_of :name, :address_1, :city, :state, :zip, :from
   validates_format_of :url, :with => /\Ahttps?:\/\//, :allow_blank => true
