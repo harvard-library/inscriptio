@@ -24,12 +24,13 @@ class MakeSubjectAreaMandatoryForCallNumbers < ActiveRecord::Migration
     too_many_libs = cn_with_libs.select {|k,v| v.to_i != 0}
     if not too_many_libs.empty?
       raise ActiveRecord::ActiveRecordError.new(<<-ERR_TEXT)
-        BAD DATA: There are one or more call numbers attached to floors in more than one library.
+        BAD DATA: There are call numbers attached (through floors) to more than one library.
 
         The affected call numbers have ids: #{too_many_libs.keys.map(&:to_i).to_s}
 
       ERR_TEXT
     end
+
     # Get an array of call number ids with their libraries, through floors and subject areas respectively
     # Structure: array[cn_id, l_id_according_to_floors, l_id_according_to_subject_area]
     cn_libs_mapping = query(<<-SQL).sort {|a,b| a.first.to_i <=> b.first.to_i}
@@ -51,7 +52,7 @@ class MakeSubjectAreaMandatoryForCallNumbers < ActiveRecord::Migration
     wrong_libs = cn_libs_mapping.select {|cn_id, f_lib, sa_lib| sa_lib.nil? or (f_lib and sa_lib != f_lib) }
     if not wrong_libs.empty?
       raise ActiveRecord::ActiveRecordError.new(<<-ERR_TEXT)
-        BAD DATA: There are one or more call numbers with no subject_area,
+        BAD DATA: There are call numbers with no subject_area,
           or with different libraries according to their floors and their subject areas.
 
         The affected call numbers have ids: #{wrong_libs.map(&:first).map(&:to_i).to_s}
@@ -59,6 +60,7 @@ class MakeSubjectAreaMandatoryForCallNumbers < ActiveRecord::Migration
       ERR_TEXT
     end
 
+    # If nothing's blown up, we can finally constrain subject_area_id
     execute(<<-SQL)
       ALTER TABLE call_numbers
         ALTER COLUMN subject_area_id SET NOT NULL,
