@@ -42,7 +42,9 @@ Inscriptio::Application.routes.draw do
 
   resources :posts, :except => [:index]
 
-  resources :bulletin_boards
+  # All manipulation of BB state is directly through the model
+  #  in the reservable_assets_controller (yuck)
+  resources :bulletin_boards, :only => [:show]
 
   resources :user_types, :except => [:new]
 
