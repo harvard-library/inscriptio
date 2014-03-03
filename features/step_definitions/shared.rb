@@ -63,7 +63,7 @@ Given /^a reservation of "([^"]*)"$/ do |arg1|
 end
 
 Given /^a user_type of "([^"]*)"$/ do |arg1|
-  @user_type = UserType.find_or_create_by_name(arg1)
+  @user_type = UserType.find_or_create_by_name_and_library(arg1, :library_id => @library.id)
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
@@ -227,14 +227,14 @@ end
 
 Given 'a logged in user of type "$user_type"' do |user_type|
   case user_type
-  when 'user'
-    visit('/users/sign_in')
-    fill_in('Email', :with => "user@email.com")
-    fill_in('Password', :with => "123456")
-    click_button('Sign in')
   when 'admin'
     visit('/users/sign_in')
     fill_in('Email', :with => "admin@email.com")
+    fill_in('Password', :with => "123456")
+    click_button('Sign in')
+  else
+    visit('/users/sign_in')
+    fill_in('Email', :with => "user@email.com")
     fill_in('Password', :with => "123456")
     click_button('Sign in')
   end

@@ -79,7 +79,7 @@ Before do
   @admin = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true)
   @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456', :user_type => @user_t)
   @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status_id => Status[:approved], :start_date => Date.today, :end_date => Date.today + 59)
-  @subject_area = FactoryGirl.create(:subject_area, :name => "Phrenology", :floors => [Floor.find_by_name('Floor 1')])
+  @subject_area = FactoryGirl.create(:subject_area, :name => "Phrenology", :library => @library)
 end
 
 
