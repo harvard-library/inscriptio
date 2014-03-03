@@ -375,7 +375,17 @@ li {
 #content-left > div {
   padding: 5px 10px 5px 35px;
 }
-
+ul.collection-list {
+  padding-left: 0px;
+  margin-left: 0px;
+  margin-top: 10px;
+  &.reservable_assets {
+    padding-left: 20px;
+  }
+  li.reservable_asset_type.line .collapsible {
+    margin: 4px 0;
+  }
+}
 ul.actions {
 	display: inline;
 	padding-left: 20px;

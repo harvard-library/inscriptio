@@ -1,6 +1,6 @@
-<div class="message line" id="message-<%= message.id %>">
+<li class="message line" id="message-<%= message.id %>">
   <%= link_to(message.title, message ) %>
-  
+
   <% if current_user.admin? %>
 	<ul class="actions">
       <li><%= link_to('Edit', edit_message_path(message), :class => "action-edit") %></li>
@@ -9,4 +9,4 @@
 	  <% end %>
     </ul>
   <% end %>
-</div>
+</li>

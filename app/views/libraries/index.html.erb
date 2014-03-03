@@ -11,7 +11,7 @@
 </div>
 <h2>Participating Libraries</h2>
 <% unless @libraries.blank? %>
-  <ul>
+  <ul class="libraries collection-list">
     <%= render :partial => 'shared/lines/library', :collection => @libraries %>
   </ul>
 <% else %>

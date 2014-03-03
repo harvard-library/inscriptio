@@ -1,7 +1,9 @@
 <% content_for :header do %>Messages<% end %>
-<div class="messages collection-list">
+<div>
   <% unless @messages.blank? %>
-	<%= render :partial => 'shared/lines/message', :collection => @messages %>
+    <ul class="messages collection-list">
+	    <%= render :partial => 'shared/lines/message', :collection => @messages %>
+    </ul>
   <% else %>
 	<h2>No messages yet.</h2>
   <% end %>
@@ -9,4 +11,3 @@
     <h2 class="action-button"><%= link_to('New Message', new_message_path) %></h2>
   <% end %>
 </div>
-

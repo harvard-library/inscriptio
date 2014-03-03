@@ -1,9 +1,10 @@
-<div class="posts collection-list">
+<div>
   <% unless @posts.blank? %>
-	<%= render :partial => 'shared/lines/post', :collection => @posts %>
+  <ul class="posts collection-list">
+	  <%= render :partial => 'shared/lines/post', :collection => @posts %>
+  </ul>
   <% else %>
-	<h2>No posts yet.</h2>
+	<li><h2>No posts yet.</h2></li>
   <% end %>
-
   <h2 class="action-button"><%= link_to('New Post', new_post_path) %></h2>
 </div>

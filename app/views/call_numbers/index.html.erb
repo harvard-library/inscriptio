@@ -1,4 +1,4 @@
-<div class="call_numbers collection-list">
+<div>
   <% unless @libraries.blank? %>
     <% @libraries.each do |l| %>
       <% unless params[:subject_area_id] %>
@@ -10,8 +10,9 @@
          <% query = {:library_id => l.id}; if params[:subject_area_id] then query[:subject_area_id] = params[:subject_area_id] end %>
          <p class="action-button"><%= link_to('New Call Number', new_library_call_number_path(query)) %></p>
        <% end %>
-
-       <%= render :partial => 'shared/lines/call_number', :collection => l.call_numbers %>
+       <ul class="call_numbers collection-list">
+         <%= render :partial => 'shared/lines/call_number', :collection => l.call_numbers %>
+       </ul>
     <% end %>
   <% else %>
     <h2>No call numbers yet.</h2>

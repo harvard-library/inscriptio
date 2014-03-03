@@ -1,20 +1,22 @@
 <% content_for :header do %>Reservable Assets<% end %>
-<div class="reservable_asset_types collection-list">
+<div class="libraries">
   <% unless @libraries.blank? %>
   	<% @libraries.each do |library| %>
   	  <h2><%= library.name %></h2>
+  <p><%= link_to('New Reservable Asset Type', new_library_reservable_asset_type_path(library), :class => 'action-new') %></p>
       <% unless library.reservable_asset_types.blank? %>
         <h3>Asset Types</h3>
+        <ul class="reservable_asset_types collection-list">
         <%= render :partial => 'shared/lines/reservable_asset_type', :collection => library.reservable_asset_types %>
+        </ul>
       <% else %>
         <h3>No reservable asset types for this library yet.</h3>
       <% end %>
-      <p><%= link_to('New Reservable Asset Type', new_library_reservable_asset_type_path(library), :class => 'action-new') %></p>
     <% end %> <!-- END @libraries.each -->
   <% else %>
     <h2>No Libraries exist yet</h2>
   <% end %> <!-- END outer unless/else -->
-</div> <!-- END .reservable_asset_types.collection-list -->
+</div> <!-- END .libraries -->
 <hr style="max-width: 100%; margin: 20px 20px 20px -20px;">
 <h2> Email All in Library</h2>
 <div>

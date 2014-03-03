@@ -1,6 +1,8 @@
-<div class="school_affiliations collection-list">
+<div>
   <% unless @school_affiliations.blank? %>
-	<%= render :partial => 'shared/lines/school_affiliation', :collection => @school_affiliations %>
+  <ul class="school_affiliations collection-list">
+	  <%= render :partial => 'shared/lines/school_affiliation', :collection => @school_affiliations %>
+  </ul>
   <% else %>
 	<h2>No school affiliations yet.</h2>
   <% end %>

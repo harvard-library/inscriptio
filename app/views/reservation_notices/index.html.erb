@@ -8,7 +8,9 @@
 	      <h3 class="collapsible asset_notices"><%= at.name %></h3>
 		  <div class="asset_notices asset_notices-target library-<%= library.id %> at-<%= at.name.downcase %>">
             <% unless at.reservation_notices.blank? %>
-	          <%= render :partial => 'shared/lines/reservation_notice', :collection => at.reservation_notices.order(:status_id) %>
+            <ul class="reservation_notices collection-list">
+	            <%= render :partial => 'shared/lines/reservation_notice', :collection => at.reservation_notices.order(:status_id) %>
+            </ul>
             <% else %>
 	          <h2>No notices for this asset yet.</h2>
 	        <% end %>

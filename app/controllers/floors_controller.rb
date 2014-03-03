@@ -16,10 +16,10 @@ class FloorsController < ApplicationController
     @floor.library = @library
     respond_to do|format|
       if @floor.save
-        flash[:notice] = 'Added that floor'
+        flash.now[:notice] = 'Added that floor'
         format.html {render :action => :show}
       else
-        flash[:error] = 'Could not add that floor'
+        flash.now[:error] = 'Could not add that floor'
         format.html {render :action => :new}
       end
     end
@@ -35,10 +35,10 @@ class FloorsController < ApplicationController
     @floor.library = @library
     respond_to do|format|
       if @floor.save
-        flash[:notice] = %Q|#{@floor.name} updated|
+        flash.now[:notice] = %Q|#{@floor.name} updated|
         format.html {render :action => :show}
       else
-        flash[:error] = 'Could not update that floor'
+        flash.now[:error] = 'Could not update that floor'
         format.html {render :action => :new}
       end
     end

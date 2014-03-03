@@ -2,9 +2,11 @@
 <% @libraries.each do |l| %>
   <h2><%= l.name %></h2>
   <div class="library-<%= l.id %>">
-    <div class="user_types collection-list">
+    <div>
       <% unless l.user_types.blank? %>
-	      <%= render :partial => 'shared/lines/user_type', :collection => l.user_types %>
+        <ul class="user_types collection-list">
+	        <%= render :partial => 'shared/lines/user_type', :collection => l.user_types %>
+        </ul>
       <% else %>
 	      <h2>No user types yet.</h2>
       <% end %>
