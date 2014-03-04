@@ -28,7 +28,7 @@ class SubjectAreasController < ApplicationController
     @subject_area = SubjectArea.new
     @subject_area.attributes = params[:subject_area]
     respond_to do|format|
-      if @subject_area.save!
+      if @subject_area.save
         flash[:notice] = 'Added that Subject Area'
         format.html {redirect_to library_subject_areas_path(@subject_area.library, @subject_area)}
       else

@@ -383,7 +383,14 @@ ul.collection-list {
     padding-left: 20px;
   }
   li.reservable_asset_type.line .collapsible {
-    margin: 4px 0;
+    > div {
+      margin:0;
+      padding:0;
+    }
+    h3 {
+      margin: 4px 0;
+      display:inline-block;
+    }
   }
 }
 ul.actions {

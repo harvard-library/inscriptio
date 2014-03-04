@@ -28,7 +28,8 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
     # For non-special cases, construct their class from their object type
     klass = object_type.camelcase.constantize
     target = klass.send(method, name)
-    within("\##{object_type}-#{target.id} > .actions") do
+
+    within("\##{object_type}-#{target.id} > .actions, \##{object_type}-#{target.id} > div > .actions") do
       click_link "delete-#{target.id}"
     end
   end
@@ -63,7 +64,7 @@ Given /^a reservation of "([^"]*)"$/ do |arg1|
 end
 
 Given /^a user_type of "([^"]*)"$/ do |arg1|
-  @user_type = UserType.find_or_create_by_name_and_library(arg1, :library_id => @library.id)
+  @user_type = UserType.where(:name => arg1, :library_id => @library.id).first_or_create
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
@@ -102,7 +103,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(subject_areas_path)
     when 'new'
-      visit(new_subject_area_path)
+      visit(new_library_subject_area_path(@library))
     when 'edit'
       visit(edit_subject_area_path(@subject_area))
     end
@@ -112,9 +113,9 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(reservable_asset_types_path)
     when 'new'
-      visit(new_reservable_asset_type_path)
+      visit(new_library_reservable_asset_type_path(@library))
     when 'edit'
-      visit(edit_reservable_asset_type_path(@reservable_asset_type))
+      visit(edit_library_reservable_asset_type_path(@library, @reservable_asset_type))
     end
 
   elsif object_type == 'reservable_asset'
@@ -150,9 +151,9 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(user_types_path)
     when 'new'
-      visit(new_user_type_path)
+      visit(new_library_user_type_path(@library))
     when 'edit'
-      visit(edit_user_type_path(@user_type))
+      visit(edit_library_user_type_path(@user_type.library, @user_type))
     end
 
   end
@@ -171,7 +172,7 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
     visit(subject_area_path(subject_area))
   when 'reservable_asset_type'
     reservable_asset_type = ReservableAssetType.find(:first, :conditions => { :name => object_name })
-    visit(reservable_asset_type_path(reservable_asset_type))
+    visit(library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type))
   when 'reservable_asset'
     if object_name.to_i > 0
       reservable_asset = ReservableAsset.find(object_name.to_i)

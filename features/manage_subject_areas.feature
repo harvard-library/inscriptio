@@ -6,7 +6,7 @@ Feature: Manage Subject Areas
 	    Given a library named "Widener"
       And a logged in user of type "admin"
 	    And I am on the subject_area "new" page
-	    When I fill in "Description" with "Subject foo"
+      And I fill in "Description" with "Subject foo"
 	    And I press "Create"
 	    Then I should see "Could not add that Subject Area"
 
@@ -16,43 +16,27 @@ Feature: Manage Subject Areas
 	    And I am on the subject_area "new" page
 	    When I fill in "Name" with "Archeology"
 	    And I fill in "Description" with "Bones and stuff."
-	    And I check "Floor 1"
-	    And I check "Floor 3"
 	    And I press "Create"
 	    Then I should see "Archeology"
       And I should see "Added that Subject Area"
       Given I am on the subject_area "show" page for "Archeology"
-	    Then I should see "Floor 3"
-
+      Then I should see "Bones and stuff"
 
 	Scenario: View a subject area page
 	    Given a library named "Widener"
 	    And a subject_area of "Phrenology"
 	    And a logged in user of type "admin"
 	    And I am on the subject_area "show" page for "Phrenology"
-	    Then I should see "Floor 1"
 
 	Scenario: Edit a subject area
 	    Given a library named "Widener"
 	    And a subject_area of "Phrenology"
 	    And a logged in user of type "admin"
 	    When I am on the subject_area "edit" page
-	    And I check "Floor 1"
-	    And I check "Floor 2"
+      And I fill in "Name" with "Headbumpology"
 	    And I press "Update"
-	    And I am on the subject_area "show" page for "Phrenology"
-	    Then I should see "Floor 1"
-	    And I should see "Floor 2"
-
-	Scenario: Register a new subject area without a floor
-	    Given a library named "Widener"
-	    And a logged in user of type "admin"
-	    And I am on the subject_area "new" page
-	    When I fill in "Description" with "Cells and stuff."
-	    When I fill in "Name" with "Biology"
-	    And I press "Create"
-      Then I should see "Added that Subject Area"
-	    And I should see "Biology"
+	    And I am on the subject_area "show" page for "Headbumpology"
+      And I should see "Headbumpology"
 
 	Scenario: Delete a subject area
 	    Given a library named "Widener"

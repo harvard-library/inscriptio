@@ -1,15 +1,13 @@
 <li class="reservable_asset_type line" id="reservable_asset_type-<%= reservable_asset_type.id %>">
 
-  <h3 class="collapsible description"><%= reservable_asset_type.name.pluralize %> - <%= link_to("Add New #{reservable_asset_type.name}", new_reservable_asset_path(:library => reservable_asset_type.library)) %>
-<% if current_user.admin? %>
-    <ul class="actions" style="font-weight:normal;font-size: 13px;">
-      <li><%= link_to('Edit', edit_library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type), :class => "action-edit") %></li>
-      <li><%= link_to('Delete', library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{reservable_asset_type.id}", :class => "action-delete") %></li>
-    </ul>
-  <% end %>
-
-</h3>
-
+  <div class="collapsible"><h3 class="description"><%= reservable_asset_type.name.pluralize %> - <%= link_to("Add New #{reservable_asset_type.name}", new_reservable_asset_path(:library => reservable_asset_type.library)) %></h3>
+    <% if current_user.admin? %>
+      <ul class="actions" style="font-weight:normal;font-size: 13px;">
+        <li><%= link_to('Edit', edit_library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type), :class => "action-edit") %></li>
+        <li><%= link_to('Delete', library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{reservable_asset_type.id}", :class => "action-delete") %></li>
+      </ul>
+    <% end %>
+  </div>
   <ul class="reservable_assets collection-list">
 	  <% if current_user.admin? %>
       <% unless reservable_asset_type.reservable_assets.blank? %>

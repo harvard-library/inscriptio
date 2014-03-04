@@ -163,9 +163,9 @@ FactoryGirl.define do
     sequence(:email) {|n| "user#{n}@example.com" }
     first_name "Bobbert"
     last_name "McBob"
+    user_types {build_list :user_type, 3, :library_id => 1}
     admin false
     password "bupkiss"
-    user_types
     # school_affiliation
   end
 

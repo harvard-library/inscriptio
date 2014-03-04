@@ -36,7 +36,6 @@ class ReservationNotice < ActiveRecord::Base
                                      :message => message,
                                      :reply_to => reply_to)
       notice.save
-      puts "Successfully created #{notice.subject}"
     end
   end
 
