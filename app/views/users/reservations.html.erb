@@ -1,14 +1,20 @@
 <% content_for :header do %>My Reservations<% end %>
 <div class="reservations collection-list">
-  <% %w(Approved Expiring Pending).each do |status| %>
-    <h2><%= status %> Reservations</h2>
-      <ul class="<%= status.downcase %>">
-        <% unless @reservations[status].blank? %>
-	        <%= render :partial => 'shared/lines/reservation', :collection => @reservations[status] %>
-        <% else %>
-          <li>No <%= status.downcase %> reservations.</li>
-        <% end %> <!-- END unless/else -->
-      </ul>
-
-  <% end %> <!-- END each -->
+  <% unless @reservations.values.map(&:blank?).reduce {|bool, collection| bool || collection.blank?} %>
+    <% @reservations.select {|k,v| not v.blank?}.keys.sort.each do |status| %>
+      <% unless @reservations[status].blank? %>
+        <h2><%= status %> Reservations</h2>
+        <ul class="<%= status.downcase %>">
+          <% unless current_user.admin? %>
+	          <%= render :partial => 'shared/lines/reservation_nadmin', :collection => @reservations[status] %>
+          <% else %>
+            <%= render :partial => 'shared/lines/reservation', :collection => @reservations[status] %>
+          <% end %>
+        </ul>
+      <% end %> <!-- unless @reser...blank? -->
+    <% end %> <!-- each -->
+  <% else %>
+    <h2>No reservations</h2>
+    <p>You do not have a reservation at this time.</p>
+  <% end %> <!-- unless/else -->
 </div>

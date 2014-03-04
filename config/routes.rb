@@ -51,6 +51,7 @@ Inscriptio::Application.routes.draw do
   resources :reservations do
     member do
       put 'approve'
+      put 'expire'
     end
   end
 

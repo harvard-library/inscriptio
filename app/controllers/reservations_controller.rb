@@ -186,4 +186,24 @@ class ReservationsController < ApplicationController
       format.js
     end
   end
+
+  def expire
+    @reservation = Reservation.find(params[:id])
+    unless current_user.admin? || @reservation.user_id == current_user.id
+      redirect_to('/') and return
+    end
+    if @reservation.status_id == Status[:pending]
+      success = @reservation.destroy
+    else
+      success = @reservation.update_column(:status_id, Status[:expired])
+    end
+    respond_to do |format|
+      if false #success
+        format.js { @reservation }
+      else
+        format.js { head :status => 500 }
+      end
+    end
+  end
+
 end
