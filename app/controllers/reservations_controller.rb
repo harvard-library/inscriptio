@@ -198,7 +198,7 @@ class ReservationsController < ApplicationController
       success = @reservation.update_column(:status_id, Status[:expired])
     end
     respond_to do |format|
-      if false #success
+      if success
         format.js { @reservation }
       else
         format.js { head :status => 500 }

@@ -7,6 +7,6 @@
   <% end %>
   <ul class="actions">
     <!-- Note: Action doesn't work yet -->
-    <li><%= link_to('Cancel', expire_reservation_path(reservation), :class => "action-expire", :remote => true, :method => :put) %></li>
+    <li><%= link_to('Cancel', expire_reservation_path(reservation), :class => "action-expire", :remote => true, :method => :put, :confirm => "Are you sure you want to cancel your reservation?") %></li>
   </ul>
 </li>
