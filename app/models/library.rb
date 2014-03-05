@@ -16,6 +16,9 @@ class Library < ActiveRecord::Base
   has_many :reservation_notices, :dependent => :destroy
   has_many :subject_areas, :dependent => :destroy
   has_many :call_numbers, :through => :subject_areas
+  has_and_belongs_to_many( :local_admins,
+                           :class_name => "User",
+                           :join_table => :libraries_users_admin_permissions)
 
   validates_presence_of :name, :address_1, :city, :state, :zip, :from
   validates_format_of :url, :with => /\Ahttps?:\/\//, :allow_blank => true

@@ -91,6 +91,14 @@ ActiveRecord::Schema.define(:version => 20140306204018) do
     t.datetime "deleted_at"
   end
 
+  create_table "libraries_users_admin_permissions", :id => false, :force => true do |t|
+    t.integer "user_id",    :null => false
+    t.integer "library_id", :null => false
+  end
+
+  add_index "libraries_users_admin_permissions", ["library_id"], :name => "index_libraries_users_admin_permissions_on_library_id"
+  add_index "libraries_users_admin_permissions", ["user_id"], :name => "index_libraries_users_admin_permissions_on_user_id"
+
   create_table "messages", :force => true do |t|
     t.string   "title",       :null => false
     t.text     "content",     :null => false

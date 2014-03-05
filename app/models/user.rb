@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
   has_many :posts, :dependent => :destroy
   has_many :moderator_flags, :dependent => :destroy
   has_many :emails, :primary_key => :email, :foreign_key => :to, :dependent => :destroy
+  has_and_belongs_to_many(:local_admin_permissions,
+                          :class_name => 'Library',
+                          :join_table => :libraries_users_admin_permissions)
+  has_many :libraries, :through => :user_types
 #  has_one :authentication_source, :through => :user_type
 
   validates_presence_of :email
