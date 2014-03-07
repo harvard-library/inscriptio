@@ -9,6 +9,13 @@ require 'rspec/rails'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# "Fix" for problem with foreign key constraints in test.
+class ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+  def supports_disable_referential_integrity?
+    false
+  end
+end
+
 RSpec.configure do |config|
   # Clean Database before tests
   config.use_transactional_examples = false #factoryGirl

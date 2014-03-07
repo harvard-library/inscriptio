@@ -16,6 +16,7 @@ gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
 # Temporarily using custom fork of paranoia to work around issue
 gem 'paranoia', :git => 'git://github.com/pobocks/paranoia.git', :branch => 'issue_118_fix'
+gem 'foreigner',    '~> 1.6.1' # Gem providing foreign key support for ActiveRecord
 group :assets do
   gem 'sass-rails',   '~> 3.2.6'
   gem 'coffee-rails', '~> 3.2.2'

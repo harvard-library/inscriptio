@@ -1,4 +1,5 @@
 class CallNumber < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible :subject_area_id, :call_number, :long_name, :description, :floor_ids
 
   has_and_belongs_to_many :floors, :order => :name

@@ -1,4 +1,5 @@
 class ReservableAssetType < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible( :library_id, :user_type_ids,
                    :name,
                    :min_reservation_time, :max_reservation_time, :expiration_extension_time,

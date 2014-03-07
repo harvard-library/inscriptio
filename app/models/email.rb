@@ -1,6 +1,6 @@
 class Email < ActiveRecord::Base
   attr_accessible :to, :from, :reply_to, :subject, :bcc, :body
-
+  belongs_to :user, :primary_key => :email, :foreign_key => :to
   validates_presence_of :to, :from, :reply_to, :subject, :body
 
   def self.to_send

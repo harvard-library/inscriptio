@@ -1,4 +1,5 @@
 class Floor < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible :name, :floor_map, :position, :subject_area_ids, :call_number_ids, :reservable_asset_ids
 
   mount_uploader :floor_map, FloorMapUploader

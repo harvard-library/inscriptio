@@ -1,4 +1,5 @@
 class BulletinBoard < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible
 
   has_many :posts, :dependent => :destroy, :order => :created_at

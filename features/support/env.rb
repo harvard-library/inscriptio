@@ -21,6 +21,16 @@
 require 'cucumber/rails'
 require 'capybara/poltergeist'
 
+
+# "Fix" for problem with foreign key constraints in test.
+# Postgres is unable to disable referential integrity
+class ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+  def supports_disable_referential_integrity?
+    false
+  end
+end
+
+
 Capybara.default_driver = :rack_test
 Capybara.javascript_driver = :poltergeist
 Capybara.register_driver :poltergeist do |app|

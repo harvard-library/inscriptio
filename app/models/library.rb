@@ -1,4 +1,5 @@
 class Library < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible( :name, :url,
                    :address_1, :address_2,
                    :city, :state, :zip,

@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :bulletin_board
   belongs_to :user
-  has_many :moderator_flags
+  has_many :moderator_flags, :dependent => :destroy
 
   validates_presence_of :message
 
@@ -20,4 +20,5 @@ class Post < ActiveRecord::Base
       )
     end
   end
+
 end
