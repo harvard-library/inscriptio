@@ -5,6 +5,8 @@ Inscriptio is, by and large, a pretty normal Rails app, and a general familiarit
 ### [Paranoia](https://github.com/radar/paranoia)
 Inscriptio makes fairly extensive use of [Paranoia](https://github.com/radar/paranoia), a gem that provides "soft-delete" of ActiveRecord records.  Any model with `acts_as_paranoid` in its `model.rb` file and a `deleted_at` column in its table has this active.
 
+It's important to understand the ramifications this has for associations with `:dependent => :destroy` relationships.  Any "parent" model that has a `:dependent => :destroy` with a paranoid "child" model MUST also be paranoid, otherwise referential integrity constraints will prevent deletion of the parent.
+  
 One thing to especially watch out for - [Paranoia](https://github.com/radar/paranoia) uses a default scope to hide soft-deleted records.  I suggest at minimum reading through the readme for [Paranoia](https://github.com/radar/paranoia) before doing any work in models or at the Rails console.
 
 ### pluck_all
