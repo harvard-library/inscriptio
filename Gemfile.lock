@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/pobocks/paranoia.git
+  revision: acbc916c10515234793f624679b63ad03f01fab9
+  branch: issue_118_fix
+  specs:
+    paranoia (1.3.3)
+      activerecord (~> 3.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -136,8 +144,6 @@ GEM
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     orm_adapter (0.4.0)
-    paranoia (1.3.2)
-      activerecord (~> 3.2)
     pg (0.17.0)
     poltergeist (1.4.1)
       capybara (~> 2.1.0)
@@ -258,7 +264,7 @@ DEPENDENCIES
   jquery-ui-rails (~> 4.0.5)
   launchy
   mini_magick (~> 3.6.0)
-  paranoia (~> 1.0)
+  paranoia!
   pg (~> 0.17.0)
   poltergeist
   pry

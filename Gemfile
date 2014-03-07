@@ -14,7 +14,8 @@ gem 'rake',         '~> 10.1.0'
 gem 'rubyzip',      '~> 1.0.0'
 gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
-gem 'paranoia',     '~> 1.0' # Soft delete gem providing "acts_as_paranoid" for use in models
+# Temporarily using custom fork of paranoia to work around issue
+gem 'paranoia', :git => 'git://github.com/pobocks/paranoia.git', :branch => 'issue_118_fix'
 group :assets do
   gem 'sass-rails',   '~> 3.2.6'
   gem 'coffee-rails', '~> 3.2.2'
