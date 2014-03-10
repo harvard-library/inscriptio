@@ -38,8 +38,17 @@ class Ability
       can :manage, Library do |library|
         user.local_admin_permissions.include?(library)
       end
-    else
-      can :read, [Library, Floor]
+    elsif user.id
+      can :read, [Library, Floor, SubjectArea, CallNumber, ReservableAsset]
+      can :read, Reservation, :user_id => user.id
+      can :create, Reservation do |r|
+        r.reservable_asset.reservable_asset_type.user_types.pluck(:id).select do |ut|
+          user.user_types.pluck(:id).include? ut
+        end.count >= 1
+      end
+      can :read, BulletinBoard do |bb|
+        BulletinBoard.joins(:reservable_asset => {:reservations => :user}).where('users.id = ?', user.id).include? bb
+      end
     end
   end
 end

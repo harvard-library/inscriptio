@@ -83,7 +83,6 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
     params[:reservation][:reservable_asset] = defined?(@reservable_asset) ? @reservable_asset : ReservableAsset.find(params[:reservation][:reservable_asset_id])
     current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
-
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
         params[:reservation][:status_id] = Status[:pending]
@@ -93,6 +92,7 @@ class ReservationsController < ApplicationController
     end
 
     @reservation.attributes = params[:reservation]
+    authorize! :create, @reservation
     @reservation.slot = @reservation.assign_slot
     respond_to do |format|
       if @reservation.save
