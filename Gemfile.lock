@@ -1,7 +1,7 @@
 GIT
-  remote: git://github.com/pobocks/paranoia.git
-  revision: acbc916c10515234793f624679b63ad03f01fab9
-  branch: issue_118_fix
+  remote: git://github.com/radar/paranoia.git
+  revision: d8c9ce4b498c753efe5171e7014a99974e149f45
+  ref: d8c9ce4b498c753efe5171e7014a99974e149f45
   specs:
     paranoia (1.3.3)
       activerecord (~> 3.2)
