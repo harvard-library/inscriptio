@@ -1,6 +1,8 @@
 <% content_for :body do %>class="double-column"<% end %>
 <% content_for :header do %><%= @floor %> in <%= link_to @floor.library.name, @floor.library %><% end %>
 
+<% admin = can? :manage, @floor.library %>
+
 <% content_for :content_left do %>
   <h4 class="collapsible description">Assets</h4>
   <ul class="navlist description description-target">
@@ -9,7 +11,7 @@
     <% else %>
       <li class="empty">No reservable assets yet.</li>
     <% end %>
-    <% if current_user.admin? %>
+    <% if admin %>
       <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path(:library => @floor.library)) %></h2>
     <% end %>
   </ul>
@@ -21,7 +23,7 @@
     <% else %>
       <li class="empty">No subject areas yet.</li>
     <% end %>
-    <% if current_user.admin? %>
+    <% if admin  %>
       <h2 class="action-new-subject"><%= link_to('New Subject Area', new_library_subject_area_path) %></h2>
     <% end %>
   </ul>
@@ -33,7 +35,7 @@
     <% else %>
       <li class="empty">No call numbers yet.</li>
     <% end %>
-    <% if current_user.admin? %>
+    <% if admin %>
       <h2 class="action-button"><%= link_to('New Call Number', new_library_call_number_path(@floor.library)) %></h2>
     <% end %>
   </ul>
@@ -45,7 +47,7 @@
     <% else %>
       <li class="empty">No floors yet.</li>
     <% end %>
-    <% if current_user.admin? %>
+    <% if admin %>
       <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
     <% end %>
   </ul>
@@ -56,7 +58,7 @@
   <div id='map-container'>
     <%= image_tag(image_path(@floor.floor_map.url), :id => 'map') %>
   </div>
-  <% if current_user.admin? %>
+  <% if admin %>
     <%= javascript_tag(%Q| 	$(window).load(function() {$('#map-container').floormap({ admin: true });})|) %>
   <% else %>
     <%= javascript_tag(%Q| 	$(window).load(function() {$('#map-container').floormap();})|) %>

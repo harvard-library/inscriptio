@@ -29,18 +29,18 @@
 <% else %>
   <h4>No floors yet.</h4>
 <% end %>
-<% if current_user.admin? %>
+<% if can? :manage, @library %>
   <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@library)) %></h2>
 <% end %>
 
 <h2>All Subject Areas</h2>
 
-<% unless @subject_areas.blank? %>
+<% unless @library.subject_areas.blank? %>
   <%= render :partial => 'shared/lines/subject_area', :collection => @library.subject_areas %>
 <% else %>
   <h4>No subject areas yet.</h4>
 <% end %>
-<% if current_user.admin? %>
+<% if can? :manage, @library %>
   <h2 class="action-new-subject"><%= link_to('New Subject Area', new_library_subject_area_path(@library)) %></h2>
 <% end %>
 <!-- </div> -->

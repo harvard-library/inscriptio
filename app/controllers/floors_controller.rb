@@ -1,17 +1,15 @@
 class FloorsController < ApplicationController
-  before_filter :load_library
-  before_filter :authenticate_admin!, :except => [:index, :show, :assets]
+  load_and_authorize_resource :library
+  load_and_authorize_resource :floor, :through => :library
 
   def index
     @floors = @library.floors
   end
 
   def new
-    @floor = Floor.new
   end
 
   def create
-    @floor = Floor.new
     @floor.attributes = params[:floor].except(:library_id)
     @floor.library = @library
     respond_to do|format|
@@ -26,11 +24,9 @@ class FloorsController < ApplicationController
   end
 
   def edit
-    @floor = Floor.find(params[:id])
   end
 
   def update
-    @floor = Floor.find(params[:id])
     @floor.attributes = params[:floor].except(:library_id)
     @floor.library = @library
     respond_to do|format|
@@ -45,7 +41,6 @@ class FloorsController < ApplicationController
   end
 
   def move_higher
-    @floor = Floor.find(params[:id])
     unless @floor.first?
       @floor.move_higher
       flash[:notice] = "Moved #{@floor.name} up"
@@ -56,7 +51,6 @@ class FloorsController < ApplicationController
   end
 
   def move_lower
-    @floor = Floor.find(params[:id])
     unless @floor.last?
       @floor.move_lower
       flash[:notice] = "Moved #{@floor.name} down"
@@ -67,14 +61,12 @@ class FloorsController < ApplicationController
   end
 
   def show
-    @floor = Floor.find(params[:id])
-
+    @library = @floor.library
     breadcrumbs.add @floor.library.name, library_path(@floor.library.id)
     breadcrumbs.add @floor.name, @floor.id
   end
 
   def destroy
-    @floor = Floor.find(params[:id])
     library = @floor.library
     floor_name = @floor.name
     if @floor.destroy
@@ -84,8 +76,7 @@ class FloorsController < ApplicationController
   end
 
   def assets
-    floor = Floor.find(params[:id])
-    assets = floor.reservable_assets
+    assets = @floor.reservable_assets
     respond_to do |format|
       format.json {
         output = assets.map { |asset|
@@ -103,11 +94,4 @@ class FloorsController < ApplicationController
       }
     end
   end
-
-  private
-
-  def load_library
-    @library = Library.find(params[:library_id])
-  end
-
 end

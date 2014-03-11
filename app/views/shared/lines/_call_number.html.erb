@@ -1,11 +1,11 @@
 <li class="call_number line" id="library-<%= call_number.id %>">
   <%= link_to(call_number.call_number, call_number ) %>
-  
-  <% if current_user.admin? %>
+
+  <% if can? :manage, call_number %>
     <ul class="actions">
       <li><%= link_to('Edit', edit_call_number_path(call_number), :class => "action-edit") %></li>
       <li><%= link_to('Delete', call_number_path(call_number), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{call_number.id}", :class => "action-delete") %></li>
     </ul>
-  <% end %>  
+  <% end %>
 
 </li>

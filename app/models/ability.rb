@@ -31,15 +31,9 @@ class Ability
     user ||= User.new
 
     alias_action :create, :read, :update, :to => :all_but_destroy
-    if user.admin?
-      can :manage, :all
-    elsif user.local_admin_permissions.count > 0
-      can :all_but_destroy, User
-      can :manage, Library do |library|
-        user.local_admin_permissions.include?(library)
-      end
-    elsif user.id
+    if user.id # Any authenticated user
       can :read, [Library, Floor, SubjectArea, CallNumber, ReservableAsset]
+      can :assets, Floor
       can :read, Reservation, :user_id => user.id
       can :create, Reservation do |r|
         r.reservable_asset.reservable_asset_type.user_types.pluck(:id).select do |ut|
@@ -49,6 +43,18 @@ class Ability
       can :read, BulletinBoard do |bb|
         BulletinBoard.joins(:reservable_asset => {:reservations => :user}).where('users.id = ?', user.id).include? bb
       end
+
+      if user.admin? # Global Admin
+        can :manage, :all
+      elsif user.local_admin_permissions.count > 0 # Local admin
+        can :all_but_destroy, User
+        can :manage, Library, :id => user.local_admin_permissions.pluck(:id)
+        can :manage, [CallNumber, Floor, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
+          user.local_admin_permissions.include?(obj.library)
+        end
+      end
+    else # Unauthed Users
+
     end
   end
 end

@@ -1,9 +1,9 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show, :help]
-  
+  before_filter :authenticate_admin!, :except => [:help]
+
   def index
     @messages = Message.all
-    
+
     breadcrumbs.add 'Messages'
   end
 
@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 
   def show
     @message = Message.find(params[:id])
-    
+
     breadcrumbs.add 'Messages', messages_path
     breadcrumbs.add @message.title, @message.id
   end
@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
   def edit
     @message = Message.find(params[:id])
   end
-  
+
   def create
     @message = Message.new
     @message.attributes = params[:message]
@@ -58,8 +58,8 @@ class MessagesController < ApplicationController
       end
     end
   end
-  
+
   def help
-    
+
   end
 end
