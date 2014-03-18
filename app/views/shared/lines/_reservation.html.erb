@@ -4,8 +4,8 @@
   User: <%= link_to("#{[reservation.user.first_name.to_s, reservation.user.last_name.to_s].join(' ')} (#{reservation.user.email.to_s})", reservation.user) %>,
   <%= "from #{reservation.start_date} to #{reservation.end_date}" %>
   <ul class="actions">
-    <% if current_user.try(:admin?) || reservation.allow_edit?(current_user) %>
-      <% if reservation.status_id == Status[:pending] && current_user.try(:admin?) %>
+    <% if can? :manage, reservation %>
+      <% if reservation.status_id == Status[:pending] %>
         <li><%= link_to('Approve', approve_reservation_path(reservation), :class => "action-approve", :remote => true, :method => :put) %></li>
       <% end %>
       <li><%= link_to(reservation.deleted_at ? 'Delete' : 'Clear', reservation_path(reservation), :confirm => "Are you sure you want to #{reservation.deleted_at ? 'delete' : 'Clear'} this reservation?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete", :remote => true) %></li>

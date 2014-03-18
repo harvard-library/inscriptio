@@ -15,7 +15,8 @@ class ReservableAsset < ActiveRecord::Base
   belongs_to :floor
 
   belongs_to :reservable_asset_type
-  has_one :library, :through => :reservable_asset_type
+  delegate :user_types, :to => :reservable_asset_type
+  delegate :library, :to => :reservable_asset_type
 
   has_many :reservations, :dependent => :destroy
   has_many :users, :through => :reservations
@@ -97,28 +98,8 @@ class ReservableAsset < ActiveRecord::Base
     (self.slots.split(',').length == self.max_concurrent_users) || (self.max_concurrent_users == 1 && self.slots.nil?)
   end
 
-  def asset_full?
+  def full?
     self.current_users.length >= self.max_concurrent_users
-  end
-
-  def allow_reservation?(current_user)
-    if current_user.admin
-      true
-    elsif self.max_concurrent_users > self.current_users.length && self.reservable_asset_type.user_types.where('user_types.id IN (?)', current_user.user_type_ids).count > 0
-      all_current = ReservableAsset.all.collect{|r| r.current_users}.flatten
-      current_user_reservation = Reservation.find(:first, :conditions => ["status_id in (?) AND user_id = ?", Status::ACTIVE_IDS, current_user.id])
-      if current_user_reservation.nil?
-        true
-      elsif all_current.include?(current_user) && current_user_reservation.expiring?
-        true
-      else
-        # has a current reservation and not current expiring
-        false
-      end
-    else
-      # not admin or asset is full or not the right user type
-      false
-    end
   end
 
   def self.search(search)

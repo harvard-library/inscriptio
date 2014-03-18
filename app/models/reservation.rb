@@ -4,6 +4,8 @@ class Reservation < ActiveRecord::Base
 
   belongs_to :reservable_asset
   belongs_to :user
+  has_one :reservable_asset_type, :through => :reservable_asset
+  delegate :library, :to => :reservable_asset_type, :allow_nil => true
 
   validates_presence_of :user, :reservable_asset
   validate :validate_date_span

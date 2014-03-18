@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   private
   def authenticate_admin!
-    if !current_user.admin?
+    if !(current_user.admin? || current_user.local_admin_permissions.count > 0)
       redirect_to(root_url)
     end
 

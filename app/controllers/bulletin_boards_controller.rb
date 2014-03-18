@@ -1,5 +1,4 @@
 class BulletinBoardsController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show]
   load_and_authorize_resource
 
   def show

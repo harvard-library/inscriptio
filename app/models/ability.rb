@@ -40,6 +40,12 @@ class Ability
           user.user_types.pluck(:id).include? ut
         end.count >= 1
       end
+      can :expire, Reservation, :user_id => user.id
+      can :reserve, ReservableAsset do |ra|
+        ra.reservable_asset_type.user_types.pluck(:id).select do |ut|
+          user.user_types.pluck(:id).include? ut
+        end.count >= 1
+      end
       can :read, BulletinBoard do |bb|
         BulletinBoard.joins(:reservable_asset => {:reservations => :user}).where('users.id = ?', user.id).include? bb
       end
@@ -52,6 +58,8 @@ class Ability
         can :manage, [CallNumber, Floor, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
           user.local_admin_permissions.include?(obj.library)
         end
+        can :reserve, ReservableAsset, :library => user.local_admin_permissions.all
+        can :manage, Reservation, :library => user.local_admin_permissions.all
       end
     else # Unauthed Users
 

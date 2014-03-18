@@ -6,7 +6,7 @@
 	  <%= f.input :reservable_asset_id, :as => :hidden, :input_html => {:value => @reservable_asset.id} %>
 	  Chosen Asset: <%= @reservable_asset.reservable_asset_type.name %> <%= @reservable_asset.name %>
 	  <br /><br />
-	  <% if current_user.admin? %>
+	  <% if can? :manage, @reservation.library %>
 	    <% if @reservation.start_date.nil? %>
 	      <%= f.input :start_date, :as => :string, :input_html => { :value => Date.today.strftime("%m/%d/%Y") } %><br />
 	    <% else %>
@@ -30,7 +30,7 @@
 	    <%= f.input :end_date, :as => :string, :input_html => { :value => @reservation.end_date.strftime("%m/%d/%Y")} %>
 	  <% end %>
 	  <br />
-	  <% if current_user.admin? %>
+	  <% if can? :manage, @reservation.library %>
       <%= f.input :user, :as => :select, :collection => User.can_reserve(@reservable_asset.reservable_asset_type.id).order(:email) %>
       <%= f.input :status_id, :as => :select, :include_blank => false, :collection => Status.to_hash  %>
 	  <% end %>

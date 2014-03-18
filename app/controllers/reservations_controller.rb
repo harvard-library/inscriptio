@@ -1,7 +1,7 @@
 class ReservationsController < ApplicationController
   before_filter :verify_credentials, :only => [:index, :new, :show, :create, :update, :destroy]
   before_filter :process_dates, :only => [:create, :update]
-  before_filter :authenticate_admin!, :only => [:index]
+  load_resource :only => [:new, :create, :expire]
 
   def process_dates
     params[:reservation][:start_date] = Date.strptime(params[:reservation][:start_date], "%m/%d/%Y")
@@ -9,7 +9,13 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    rel = Library.includes(:reservable_asset_types => {:reservable_assets => {:reservations => :user}})
+    authorize! :manage, Reservation
+    if current_user.admin?
+      rel = Library
+    else
+      rel = current_user.local_admin_permissions
+    end
+    rel = rel.includes(:reservable_asset_types => {:reservable_assets => {:reservations => :user}})
     rel = rel.where("status_id IN (?)", Status[:pending, :expired, :approved, :expiring])
     rel = rel.where('reservations.deleted_at IS NULL')
     @libraries = rel.order('libraries.id, reservable_asset_types.id, users.email')
@@ -37,8 +43,10 @@ class ReservationsController < ApplicationController
   end
 
   def new
-    @reservation = Reservation.new
     @reservable_asset = ReservableAsset.find(params[:reservable_asset])
+    @reservation.reservable_asset = @reservable_asset
+    authorize! :reserve, @reservable_asset
+
     @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
     @min_time = ReservableAsset.find(@reservable_asset).min_reservation_time
   end
@@ -47,6 +55,7 @@ class ReservationsController < ApplicationController
     relation = Reservation
     relation = relation.with_deleted if current_user.admin?
     @reservation = relation.find(params[:id])
+    authorize! :show, @reservation
 
     if @reservation.deleted_at
       flash.now[:notice] = "DELETED AT #{@reservation.deleted_at}"
@@ -55,9 +64,10 @@ class ReservationsController < ApplicationController
       @del_or_clear = 'Clear'
     end
 
-    unless current_user.admin? || @reservation.user_id == current_user.id
-      redirect_to('/') and return
-    end
+    @authority = {
+      :edit =>    can?(:edit, @reservation),
+      :expire =>  can?(:expire, @reservation),
+      :destroy => can?(:destroy, @reservation)}
   end
 
   def edit
@@ -65,9 +75,7 @@ class ReservationsController < ApplicationController
     relation = relation.with_deleted if current_user.admin?
     @reservation = relation.find(params[:id])
 
-    unless current_user.admin? || @reservation.user_id == current_user.id
-       redirect_to('/') and return
-    end
+    authorize! :update, @reservation
 
     flash.now[:notice] = "DELETED AT #{@reservation.deleted_at}" if @reservation.deleted_at
 
@@ -80,8 +88,9 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Reservation.new
+
     params[:reservation][:reservable_asset] = defined?(@reservable_asset) ? @reservable_asset : ReservableAsset.find(params[:reservation][:reservable_asset_id])
+
     current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
@@ -177,7 +186,9 @@ class ReservationsController < ApplicationController
   def approve
     relation = Reservation
     relation = relation.with_deleted if current_user.admin?
+
     @reservation = relation.find(params[:id])
+    authorize! :update, @reservation
 
     @reservation.status_id = Status[:approved]
     @reservation.save
@@ -189,9 +200,7 @@ class ReservationsController < ApplicationController
 
   def expire
     @reservation = Reservation.find(params[:id])
-    unless current_user.admin? || @reservation.user_id == current_user.id
-      redirect_to('/') and return
-    end
+    authorize! :expire, @reservation
     if @reservation.status_id == Status[:pending]
       success = @reservation.destroy
     else
@@ -200,6 +209,13 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       if success
         format.js { @reservation }
+        format.html {
+          if can? :manage, @reservation.library
+            redirect_to @reservation
+          else
+            redirect_to reservations_user_url(@reservation.user)
+          end
+        }
       else
         format.js { head :status => 500 }
       end

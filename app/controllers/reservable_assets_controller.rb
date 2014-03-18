@@ -1,33 +1,24 @@
 require 'csv'
 class ReservableAssetsController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show]
+  load_and_authorize_resource
 
   def index
-    @reservable_assets = ReservableAsset.all
     @libraries = Library.all
   end
 
   def new
-    @reservable_asset = ReservableAsset.new
-    @library = Library.find(params[:library])
   end
 
   def show
-    @reservable_asset = ReservableAsset.find(params[:id])
-
     breadcrumbs.add @reservable_asset.floor.library.name, library_path(@reservable_asset.floor.library.id)
     breadcrumbs.add @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library.id,@reservable_asset.floor.id)
     breadcrumbs.add @reservable_asset.name, @reservable_asset.id
   end
 
   def edit
-    @reservable_asset = ReservableAsset.find(params[:id])
   end
 
   def create
-    @reservable_asset = ReservableAsset.new
-
-    @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
 
       if @reservable_asset.slots_equal_users?
@@ -53,7 +44,6 @@ class ReservableAssetsController < ApplicationController
   end
 
   def destroy
-    @reservable_asset = ReservableAsset.find(params[:id])
     reservable_asset = @reservable_asset.id
     if @reservable_asset.destroy
       respond_to do |format|
@@ -67,7 +57,6 @@ class ReservableAssetsController < ApplicationController
   end
 
   def update
-    @reservable_asset = ReservableAsset.find(params[:id])
     @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
 
@@ -88,7 +77,6 @@ class ReservableAssetsController < ApplicationController
   end
 
   def locate
-    @reservable_asset = ReservableAsset.find(params[:id])
     @reservable_asset.x1 = params[:reservable_asset][:x1]
     @reservable_asset.y1 = params[:reservable_asset][:y1]
     @reservable_asset.x2 = params[:reservable_asset][:x2]
