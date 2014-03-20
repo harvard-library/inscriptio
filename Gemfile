@@ -36,6 +36,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.0.0'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'hirb'
 end
 
 group :development,:test do

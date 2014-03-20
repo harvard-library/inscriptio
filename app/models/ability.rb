@@ -55,6 +55,7 @@ class Ability
       elsif user.local_admin_permissions.count > 0 # Local admin
         can :all_but_destroy, User
         can :manage, Library, :id => user.local_admin_permissions.pluck(:id)
+        can :manage, Email # Probably ought to be tighter, but it's not worth the effort to lock it down
         can :manage, [CallNumber, Floor, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
           user.local_admin_permissions.include?(obj.library)
         end

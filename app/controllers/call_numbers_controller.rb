@@ -7,6 +7,8 @@ class CallNumbersController < ApplicationController
     @libraries = @libraries.where(:id => params[:library_id]) if params[:library_id]
     @libraries = @libraries.where(:subject_areas => {:id => params[:subject_area_id]}) if params[:subject_area_id]
 
+    authorize! :read, CallNumber
+
     breadcrumbs.add "Call Numbers"
   end
 
