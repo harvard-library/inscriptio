@@ -1,8 +1,10 @@
 class ModeratorFlag < ActiveRecord::Base
-  attr_accessible :post_id, :user_id, :reason
+  attr_accessible :post, :user, :reason
 
   belongs_to :post
   belongs_to :user
+
+  delegate :library, :to => :post
 
   validates_presence_of :reason
 

@@ -1,30 +1,19 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:help]
+  load_and_authorize_resource
 
   def index
-    @messages = Message.all
-
     breadcrumbs.add 'Messages'
   end
 
   def new
-    @message = Message.new
   end
 
   def show
-    @message = Message.find(params[:id])
-
     breadcrumbs.add 'Messages', messages_path
     breadcrumbs.add @message.title, @message.id
   end
 
-  def edit
-    @message = Message.find(params[:id])
-  end
-
   def create
-    @message = Message.new
-    @message.attributes = params[:message]
     respond_to do|format|
       if @message.save
         flash[:notice] = 'Added that Message'
@@ -37,7 +26,6 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-    @message = Message.find(params[:id])
     message = @message.title
     if @message.destroy
       flash[:notice] = %Q|Deleted message #{message}|
@@ -46,8 +34,6 @@ class MessagesController < ApplicationController
   end
 
   def update
-    @message = Message.find(params[:id])
-    @message.attributes = params[:message]
     respond_to do|format|
       if @message.save
         flash[:notice] = %Q|#{@message.title} updated|

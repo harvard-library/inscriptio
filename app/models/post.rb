@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :bulletin_board
   belongs_to :user
+  delegate :library, :to => :bulletin_board
   has_many :moderator_flags, :dependent => :destroy
 
   validates_presence_of :message

@@ -5,6 +5,7 @@ class BulletinBoard < ActiveRecord::Base
   has_many :posts, :dependent => :destroy, :order => :created_at
   has_many :users, :through => :posts
   belongs_to :reservable_asset
+  delegate :library, :to => :reservable_asset
 
   def self.prune_posts
     BulletinBoard.all.each do |bb|

@@ -2,13 +2,6 @@ class FloorsController < ApplicationController
   load_and_authorize_resource :library
   load_and_authorize_resource :floor, :through => :library
 
-  def index
-    @floors = @library.floors
-  end
-
-  def new
-  end
-
   def create
     @floor.attributes = params[:floor].except(:library_id)
     @floor.library = @library
@@ -21,9 +14,6 @@ class FloorsController < ApplicationController
         format.html {render :action => :new}
       end
     end
-  end
-
-  def edit
   end
 
   def update

@@ -71,7 +71,7 @@ Inscriptio::Application.routes.draw do
   end
 
   resources :libraries do
-    resources :floors do
+    resources :floors, :except => [:index] do
       member do
         post 'move_higher'
         post 'move_lower'

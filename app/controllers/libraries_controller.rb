@@ -1,15 +1,14 @@
 class LibrariesController < ApplicationController
   load_and_authorize_resource :except => [:index]
+  before_filter :add_breadcrumbs, :only => [:edit, :show] # MUST be after load_and_authorize_resource
 
   def index
+    authorize! :read, Library
     @libraries = Library.all
     @welcome_message = Message.find(:first, :conditions => ["title LIKE ?", '%Welcome%'])
     if @welcome_message.nil?
       @message = Message.new
     end
-  end
-
-  def new
   end
 
   def create
@@ -25,9 +24,6 @@ class LibrariesController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def update
     @library.attributes = params[:library]
     respond_to do|format|
@@ -41,7 +37,7 @@ class LibrariesController < ApplicationController
     end
   end
 
-  def show
+  def add_breadcrumbs
     breadcrumbs.add @library.name, @library.id
   end
 
