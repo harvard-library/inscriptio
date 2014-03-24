@@ -65,7 +65,9 @@ end %>
 			   <li><%= link_to "Call Numbers", call_numbers_path %></li>
 
          <li><%= link_to "Reservations", reservations_path %></li>
-	       <li><%= link_to "Reports", reports_path %></li>
+	       <% if can? :manage, Report %>
+           <li><%= link_to "Reports", reports_path %></li>
+         <% end %>
 	       <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
 	       <li><%= link_to "Reservation Notices", reservation_notices_path %></li>
 	     <% end %>
@@ -102,7 +104,7 @@ end %>
 	  <p>
 	    <%= raw display_message(:footer).content %>
 	  </p>
-	  <% if current_user.try(:admin?) %>
+	  <% if can? :edit, Message %>
 	    <%= link_to('Edit', edit_message_path(display_message(:footer)), :class => "action-edit") %>
 	  <% end %>
     </div>

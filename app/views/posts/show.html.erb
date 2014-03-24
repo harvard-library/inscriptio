@@ -2,8 +2,8 @@
   <% content_for :header do %>Post for <%= @post.bulletin_board.reservable_asset.name %><% end %>
   <dl>
     <dt>Posted By:</dt>
-	<% if current_user.admin? %>
-	  <dd><%= link_to(@post.user.id, @post.user) %></dd>
+	<% if can? :edit, @post.user %>
+	  <dd><%= link_to(@post.user.email, @post.user) %></dd>
 	<% else %>
       <dd><%= @post.user.id %></dd>
     <% end %>
@@ -11,11 +11,13 @@
     <dd><%= @post.created_at %></dd>
 	<dt>Message:</dt>
     <dd><%= @post.message %></dd>
-	<dt>Moderator Flags:</dt>
-    <% @post.moderator_flags.each do |mf| %>
+	<% if can? :manage, @post %>
+    <dt>Moderator Flags:</dt>
+      <% @post.moderator_flags.each do |mf| %>
 	  <dd><%= mf.reason %></dd>
-	<% end %>
-    
+  <% end %>
+  <% end %>
+
   </dl>
 
 <%= link_to "Bulletin Board", bulletin_board_path(@post.bulletin_board) %>

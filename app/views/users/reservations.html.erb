@@ -1,6 +1,7 @@
 <% content_for :header do %>My Reservations<% end %>
 <div class="reservations collection-list">
-  <% unless @reservations.values.map(&:blank?).reduce {|bool, collection| bool || collection.blank?} %>
+  <% # Unless all the displayable statuses are blank
+     unless @reservations.values.map(&:blank?).reduce {|bool, status_blank| bool || status_blank} %>
     <% @reservations.select {|k,v| not v.blank?}.keys.sort.each do |status| %>
       <% unless @reservations[status].blank? %>
         <h2><%= status %> Reservations</h2>

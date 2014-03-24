@@ -45,7 +45,6 @@ class Ability
     #    In any case where someone has powers over a class, but not all instances
     #  of that class, make sure to test the individual instances!
     user ||= User.new
-
     alias_action :create, :read, :update, :to => :all_but_destroy
     if user.id # Any authenticated user
       can :read, [Library, Floor, SubjectArea, CallNumber, ReservableAsset]
@@ -62,9 +61,9 @@ class Ability
           user.user_types.pluck(:id).include? ut
         end.count >= 1
       end
-      can :read, BulletinBoard do |bb|
-        BulletinBoard.joins(:reservable_asset => {:reservations => :user}).where('users.id = ?', user.id).include? bb
-      end
+      can :read, BulletinBoard, :reservable_asset_id => user.reservations.status(Status[:approved, :expiring]).joins(:reservable_asset).pluck('reservable_assets.id')
+      can :create, Post, :user_id => user.id, :bulletin_board => user.reservations.status(Status::ACTIVE_IDS).joins(:reservable_asset => :bulletin_board).pluck('bulletin_boards.id')
+      can :destroy, Post, :user_id => user.id
       can :create, ModeratorFlag
 
       if user.admin? # Global Admin
@@ -73,13 +72,16 @@ class Ability
       elsif user.local_admin_permissions.count > 0 # Local admin
         can :all_but_destroy, User
         can :read, :all
+        can :manage, Report
         can :manage, Library, :id => user.local_admin_permissions.pluck(:id)
         can :manage, Email # Probably ought to be tighter, but it's not worth the effort to lock it down
-        can :manage, [CallNumber, Floor, ModeratorFlag, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
+        can :manage, [CallNumber, Floor, ModeratorFlag, Post, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
           user.local_admin_permissions.include?(obj.library)
         end
-        can :reserve, ReservableAsset, :library => user.local_admin_permissions.all
-        can :manage, Reservation, :library => user.local_admin_permissions.all
+
+        can :create, ModeratorFlag
+        can :reserve, ReservableAsset, :library => user.local_admin_permissions.pluck(:id)
+        can :manage, Reservation, :library => user.local_admin_permissions.pluck(:id)
       end
     else # Unauthed Users
 

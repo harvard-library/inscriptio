@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
   delegate :library, :to => :bulletin_board
   has_many :moderator_flags, :dependent => :destroy
 
-  validates_presence_of :message
+  validates_presence_of :message, :user
 
   after_create :post_save_hooks
 
