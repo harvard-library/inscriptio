@@ -1,33 +1,25 @@
 class ReservableAssetTypesController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:show]
-  before_filter :get_library, :except => [:index]
-
+  load_and_authorize_resource :except => [:new]
+  load_resource :only => [:new]
   def get_library
     @library = Library.find(params[:library_id])
   end
 
   def index
-    @libraries = Library.all
-
+    if current_user.admin?
+      @libraries = Library.all
+    else
+      @libraries = current_user.local_admin_permissions
+    end
     breadcrumbs.add 'Reservable Assets'
   end
 
   def new
-    @reservable_asset_type = ReservableAssetType.new
-  end
-
-  def show
-    @reservable_asset_type = ReservableAssetType.find(params[:id])
-  end
-
-  def edit
-    @reservable_asset_type = ReservableAssetType.find(params[:id])
+    @reservable_asset_type.library = Library.find(params[:library_id])
+    authorize! :manage, @reservable_asset_type
   end
 
   def create
-    @reservable_asset_type = ReservableAssetType.new
-    @reservable_asset_type.attributes = params[:reservable_asset_type]
-
     respond_to do|format|
       if @reservable_asset_type.slots_equal_users?
         if @reservable_asset_type.save
