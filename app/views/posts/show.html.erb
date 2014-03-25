@@ -2,7 +2,7 @@
   <% content_for :header do %>Post for <%= @post.bulletin_board.reservable_asset.name %><% end %>
   <dl>
     <dt>Posted By:</dt>
-	<% if can? :edit, @post.user %>
+	<% if can? :update, @post.user %>
 	  <dd><%= link_to(@post.user.email, @post.user) %></dd>
 	<% else %>
       <dd><%= @post.user.id %></dd>

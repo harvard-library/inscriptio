@@ -48,6 +48,8 @@ class Ability
     alias_action :create, :read, :update, :to => :all_but_destroy
     if user.id # Any authenticated user
       can :read, [Library, Floor, SubjectArea, CallNumber, ReservableAsset]
+      can [:read,:update, :reservations], User, :id => user.id
+      cannot :index, User
       can :assets, Floor
       can :read, Reservation, :user_id => user.id
       can :create, Reservation do |r|
@@ -65,6 +67,7 @@ class Ability
       can :create, Post, :user_id => user.id, :bulletin_board => user.reservations.status(Status::ACTIVE_IDS).joins(:reservable_asset => :bulletin_board).pluck('bulletin_boards.id')
       can :destroy, Post, :user_id => user.id
       can :create, ModeratorFlag
+      can :help, Message
 
       if user.admin? # Global Admin
         can :manage, :all
@@ -74,14 +77,14 @@ class Ability
         can :read, :all
         can :manage, Report
         can :manage, Library, :id => user.local_admin_permissions.pluck(:id)
+        cannot :create, Library
         can :manage, Email # Probably ought to be tighter, but it's not worth the effort to lock it down
         can :manage, [CallNumber, Floor, ModeratorFlag, Post, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
           user.local_admin_permissions.include?(obj.library)
         end
-
         can :create, ModeratorFlag
-        can :reserve, ReservableAsset, :library => user.local_admin_permissions.pluck(:id)
-        can :manage, Reservation, :library => user.local_admin_permissions.pluck(:id)
+        can :reserve, ReservableAsset, :library => user.local_admin_permissions
+        can :manage, Reservation, :library => user.local_admin_permissions
       end
     else # Unauthed Users
 

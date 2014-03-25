@@ -6,7 +6,7 @@
       <% unless @reservations[status].blank? %>
         <h2><%= status %> Reservations</h2>
         <ul class="<%= status.downcase %>">
-          <% unless current_user.admin? %>
+          <% unless can? :manage, Reservation %>
 	          <%= render :partial => 'shared/lines/reservation_nadmin', :collection => @reservations[status] %>
           <% else %>
             <%= render :partial => 'shared/lines/reservation', :collection => @reservations[status] %>

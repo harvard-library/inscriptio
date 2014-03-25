@@ -6,16 +6,10 @@ class ReservableAssetsController < ApplicationController
     @libraries = Library.all
   end
 
-  def new
-  end
-
   def show
     breadcrumbs.add @reservable_asset.floor.library.name, library_path(@reservable_asset.floor.library.id)
     breadcrumbs.add @reservable_asset.floor.name, library_floor_path(@reservable_asset.floor.library.id,@reservable_asset.floor.id)
     breadcrumbs.add @reservable_asset.name, @reservable_asset.id
-  end
-
-  def edit
   end
 
   def create
@@ -57,7 +51,6 @@ class ReservableAssetsController < ApplicationController
   end
 
   def update
-    @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
 
       if @reservable_asset.slots_equal_users?

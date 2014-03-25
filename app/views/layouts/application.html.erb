@@ -104,7 +104,7 @@ end %>
 	  <p>
 	    <%= raw display_message(:footer).content %>
 	  </p>
-	  <% if can? :edit, Message %>
+	  <% if can? :update, Message %>
 	    <%= link_to('Edit', edit_message_path(display_message(:footer)), :class => "action-edit") %>
 	  <% end %>
     </div>

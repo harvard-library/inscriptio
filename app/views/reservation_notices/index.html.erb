@@ -14,7 +14,9 @@
             <% else %>
 	          <h2>No notices for this asset yet.</h2>
 	        <% end %>
-			<h2 class="action-generate-reset library-<%= library.id %> at-<%= at.id %>"><%= link_to('Reset Notices', reset_notices_reservation_notices_path(:asset_type => at), :method => :put, :confirm => "Are you sure you want to reset all notices to default settings? This action cannot be undone. This will delete and regenerate all reservation notices for this asset.") %></h2>
+          <% if can? :manage, library %>
+  			    <h2 class="action-generate-reset library-<%= library.id %> at-<%= at.id %>"><%= link_to('Reset Notices', reset_notices_reservation_notices_path(:asset_type => at), :method => :put, :confirm => "Are you sure you want to reset all notices to default settings? This action cannot be undone. This will delete and regenerate all reservation notices for this asset.") %></h2>
+          <% end %>
 	      </div>
 	    <% end %>
       <% else %>

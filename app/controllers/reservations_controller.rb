@@ -53,7 +53,7 @@ class ReservationsController < ApplicationController
 
   def show
     relation = Reservation
-    relation = relation.with_deleted if current_user.admin?
+    relation = relation.with_deleted if can? :manage, Reservation
     @reservation = relation.find(params[:id])
     authorize! :show, @reservation
 
@@ -72,7 +72,7 @@ class ReservationsController < ApplicationController
 
   def edit
     relation = Reservation
-    relation = relation.with_deleted if current_user.admin?
+    relation = relation.with_deleted if can? :manage, Reservation
     @reservation = relation.find(params[:id])
 
     authorize! :update, @reservation
@@ -91,7 +91,7 @@ class ReservationsController < ApplicationController
 
     params[:reservation][:reservable_asset] = defined?(@reservable_asset) ? @reservable_asset : ReservableAsset.find(params[:reservation][:reservable_asset_id])
 
-    current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
+    can?(:manage, Reservation) ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
         params[:reservation][:status_id] = Status[:pending]
@@ -117,14 +117,10 @@ class ReservationsController < ApplicationController
 
   def destroy
     relation = Reservation
-    relation = relation.with_deleted if current_user.admin?
+    relation = relation.with_deleted if can? :manage, Reservation
     @reservation = relation.find(params[:id])
 
     @del_or_clear = @reservation.deleted_at ? 'Delete' : 'Clear'
-
-    unless current_user.admin? || @reservation.user_id == current_user.id
-       redirect_to('/') and return
-    end
 
     respond_to do |format|
       reservation = @reservation
@@ -152,16 +148,12 @@ class ReservationsController < ApplicationController
 
   def update
     relation = Reservation
-    relation = relation.with_deleted if current_user.admin?
+    relation = relation.with_deleted if can? :manage, Reservation
     @reservation = relation.find(params[:id])
-
-    unless current_user.admin? || @reservation.user_id == current_user.id
-       redirect_to('/') and return
-    end
 
     params[:reservation][:reservable_asset] = @reservation.reservable_asset
 
-    current_user.admin? ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
+    can?(:manage, Reservation) ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
 
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
@@ -185,7 +177,7 @@ class ReservationsController < ApplicationController
 
   def approve
     relation = Reservation
-    relation = relation.with_deleted if current_user.admin?
+    relation = relation.with_deleted if can? :manage, Reservation
 
     @reservation = relation.find(params[:id])
     authorize! :update, @reservation

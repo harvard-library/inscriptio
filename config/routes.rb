@@ -20,7 +20,7 @@ Inscriptio::Application.routes.draw do
     end
   end
 
-  resources :reservation_notices do
+  resources :reservation_notices, :except => [:new, :create, :destroy] do
     collection do
       put 'reset_notices'
     end

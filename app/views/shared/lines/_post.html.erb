@@ -4,10 +4,10 @@
     created on <%= post.created_at %> <br />
 	<%= post.message %>
 
-  <% if can?(:edit, post) or can?(:destroy, post) %>
+  <% if can?(:update, post) or can?(:destroy, post) %>
     <ul class="actions">
       <li><%= link_to('Flag', new_moderator_flag_path(:post => post)) %></li>
-        <% if can? :edit, post %>
+        <% if can? :update, post %>
           <li><%= link_to('Edit', edit_post_path(post), :class => "action-edit") %></li>
         <% end %>
         <% if can? :destroy, post %>

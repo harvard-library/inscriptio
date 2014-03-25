@@ -8,6 +8,6 @@
   <% end %>
 </div>
 
-  <% if current_user.admin? %>
+  <% if can? :create, SchoolAffiliation %>
     <h2 class="action-new-subject"><%= link_to('New School Affiliation', new_school_affiliation_path) %></h2>
   <% end %>

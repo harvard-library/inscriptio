@@ -2,7 +2,7 @@
   <% unless @libraries.empty? %>
     <% @libraries.each do |l| %>
       <h2><%= l.name %></h2>
-      <% if current_user.admin? %>
+      <% if can? :manage, l %>
         <h2 class="action-new-subject"><%= link_to('New Subject Area', new_library_subject_area_path(l)) %></h2>
       <% end %>
       <% unless l.subject_areas.empty? %>

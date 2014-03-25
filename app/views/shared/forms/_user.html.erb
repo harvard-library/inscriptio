@@ -3,14 +3,14 @@
 	<%= f.input :first_name %>
 	<%= f.input :last_name %>
 	<%= f.input :school_affiliation %>
-	<% if current_user.admin? %>
+	<% if can? :all_but_destroy, @user %>
 	  <%= f.input :email %>
     <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => "Leave password blank for #{controller.action_name == 'new' ? 'random password' : 'no change'}" %>
-    <% Library.all.each do |l| %>
+    <% @libraries.each do |l| %>
 	    <%= f.input :user_types, :for => l, :label => "User Types (#{l.name})", :collection => l.user_types %>
     <% end %>
 	<% end %>
-	<%  if current_user.admin? && @user != current_user %>
+	<%  if can? :manage, @user  && @user != current_user %>
 	  <span id='admin_box'><%= f.input :admin %></span>
 	<% end %>
   <% end %>

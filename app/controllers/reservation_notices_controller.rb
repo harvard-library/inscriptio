@@ -1,41 +1,16 @@
 class ReservationNoticesController < ApplicationController
-  before_filter :authenticate_admin!
+  load_and_authorize_resource
 
   def index
-    @reservation_notices = ReservationNotice.all
-    @libraries = Library.all
-
+    if current_user.admin?
+      @libraries = Library.all
+    else
+      @libraries = current_user.local_admin_permissions
+    end
     breadcrumbs.add "Reservation Notices"
   end
 
-  def new
-    @reservation_notice = ReservationNotice.new
-  end
-
-  def show
-    @reservation_notice = ReservationNotice.find(params[:id])
-  end
-
-  def edit
-    @reservation_notice = ReservationNotice.find(params[:id])
-  end
-
-  def create
-    @reservation_notice = ReservationNotice.new
-    @reservation_notice.attributes = params[:reservation_notice]
-    respond_to do|format|
-      if @reservation_notice.save
-        flash[:notice] = 'Added that Reservation Notice'
-        format.html {redirect_to :action => :index}
-      else
-        flash[:error] = 'Could not add that Reservation Notice'
-        format.html {render :action => :new}
-      end
-    end
-  end
-
   def destroy
-    @reservation_notice = ReservationNotice.find(params[:id])
     reservation_notice = @reservation_notice.type
     if @reservation_notice.destroy
       flash[:notice] = %Q|Deleted Reservation Notice #{reservation_notice}|
@@ -44,7 +19,6 @@ class ReservationNoticesController < ApplicationController
   end
 
   def update
-    @reservation_notice = ReservationNotice.find(params[:id])
     @reservation_notice.attributes = params[:reservation_notice]
     respond_to do|format|
       if @reservation_notice.save

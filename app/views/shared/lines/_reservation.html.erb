@@ -1,5 +1,5 @@
 <li class="reservation line" id="reservation-<%= reservation.id %>">
-  ID: <%= link_to("#{reservation.id}", (reservation.allow_edit?(current_user) || current_user.try(:admin?) ? edit_reservation_path(reservation) : reservation) ) %>,
+  ID: <%= link_to("#{reservation.id}", (can?(:edit, reservation) ? edit_reservation_path(reservation) : reservation) ) %>,
   Asset/Slot: <%= link_to "#{reservation.reservable_asset.name}(#{reservation.slot})", reservation.reservable_asset %>,
   User: <%= link_to("#{[reservation.user.first_name.to_s, reservation.user.last_name.to_s].join(' ')} (#{reservation.user.email.to_s})", reservation.user) %>,
   <%= "from #{reservation.start_date} to #{reservation.end_date}" %>

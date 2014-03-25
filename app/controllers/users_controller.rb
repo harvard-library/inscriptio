@@ -1,27 +1,33 @@
 class UsersController < ApplicationController
   require 'csv'
-  before_filter :authenticate_admin!, :except => [:edit, :update, :reservations]
   before_filter :fetch_statuses, :only => [:show, :reservations]
+  before_filter :fetch_permitted_libraries, :only => [:new, :edit]
+  load_and_authorize_resource :except => [:import, :export]
 
   def fetch_statuses
     @statuses = Status.to_hash.select {|k| %w(Pending Expired Approved).include? k}
   end
 
+  def fetch_permitted_libraries
+    if current_user.admin?
+      @libraries = Library.all
+    else
+      @libraries = current_user.local_admin_permissions
+    end
+  end
+
   def index
-    @users = User.find(:all, :order => ['created_at ASC'])
+    @users = @users.order('created_at ASC')
     breadcrumbs.add 'Users'
     @csv = params[:csv]
   end
 
   def new
-    @user = User.new
-
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add 'New'
   end
 
   def create
-    @user = User.new
     @user.attributes = params[:user].except(:admin, :password)
 
     @user.password = params[:user][:password].blank? ? User.random_password : params[:user][:password]
@@ -42,7 +48,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @reservations = @user.reservations.order('created_at DESC')
 
     breadcrumbs.add 'Users', users_path
@@ -50,24 +55,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-
-    unless current_user.admin? || @user.email == current_user.email
-       redirect_to('/') and return
-    end
-
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
     breadcrumbs.add 'Edit'
   end
 
   def destroy
-    @user = User.find(params[:id])
-
-    unless current_user.admin? || @user.email == current_user.email
-       redirect_to('/') and return
-    end
-
     user = @user.email
     respond_to do |format|
 
@@ -85,15 +78,17 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
+    excluded = [:admin, :password]
+    excluded << :user_type_ids unless can? :all_but_destroy, User
 
-    unless current_user.admin? || @user.email == current_user.email
-       redirect_to('/') and return
+    unless current_user.admin?
+      params[:user][:user_type_ids] =
+        params[:user][:user_type_ids] + @user.user_types.where('library_id NOT IN (?)', current_user.local_admin_permissions.pluck(:id)).pluck(:id)
     end
 
-    @user.attributes = params[:user].except(:admin,:password)
+    @user.attributes = params[:user].except(*excluded)
 
-    if params[:user][:admin]
+    if current_user.admin? && params[:user][:admin]
       params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
     end
 
@@ -104,7 +99,11 @@ class UsersController < ApplicationController
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|
-        format.html {redirect_to :action => :index}
+        if can? :all_but_destroy, @user
+          format.html {redirect_to :action => :index}
+        else
+          format.html {redirect_to :root}
+        end
       else
         flash[:error] = 'Could not update that User'
         format.html {render :action => :new}
@@ -113,6 +112,7 @@ class UsersController < ApplicationController
   end
 
   def import
+    authorize! :all_but_destroy, User
     @file = params[:upload][:datafile] unless params[:upload].blank?
     CSV.parse(@file.read).each do |cell|
       @user = User.new
@@ -131,6 +131,7 @@ class UsersController < ApplicationController
   end
 
   def export
+    authorize! :all_but_destroy, User
     @users = User.find(:all, :order => ['email ASC'])
     CSV.open("#{Rails.root}/public/uploads/users.csv", "w") do |csv|
       @users.each do |user|
@@ -143,8 +144,6 @@ class UsersController < ApplicationController
   end
 
   def reservations
-    @user = User.find(params[:id])
-
     @reservations = @user.reservations.status(Status::ACTIVE_IDS).group_by {|r| r.status.name}
   end
 
