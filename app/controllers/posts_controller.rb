@@ -26,7 +26,7 @@ class PostsController < ApplicationController
         flash[:notice] = 'Added that post'
         format.html {redirect_to bulletin_board_path(@post.bulletin_board)}
       else
-        flash[:error] = 'Could not add that post'
+        flash.now[:error] = 'Could not add that post'
         format.html {render :action => :new}
       end
     end
@@ -51,7 +51,7 @@ class PostsController < ApplicationController
         flash[:notice] = %Q|#{@post.id} updated|
         format.html {redirect_to bulletin_board_path(@post.bulletin_board)}
       else
-        flash[:error] = 'Could not update that post'
+        flash.now[:error] = 'Could not update that post'
         format.html {render :action => :new}
       end
     end

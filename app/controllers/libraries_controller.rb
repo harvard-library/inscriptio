@@ -15,10 +15,10 @@ class LibrariesController < ApplicationController
     @library.attributes = params[:library]
     respond_to do|format|
       if @library.save
-        flash[:notice] = 'Added that library'
+        flash.now[:notice] = 'Added that library'
         format.html { render :action => :show }
       else
-        flash[:error] = 'Could not create that library'
+        flash.now[:error] = 'Could not create that library'
         format.html { render :action => :new }
       end
     end
@@ -28,10 +28,10 @@ class LibrariesController < ApplicationController
     @library.attributes = params[:library]
     respond_to do|format|
       if @library.save
-        flash[:notice] = %Q|#{@library} updated|
+        flash.now[:notice] = %Q|#{@library} updated|
         format.html {render :action => :show}
       else
-        flash[:error] = 'Could not update that library'
+        flash.now[:error] = 'Could not update that library'
         format.html {render :action => :new}
       end
     end

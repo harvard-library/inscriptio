@@ -36,7 +36,7 @@ class SchoolAffiliationsController < ApplicationController
         flash[:notice] = %Q|#{@school_affiliation} updated|
         format.html {redirect_to school_affiliations_path}
       else
-        flash[:error] = 'Could not update that School Affiliation'
+        flash.now[:error] = 'Could not update that School Affiliation'
         format.html {render :action => :new}
       end
     end

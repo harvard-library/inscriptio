@@ -37,7 +37,7 @@ class UsersController < ApplicationController
         flash[:notice] = "Added #{@user.email}"
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = "Could not add #{@user.email}"
+        flash.now[:error] = "Could not add #{@user.email}"
         format.html {render :action => :new}
       end
     end

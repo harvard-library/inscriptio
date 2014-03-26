@@ -23,14 +23,14 @@ class ReservableAssetsController < ApplicationController
             @bulletin_board.post_lifetime = 30
             @bulletin_board.save!
           end
-          flash[:notice] = 'Added that Reservable Asset'
+          flash.now[:notice] = 'Added that Reservable Asset'
           format.html {render :action => :show}
         else
-          flash[:error] = 'Could not add that Reservable Asset'
+          flash.now[:error] = 'Could not add that Reservable Asset'
           format.html {render :action => :new}
         end
       else
-        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        flash.now[:error] = 'Number of slots does not match number of concurrent users.'
         format.html {render :action => :new}
       end
 
@@ -55,14 +55,14 @@ class ReservableAssetsController < ApplicationController
 
       if @reservable_asset.slots_equal_users?
         if @reservable_asset.save
-          flash[:notice] = %Q|#{@reservable_asset} updated|
+          flash.now[:notice] = %Q|#{@reservable_asset} updated|
           format.html {render :action => :show}
         else
-          flash[:error] = 'Could not update that Reservable Asset'
+          flash.now[:error] = 'Could not update that Reservable Asset'
           format.html {render :action => :new}
         end
       else
-        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        flash.now[:error] = 'Number of slots does not match number of concurrent users.'
         format.html {render :action => :new}
       end
 
@@ -76,10 +76,10 @@ class ReservableAssetsController < ApplicationController
     @reservable_asset.y2 = params[:reservable_asset][:y2]
     respond_to do|format|
       if @reservable_asset.save
-        flash[:notice] = %Q|#{@reservable_asset} updated|
+        flash.now[:notice] = %Q|#{@reservable_asset} updated|
         format.html {render :action => :show}
       else
-        flash[:error] = 'Could not update that Reservable Asset'
+        flash.now[:error] = 'Could not update that Reservable Asset'
         format.html {render :action => :new}
       end
     end

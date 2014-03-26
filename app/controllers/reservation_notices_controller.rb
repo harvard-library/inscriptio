@@ -25,7 +25,7 @@ class ReservationNoticesController < ApplicationController
         flash[:notice] = %Q|#{@reservation_notice.subject} updated|
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = 'Could not update that Reservation Notice'
+        flash.now[:error] = 'Could not update that Reservation Notice'
         format.html {render :action => :new}
       end
     end

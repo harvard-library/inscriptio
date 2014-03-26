@@ -25,7 +25,7 @@ class UserTypesController < ApplicationController
         flash[:notice] = "Added #{@user_type} to #{@user_type.library.name}"
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = "Could not add #{@user_type} to #{@user_type.library}"
+        flash.now[:error] = "Could not add #{@user_type} to #{@user_type.library}"
         format.html {render :action => :new}
       end
     end
@@ -45,7 +45,7 @@ class UserTypesController < ApplicationController
         flash[:notice] = %Q|#{@user_type} (at #{@user_type.library}) updated|
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = "Could not update #{@user_type} (at #{@user_type.library})"
+        flash.now[:error] = "Could not update #{@user_type} (at #{@user_type.library})"
         format.html {render :action => :new}
       end
     end

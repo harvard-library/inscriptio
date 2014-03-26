@@ -50,14 +50,14 @@ class ReservableAssetTypesController < ApplicationController
     respond_to do|format|
       if @reservable_asset_type.slots_equal_users?
         if @reservable_asset_type.save
-          flash[:notice] = %Q|#{@reservable_asset_type} updated|
+          flash.now[:notice] = %Q|#{@reservable_asset_type} updated|
           format.html {render :action => :show}
         else
-          flash[:error] = 'Could not update that Reservable Asset Type'
+          flash.now[:error] = 'Could not update that Reservable Asset Type'
           format.html {render :action => :new}
         end
       else
-        flash[:error] = 'Number of slots does not match number of concurrent users.'
+        flash.now[:error] = 'Number of slots does not match number of concurrent users.'
         format.html {render :action => :new}
       end
     end

@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
         flash[:notice] = 'Added that Message'
         format.html {redirect_to :action => :index}
       else
-        flash[:error] = 'Could not add that Message'
+        flash.now[:error] = 'Could not add that Message'
         format.html {render :action => :new}
       end
     end
@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
         flash[:notice] = %Q|#{@message.title} updated|
         format.html {redirect_to messages_path}
       else
-        flash[:error] = 'Could not update that Message'
+        flash.now[:error] = 'Could not update that Message'
         format.html {render :action => :new}
       end
     end

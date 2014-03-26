@@ -108,7 +108,7 @@ class ReservationsController < ApplicationController
         flash[:notice] = 'Added that Reservation'
         format.html { redirect_to @reservation }
       else
-        flash[:error] = "Reservation could not be saved."
+        flash.now[:error] = "Reservation could not be saved."
         @reservable_asset = @reservation.reservable_asset
         format.html{ render :action => :new }
       end
