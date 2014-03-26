@@ -1,16 +1,13 @@
 class ReservableAssetTypesController < ApplicationController
+  before_filter :fetch_permitted_libraries, :only => [:index]
   load_and_authorize_resource :except => [:new]
   load_resource :only => [:new]
-  def get_library
-    @library = Library.find(params[:library_id])
+
+  def fetch_permitted_libraries
+    @libraries = current_user.admin? ? Library.all : current_user.local_admin_permissions
   end
 
   def index
-    if current_user.admin?
-      @libraries = Library.all
-    else
-      @libraries = current_user.local_admin_permissions
-    end
     breadcrumbs.add 'Reservable Assets'
   end
 

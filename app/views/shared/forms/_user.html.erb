@@ -1,18 +1,21 @@
 <%= semantic_form_for(@user) do |f| %>
   <%= f.inputs do %>
-	<%= f.input :first_name %>
-	<%= f.input :last_name %>
-	<%= f.input :school_affiliation %>
-	<% if can? :all_but_destroy, @user %>
-	  <%= f.input :email %>
-    <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => "Leave password blank for #{controller.action_name == 'new' ? 'random password' : 'no change'}" %>
-    <% @libraries.each do |l| %>
-	    <%= f.input :user_types, :for => l, :label => "User Types (#{l.name})", :collection => l.user_types %>
+	  <%= f.input :first_name %>
+	  <%= f.input :last_name %>
+	  <%= f.input :school_affiliation %>
+	  <% if can? :all_but_destroy, @user %>
+	    <%= f.input :email %>
+      <%= f.input :password, :required => false, :input_html => {:autocomplete => 'off'}, :hint => "Leave password blank for #{controller.action_name == 'new' ? 'random password' : 'no change'}" %>
+      <% @libraries.each do |l| %>
+	      <%= f.input :user_types, :for => l, :label => "User Types (#{l.name})", :collection => l.user_types %>
+      <% end %>
+      <% unless @libraries.blank? || @user.admin? %>
+        <%= f.input :local_admin_permissions, :label => "Local Admin Permissions", :hint => "Grants admin privileges over individual libraries.", :collection => @libraries %>
+      <% end %>
+	    <% if can? :manage, @user && @user != current_user %>
+	      <%= f.input :admin, :label => 'Global Admin', :hint => 'Grants admin privileges over all libraries AND basic system functionality.' %>
+	    <% end %>
     <% end %>
-	<% end %>
-	<%  if can? :manage, @user  && @user != current_user %>
-	  <span id='admin_box'><%= f.input :admin %></span>
-	<% end %>
   <% end %>
   <%= f.actions %>
 <% end %>

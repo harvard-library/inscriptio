@@ -9,11 +9,7 @@ class UsersController < ApplicationController
   end
 
   def fetch_permitted_libraries
-    if current_user.admin?
-      @libraries = Library.all
-    else
-      @libraries = current_user.local_admin_permissions
-    end
+    @libraries = current_user.admin? ? Library.all : current_user.local_admin_permissions
   end
 
   def index
@@ -78,15 +74,32 @@ class UsersController < ApplicationController
   end
 
   def update
-    excluded = [:admin, :password]
-    excluded << :user_type_ids unless can? :all_but_destroy, User
+    # These fields are handled specially
+    excluded = [:admin, :password, :user_type_ids, :local_admin_permission_ids]
 
+    my_types = params[:user][:user_type_ids].try {|t| t.reject(&:blank?).map(&:to_i)} || []
+    my_perms = params[:user][:local_admin_permission_ids].try {|p| p.reject(&:blank?).map(&:to_i)} || []
+
+    # Local admins can't remove or add other libraries' types
     unless current_user.admin?
-      params[:user][:user_type_ids] =
-        params[:user][:user_type_ids] + @user.user_types.where('library_id NOT IN (?)', current_user.local_admin_permissions.pluck(:id)).pluck(:id)
+      can_permit = current_user.local_admin_permission_ids
+
+      # remove that which admin shalt not touch
+      my_types = my_types - UserType.where('library_id NOT IN (?)', can_permit).pluck(:id)
+      my_perms = my_perms - Library.where('id NOT IN (?)', can_permit).pluck(:id)
+
+      # add that which admin may not remove
+      my_types = my_types + @user.user_types.where('library_id NOT IN (?)', can_permit).pluck(:id)
+      my_perms = my_perms + @user.local_admin_permissions.where('id NOT IN (?)', can_permit).pluck(:id)
+
     end
 
+    # Set mass assigned attributes
     @user.attributes = params[:user].except(*excluded)
+
+    # Special handling
+    @user.user_type_ids = my_types if my_types
+    @user.local_admin_permission_ids = my_perms if my_perms
 
     if current_user.admin? && params[:user][:admin]
       params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
@@ -105,7 +118,7 @@ class UsersController < ApplicationController
           format.html {redirect_to :root}
         end
       else
-        flash[:error] = 'Could not update that User'
+        flash.now[:error] = 'Could not update that User'
         format.html {render :action => :new}
       end
     end
