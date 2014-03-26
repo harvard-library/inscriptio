@@ -87,7 +87,9 @@ class Ability
         can :manage, Reservation, :library => user.local_admin_permissions
       end
     else # Unauthed Users
-
+      # Have no rights! They can't even read help! Muah ha ha!
+      # In all seriousness, unauthed users are blanket-caught by devise right now,
+      #   so they never get to this stage.
     end
   end
 end
