@@ -123,7 +123,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(reservable_assets_path)
     when 'new'
-      visit(new_reservable_asset_path + "?library=#{@library.id}")
+      visit(new_reservable_asset_type_reservable_asset_path(@reservable_asset_type))
     when 'edit'
       visit(edit_reservable_asset_path(@reservable_asset))
     end

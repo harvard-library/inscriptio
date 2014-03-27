@@ -52,6 +52,7 @@ class FloorsController < ApplicationController
 
   def show
     @library = @floor.library
+    @suppress_actions = true # Note: partials check for nil?, not false
     breadcrumbs.add @floor.library.name, library_path(@floor.library.id)
     breadcrumbs.add @floor.name, @floor.id
   end

@@ -58,16 +58,17 @@ Inscriptio::Application.routes.draw do
 
   resources :search
 
-  resources :reservable_asset_types, :only => [:index]
+  resources :reservable_asset_types, :only => [:index] do
+    resources :reservable_assets, :shallow => true
+  end
 
-  resources :reservable_assets do
+  resources :reservable_assets, :only => [] do
     member do
       get 'locate'
     end
     collection do
       post 'import'
     end
-
   end
 
   resources :libraries do

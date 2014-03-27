@@ -5,9 +5,6 @@
   <% else %>
     <h2>No reservable assets for this floor yet.</h2>
   <% end %>
-  <% if can? :manage, ReservableAsset %>
-    <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path) %></h2>
-  <% end %>
 </div>
 
 <div class="asset_upload">

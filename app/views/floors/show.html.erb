@@ -11,9 +11,6 @@
     <% else %>
       <li class="empty">No reservable assets yet.</li>
     <% end %>
-    <% if admin %>
-      <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path(:library => @floor.library)) %></h2>
-    <% end %>
   </ul>
 
   <h4 class="collapsible description">Subject Areas</h4>
@@ -22,9 +19,6 @@
       <%= render :partial => 'shared/lines/subject_area', :collection => @floor.subject_areas %>
     <% else %>
       <li class="empty">No subject areas yet.</li>
-    <% end %>
-    <% if admin  %>
-      <h2 class="action-new-subject"><%= link_to('New Subject Area', new_library_subject_area_path) %></h2>
     <% end %>
   </ul>
 
@@ -35,9 +29,6 @@
     <% else %>
       <li class="empty">No call numbers yet.</li>
     <% end %>
-    <% if admin %>
-      <h2 class="action-button"><%= link_to('New Call Number', new_library_call_number_path(@floor.library)) %></h2>
-    <% end %>
   </ul>
 
   <h4 class="collapsible description">All <%= @floor.library %> Floors</h4>
@@ -46,9 +37,6 @@
       <%= render :partial => 'shared/lines/floor', :collection => @floor.library.floors %>
     <% else %>
       <li class="empty">No floors yet.</li>
-    <% end %>
-    <% if admin %>
-      <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
     <% end %>
   </ul>
 <% end %>

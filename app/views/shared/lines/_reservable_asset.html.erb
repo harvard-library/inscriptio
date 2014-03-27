@@ -1,7 +1,7 @@
 <li class="reservable_asset line" id="reservable_asset-<%= reservable_asset.id %>">
   <%= link_to("#{reservable_asset.reservable_asset_type.name}-#{reservable_asset.name}", reservable_asset ) %>
 
-  <% if can? :manage, reservable_asset %>
+  <% if can?(:manage, reservable_asset) && @suppress_actions.nil? %>
 	<ul class="actions">
 	  <li><%= link_to('Edit', edit_reservable_asset_path(reservable_asset), :class => "action-edit") %></li>
       <li><%= link_to('Delete', reservable_asset_path(reservable_asset), :remote => true, :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{reservable_asset.id}", :class => "action-delete") %></li>

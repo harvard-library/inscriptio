@@ -1,6 +1,8 @@
 require 'csv'
 class ReservableAssetsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :reservable_asset_type, :only => [:new, :create]
+  load_and_authorize_resource :except => [:new, :create]
+  load_and_authorize_resource :through => :reservable_asset_type, :only => [:new, :create]
 
   def index
     @libraries = Library.all

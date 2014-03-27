@@ -1,7 +1,7 @@
 <li class="subject_area line" id="subject_area-<%= subject_area.id %>">
   <%= link_to(subject_area.name, subject_area_path(subject_area) ) %>
 
-  <% if can? :manage, subject_area %>
+  <% if can?(:manage, subject_area) && @suppress_actions.nil? %>
     <ul class="actions">
       <li style="margin-right: 15px"><%= link_to('Call Numbers', subject_area_call_numbers_path(subject_area)) %></li>
 

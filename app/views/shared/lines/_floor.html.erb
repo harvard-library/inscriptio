@@ -1,6 +1,6 @@
 <li class="floor line" id="floor-<%= floor.id %>">
   <%= link_to(floor.name, library_floor_path(@library,floor) ) %>  <%= current_user.try(:admin?) ? "- ID #{floor.id}" : "" %>
-	<% if can? :manage, floor %>
+	<% if can?(:manage, floor) && @suppress_actions.nil? %>
 	  <ul class="actions">
 	    <li><%= link_to('Move Up', move_higher_library_floor_path(floor.library,floor), :method => :post, :id => "move_up-#{floor.id}", :class => "action-move-up") %></li>
 	    <li><%= link_to('Move Down', move_lower_library_floor_path(floor.library,floor), :method => :post, :id => "move_down-#{floor.id}", :class => "action-move-down") %></li>
