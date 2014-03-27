@@ -13,11 +13,16 @@
     <dd><%= @post.message %></dd>
 	<% if can? :manage, @post %>
     <dt>Moderator Flags:</dt>
-      <% @post.moderator_flags.each do |mf| %>
-	  <dd><%= mf.reason %></dd>
-  <% end %>
-  <% end %>
-
+    <% @post.moderator_flags.each do |mf| %>
+	  <dd><%= mf.reason %>
+      <% if can? :destroy, mf %>
+      <ul class="actions">
+        <li><%= link_to('Delete', moderator_flag_path(mf), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{mf.id}", :class => "action-delete")%></li>
+      </ul>
+      <% end # if %>
+    </dd>
+  <% end # each %>
+  <% end # if %>
   </dl>
 
 <%= link_to "Bulletin Board", bulletin_board_path(@post.bulletin_board) %>

@@ -64,9 +64,10 @@ class Ability
         end.count >= 1
       end
       can :read, BulletinBoard, :reservable_asset_id => user.reservations.status(Status[:approved, :expiring]).joins(:reservable_asset).pluck('reservable_assets.id')
-      can :create, Post, :user_id => user.id, :bulletin_board => user.reservations.status(Status::ACTIVE_IDS).joins(:reservable_asset => :bulletin_board).pluck('bulletin_boards.id')
+      can :create, Post, :user_id => user.id, :bulletin_board_id => user.reservations.status(Status::ACTIVE_IDS).joins(:reservable_asset => :bulletin_board).pluck('bulletin_boards.id')
       can :destroy, Post, :user_id => user.id
       can :create, ModeratorFlag
+      cannot :create, ModeratorFlag, :post => {:user => {:id => user.id}}
       can :help, Message
 
       if user.admin? # Global Admin
@@ -82,7 +83,6 @@ class Ability
         can :manage, [CallNumber, Floor, ModeratorFlag, Post, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
           user.local_admin_permissions.include?(obj.library)
         end
-        can :create, ModeratorFlag
         can :reserve, ReservableAsset, :library => user.local_admin_permissions
         can :manage, Reservation, :library => user.local_admin_permissions
       end

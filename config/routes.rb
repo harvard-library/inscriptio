@@ -38,9 +38,9 @@ Inscriptio::Application.routes.draw do
     end
   end
 
-  resources :moderator_flags
-
-  resources :posts, :except => [:index]
+  resources :posts, :except => [:index] do
+    resources :moderator_flags, :shallow => true, :except => [:index, :show]
+  end
 
   # All manipulation of BB state is directly through the model
   #  in the reservable_assets_controller (yuck)

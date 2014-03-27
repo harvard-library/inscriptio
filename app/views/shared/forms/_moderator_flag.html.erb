@@ -1,6 +1,14 @@
-<%= semantic_form_for(@moderator_flag) do |f| %>
+<%
+   if %w(new create).include? action_name
+      target = [@moderator_flag.post, @moderator_flag]
+    else
+      target = @moderator_flag
+    end
+%>
+<%= semantic_form_for(target) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :post, :as => :hidden, :value => @post.id %>
+    <%= f.input :post_id, :as => :hidden, :value => @moderator_flag.post.id %>
+    <%= f.input :user_id, :as => :hidden, :value => current_user.id %>
     <%= f.input :reason %>
 
   <% end %>
