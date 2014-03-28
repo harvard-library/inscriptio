@@ -7,15 +7,15 @@ Feature: Manage Reservable Asset
       And a library_floor named "Floor 1"
 	   	And a logged in user of type "admin"
 	   	And the reservable_assets have been deleted
-	   	And I am on the reservable_asset "index" page
-	   	Then I should see "No reservable assets for this floor yet."
+	   	And I am on the reservable_asset_type "index" page
+	   	Then I should see "No reservable assets yet."
 
 	Scenario: Register new reservable_asset
     Given a library named "Widener"
     And a logged in user of type "admin"
+    And a reservable_asset_type of "Carrel"
     And I am on the reservable_asset "new" page
     When I select "Floor 1" from "Floor"
-    And I select "Carrel" from "Reservable asset type"
     And I fill in "Name" with "CAR-EL-ANNE"
     And I fill in "Access Code" with "8675309"
     And I fill in "Location" with "Floating above the others"
@@ -45,13 +45,15 @@ Feature: Manage Reservable Asset
 	    When I am on the reservable_asset "edit" page
 	    And I fill in "Description" with "this is an updated asset"
 	    And I press "Update"
-	    Then I should see "this is an updated asset"
+	    Then I should see "Timmy updated"
+      When I am on the reservable_asset "show" page for "Timmy"
+      Then I should see "this is an updated asset"
 
 	Scenario: Delete a reservable_asset
 	    Given a library named "Widener"
 		And a library_floor named "Floor 1"
 	    And a logged in user of type "admin"
-	    And I am on the reservable_asset "index" page
+	    And I am on the reservable_asset_type "index" page
 	    When I delete the reservable_asset named "Timmy"
 	    Then I should see "Deleted reservable asset"
       And I should not see an element "a:contains('Timmy')"

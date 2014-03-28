@@ -53,6 +53,7 @@ class ReservableAssetsController < ApplicationController
   end
 
   def update
+    @reservable_asset.attributes = params[:reservable_asset]
     respond_to do|format|
 
       if @reservable_asset.slots_equal_users?
