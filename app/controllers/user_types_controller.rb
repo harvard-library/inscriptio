@@ -40,6 +40,7 @@ class UserTypesController < ApplicationController
   end
 
   def update
+    @user_type.attributes = params[:user_type]
     respond_to do|format|
       if @user_type.save
         flash[:notice] = %Q|#{@user_type} (at #{@user_type.library}) updated|
