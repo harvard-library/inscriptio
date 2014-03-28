@@ -31,7 +31,7 @@
         <li><%= link_to('Cancel', expire_reservation_path(@reservation), :confirm => "Are you sure you want to cancel this reservation?", :method => :put, :id => "expire-#{@reservation.id}", :class => "action-expire") %></li>
       <% end %>
       <% if @authority[:destroy] %>
-        <li><%= link_to(@del_or_clear, expire_reservation_path(@reservation), :confirm => "Are you sure you want to #{@del_or_clear.downcase} this item?", :method => :delete, :id => "delete-#{@reservation.id}", :class => "action-delete") %></li>
+        <li><%= link_to(@del_or_clear, reservation_path(@reservation), :confirm => "Are you sure you want to #{@del_or_clear.downcase} this item?", :method => :delete, :id => "delete-#{@reservation.id}", :class => "action-delete") %></li>
       <% end %>
     </ul>
 	<% end %>
