@@ -11,7 +11,7 @@ gem 'cancan',       '~> 1.6.0'
 gem 'carrierwave',  '~> 0.9.0'
 gem 'mini_magick',  '~> 3.6.0'
 gem 'breadcrumbs',  '~> 0.1.6'
-gem 'rake',         '~> 10.1.1'
+gem 'rake',         '~> 10.2.0'
 gem 'rubyzip',      '~> 1.0.0'
 gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
