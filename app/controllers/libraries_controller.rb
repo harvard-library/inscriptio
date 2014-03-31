@@ -12,7 +12,6 @@ class LibrariesController < ApplicationController
   end
 
   def create
-    @library.attributes = params[:library]
     respond_to do|format|
       if @library.save
         flash.now[:notice] = 'Added that library'

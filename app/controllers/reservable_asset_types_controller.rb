@@ -13,7 +13,7 @@ class ReservableAssetTypesController < ApplicationController
 
   def new
     @reservable_asset_type.library = Library.find(params[:library_id])
-    authorize! :manage, @reservable_asset_type
+    authorize! :create, @reservable_asset_type
   end
 
   def create

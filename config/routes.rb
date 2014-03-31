@@ -39,7 +39,7 @@ Inscriptio::Application.routes.draw do
   end
 
   resources :posts, :except => [:index] do
-    resources :moderator_flags, :shallow => true, :except => [:index, :show]
+    resources :moderator_flags, :shallow => true, :except => [:index, :show, :edit]
   end
 
   # All manipulation of BB state is directly through the model

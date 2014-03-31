@@ -21,15 +21,4 @@ class ModeratorFlagsController < ApplicationController
     end
   end
 
-  def update
-    respond_to do|format|
-      if @moderator_flag.save
-        flash[:notice] = %Q|#{@moderator_flag} updated|
-        format.html {redirect_to @moderator_flag.post.bulletin_board}
-      else
-        flash[:error] = 'Could not update that Moderator Flag'
-        format.html {redirect_to @moderator_flag.post.bulletin_board}
-      end
-    end
-  end
 end
