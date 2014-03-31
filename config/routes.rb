@@ -55,8 +55,10 @@ Inscriptio::Application.routes.draw do
     end
   end
 
+  # Most of the infrastructure for this exists, but it's not subject to auth,
+  # and needs substantial work to be sane.  Therefore, commented until safe
 
-  resources :search
+  # resources :search
 
   resources :reservable_asset_types, :only => [:index] do
     resources :reservable_assets, :shallow => true

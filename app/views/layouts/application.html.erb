@@ -25,11 +25,6 @@ end %>
           Signed in as <%= current_user.email %>. Not you?
           <%= link_to "Sign out", destroy_user_session_path %> or <%= link_to "edit account", edit_user_path(current_user) %>
         <% end %>
-		<br /><br />
-		<% form_tag search_index_path, :method => 'get' do %>
-		  <%= text_field_tag :search, params[:search] %>
-		  <%= submit_tag "Search", :name => nil %>
-		<% end %>
       </div>
 
       <div id="logo">
