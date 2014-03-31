@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
-  load_and_authorize_resource
+  skip_before_filter :authenticate_user!, :only => [:help]
+  load_and_authorize_resource :except => [:help]
 
   def index
     breadcrumbs.add 'Messages'
