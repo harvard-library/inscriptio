@@ -4,7 +4,9 @@
   <% if can? :manage, library %>
 	<ul class="actions">
       <li><%= link_to 'Edit', edit_library_path(library), :class => "action-edit" %></li>
-	  <li><%= link_to('Delete', library_path(library), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{library.id}", :class => "action-delete") %></li>
+      <% if can? :delete, library %>
+  	    <li><%= link_to('Delete', library_path(library), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{library.id}", :class => "action-delete") %></li>
+      <% end %>
     </ul>
   <% end %>
 </li>

@@ -78,7 +78,7 @@ class Ability
         can :read, :all
         can :manage, Report
         can :manage, Library, :id => user.local_admin_permissions.pluck(:id)
-        cannot :create, Library
+        cannot [:delete, :create], Library
         can :manage, Email # Probably ought to be tighter, but it's not worth the effort to lock it down
         can :manage, [CallNumber, Floor, ModeratorFlag, Post, ReservableAsset, ReservableAssetType, ReservationNotice, SubjectArea, UserType] do |obj|
           user.local_admin_permissions.include?(obj.library)
