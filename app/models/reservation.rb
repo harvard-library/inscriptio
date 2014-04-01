@@ -81,8 +81,18 @@ class Reservation < ActiveRecord::Base
     end
   end
 
-  def status
-    Status.new(self.status_id)
+  # overloaded - getter without arg, test for equality with arg
+  def status(test = nil)
+    unless test
+      Status.new(self.status_id)
+    else
+      test_against = Status[test]
+      if test_against.is_a? Numeric
+        self.status_id == test_against
+      else
+        test_against.include? self.status_id
+      end
+    end
   end
 
   def to_s

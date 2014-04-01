@@ -52,6 +52,7 @@ Inscriptio::Application.routes.draw do
     member do
       put 'approve'
       put 'expire'
+      put 'renew'
     end
   end
 

@@ -16,7 +16,7 @@ class ReservationsController < ApplicationController
       rel = current_user.local_admin_permissions
     end
     rel = rel.includes(:reservable_asset_types => {:reservable_assets => {:reservations => :user}})
-    rel = rel.where("status_id IN (?)", Status[:pending, :expired, :approved, :expiring])
+    rel = rel.where("status_id IN (?)", Status[:pending, :expired, :approved, :expiring, :renewal_confirmation])
     rel = rel.where('reservations.deleted_at IS NULL')
     @libraries = rel.order('libraries.id, reservable_asset_types.id, users.email')
 
@@ -29,6 +29,8 @@ class ReservationsController < ApplicationController
             case r.status_id
             when Status[:pending]
               ras['Pending'] ? ras['Pending'].push(r) : (ras['Pending'] = [r])
+            when Status[:renewal_confirmation]
+              ras['Renewal'] ? ras['Renewal'].push(r) : (ras['Renewal'] = [r])
             when Status[:expired]
               ras['Expired'] ? ras['Expired'].push(r) : (ras['Expired'] = [r])
             when Status[:approved], Status[:expiring]
@@ -88,7 +90,6 @@ class ReservationsController < ApplicationController
   end
 
   def create
-
     params[:reservation][:reservable_asset] = defined?(@reservable_asset) ? @reservable_asset : ReservableAsset.find(params[:reservation][:reservable_asset_id])
 
     can?(:manage, Reservation) ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
@@ -191,7 +192,6 @@ class ReservationsController < ApplicationController
   end
 
   def expire
-    @reservation = Reservation.find(params[:id])
     authorize! :expire, @reservation
     if @reservation.status_id == Status[:pending]
       success = @reservation.destroy
@@ -214,4 +214,52 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def renew
+    @reservation = Reservation.find(params[:id])
+    authorize! :renew, @reservation
+    if @reservation.reservable_asset_type.require_moderation
+      new_status_id = Status[:renewal_confirmation]
+    else
+      new_status_id = Status[:approved]
+    end
+    attrs = @reservation.attributes.except(
+              *%w(id
+                  start_date
+                  end_date
+                  status_id
+                  deleted_at
+                  created_at
+                  updated_at)).merge(
+                                     :start_date => Date.today,
+                                     :end_date => Date.today + @reservation.reservable_asset_type.max_reservation_time.days,
+                                     :status_id => new_status_id)
+    @new_res = Reservation.new(attrs)
+
+    @reservation.update_attribute(:deleted_at, Time.now)
+
+    success = @new_res.save
+    unless success
+      @reservation.restore
+    end
+
+    respond_to do |format|
+      format.js do
+        if success
+          @new_res
+        else
+         head :status => 500
+        end
+      end
+      format.html do
+        unless success
+          flash[:base] = "Couldn't renew reservation"
+        end
+        if can? :manage, @reservation.library
+          redirect_to (success ? @new_res : @reservation)
+        else
+          redirect_to reservations_user_url(@new_res.user)
+        end
+      end
+    end
+  end
 end

@@ -8,7 +8,7 @@
           <h3><%= rat.name %></h3>
           <div class="rat" id="rat-<%= rat.id %>">
             <% res = @reservations[l.id][rat.id] %>
-            <% ['Pending', 'Expired', 'Approved'].each do |status| %>
+            <% ['Pending', 'Expired', 'Approved', 'Renewal'].each do |status| %>
               <% unless res[status].blank? %>
                 <h2 class='collapsible'><%= status %> Reservations <%= raw "(<span class='count'>#{res[status].length}</span>)" %></h2>
                 <ul class="<%= status.downcase %>">

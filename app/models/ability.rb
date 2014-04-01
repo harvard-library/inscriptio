@@ -58,6 +58,7 @@ class Ability
         end.count >= 1
       end
       can :expire, Reservation, :user_id => user.id
+      can :renew, Reservation, :status_id => Status[:expiring], :user_id => user.id
       can :reserve, ReservableAsset do |ra|
         ra.reservable_asset_type.user_types.pluck(:id).select do |ut|
           user.user_types.pluck(:id).include? ut

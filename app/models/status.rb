@@ -15,7 +15,7 @@ class Status
     "Renewal Confirmation" => 8
   }
   ACTIVE_IDS = STATUSES.reduce([]) do |acc, (k,v)|
-    acc.push v if ['Approved', 'Pending', 'Expiring'].include?(k)
+    acc.push v if ['Approved', 'Pending', 'Expiring','Renewal Confirmation'].include?(k)
     acc
   end
 

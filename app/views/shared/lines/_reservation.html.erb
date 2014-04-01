@@ -5,10 +5,14 @@
   <%= "from #{reservation.start_date} to #{reservation.end_date}" %>
   <ul class="actions">
     <% if can? :manage, reservation %>
-      <% if reservation.status_id == Status[:pending] %>
+      <% if reservation.status([:pending, :renewal_confirmation]) %>
         <li><%= link_to('Approve', approve_reservation_path(reservation), :class => "action-approve", :remote => true, :method => :put) %></li>
+      <% end %>
+      <% if can?(:renew, reservation) && reservation.status(:expiring) %>
+        <li><%= link_to('Renew', renew_reservation_path(reservation), :class => "action-renew", :method => :put) %></li>
       <% end %>
       <li><%= link_to(reservation.deleted_at ? 'Delete' : 'Clear', reservation_path(reservation), :confirm => "Are you sure you want to #{reservation.deleted_at ? 'delete' : 'Clear'} this reservation?", :method => :delete, :id => "delete-#{reservation.id}", :class => "action-delete", :remote => true) %></li>
       <% end %>
+
   </ul>
 </li>
