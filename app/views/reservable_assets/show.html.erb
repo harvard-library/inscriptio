@@ -42,8 +42,10 @@
     <h2>Photo</h2>
     <%= image_tag(@reservable_asset.photo.url) %>
   <% end %>
-  <% if can?(:reserve, @reservable_asset) && !@reservable_asset.full? %>
+  <% if can?(:reserve, @reservable_asset) && !@reservable_asset.full? && !current_user.reservations.map(&:library).uniq.include?(@reservable_asset.library) %>
     <h2 class="action-reserve-asset"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
+  <% elsif @reservable_asset.current_users.include?(current_user) %>
+    <h3>You have already reserved this asset</h3>
   <% else %>
 	  <h3>You are not able to reserve this asset at this time.</h3>
   <% end %>
