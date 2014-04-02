@@ -1,7 +1,7 @@
 (function () {
   var sel = '#reservation-' + <%= @reservation.id %>;
   var target_ul = $(sel).closest('.rat').find('.approved');
-  var num_to_dec = $(sel).closest('.rat').find('.pending').prev().find('.count');
+  var num_to_dec = $(sel).closest('.rat').find('.pending,.renewal').prev().find('.count');
   var num_to_inc = target_ul.prev().find('.count');
 
   num_to_inc.text(parseInt(num_to_inc.text()) + 1);

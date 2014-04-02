@@ -11,7 +11,7 @@
             <% ['Pending', 'Expired', 'Approved', 'Renewal'].each do |status| %>
               <% unless res[status].blank? %>
                 <h2 class='collapsible'><%= status %> Reservations <%= raw "(<span class='count'>#{res[status].length}</span>)" %></h2>
-                <ul class="<%= status.downcase %>">
+                <ul class="<%= status.gsub(/\s/, '_').downcase %>">
 	                <%= render :partial => 'shared/lines/reservation', :collection => res[status] %>
                 </ul> <!-- end <%= status.downcase %> -->
               <% end %>  <!-- END unless -->
