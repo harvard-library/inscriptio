@@ -19,7 +19,7 @@
     <dt>Slots:</dt>
       <dd><%= @reservable_asset.slots %></dd>
     <dt>Seats Available:</dt>
-      <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.length %></dd>
+      <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.count %></dd>
 	  <% if can? :manage, @reservable_asset %>
 	  <dt>Access Code:</dt>
       <dd><%= @reservable_asset.access_code %></dd>
