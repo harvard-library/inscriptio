@@ -44,7 +44,7 @@ end %>
 		   <h3>User Options</h3>
 		   <ul>
 	         <li><%= link_to "Libraries (home)", libraries_path %></li>
-		     <% if user_signed_in? && current_user.reservations.status([:pending, :approved]).count > 0 %>
+		     <% if user_signed_in? && current_user.reservations.status(Status::ACTIVE_IDS).count > 0 %>
 	           <li><%= link_to "My Reservation", reservations_user_path(current_user) %></li>
 	         <% end %>
 
