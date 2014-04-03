@@ -87,7 +87,9 @@ Before do
   @user_t = FactoryGirl.create(:user_type, :name => 'User', :reservable_asset_types => [@rat], :library_id => @library.id)
   @admin = FactoryGirl.create(:user, :email => 'admin@email.com', :password => '123456', :admin => true, :user_types => [])
   @user = FactoryGirl.create(:user, :email => 'user@email.com', :password => '123456', :user_types => [@user_t])
+  @other_user = FactoryGirl.create(:user, :email => 'other_user@email.com', :password => '123456', :user_types => [@user_t])
   @reservation = FactoryGirl.create(:reservation, :id => 9001, :reservable_asset => @asset, :user => @user, :status_id => Status[:approved], :start_date => Date.today, :end_date => Date.today + 59)
+  @reservation = FactoryGirl.create(:reservation, :id => 9002, :reservable_asset => @asset, :user => @other_user, :status_id => Status[:expiring], :start_date => Date.today - 58, :end_date => Date.tomorrow)
 end
 
 

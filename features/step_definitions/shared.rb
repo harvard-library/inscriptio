@@ -159,7 +159,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
   end
 end
 
-When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, object_name|
+When 'I am on the $object_type "show" page for "$object_name"' do |object_type, object_name|
   case object_type
   when 'library_floor'
     floor = @library.floors.find(:first, :conditions => {:name => object_name})
@@ -187,6 +187,10 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
     user_type = UserType.find(:first, :conditions => { :name => object_name })
     visit(user_type_path(user_type))
   end
+end
+
+When /^I am on the user "reservations" page for "([^"]+)"/ do |email|
+  visit reservations_user_path(User.find_by_email(email))
 end
 
 Given /^the floors have been deleted$/ do
@@ -227,16 +231,16 @@ When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector
 end
 
 Given 'a logged in user of type "$user_type"' do |user_type|
+  visit('/users/sign_in')
   case user_type
   when 'admin'
-    visit('/users/sign_in')
     fill_in('Email', :with => "admin@email.com")
-    fill_in('Password', :with => "123456")
-    click_button('Sign in')
+  when 'other_user'
+    fill_in('Email', :with => "other_user@email.com")
   else
-    visit('/users/sign_in')
     fill_in('Email', :with => "user@email.com")
-    fill_in('Password', :with => "123456")
-    click_button('Sign in')
   end
+  fill_in('Password', :with => "123456")
+  click_button('Sign in')
+
 end

@@ -42,3 +42,20 @@ Feature: Manage Reservation
     And I am on the reservation "show" page for "9001"
     When I click ".action-delete"
     Then I should see "Cleared reservation 9001"
+
+  @javascript
+  Scenario: Cancel a reservation
+    Given a library named "Widener"
+    And a logged in user of type "user"
+    And I am on the user "reservations" page for "user@email.com"
+    When I click ".action-expire"
+    Then I should not see "9001"
+    And I should see "You have no reservation."
+
+  Scenario: Renew a reservation
+    Given a library named "Widener"
+    And a logged in user of type "other_user"
+    And I am on the user "reservations" page for "other_user@email.com"
+    When I click ".action-renew"
+    Then I should see "Renewal Confirmation Reservations"
+    And I should see "Timmy"
