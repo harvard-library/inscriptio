@@ -91,36 +91,28 @@ class ReservableAssetsController < ApplicationController
   def import
     @file = params[:upload][:datafile] unless params[:upload].blank?
     CSV.parse(@file.read).each do |cell|
+      @reservable_asset = ReservableAsset.new
+      @reservable_asset.floor = Floor.find(cell[0].to_i)
+      @reservable_asset.attributes = %w|name
+                                        description
+                                        location
+                                        min_reservation_time
+                                        max_reservation_time
+                                        max_concurrent_users
+                                        slots
+                                        access_code notes|.zip(cell[2..10]).to_h
+      # Protected assets here
+      @reservable_asset.reservable_asset_type = ReservableAssetType.find(cell[1].to_i)
+      @reservable_asset.name = cell[2],
 
-        floor = Floor.find(cell[0].to_i)
-        asset_type = ReservableAssetType.find(cell[1].to_i)
-
-        asset={}
-
-        asset[:floor] = floor
-        asset[:reservable_asset_type] = asset_type
-        asset[:name] = cell[2]
-        asset[:description] = cell[3]
-        asset[:location] = cell[4]
-        asset[:min_reservation_time] = cell[5]
-        asset[:max_reservation_time] = cell[6]
-        asset[:max_concurrent_users] = cell[7]
-        asset[:slots] = cell[8]
-        asset[:access_code] = cell[9]
-        asset[:notes] = cell[10]
-
-        @reservable_asset = ReservableAsset.new
-
-        @reservable_asset.attributes = asset
-
-        if @reservable_asset.save
-          if @reservable_asset.reservable_asset_type.has_bulletin_board
-            @bulletin_board = BulletinBoard.new
-            @bulletin_board.reservable_asset = @reservable_asset
-            @bulletin_board.post_lifetime = 30
-            @bulletin_board.save!
-          end
+      if @reservable_asset.save
+        if @reservable_asset.reservable_asset_type.has_bulletin_board
+          @bulletin_board = BulletinBoard.new
+          @bulletin_board.reservable_asset = @reservable_asset
+          @bulletin_board.post_lifetime = 30
+          @bulletin_board.save!
         end
+      end
     end
     redirect_to reservable_asset_types_path
   end
