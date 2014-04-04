@@ -74,8 +74,8 @@ class UsersController < ApplicationController
         flash[:notice] = "Added #{@user.email}"
         format.html {redirect_to :action => :index}
       else
-        flash.now[:error] = "Could not add #{@user.email}"
-        format.html {render :action => :new}
+        flash[:error] = "Could not add #{@user.email}"
+        format.html {redirect_to :action => :new}
       end
     end
   end
@@ -111,6 +111,7 @@ class UsersController < ApplicationController
   end
 
   def update
+
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|
@@ -120,8 +121,8 @@ class UsersController < ApplicationController
           format.html {redirect_to :root}
         end
       else
-        flash.now[:error] = 'Could not update that User'
-        format.html {render :action => :new}
+        flash[:error] = 'Could not update that User'
+        format.html {redirect_to :back}
       end
     end
   end
