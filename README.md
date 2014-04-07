@@ -25,6 +25,7 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 
 ```
 SECRET_TOKEN=30+charstringofrandomnessgottenfromrakesecretmaybe #Only needed in RAILS_ENV=production
+DEVISE_SECRET_KEY=30+charstringDifferentFromAbove               #Also only needed in RAILS_ENV=production
 INSCRIPTIO_ROOT=my.inscriptio.host.com
 INSCRIPTIO_MAIL_SENDER=email.address.for.mails@my.inscriptio.host.com
 ```
