@@ -25,7 +25,9 @@ namespace :deploy do
   desc 'Run arbitrary remote rake task'
   task :rrake do
     on roles(:app) do
-      execute :rake, "#{ENV['T']} --rakefile=#{release_path}/Rakefile RAILS_ENV=#{Proc.new do fetch(:rails_env) end.call}"
+      within release_path do
+        execute :rake, "#{ENV['T']} --rakefile=#{release_path}/Rakefile RAILS_ENV=#{Proc.new do fetch(:rails_env) end.call}"
+      end
     end
   end
 
