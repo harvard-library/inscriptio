@@ -1,0 +1,16 @@
+<% reservation = reservation_nadmin %>
+<li class="reservation line" id="reservation-<%= reservation.id %>">
+  <p><%= reservation.reservable_asset.reservable_asset_type.name %>: <%= link_to "#{reservation.reservable_asset.name}(#{reservation.slot})", reservation.reservable_asset %></p>
+  <p><%= "This reservation will expire on #{reservation.end_date.strftime('%A, %B %d, %Y')}" %></p>
+  <% if reservation.reservable_asset.access_code && Status[:approved, :expiring].include?(reservation.status.id) %>
+    <p>The Access code for this <%= reservation.reservable_asset.reservable_asset_type.name.downcase %> is: <%= reservation.reservable_asset.access_code %></p>
+  <% end %>
+  <ul class="actions">
+    <% if can?(:renew, reservation) %>
+      <li><%= link_to('Renew', renew_reservation_path(reservation), :class => "action-renew", :method => :put) %></li>
+    <% end %>
+    <!-- Note: Action doesn't work yet -->
+    <li><%= link_to('Cancel', expire_reservation_path(reservation), :class => "action-expire", :remote => true, :method => :put, :confirm => "Are you sure you want to cancel your reservation?") %></li>
+
+  </ul>
+</li>

@@ -1,9 +1,16 @@
-<%= semantic_form_for(@subject_area) do |f| %>
+<%
+   if action_name == 'new'
+      target = [@subject_area.library, @subject_area]
+    else
+      target = @subject_area
+    end
+%>
+<%= semantic_form_for(target) do |f| %>
   <%= f.inputs do %>
     <%= f.input :name %>
 	<%= f.input :long_name %>
     <%= f.input :description %>
-    <%= f.input :floors, :as => :check_boxes, :collection => @floors %>
+    <%= f.input :library_id, :as => :hidden %>
   <% end %>
   <%= f.actions %>
 <% end %>

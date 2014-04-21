@@ -6,7 +6,7 @@
 	<dt><%= @reservation.reservable_asset.reservable_asset_type.name %> Name:</dt>
     <dd><%= link_to "#{@reservation.reservable_asset.name} #{@reservation.slot}", reservable_asset_path(@reservation.reservable_asset) %></dd>
   <dt>User:</dt>
-    <% if current_user.admin? %>
+    <% if can? :all_but_destroy, @reservation.user %>
       <dd><%= link_to "#{@reservation.user.first_name} #{@reservation.user.last_name} (#{@reservation.user.email})", @reservation.user %> <ul class="actions"><li><%= link_to "Edit", edit_user_path(@reservation.user), :class => "action-edit" %></li></ul></dd>
     <% else %>
       <dd><%= @reservation.user.email %> </dd>
@@ -22,20 +22,26 @@
         <dd><%= @reservation.reservable_asset.access_code %></dd>
     <% end %>
   </dl>
-
-    <% if current_user.admin? || @reservation.allow_edit?(current_user) %>
+  <% if @authority.values.select{|el| el}.count > 0 %>
 	  <ul class="actions">
-      <li><%= link_to('Edit', edit_reservation_path(@reservation), :class => "action-edit") %></li>
-      <li><%= link_to(@del_or_clear, reservation_path(@reservation), :confirm => "Are you sure you want to #{@del_or_clear.downcase} this item?", :method => :delete, :id => "delete-#{@reservation.id}", :class => "action-delete") %></li>
+      <% if @authority[:edit] %>
+        <li><%= link_to('Edit', edit_reservation_path(@reservation), :class => "action-edit") %></li>
+      <% end %>
+      <% if @authority[:expire] %>
+        <li><%= link_to('Cancel', expire_reservation_path(@reservation), :confirm => "Are you sure you want to cancel this reservation?", :method => :put, :id => "expire-#{@reservation.id}", :class => "action-expire") %></li>
+      <% end %>
+      <% if @authority[:destroy] %>
+        <li><%= link_to(@del_or_clear, reservation_path(@reservation), :confirm => "Are you sure you want to #{@del_or_clear.downcase} this item?", :method => :delete, :id => "delete-#{@reservation.id}", :class => "action-delete") %></li>
+      <% end %>
     </ul>
-	  <% end %>
+	<% end %>
 
 	<% unless @reservation.reservable_asset.photo.blank? %>
       <h2>Photo</h2>
 		<%= image_tag(@reservation.reservable_asset.photo.url) %>
     <% end %>
 
-	<% unless @reservation.reservable_asset.bulletin_board.nil? || !@reservation.approved? %>
+    <% if @reservation.reservable_asset.bulletin_board && can?(:read, @reservation.reservable_asset.bulletin_board) %>
       <h2>Bulletin Board</h2>
       <%= link_to "Access Board", bulletin_board_path(@reservation.reservable_asset.bulletin_board) %>
     <% end %>

@@ -14,7 +14,6 @@ class ReportsController < ApplicationController
     }
   }
 
-  before_filter :authenticate_admin!
   before_filter :process_horizons, :only => REPORTS.keys
 
   def process_horizons
@@ -29,14 +28,15 @@ class ReportsController < ApplicationController
   end
 
   def index
+    authorize! :manage, Report
     @reports = REPORTS
-
     breadcrumbs.add 'Reports'
   end
 
   # Build each action from REPORTS
   REPORTS.keys.each do |report|
     define_method(report) do
+      authorize! :manage, Report
       result = Report.send(report, @start_horizon, @end_horizon)
       respond_to do |format|
         format.csv do

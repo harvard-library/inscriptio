@@ -1,5 +1,5 @@
 <% content_for :header do %>Users<% end %>
-  <% if current_user.admin? %>
+  <% if can? :all_but_destroy, User %>
     <h2 class="action-button"><%= link_to('New User', new_user_path) %></h2>
     <h3><%= link_to('Export Users to CSV', export_users_path) %></h3>
     <% unless @csv.nil? %>

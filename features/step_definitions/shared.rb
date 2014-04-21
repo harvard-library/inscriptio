@@ -28,7 +28,8 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
     # For non-special cases, construct their class from their object type
     klass = object_type.camelcase.constantize
     target = klass.send(method, name)
-    within("\##{object_type}-#{target.id} > .actions") do
+
+    within("\##{object_type}-#{target.id} > .actions, \##{object_type}-#{target.id} > div > .actions") do
       click_link "delete-#{target.id}"
     end
   end
@@ -63,7 +64,7 @@ Given /^a reservation of "([^"]*)"$/ do |arg1|
 end
 
 Given /^a user_type of "([^"]*)"$/ do |arg1|
-  @user_type = UserType.find_or_create_by_name(arg1)
+  @user_type = UserType.where(:name => arg1, :library_id => @library.id).first_or_create
 end
 
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
@@ -92,7 +93,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(call_numbers_path)
     when 'new'
-      visit(new_call_number_path)
+      visit(new_library_call_number_path(@library))
     when 'edit'
       visit(edit_call_number_path(@call_number))
     end
@@ -102,7 +103,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(subject_areas_path)
     when 'new'
-      visit(new_subject_area_path)
+      visit(new_library_subject_area_path(@library))
     when 'edit'
       visit(edit_subject_area_path(@subject_area))
     end
@@ -112,9 +113,9 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(reservable_asset_types_path)
     when 'new'
-      visit(new_reservable_asset_type_path)
+      visit(new_library_reservable_asset_type_path(@library))
     when 'edit'
-      visit(edit_reservable_asset_type_path(@reservable_asset_type))
+      visit(edit_library_reservable_asset_type_path(@library, @reservable_asset_type))
     end
 
   elsif object_type == 'reservable_asset'
@@ -122,7 +123,7 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(reservable_assets_path)
     when 'new'
-      visit(new_reservable_asset_path + "?library=#{@library.id}")
+      visit(new_reservable_asset_type_reservable_asset_path(@reservable_asset_type))
     when 'edit'
       visit(edit_reservable_asset_path(@reservable_asset))
     end
@@ -150,15 +151,15 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
     when 'index'
       visit(user_types_path)
     when 'new'
-      visit(new_user_type_path)
+      visit(new_library_user_type_path(@library))
     when 'edit'
-      visit(edit_user_type_path(@user_type))
+      visit(edit_library_user_type_path(@user_type.library, @user_type))
     end
 
   end
 end
 
-When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, object_name|
+When 'I am on the $object_type "show" page for "$object_name"' do |object_type, object_name|
   case object_type
   when 'library_floor'
     floor = @library.floors.find(:first, :conditions => {:name => object_name})
@@ -171,7 +172,7 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
     visit(subject_area_path(subject_area))
   when 'reservable_asset_type'
     reservable_asset_type = ReservableAssetType.find(:first, :conditions => { :name => object_name })
-    visit(reservable_asset_type_path(reservable_asset_type))
+    visit(library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type))
   when 'reservable_asset'
     if object_name.to_i > 0
       reservable_asset = ReservableAsset.find(object_name.to_i)
@@ -186,6 +187,10 @@ When 'I am on the $object_type "show" page for "$floor_name"' do |object_type, o
     user_type = UserType.find(:first, :conditions => { :name => object_name })
     visit(user_type_path(user_type))
   end
+end
+
+When /^I am on the user "reservations" page for "([^"]+)"/ do |email|
+  visit reservations_user_path(User.find_by_email(email))
 end
 
 Given /^the floors have been deleted$/ do
@@ -226,16 +231,16 @@ When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector
 end
 
 Given 'a logged in user of type "$user_type"' do |user_type|
+  visit('/users/sign_in')
   case user_type
-  when 'user'
-    visit('/users/sign_in')
-    fill_in('Email', :with => "user@email.com")
-    fill_in('Password', :with => "123456")
-    click_button('Sign in')
   when 'admin'
-    visit('/users/sign_in')
     fill_in('Email', :with => "admin@email.com")
-    fill_in('Password', :with => "123456")
-    click_button('Sign in')
+  when 'other_user'
+    fill_in('Email', :with => "other_user@email.com")
+  else
+    fill_in('Email', :with => "user@email.com")
   end
+  fill_in('Password', :with => "123456")
+  click_button('Sign in')
+
 end

@@ -1,53 +1,39 @@
 class PostsController < ApplicationController
-
-  def index
-    @posts = Post.all
-  end
+  load_and_authorize_resource :except => [:new, :create]
 
   def new
-    @post = Post.new
-    @bulletin_board = params[:bulletin_board]
+    @post = Post.new(:bulletin_board => BulletinBoard.find(params[:bulletin_board]), :user => current_user)
+    authorize! :create, @post
   end
 
   def show
-    @post = Post.find(params[:id])
-
     breadcrumbs.add 'Bulletin Board', bulletin_board_path(@post.bulletin_board)
     breadcrumbs.add 'Post', @post.id
   end
 
   def edit
-    @post = Post.find(params[:id])
-
-    unless current_user.admin? || @post.user_id == current_user.id
-       redirect_to('/') and return
-    end
-
-    @bulletin_board = @post.bulletin_board.id
+    @bulletin_board = @post.bulletin_board
   end
 
   def create
-    @post = Post.new
-    params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
-    params[:post][:user] = User.find(current_user)
-    @post.attributes = params[:post]
+    @post = Post.new(params[:post].except(:bulletin_board))
+    @post.bulletin_board = BulletinBoard.find(params[:post][:bulletin_board])
+    @post.user = current_user
+    authorize! :create, @post
+
     respond_to do|format|
       if @post.save
         flash[:notice] = 'Added that post'
         format.html {redirect_to bulletin_board_path(@post.bulletin_board)}
       else
-        flash[:error] = 'Could not add that post'
+        flash.now[:error] = 'Could not add that post'
         format.html {render :action => :new}
       end
     end
   end
 
   def destroy
-    @post = Post.find(params[:id])
     bb = @post.bulletin_board
-    unless current_user.admin? || @post.user_id == current_user.id
-       redirect_to('/') and return
-    end
 
     post = @post.id
     if @post.destroy
@@ -57,21 +43,15 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
-
-    unless current_user.admin? || @post.user_id == current_user.id
-       redirect_to('/') and return
-    end
-
     params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
     params[:post][:user] = User.find(current_user)
     @post.attributes = params[:post]
     respond_to do|format|
       if @post.save
-        flash[:notice] = %Q|#{@post} updated|
+        flash[:notice] = %Q|#{@post.id} updated|
         format.html {redirect_to bulletin_board_path(@post.bulletin_board)}
       else
-        flash[:error] = 'Could not update that post'
+        flash.now[:error] = 'Could not update that post'
         format.html {render :action => :new}
       end
     end

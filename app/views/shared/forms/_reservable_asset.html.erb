@@ -1,11 +1,19 @@
-<%= semantic_form_for(@reservable_asset, :html => {:multipart => true}) do |f| %>
+<%
+   if %w(new create).include? action_name
+      target = [@reservable_asset.reservable_asset_type, @reservable_asset]
+    else
+      target = @reservable_asset
+    end
+%>
+
+<%= semantic_form_for(target, :html => {:multipart => true}) do |f| %>
   <%= f.inputs do %>
 	<% unless @library.nil? %>
       <%= f.input :floor, :as => :select, :collection => @library.floors %>
-      <%= f.input :reservable_asset_type, :as => :select, :collection => @library.reservable_asset_types %>
+      <%= f.input :reservable_asset_type, :as => :hidden %>
 	<% else %>
 	  <%= f.input :floor %>
-      <%= f.input :reservable_asset_type %>
+      <%= f.input :reservable_asset_type_id, :as => :hidden %>
 	<% end %>
 	<%= f.input :name %>
 	<%= f.input :access_code, :label => 'Access Code', :hint => "Access Code is needed to reserve this asset" %>

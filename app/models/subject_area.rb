@@ -1,9 +1,10 @@
 class SubjectArea < ActiveRecord::Base
-  attr_accessible :name, :long_name, :description, :floor_ids, :call_number_ids, :floor_ids
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
+  attr_accessible :name, :long_name, :description, :call_number_ids, :library_id
 
-  has_and_belongs_to_many :floors, :order => :name
-  has_many :call_numbers
-  has_many :libraries, :through => :floors
+  has_many :floors, :through => :call_numbers, :order => :name
+  has_many :call_numbers, :dependent => :destroy
+  belongs_to :library
 
   validates_presence_of :name
   validates_length_of :description, :maximum => 16.kilobytes, :allow_blank => true

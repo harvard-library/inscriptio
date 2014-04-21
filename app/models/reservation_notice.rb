@@ -1,4 +1,5 @@
 class ReservationNotice < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible :library, :library_id, :reservable_asset_type, :reservable_asset_type_id, :status_id, :subject, :message, :reply_to
 
   belongs_to :reservable_asset_type
@@ -36,7 +37,6 @@ class ReservationNotice < ActiveRecord::Base
                                      :message => message,
                                      :reply_to => reply_to)
       notice.save
-      puts "Successfully created #{notice.subject}"
     end
   end
 

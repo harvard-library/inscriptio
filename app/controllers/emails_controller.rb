@@ -1,5 +1,5 @@
 class EmailsController < ApplicationController
-  before_filter :authenticate_admin!
+  load_and_authorize_resource
   def new
     @library = Library.find(params[:library])
     @users = Array.new

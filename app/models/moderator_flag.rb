@@ -4,6 +4,8 @@ class ModeratorFlag < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
 
+  delegate :library, :to => :post
+
   validates_presence_of :reason
 
   after_create :post_save_hooks

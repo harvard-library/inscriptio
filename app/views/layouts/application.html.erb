@@ -25,11 +25,6 @@ end %>
           Signed in as <%= current_user.email %>. Not you?
           <%= link_to "Sign out", destroy_user_session_path %> or <%= link_to "edit account", edit_user_path(current_user) %>
         <% end %>
-		<br /><br />
-		<% form_tag search_index_path, :method => 'get' do %>
-		  <%= text_field_tag :search, params[:search] %>
-		  <%= submit_tag "Search", :name => nil %>
-		<% end %>
       </div>
 
       <div id="logo">
@@ -49,25 +44,29 @@ end %>
 		   <h3>User Options</h3>
 		   <ul>
 	         <li><%= link_to "Libraries (home)", libraries_path %></li>
-		     <% if user_signed_in? && !current_user.try(:admin?) %>
+		     <% if user_signed_in? && current_user.reservations.status(Status::ACTIVE_IDS).count > 0 %>
 	           <li><%= link_to "My Reservation", reservations_user_path(current_user) %></li>
 	         <% end %>
 
-			 <% if current_user.try(:admin?) %>
-			   <li><%= link_to "Messages", messages_path %></li>
-	  	     <li><%= link_to "Users", users_path %></li>
-	         <li><%= link_to "User Types", user_types_path %></li>
-			     <li><%= link_to "School Affiliations", school_affiliations_path %></li>
+			 <% if can? :manage, Library %>
+         <% if can? :manage, Message %>
+			     <li><%= link_to "Messages", messages_path %></li>
+	  	   <% end %>
+         <li><%= link_to "Users", users_path %></li>
+	       <li><%= link_to "User Types", user_types_path %></li>
+			   <li><%= link_to "School Affiliations", school_affiliations_path %></li>
 
-			     <li><%= link_to "Subject Areas", subject_areas_path %></li>
-			     <li><%= link_to "Call Numbers", call_numbers_path %></li>
+			   <li><%= link_to "Subject Areas", subject_areas_path %></li>
+			   <li><%= link_to "Call Numbers", call_numbers_path %></li>
 
-           <li><%= link_to "Reservations", reservations_path %></li>
-	         <li><%= link_to "Reports", reports_path %></li>
-	         <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
-	         <li><%= link_to "Reservation Notices", reservation_notices_path %></li>
-	         <% end %>
-	         <li><%= link_to "Help", help_messages_path %></li>
+         <li><%= link_to "Reservations", reservations_path %></li>
+	       <% if can? :manage, Report %>
+           <li><%= link_to "Reports", reports_path %></li>
+         <% end %>
+	       <li><%= link_to "Reservable Assets", reservable_asset_types_path %></li>
+	       <li><%= link_to "Reservation Notices", reservation_notices_path %></li>
+	     <% end %>
+	     <li><%= link_to "Help", help_messages_path %></li>
 			</ul>
 		</div>
 
@@ -100,7 +99,7 @@ end %>
 	  <p>
 	    <%= raw display_message(:footer).content %>
 	  </p>
-	  <% if current_user.try(:admin?) %>
+	  <% if can? :update, Message %>
 	    <%= link_to('Edit', edit_message_path(display_message(:footer)), :class => "action-edit") %>
 	  <% end %>
     </div>

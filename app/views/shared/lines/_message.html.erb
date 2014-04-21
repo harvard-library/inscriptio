@@ -1,7 +1,7 @@
-<div class="message line" id="message-<%= message.id %>">
+<li class="message line" id="message-<%= message.id %>">
   <%= link_to(message.title, message ) %>
-  
-  <% if current_user.admin? %>
+
+  <% if can? :manage, message %>
 	<ul class="actions">
       <li><%= link_to('Edit', edit_message_path(message), :class => "action-edit") %></li>
       <% unless message.description == "default" || message.description == "help" || message.description == "welcome" || message.description == "footer" %>
@@ -9,4 +9,4 @@
 	  <% end %>
     </ul>
   <% end %>
-</div>
+</li>

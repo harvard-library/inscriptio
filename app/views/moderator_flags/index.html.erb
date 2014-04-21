@@ -1,6 +1,8 @@
-<div class="moderator_flags collection-list">
+<div>
   <% unless @moderator_flags.blank? %>
-	<%= render :partial => 'shared/lines/moderator_flag', :collection => @moderator_flags %>
+  <ul class="moderator_flags collection-list">
+	  <%= render :partial => 'shared/lines/moderator_flag', :collection => @moderator_flags %>
+  </ul>
   <% else %>
 	<h2>No moderator flags yet.</h2>
   <% end %>

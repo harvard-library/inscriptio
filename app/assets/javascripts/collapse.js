@@ -13,8 +13,10 @@ $(function() {
     e.stopPropagation(); /* Prevents loop from triggerHandler */
   }).parent().next().hide();
 
-  /* Make entire header clickable for better usability */
+  /* Where it's applied to a header, Make entire header clickable for better usability */
   $('.collapsible').click(function (e) {
-    $(e.currentTarget).children('button').triggerHandler('click');
+    if (e.target.tagName.match(/H\d/)) {
+      $(e.currentTarget).children('button').triggerHandler('click');
+    }
   });
 });

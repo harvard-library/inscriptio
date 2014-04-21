@@ -19,13 +19,13 @@
     <dt>Slots:</dt>
       <dd><%= @reservable_asset.slots %></dd>
     <dt>Seats Available:</dt>
-      <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.length %></dd>
-	  <% if current_user.admin? %>
+      <dd><%= @reservable_asset.max_concurrent_users - @reservable_asset.current_users.count %></dd>
+	  <% if can? :manage, @reservable_asset %>
 	  <dt>Access Code:</dt>
       <dd><%= @reservable_asset.access_code %></dd>
 	  <% end %>
 	  <% unless @reservable_asset.bulletin_board.nil? %>
-      <% if @reservable_asset.current_users.include?(current_user) || current_user.admin? %>
+      <% if can? :read, @reservable_asset.bulletin_board %>
 	      <dt>Bulletin Board</dt>
           <dd><%= link_to "Access Board", bulletin_board_path(@reservable_asset.bulletin_board) %></dd>
 	    <% end %>
@@ -42,15 +42,16 @@
     <h2>Photo</h2>
     <%= image_tag(@reservable_asset.photo.url) %>
   <% end %>
-
-  <% if @reservable_asset.allow_reservation?(current_user) %>
+  <% if can?(:reserve, @reservable_asset) && !@reservable_asset.full? && !current_user.reservations.map(&:library).uniq.include?(@reservable_asset.library) %>
     <h2 class="action-reserve-asset"><%= link_to('Reserve This Asset', new_reservation_path(:reservable_asset => @reservable_asset)) %></h2>
+  <% elsif @reservable_asset.current_users.include?(current_user) %>
+    <h3>You have already reserved this asset</h3>
   <% else %>
 	  <h3>You are not able to reserve this asset at this time.</h3>
   <% end %>
 </div> <!-- END navlist -->
 
-<% if current_user.admin? %>
+<% if can? :manage, @reservable_asset %>
   <% unless @reservable_asset.reservations.blank? %>
     <% unless @reservable_asset.reservations_approved.blank? %>
 	    <h2 class="reservable_asset_approved">Approved Reservations - <%= @reservable_asset.reservations_approved.count %></h2>

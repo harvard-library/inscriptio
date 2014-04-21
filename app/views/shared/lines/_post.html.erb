@@ -1,17 +1,19 @@
-<div class="post line" id="post-<%= post.id %>">
+<li class="post line" id="post-<%= post.id %>">
   <p>
     <%= link_to("Post #{post.id}", post) %><br />
     created on <%= post.created_at %> <br />
 	<%= post.message %>
-
-
-    <ul class="actions">
-      <li><%= link_to('Flag', new_moderator_flag_path(:post => post)) %></li>
-      <% if current_user.admin? || post.user == current_user %>
-        <li><%= link_to('Edit', edit_post_path(post), :class => "action-edit") %></li>
-        <li><%= link_to('Delete', post_path(post), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{post.id}", :class => "action-delete") %></li>
-      <% end %>
-    </ul>
+  <ul class="actions">
+    <% if can? :create, ModeratorFlag.new(:user_id => current_user.id, :post_id => post.id) %>
+      <li><%= link_to('Flag', new_post_moderator_flag_path(post)) %></li>
+    <% end %>
+    <% if can? :update, post %>
+      <li><%= link_to('Edit', edit_post_path(post), :class => "action-edit") %></li>
+    <% end %>
+    <% if can? :destroy, post %>
+      <li><%= link_to('Delete', post_path(post), :confirm => "Are you sure you want to delete this item? This action cannot be undone.", :method => :delete, :id => "delete-#{post.id}", :class => "action-delete") %></li>
+    <% end %>
+  </ul>
 
   </p>
-</div>
+</li>

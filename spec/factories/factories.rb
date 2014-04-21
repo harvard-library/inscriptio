@@ -97,7 +97,7 @@ FactoryGirl.define do
   factory :reservable_asset_type do
     named
     library
-    user_types {build_list :user_type, 3}
+    user_types {build_list :user_type, 3, :library_id => 1}
     timestamped
     min_reservation_time 1
     max_reservation_time 2
@@ -152,6 +152,7 @@ FactoryGirl.define do
 
   factory :subject_area do
     named
+    library
     timestamped
     description { "#{name} and stuff."}
     # floors Floor.all
@@ -162,17 +163,14 @@ FactoryGirl.define do
     sequence(:email) {|n| "user#{n}@example.com" }
     first_name "Bobbert"
     last_name "McBob"
+    user_types {build_list :user_type, 3, :library_id => 1}
     admin false
     password "bupkiss"
-    user_type
     # school_affiliation
   end
 
   factory :user_type do
     named
-    after(:build) do |ut, evaluator|
-      ut.users << FactoryGirl.build_list(:user, 3, :user_type => ut)
-    end
     timestamped
   end
 

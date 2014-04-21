@@ -1,20 +1,24 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '3.2.14'
+gem 'rails',        '3.2.17'
 gem 'pg',           '~> 0.17.0'
 gem 'formtastic',   '~> 2.2.1'
 gem 'acts_as_list', '~> 0.3.0'
-gem 'jquery-rails', '~> 3.0.4'
-gem 'jquery-ui-rails', '~> 4.0.5'
+gem 'jquery-rails', '~> 3.1.0'
+gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'devise',       '~> 3.1.1'
+gem 'cancan',       '~> 1.6.0'
 gem 'carrierwave',  '~> 0.9.0'
 gem 'mini_magick',  '~> 3.6.0'
 gem 'breadcrumbs',  '~> 0.1.6'
-gem 'rake',         '~> 10.1.0'
+gem 'rake',         '~> 10.2.0'
 gem 'rubyzip',      '~> 1.0.0'
 gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
-gem 'paranoia',     '~> 1.0' # Soft delete gem providing "acts_as_paranoid" for use in models
+# Temporarily using specific commit on Paranoia
+# Switch this to Paranoia 1.3.x+ once x > 3
+gem 'paranoia', :git => 'git://github.com/radar/paranoia.git', :ref => 'd8c9ce4b498c753efe5171e7014a99974e149f45'
+gem 'foreigner',    '~> 1.6.1' # Gem providing foreign key support for ActiveRecord
 group :assets do
   gem 'sass-rails',   '~> 3.2.6'
   gem 'coffee-rails', '~> 3.2.2'
@@ -26,12 +30,13 @@ group :test do
 end
 
 group :development do
-  gem 'capistrano',   '~> 3.0.1'
-  gem 'capistrano-rails', '~> 1.0.0'
-  gem 'capistrano-rvm', '~> 0.0.3'
-  gem 'capistrano-bundler', '~> 1.0.0'
+  gem 'capistrano',        '~> 3.1.0'
+  gem 'capistrano-rails',  '~> 1.0.0'
+  gem 'capistrano-rvm',    '~> 0.1.1'
+  gem 'capistrano-bundler','~> 1.1.2'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'hirb'
 end
 
 group :development,:test do

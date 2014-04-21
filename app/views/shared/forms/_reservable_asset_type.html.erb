@@ -1,6 +1,6 @@
-<%= semantic_form_for([@library, @reservable_asset_type], :html => {:multipart => true}) do |f| %>
+<%= semantic_form_for([Library.find(params[:library_id]), @reservable_asset_type], :html => {:multipart => true}) do |f| %>
   <%= f.inputs do %>
-    <%= f.input :library_id, :as => :hidden, :value => @library.id %>
+    <%= f.input :library_id, :as => :hidden, :input_html => {:value => @reservable_asset_type.library.id} %>
     <%= f.input :name %>
     <%= f.input :min_reservation_time, :label => "Minimum reservation time in days" %>
     <%= f.input :max_reservation_time, :label => "Maximum reservation time in days" %>

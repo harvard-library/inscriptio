@@ -3,6 +3,21 @@
 </script>
 
 <%= semantic_form_for(@library) do |f| %>
-  <%= f.inputs %>
+  <%= f.inputs do %>
+      <%= f.input :name %>
+      <%= f.input :url %>
+      <%= f.input :bcc %>
+      <%= f.input :from %>
+      <%= f.input :address_1 %>
+      <%= f.input :address_2 %>
+      <%= f.input :city %>
+      <%= f.input :state %>
+      <%= f.input :zip %>
+      <%= f.input :latitude %>
+      <%= f.input :longitude %>
+      <%= f.input :contact_info %>
+      <%= f.input :description %>
+      <%= f.input :tos %>
+      <% end %>
   <%= f.actions %>
 <% end %>

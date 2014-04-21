@@ -16,14 +16,13 @@ Feature: Manage Reservable Asset Types
     And a logged in user of type "admin"
     And I am on the reservable_asset_type "new" page
     When I fill in "Name" with "Carrel"
-		And I select "Widener" from "Library"
     And I fill in "Minimum reservation time in days" with "1"
     And I fill in "Maximum reservation time in days" with "3"
     And I fill in "Max concurrent users" with "3"
     And I fill in "Slots" with "A,B,C"
     And I fill in "Welcome message" with "Hello, this is a carrel."
     And I fill in "Expiration extension time in days" with "1"
-    And I select "Administrator" from "User types"
+    And I select "User" from "User types"
     And I attach the file "public/images/rails.png" to "Upload a Photo"
     #used ids here to work around capybara trouble with input nested in label
     And I check "Access Code"
@@ -32,7 +31,7 @@ Feature: Manage Reservable Asset Types
     Then I should see "Carrel"
     And I should see "Widener"
 		And I should see "Hello, this is a carrel."
-    And I should see "Administrator"
+    And I should see "User"
     And I should see "Added that Reservable Asset Type"
 
 	Scenario: View a reservable_asset_type page

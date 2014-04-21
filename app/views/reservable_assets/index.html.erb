@@ -5,13 +5,10 @@
   <% else %>
     <h2>No reservable assets for this floor yet.</h2>
   <% end %>
-  <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New Reservable Asset', new_reservable_asset_path) %></h2>
-  <% end %>  
 </div>
 
 <div class="asset_upload">
-  <h2>Batch Upload</h2>	
+  <h2>Batch Upload</h2>
 
     <h3>Import choices via CSV</h3>
 
@@ -57,4 +54,4 @@
     <%= file_field 'upload', 'datafile' %></p>
 	<%= submit_tag "Upload", :disable_with => 'Uploading...' %>
   <% end -%>
-</div>	
+</div>

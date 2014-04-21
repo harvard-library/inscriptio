@@ -375,7 +375,24 @@ li {
 #content-left > div {
   padding: 5px 10px 5px 35px;
 }
-
+ul.collection-list {
+  padding-left: 0px;
+  margin-left: 0px;
+  margin-top: 10px;
+  &.reservable_assets {
+    padding-left: 20px;
+  }
+  li.reservable_asset_type.line .collapsible {
+    > div {
+      margin:0;
+      padding:0;
+    }
+    h3 {
+      margin: 4px 0;
+      display:inline-block;
+    }
+  }
+}
 ul.actions {
 	display: inline;
 	padding-left: 20px;
@@ -399,7 +416,7 @@ ul.actions {
 	padding-left: 20px;
 }
 
-.action-delete {
+.action-delete, .action-expire {
 	background: image-url('icon_delete_16.png') #ffffff no-repeat left center;
 	padding-left: 20px;
 }
@@ -479,11 +496,6 @@ div.reservation_notice {
 
 #user-dashboard a:hover {
 	text-decoration: underline;
-}
-
-#admin_box {
-	width: 60%;
-	float: right;
 }
 
 div.col1 {

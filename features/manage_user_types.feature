@@ -7,7 +7,7 @@ Feature: Manage User Types
 	    And I am on the user_type "new" page
 	    When I fill in "Name" with ""
 	    And I press "Create"
-	    Then I should see "Could not add that User Type"
+	    Then I should see "Could not add to Widener New User Type"
 
 	Scenario: Register new user_type successfully
 	    Given a logged in user of type "admin"
@@ -15,7 +15,7 @@ Feature: Manage User Types
 	    When I fill in "Name" with "Undergraduate"
 	    And I press "Create"
 	    Then I should see "Undergraduate"
-	    And I should see "Added that User Type"
+	    And I should see "Added Undergraduate to Widener"
 
 	Scenario: View a user_type page
 	    Given a user_type of "Undergraduate"
@@ -37,5 +37,5 @@ Feature: Manage User Types
       And a user_type of "Undergraduate"
 	    And I am on the user_type "index" page
 	    When I delete the user_type named "Graduate"
-	    Then I should see "Deleted user type Graduate"
+	    Then I should see "Deleted Graduate from Widener"
 	    And I should see "Undergraduate"

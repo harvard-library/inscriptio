@@ -88,12 +88,13 @@ namespace :inscriptio do
       per_diem_time = "1 12 * * *"
       preamble = "cd #{ENV['RAKE_ROOT'] || Rails.root} && #{`which rvm`.chomp} default do bundle exec #{`which rake`.chomp} inscriptio:cron_task:"
       env = "RAILS_ENV=#{ENV['RAILS_ENV']}"
+      redirect = '> /dev/null 2>&1'
 
       @per_minutes.each do |pm|
-        tmp.write "#{per_min_time} #{preamble}#{pm.to_s} #{env}\n"
+        tmp.write "#{per_min_time} #{env} #{preamble}#{pm.to_s} #{redirect}\n"
       end
       @per_diems.each do |pm|
-        tmp.write "#{per_diem_time} #{preamble}#{pm.to_s} #{env}\n"
+        tmp.write "#{per_diem_time} #{env} #{preamble}#{pm.to_s} #{redirect}\n"
       end
       tmp.write "#INSCRIPTIO_AUTO_CRON_END\n"
       tmp.close

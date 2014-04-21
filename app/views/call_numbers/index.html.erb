@@ -1,12 +1,20 @@
-<div class="call_numbers collection-list">
-  <% unless @call_numbers.blank? %>
-    <%= render :partial => 'shared/lines/call_number', :collection => @call_numbers %>
+<div>
+  <% unless @libraries.blank? %>
+    <% @libraries.each do |l| %>
+      <% unless params[:subject_area_id] %>
+        <h2><%= l.name %></h2>
+      <% else %>
+        <h2><%= l.subject_areas.find(params[:subject_area_id]).name %></h2>
+      <% end %>
+       <% if can?(:manage, l) %>
+         <% query = {:library_id => l.id}; if params[:subject_area_id] then query[:subject_area_id] = params[:subject_area_id] end %>
+         <p class="action-button"><%= link_to('New Call Number', new_library_call_number_path(query)) %></p>
+       <% end %>
+       <ul class="call_numbers collection-list">
+         <%= render :partial => 'shared/lines/call_number', :collection => l.call_numbers %>
+       </ul>
+    <% end %>
   <% else %>
     <h2>No call numbers yet.</h2>
   <% end %>
 </div>
-
-
-  <% if current_user.admin? %>
-    <h2 class="action-button"><%= link_to('New Call Number', new_call_number_path) %></h2>
-  <% end %>

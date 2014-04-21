@@ -1,7 +1,7 @@
 <%= semantic_form_for([@library,@floor], :html => {:multipart => true}) do |f| %>
   <%= f.inputs do %>
     <%= f.input :name %>
-    <%= f.input :call_numbers, :as => :check_boxes %>
+    <%= f.input :call_numbers, :as => :check_boxes, :collection => CallNumber.joins(:subject_area).where('subject_areas.library_id = ?', @library.id) %>
     <% unless f.object.floor_map.blank? %>
       <h4>Current Map</h4>
       <%= image_tag(f.object.floor_map.url) %>

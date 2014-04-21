@@ -20,7 +20,7 @@ Inscriptio::Application.routes.draw do
     end
   end
 
-  resources :reservation_notices do
+  resources :reservation_notices, :except => [:new, :create, :destroy] do
     collection do
       put 'reset_notices'
     end
@@ -38,50 +38,60 @@ Inscriptio::Application.routes.draw do
     end
   end
 
-  resources :moderator_flags
+  resources :posts, :except => [:index] do
+    resources :moderator_flags, :shallow => true, :except => [:index, :show, :edit]
+  end
 
-  resources :posts, :except => [:index]
-
-  resources :bulletin_boards
+  # All manipulation of BB state is directly through the model
+  #  in the reservable_assets_controller (yuck)
+  resources :bulletin_boards, :only => [:show]
 
   resources :user_types, :except => [:new]
 
   resources :reservations do
     member do
       put 'approve'
+      put 'expire'
+      put 'renew'
     end
   end
 
+  # Most of the infrastructure for this exists, but it's not subject to auth,
+  # and needs substantial work to be sane.  Therefore, commented until safe
 
-  resources :search
+  # resources :search
 
-  resources :reservable_asset_types, :only => [:index]
+  resources :reservable_asset_types, :only => [:index] do
+    resources :reservable_assets, :shallow => true
+  end
 
-  resources :reservable_assets do
+  resources :reservable_assets, :only => [] do
     member do
       get 'locate'
     end
     collection do
       post 'import'
     end
-
   end
 
-  resources :call_numbers
-
-  resources :subject_areas
-
   resources :libraries do
-    resources :floors do
+    resources :floors, :except => [:index] do
       member do
         post 'move_higher'
         post 'move_lower'
         get 'assets'
       end
     end
+    resources :subject_areas, :shallow => true do
+      resources :call_numbers, :shallow => true
+    end
+    resources :call_numbers, :shallow => true
     resources :user_types
     resources :reservable_asset_types, :except => [:index]
   end
+
+  resources 'subject_areas', :only => [:index]
+  resources 'call_numbers', :only => [:index]
 
   root :to => 'libraries#index'
 

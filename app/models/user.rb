@@ -1,3 +1,27 @@
+require 'mail'
+
+# Taken from https://github.com/hallelujah/valid_email
+class EmailValidator < ActiveModel::EachValidator
+  def validate_each(record,attribute,value)
+    begin
+      m = Mail::Address.new(value)
+      # We must check that value contains a domain and that value is an email address
+      r = m.domain && m.address == value
+      t = m.__send__(:tree)
+      # We need to dig into treetop
+      # A valid domain must have dot_atom_text elements size > 1
+      # user@localhost is excluded
+      # treetop must respond to domain
+      # We exclude valid email values like <user@localhost.com>
+      # Hence we use m.__send__(tree).domain
+      r &&= (t.domain.dot_atom_text.elements.size > 1)
+    rescue Exception => e
+      r = false
+    end
+    record.errors[attribute] << (options[:message] || "is invalid") unless r
+  end
+end
+
 class User < ActiveRecord::Base
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   include ActionView::Helpers::UrlHelper
@@ -8,7 +32,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :user_type_ids, :school_affiliation_id, :first_name, :last_name
+  attr_accessible :email, :remember_me, :school_affiliation_id, :first_name, :last_name, :password
 
   has_and_belongs_to_many :user_types
   belongs_to :school_affiliation
@@ -17,11 +41,12 @@ class User < ActiveRecord::Base
   has_many :posts, :dependent => :destroy
   has_many :moderator_flags, :dependent => :destroy
   has_many :emails, :primary_key => :email, :foreign_key => :to, :dependent => :destroy
-#  has_one :authentication_source, :through => :user_type
+  has_and_belongs_to_many(:local_admin_permissions,
+                          :class_name => 'Library',
+                          :join_table => :libraries_users_admin_permissions)
+  has_many :libraries, :through => :user_types
 
-  validates_presence_of :email
-  validates_uniqueness_of :email
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z_0-9]+\.)+[a-z]{2,})\Z/i
+  validates :email, :presence => true, :email => true, :uniqueness => true
 
   after_create :post_save_hooks
 

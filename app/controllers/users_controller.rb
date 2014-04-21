@@ -1,48 +1,86 @@
 class UsersController < ApplicationController
   require 'csv'
-  before_filter :authenticate_admin!, :except => [:edit, :update, :reservations]
   before_filter :fetch_statuses, :only => [:show, :reservations]
+  before_filter :fetch_permitted_libraries, :only => [:new, :edit]
+  load_and_authorize_resource :except => [:import, :export, :create]
+  before_filter :process_special_params, :only => [:create, :update]
 
   def fetch_statuses
     @statuses = Status.to_hash.select {|k| %w(Pending Expired Approved).include? k}
   end
 
+  def fetch_permitted_libraries
+    @libraries = current_user.admin? ? Library.all : current_user.local_admin_permissions
+  end
+
+  def process_special_params
+    # These fields are handled specially
+    excluded = [:admin, :password, :user_type_ids, :local_admin_permission_ids]
+
+    if !@user
+      @user = User.new(params[:user].except(*excluded))
+    end
+
+    my_types = params[:user][:user_type_ids].try {|t| t.reject(&:blank?).map(&:to_i)} || []
+    my_perms = params[:user][:local_admin_permission_ids].try {|p| p.reject(&:blank?).map(&:to_i)} || []
+
+    # Local admins can't remove or add other libraries' types
+    unless current_user.admin?
+      can_permit = current_user.local_admin_permission_ids
+
+      # remove that which admin shalt not touch
+      my_types = my_types - UserType.where('library_id NOT IN (?)', can_permit).pluck(:id)
+      my_perms = my_perms - Library.where('id NOT IN (?)', can_permit).pluck(:id)
+
+      # add that which admin may not remove
+      my_types = my_types + @user.user_types.where('library_id NOT IN (?)', can_permit).pluck(:id)
+      my_perms = my_perms + @user.local_admin_permissions.where('id NOT IN (?)', can_permit).pluck(:id)
+
+    end
+
+    # Set mass assigned attributes
+    @user.attributes = params[:user].except(*excluded)
+
+    # Special handling
+    @user.user_type_ids = my_types if my_types
+    @user.local_admin_permission_ids = my_perms if my_perms
+
+    if current_user.admin? && params[:user][:admin]
+      params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    end
+
+    if action_name == 'create'
+      @user.password = params[:user][:password].blank? ? User.random_password : params[:user][:password]
+    elsif params[:user][:password] && !params[:user][:password].blank?
+      @user.password = params[:user][:password]
+    end
+  end
+
   def index
-    @users = User.find(:all, :order => ['created_at ASC'])
+    @users = @users.order('created_at ASC')
     breadcrumbs.add 'Users'
     @csv = params[:csv]
   end
 
   def new
-    @user = User.new
-
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add 'New'
   end
 
   def create
-    @user = User.new
-    @user.attributes = params[:user].except(:admin, :password)
-
-    @user.password = params[:user][:password].blank? ? User.random_password : params[:user][:password]
-
-    if params[:user][:admin]
-      params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
-    end
-
+    authorize! :create, @user
     respond_to do|format|
       if @user.save
         flash[:notice] = "Added #{@user.email}"
         format.html {redirect_to :action => :index}
       else
         flash[:error] = "Could not add #{@user.email}"
-        format.html {render :action => :new}
+        format.html {redirect_to :action => :new}
       end
     end
   end
 
   def show
-    @user = User.find(params[:id])
     @reservations = @user.reservations.order('created_at DESC')
 
     breadcrumbs.add 'Users', users_path
@@ -50,24 +88,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-
-    unless current_user.admin? || @user.email == current_user.email
-       redirect_to('/') and return
-    end
-
     breadcrumbs.add 'Users', users_path
     breadcrumbs.add @user.email, @user.id
     breadcrumbs.add 'Edit'
   end
 
   def destroy
-    @user = User.find(params[:id])
-
-    unless current_user.admin? || @user.email == current_user.email
-       redirect_to('/') and return
-    end
-
     user = @user.email
     respond_to do |format|
 
@@ -85,34 +111,24 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-
-    unless current_user.admin? || @user.email == current_user.email
-       redirect_to('/') and return
-    end
-
-    @user.attributes = params[:user].except(:admin,:password)
-
-    if params[:user][:admin]
-      params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
-    end
-
-    if params[:user][:password] && !params[:user][:password].blank?
-      @user.password = params[:user][:password]
-    end
 
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|
-        format.html {redirect_to :action => :index}
+        if can? :all_but_destroy, @user
+          format.html {redirect_to :action => :index}
+        else
+          format.html {redirect_to :root}
+        end
       else
         flash[:error] = 'Could not update that User'
-        format.html {render :action => :new}
+        format.html {redirect_to :back}
       end
     end
   end
 
   def import
+    authorize! :all_but_destroy, User
     @file = params[:upload][:datafile] unless params[:upload].blank?
     CSV.parse(@file.read).each do |cell|
       @user = User.new
@@ -131,6 +147,7 @@ class UsersController < ApplicationController
   end
 
   def export
+    authorize! :all_but_destroy, User
     @users = User.find(:all, :order => ['email ASC'])
     CSV.open("#{Rails.root}/public/uploads/users.csv", "w") do |csv|
       @users.each do |user|
@@ -143,8 +160,6 @@ class UsersController < ApplicationController
   end
 
   def reservations
-    @user = User.find(params[:id])
-
     @reservations = @user.reservations.status(Status::ACTIVE_IDS).group_by {|r| r.status.name}
   end
 

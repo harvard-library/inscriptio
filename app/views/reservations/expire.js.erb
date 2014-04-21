@@ -1,0 +1,8 @@
+(function () {
+  var sel = '#reservation-' + <%= @reservation.id %>;
+
+  if ($(sel).siblings('li').length == 0) {
+    $(sel).parent().append('<li class="empty">You have no reservation.</li>');
+  }
+  $(sel).remove()
+})()

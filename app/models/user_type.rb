@@ -1,4 +1,5 @@
 class UserType < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible :name, :user_ids, :reservable_asset_type_ids, :library_id
 
   belongs_to :library
@@ -6,8 +7,7 @@ class UserType < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_and_belongs_to_many :reservable_asset_types
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  validates :name, :presence => true, :uniqueness => {:scope => :library_id}
 
   def to_s
     %Q|#{name}|

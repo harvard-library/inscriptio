@@ -1,4 +1,5 @@
 class Library < ActiveRecord::Base
+  acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible( :name, :url,
                    :address_1, :address_2,
                    :city, :state, :zip,
@@ -10,9 +11,14 @@ class Library < ActiveRecord::Base
                    :floor_ids, :reservable_asset_type_ids, :reservation_notice_ids)
 
   has_many :floors, :dependent => :destroy, :order => :position
-  has_many :user_types
+  has_many :user_types, :dependent => :destroy
   has_many :reservable_asset_types, :dependent => :destroy
-  has_many :reservation_notices
+  has_many :reservation_notices, :dependent => :destroy
+  has_many :subject_areas, :dependent => :destroy
+  has_many :call_numbers, :through => :subject_areas
+  has_and_belongs_to_many( :local_admins,
+                           :class_name => "User",
+                           :join_table => :libraries_users_admin_permissions)
 
   validates_presence_of :name, :address_1, :city, :state, :zip, :from
   validates_format_of :url, :with => /\Ahttps?:\/\//, :allow_blank => true

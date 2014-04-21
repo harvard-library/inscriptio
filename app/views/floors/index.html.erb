@@ -1,10 +1,12 @@
-<div class="floors collection-list">
+<div>
   <% unless @floors.blank? %>
+  <ul class="floors collection-list">
     <%= render :partial => 'shared/lines/floor', :collection => @floors %>
+  </ul>
   <% else %>
     <h2>No floors for this library yet.</h2>
   <% end %>
-  <% if current_user.admin? %>
+  <% if can? :manage, @floor.library %>
     <h2 class="action-new-floor"><%= link_to('New Floor', new_library_floor_path(@floor.library)) %></h2>
   <% end %>
   <h2 class="action-button"><%= link_to("Back to " + @library.name, @library ) %></h2>
