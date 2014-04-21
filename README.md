@@ -7,10 +7,11 @@ Inscriptio is a web-based system intended to help manage the reservation of carr
 ## System Requirements
 
 ### General
-* Ruby 1.9.3+ and a bunch of gems included in the Gemfile
-* A postgresql 9.x+ database server.
-* A webserver capable of interfacing with Rails applications. Ideally, apache or nginx with mod_passenger installed.
-* Linux or OSX.
+* Ruby 1.9.3+ (2.x preferred)
+* Bundler
+* PostgreSQL 9.x+
+* A webserver capable of interfacing with Rails applications. Ideally, Apache or Nginx with mod_passenger installed
+* Linux or OSX
 * ImageMagick
 
 ### Development/Test
@@ -42,8 +43,8 @@ This populates the instance with some necessary basic items, and creates several
 ## Order of Operations for Fresh Install
 
 1. Sign in as admin
-2. Create User Types (may change once PIN is in)
-3. Create School Affiliations (may change once PIN is in)
+2. Create User Types
+3. Create School Affiliations
 4. Create library
 5. Create floors
 6. Create asset types
