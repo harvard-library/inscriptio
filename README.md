@@ -70,10 +70,10 @@ Additional development notes can be found [here](DEV_NOTES.md)
 
 ## Contributors
 
-* Daniel Collis-Puro: http://github.com/djcp
-* Anita Patel: http://github.com/apatel
 * Justin Clark: http://github.com/jdcc
+* Daniel Collis-Puro: http://github.com/djcp
 * Dave Mayo: http://github.com/pobocks
+* Anita Patel: http://github.com/apatel
 
 ## License and Copyright
 
