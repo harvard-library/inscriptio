@@ -11,7 +11,7 @@ set :deploy_via, :copy
 set :scm, :git
 
 set :format, :pretty
-# set :log_level, :debug
+#set :log_level, :info
 # set :pty, true
 
 # Create these in /path/to/deploy/shared
