@@ -68,6 +68,22 @@ Some basic notes:
 
 Additional development notes can be found [here](DEV_NOTES.md)
 
+## Contributing
+
+If you've found a problem with Inscriptio, or have a suggestion for a feature, please create an issue.  If you have a fix or enhancement that's general enough to be useful to someone else, please submit a pull request.
+
+### Wishlist
+
+If you'd like to help improve Inscriptio, but aren't sure where to start, here are a few places we could really use some love:
+
+* Unit tests (Everyone loves writing tests, right?)
+* Making some of the presentation layer themeable (logo, colors, etc)
+* Replacing NicEdit with something more modern
+* Smarter handling of static content per instance (currently handled by the Message class) would be nice.
+* Any sort of theming, logo replacement, etc.
+
+These are just the tip of the iceberg - there's plenty of work to go around ;-)
+
 ## Contributors
 
 * Justin Clark: http://github.com/jdcc
