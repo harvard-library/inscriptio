@@ -50,7 +50,7 @@ In versions of Rails < 4, the `pluck` method can only be used on a single column
 
 The basic code is taken from [here](http://meltingice.net/2013/06/11/pluck-multiple-columns-rails/), and wrapped in an `ActiveSupport::Concern`
 
-Documentation for Rails 3.2 API objects and methods can be found here: http://rails.documentation.codyrobbins.com/3.2.13/
+Documentation for Rails 3.2 API objects and methods can be found here: http://rails.documentation.codyrobbins.com/3.2.18/
 
 ## Git Integration
 
