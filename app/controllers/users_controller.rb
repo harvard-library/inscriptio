@@ -21,21 +21,23 @@ class UsersController < ApplicationController
       @user = User.new(params[:user].except(*excluded))
     end
 
-    my_types = params[:user][:user_type_ids].try {|t| t.reject(&:blank?).map(&:to_i)} || []
-    my_perms = params[:user][:local_admin_permission_ids].try {|p| p.reject(&:blank?).map(&:to_i)} || []
+    # Only admins can manage types or permissions
+    if can?(:manage, Library)
+      my_types = params[:user][:user_type_ids].try {|t| t.reject(&:blank?).map(&:to_i)} || []
+      my_perms = params[:user][:local_admin_permission_ids].try {|p| p.reject(&:blank?).map(&:to_i)} || []
 
-    # Local admins can't remove or add other libraries' types
-    unless current_user.admin?
-      can_permit = current_user.local_admin_permission_ids
+      # Local admins can't remove or add other libraries' types
+      unless current_user.admin?
+        can_permit = current_user.local_admin_permission_ids
 
-      # remove that which admin shalt not touch
-      my_types = my_types - UserType.where('library_id NOT IN (?)', can_permit).pluck(:id)
-      my_perms = my_perms - Library.where('id NOT IN (?)', can_permit).pluck(:id)
+        # remove that which admin shalt not touch
+        my_types = my_types - UserType.where('library_id NOT IN (?)', can_permit).pluck(:id)
+        my_perms = my_perms - Library.where('id NOT IN (?)', can_permit).pluck(:id)
 
-      # add that which admin may not remove
-      my_types = my_types + @user.user_types.where('library_id NOT IN (?)', can_permit).pluck(:id)
-      my_perms = my_perms + @user.local_admin_permissions.where('id NOT IN (?)', can_permit).pluck(:id)
-
+        # add that which admin may not remove
+        my_types = my_types + @user.user_types.where('library_id NOT IN (?)', can_permit).pluck(:id)
+        my_perms = my_perms + @user.local_admin_permissions.where('id NOT IN (?)', can_permit).pluck(:id)
+      end
     end
 
     # Set mass assigned attributes
