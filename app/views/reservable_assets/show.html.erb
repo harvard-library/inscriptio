@@ -53,10 +53,10 @@
 
 <% if can? :manage, @reservable_asset %>
   <% unless @reservable_asset.reservations.blank? %>
-    <% unless @reservable_asset.reservations_approved.blank? %>
-	    <h2 class="reservable_asset_approved">Approved Reservations - <%= @reservable_asset.reservations_approved.count %></h2>
+    <% unless @reservable_asset.current_reservations.blank? %>
+	    <h2 class="reservable_asset_approved">Approved Reservations - <%= @reservable_asset.current_reservations.count %></h2>
       <div class="navlist reservable_asset_approved reservable_asset_approved-target">
-	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.reservations_approved %>
+	      <%= render :partial => 'shared/lines/reservation', :collection => @reservable_asset.current_reservations %>
 	    </div>
 	  <% end %>
 	  <% unless @reservable_asset.reservations_pending.blank? %>

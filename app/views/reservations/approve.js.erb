@@ -4,7 +4,7 @@
   var num_to_dec = $(sel).closest('.rat').find('.pending,.renewal').prev().find('.count');
   var num_to_inc = target_ul.prev().find('.count');
 
-  num_to_inc.text(parseInt(num_to_inc.text()) + 1);
+  num_to_inc.text(parseInt(num_to_inc.text(), 10) + 1);
   num_to_dec.text(num_to_dec.text() - 1);
 
   if ($(sel).siblings('li').length == 0) {

@@ -1,7 +1,7 @@
 (function () {
   var sel = '#reservation-' + <%= @reservation.id %>;
   var num_to_dec = $(sel).closest('ul').prev().find('.count');
-  num_to_dec.text(num_to_dec.text() - 1);
+  num_to_dec.text(parseInt(num_to_dec.text(), 10) - 1);
   if ($(sel).siblings('li').length == 0) {
     $(sel).replaceWith('<li class="empty">No reservations.</li>');
   }
