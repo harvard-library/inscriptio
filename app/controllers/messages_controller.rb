@@ -35,6 +35,7 @@ class MessagesController < ApplicationController
   end
 
   def update
+    @message.attributes = params[:message]
     respond_to do|format|
       if @message.save
         flash[:notice] = %Q|#{@message.title} updated|

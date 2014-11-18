@@ -7,7 +7,7 @@ gem 'acts_as_list', '~> 0.3.0'
 gem 'jquery-rails', '~> 3.1.0'
 gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'devise',       '~> 3.1.1'
-gem 'cancan',       '~> 1.6.0'
+gem 'cancancan',    '~> 1.9.0'
 gem 'carrierwave',  '~> 0.9.0'
 gem 'mini_magick',  '~> 3.6.0'
 gem 'breadcrumbs',  '~> 0.1.6'
@@ -36,7 +36,6 @@ group :development do
   gem 'capistrano-bundler','~> 1.1.2'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'hirb'
 end
 
 group :development,:test do
