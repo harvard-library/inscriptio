@@ -68,6 +68,10 @@ Some basic notes:
 
 Additional development notes can be found [here](DEV_NOTES.md)
 
+## User Documentation
+
+While there's not currently generic user documentation, the Harvard Library's instance has user documentation, available [here](https://wiki.harvard.edu/confluence/display/LibraryStaffDoc/Inscriptio)
+
 ## Contributing
 
 If you've found a problem with Inscriptio, or have a suggestion for a feature, please create an issue.  If you have a fix or enhancement that's general enough to be useful to someone else, please submit a pull request.
