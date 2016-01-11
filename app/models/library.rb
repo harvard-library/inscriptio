@@ -10,7 +10,7 @@ class Library < ActiveRecord::Base
                    :bcc,:from,
                    :floor_ids, :reservable_asset_type_ids, :reservation_notice_ids)
 
-  has_many :floors, :dependent => :destroy, :order => :position
+  has_many :floors,  -> { order "position" }, :dependent => :destroy
   has_many :user_types, :dependent => :destroy
   has_many :reservable_asset_types, :dependent => :destroy
   has_many :reservation_notices, :dependent => :destroy

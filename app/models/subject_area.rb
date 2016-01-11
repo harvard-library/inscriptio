@@ -2,7 +2,7 @@ class SubjectArea < ActiveRecord::Base
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   attr_accessible :name, :long_name, :description, :call_number_ids, :library_id
 
-  has_many :floors, :through => :call_numbers, :order => :name
+  has_many :floors,  -> { order "name" }, :through => :call_numbers
   has_many :call_numbers, :dependent => :destroy
   belongs_to :library
 
