@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails',        '4.2.5'
-gem 'pg',           '~> 0.17.0'
+gem 'pg',           '~> 0.18.4'
 gem 'formtastic',   '~> 2.2.1'
 gem 'acts_as_list', '~> 0.7.2'
 gem 'jquery-rails', '~> 4.0.5'
