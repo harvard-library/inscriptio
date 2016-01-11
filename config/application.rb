@@ -5,12 +5,8 @@ require 'rails/all'
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require *Rails.groups(:assets => %w(development test))
-  # If you want your assets lazily compiled in production,  use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+Bundler.require(:default, Rails.env)
+
 
 module Inscriptio
   class Application < Rails::Application
@@ -37,7 +33,7 @@ module Inscriptio
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w()
+#    config.action_view.javascript_expansions[:defaults] = %w()
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -46,7 +42,6 @@ module Inscriptio
     config.filter_parameters += [:password]
 
     # Assets configuration
-    config.assets.enabled = true
     config.assets.version = 1.1
 
 

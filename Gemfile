@@ -1,31 +1,41 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '3.2.20'
+gem 'rails',        '4.2.5'
 gem 'pg',           '~> 0.17.0'
 gem 'formtastic',   '~> 2.2.1'
 gem 'acts_as_list', '~> 0.3.0'
-gem 'jquery-rails', '~> 3.1.3'
-gem 'jquery-ui-rails', '~> 4.2.0'
-gem 'devise',       '~> 3.1.1'
+gem 'jquery-rails', '~> 4.0.5'
+gem 'jquery-ui-rails', '~> 5.0.5'
+gem 'devise',       '~> 3.5.3'
 gem 'cancancan',    '~> 1.9.0'
 gem 'carrierwave',  '~> 0.9.0'
 gem 'mini_magick',  '~> 3.6.0'
 gem 'breadcrumbs',  '~> 0.1.6'
 gem 'rake',         '~> 10.2.0'
 gem 'rubyzip',      '~> 1.0.0'
-gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on 0.9 interface
+gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on rubyzip 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
 # Temporarily using specific commit on Paranoia
 # Switch this to Paranoia 1.3.x+ once x > 3
-gem 'paranoia', :git => 'git://github.com/radar/paranoia.git', :ref => 'd8c9ce4b498c753efe5171e7014a99974e149f45'
+#gem 'paranoia', :git => 'git://github.com/radar/paranoia.git', :ref => 'd8c9ce4b498c753efe5171e7014a99974e149f45'
+gem 'paranoia',     '~> 2.1.5'  # upgrade to rails 4
 gem 'foreigner',    '~> 1.6.1' # Gem providing foreign key support for ActiveRecord
-group :assets do
-  gem 'sass-rails',   '~> 3.2.6'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'uglifier',     '~> 2.2.1'
-end
+# removing assets group per http://railscasts.com/episodes/415-upgrading-to-rails-4
+gem 'sass-rails',   '~> 5.0.4'
+gem 'coffee-rails', '~> 4.1.1'
+gem 'uglifier',     '~> 2.7.2'
+
+# *** ADDING THESE for transition
+gem 'protected_attributes'
+gem 'rails-observers'
+gem 'actionpack-page_caching'
+gem 'actionpack-action_caching'
+# ****
+
+
 
 group :test do
+  gem 'minitest'
   gem 'cucumber-rails',  '~> 1.4.0', :require => false
 end
 
