@@ -52,7 +52,7 @@ group :development,:test do
   gem 'pry'
   gem 'capybara', '~> 2.1'
   gem 'poltergeist'
-  gem 'database_cleaner', '0.6.6'
+  gem 'database_cleaner', '~> 1.5.1'
   gem 'shoulda-matchers', '2.4.0'
   gem 'sqlite3'
   gem 'selenium-client', '1.2.18'
