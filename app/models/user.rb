@@ -1,24 +1,20 @@
 require 'mail'
 
-# Taken from https://github.com/hallelujah/valid_email
+# Originally Taken from https://github.com/hallelujah/valid_email, which relied on treetop in Mail
+# modified to just regex-test the domain, to ensure it's alpha, between 2-4 chars, etc.
 class EmailValidator < ActiveModel::EachValidator
   def validate_each(record,attribute,value)
     begin
       m = Mail::Address.new(value)
       # We must check that value contains a domain and that value is an email address
       r = m.domain && m.address == value
-      t = m.__send__(:tree)
-      # We need to dig into treetop
-      # A valid domain must have dot_atom_text elements size > 1
       # user@localhost is excluded
-      # treetop must respond to domain
-      # We exclude valid email values like <user@localhost.com>
-      # Hence we use m.__send__(tree).domain
-      r &&= (t.domain.dot_atom_text.elements.size > 1)
+      # DEPRECATED (and not clear it ever worked!): We exclude valid email values like <user@localhost.com>
+      r &&= (m.domain.match /^(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}$/ )
     rescue Exception => e
       r = false
     end
-    record.errors[attribute] << (options[:message] || "is invalid") unless r
+    record.errors[attribute] << (options[:message] || "is an invalid email address") unless r
   end
 end
 
