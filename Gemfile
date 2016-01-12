@@ -56,7 +56,7 @@ group :development,:test do
   gem 'shoulda-matchers', '2.4.0'
   gem 'sqlite3'
   gem 'selenium-client', '1.2.18'
-  gem 'selenium-webdriver', '0.1.4'
+  gem 'selenium-webdriver', '~> 2.48.1' # for automated website tests
   gem 'rspec-rails', '~> 2.0'
   gem 'launchy'
   gem 'factory_girl_rails', '~> 4.0'
