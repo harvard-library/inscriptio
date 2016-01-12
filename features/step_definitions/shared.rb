@@ -1,5 +1,5 @@
 Given /^a library named "([^"]*)"$/ do |arg1|
-  @library = Library.find_or_create_by_name(arg1)
+  @library = Library.find_or_create_by(name: arg1)
 end
 
 When 'I delete the $object_type named "$name"' do |object_type,name|
