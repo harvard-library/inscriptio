@@ -15,7 +15,7 @@ class SubjectArea < ActiveRecord::Base
 
   def self.search(search)
     if search
-      find(:all, :conditions => ['lower(name) LIKE ? or lower(long_name) LIKE ?', "%#{search}%", "%#{search}%"])
+      where("lower(name) LIKE ? or lower(long_name) LIKE ?", "%#{search}%", "%#{search}%")
     end
   end
 end

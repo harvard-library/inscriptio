@@ -36,7 +36,7 @@ When 'I delete the $object_type named "$name"' do |object_type,name|
 end
 
 Given /^a library_floor named "([^"]*)"$/ do |arg1|
-  @floor = @library.floors.find(:first, :conditions => {:name => arg1})
+  @floor = @library.floors.where("name = ?", arg1).first
 end
 
 Given /^a call_number of "([^"]*)"$/ do |arg1|
@@ -162,16 +162,16 @@ end
 When 'I am on the $object_type "show" page for "$object_name"' do |object_type, object_name|
   case object_type
   when 'library_floor'
-    floor = @library.floors.find(:first, :conditions => {:name => object_name})
+    floor = @library.floors.where("name = ?", object_name).first
     visit(library_floor_path(@library,floor))
   when 'call_number'
-    call_number = CallNumber.find(:first, :conditions => { :call_number => object_name })
+    call_number = CallNumber.where("call_number = ?", object_name).first
     visit(call_number_path(call_number))
   when 'subject_area'
-    subject_area = SubjectArea.find(:first, :conditions => { :name => object_name })
+    subject_area = SubjectArea.where("name = ?", object_name).first
     visit(subject_area_path(subject_area))
   when 'reservable_asset_type'
-    reservable_asset_type = ReservableAssetType.find(:first, :conditions => { :name => object_name })
+    reservable_asset_type = ReservableAssetType.where("name = ?", object_name).first
     visit(library_reservable_asset_type_path(reservable_asset_type.library, reservable_asset_type))
   when 'reservable_asset'
     if object_name.to_i > 0
@@ -184,7 +184,7 @@ When 'I am on the $object_type "show" page for "$object_name"' do |object_type, 
     reservation = Reservation.find(object_name.to_i)
     visit(reservation_path(reservation))
   when 'user_type'
-    user_type = UserType.find(:first, :conditions => { :name => object_name })
+    user_type = UserType.where("name = ?", object_name).first
     visit(user_type_path(user_type))
   end
 end
@@ -202,7 +202,7 @@ Given /^the reservable_assets have been deleted$/ do
 end
 
 When /^I click the "([^"]*)" link on "([^"]*)"$/ do |link_name, item_name|
-  floor = @library.floors.find(:first, :conditions => {:name => item_name})
+  floor = @library.floors.where("name = ?", item_name).first
   within("#floor-#{floor.id}") do
     click_link(link_name)
   end

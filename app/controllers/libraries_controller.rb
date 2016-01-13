@@ -5,7 +5,7 @@ class LibrariesController < ApplicationController
   def index
     authorize! :read, Library
     @libraries = Library.all
-    @welcome_message = Message.find(:first, :conditions => ["title LIKE ?", '%Welcome%'])
+    @welcome_message = Message.where("title LIKE '%Welcome%'").first
     if @welcome_message.nil?
       @message = Message.new
     end

@@ -15,7 +15,7 @@ end
 describe 'a moderator_flag object' do
   fixtures :all
   before :each do
-    @moderator_flag = ModeratorFlag.find(:first)
+    @moderator_flag = ModeratorFlag.all.first
   end
 
 end

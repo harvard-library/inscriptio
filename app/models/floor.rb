@@ -17,7 +17,7 @@ class Floor < ActiveRecord::Base
 
   def self.search(search)
     if search
-      find(:all, :conditions => ['lower(name) LIKE ?', "%#{search}%"])
+      where("lower(name) LIKE ?", "%#{search}%")
     end
   end
 

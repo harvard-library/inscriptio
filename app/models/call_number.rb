@@ -19,7 +19,7 @@ class CallNumber < ActiveRecord::Base
 
   def self.search(search)
     if search
-      find(:all, :conditions => ['lower(call_number) LIKE ? or lower(long_name) LIKE ?', "%#{search}%", "%#{search}%"])
+      where("lower(call_number) LIKE ? or lower(long_name) LIKE ?", "%#{search}%", "%#{search}%")
     end
   end
 

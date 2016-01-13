@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   def self.search(search)
     if search
-      find(:all, :conditions => ['lower(email) LIKE ?', "%#{search}%"])
+      where("lower(email) LIKE ?", "%#{search}%")
     end
   end
 

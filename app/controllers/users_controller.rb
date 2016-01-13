@@ -150,7 +150,7 @@ class UsersController < ApplicationController
 
   def export
     authorize! :all_but_destroy, User
-    @users = User.find(:all, :order => ['email ASC'])
+    @users = User.all.order("email ASC")
     CSV.open("#{Rails.root}/public/uploads/users.csv", "w") do |csv|
       @users.each do |user|
         csv << [user.user_type_ids.join(' '), user.school_affiliation.try(:id) , user.email, user.first_name, user.last_name]
