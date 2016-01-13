@@ -78,3 +78,7 @@
 # You can add custom inputs or override parts of Formtastic by subclassing SemanticFormBuilder and
 # specifying that class here.  Defaults to SemanticFormBuilder.
 # Formtastic::SemanticFormHelper.builder = MyCustomBuilder
+
+# adding these two lines per https://github.com/justinfrench/formtastic/wiki/Upgrading-to-Formtastic-3.1
+Formtastic::FormBuilder.action_class_finder = Formtastic::ActionClassFinder
+Formtastic::FormBuilder.input_class_finder = Formtastic::InputClassFinder
