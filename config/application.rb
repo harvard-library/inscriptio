@@ -42,7 +42,7 @@ module Inscriptio
     config.filter_parameters += [:password]
 
     # Assets configuration
-    config.assets.version = 1.1
+    config.assets.version = '1.1'
 
     # deal with new required flag
     config.active_record.raise_in_transactional_callbacks = true
