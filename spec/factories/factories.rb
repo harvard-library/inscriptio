@@ -134,7 +134,7 @@ FactoryGirl.define do
     user
     status_id 1
     reservable_asset
-    tos "Be excellent to each other"
+    tos true
     slot "A"
     start_date Date.today
     end_date {|res| Date.today + res.reservable_asset.reservable_asset_type.max_reservation_time}
