@@ -48,9 +48,8 @@ class ReservationsController < ApplicationController
     @reservable_asset = ReservableAsset.find(params[:reservable_asset])
     @reservation.reservable_asset = @reservable_asset
     authorize! :reserve, @reservable_asset
-
-    @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
-    @min_time = ReservableAsset.find(@reservable_asset).min_reservation_time
+    @max_time = @reservable_asset.max_reservation_time
+    @min_time = @reservable_asset.min_reservation_time
   end
 
   def show
@@ -58,7 +57,6 @@ class ReservationsController < ApplicationController
     relation = relation.with_deleted if can? :manage, Reservation
     @reservation = relation.find(params[:id])
     authorize! :show, @reservation
-
     if @reservation.deleted_at
       flash.now[:notice] = "DELETED AT #{@reservation.deleted_at}"
       @del_or_clear = 'Delete'
@@ -82,8 +80,8 @@ class ReservationsController < ApplicationController
     flash.now[:notice] = "DELETED AT #{@reservation.deleted_at}" if @reservation.deleted_at
 
     @reservable_asset = @reservation.reservable_asset
-    @max_time = ReservableAsset.find(@reservable_asset).max_reservation_time
-    @min_time = ReservableAsset.find(@reservable_asset).min_reservation_time
+    @max_time = @reservable_asset.max_reservation_time
+    @min_time = @reservable_asset.min_reservation_time
     unless params[:renew].nil?
       @renew = true
     end
@@ -92,7 +90,7 @@ class ReservationsController < ApplicationController
   def create
     params[:reservation][:reservable_asset] = defined?(@reservable_asset) ? @reservable_asset : ReservableAsset.find(params[:reservation][:reservable_asset_id])
 
-    can?(:manage, Reservation) ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user)
+    can?(:manage, Reservation) ? params[:reservation][:user] = User.find(params[:reservation][:user_id]) : params[:reservation][:user] = User.find(current_user.id)
     if params[:reservation][:status_id].nil? || params[:reservation][:status_id].blank?
       if params[:reservation][:reservable_asset].reservable_asset_type.require_moderation
         params[:reservation][:status_id] = Status[:pending]

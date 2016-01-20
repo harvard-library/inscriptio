@@ -37,7 +37,7 @@ class ReservableAsset < ActiveRecord::Base
     if (!read_attribute(:max_concurrent_users).blank? && !read_attribute(:max_concurrent_users).nil?) || self.reservable_asset_type.nil?
       read_attribute(:max_concurrent_users)
     else
-      ReservableAssetType.find(self.reservable_asset_type).max_concurrent_users
+      self.reservable_asset_type.max_concurrent_users
     end
   end
 
@@ -45,7 +45,7 @@ class ReservableAsset < ActiveRecord::Base
     if (!read_attribute(:min_reservation_time).blank? && !read_attribute(:min_reservation_time).nil?) || self.reservable_asset_type.nil?
       read_attribute(:min_reservation_time)
     else
-      ReservableAssetType.find(self.reservable_asset_type).min_reservation_time
+      self.reservable_asset_type.min_reservation_time
     end
   end
 
@@ -53,7 +53,7 @@ class ReservableAsset < ActiveRecord::Base
     if (!read_attribute(:max_reservation_time).blank? && !read_attribute(:max_reservation_time).nil?) || self.reservable_asset_type.nil?
       read_attribute(:max_reservation_time)
     else
-      ReservableAssetType.find(self.reservable_asset_type).max_reservation_time
+      self.reservable_asset_type.max_reservation_time
     end
   end
 
@@ -61,7 +61,7 @@ class ReservableAsset < ActiveRecord::Base
     if (!read_attribute(:slots).blank? && !read_attribute(:slots).nil?) || self.reservable_asset_type.nil?
       read_attribute(:slots)
     else
-      ReservableAssetType.find(self.reservable_asset_type).slots
+      self.reservable_asset_type.slots
     end
   end
 
