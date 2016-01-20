@@ -19,7 +19,7 @@ class ReservationNoticesController < ApplicationController
   end
 
   def update
-    @reservation_notice.attributes = params[:reservation_notice]
+#    @reservation_notice.attributes = params[:reservation_notice]
     respond_to do|format|
       if @reservation_notice.save
         flash[:notice] = %Q|#{@reservation_notice.subject} updated|
