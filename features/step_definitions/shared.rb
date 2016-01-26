@@ -201,6 +201,19 @@ Given /^the reservable_assets have been deleted$/ do
   @floor.reservable_assets.destroy_all
 end
 
+Given(/^a reservation_notice with status of "(.*?)"$/) do |arg1|
+  @reservation_notice = ReservationNotice.where("status_id = #{Status[arg1]}").first
+end
+
+When /^I click "([^"]*)" in my reservation_notice$/ do |link_name|
+  within("#reservation_notice-#{@reservation_notice.id}") do
+    click_link("#{link_name}")
+    end
+
+end
+
+
+
 When /^I click the "([^"]*)" link on "([^"]*)"$/ do |link_name, item_name|
   floor = @library.floors.where("name = ?", item_name).first
   within("#floor-#{floor.id}") do

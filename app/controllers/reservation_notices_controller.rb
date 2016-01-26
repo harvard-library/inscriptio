@@ -19,7 +19,7 @@ class ReservationNoticesController < ApplicationController
   end
 
   def update
-#    @reservation_notice.attributes = params[:reservation_notice]
+    @reservation_notice.attributes = reservation_notice_params
     respond_to do|format|
       if @reservation_notice.save
         flash[:notice] = %Q|#{@reservation_notice.subject} updated|
@@ -35,6 +35,12 @@ class ReservationNoticesController < ApplicationController
     asset_type = ReservableAssetType.find(params[:asset_type])
     ReservationNotice.regenerate_notices(asset_type)
     redirect_to reservation_notices_path
+  end
+  private
+  def reservation_notice_params
+    params.require(:reservation_notice).permit(:library, :library_id, :reservable_asset_type, 
+                                               :reservable_asset_type_id, :status_id, 
+                                               :subject, :message, :reply_to)
   end
 
 end

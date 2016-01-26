@@ -1,6 +1,6 @@
 class ReservationNotice < ActiveRecord::Base
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
-  attr_accessible :library, :library_id, :reservable_asset_type, :reservable_asset_type_id, :status_id, :subject, :message, :reply_to
+#  attr_accessible :library, :library_id, :reservable_asset_type, :reservable_asset_type_id, :status_id, :subject, :message, :reply_to
 
   belongs_to :reservable_asset_type
   belongs_to :library

@@ -41,3 +41,25 @@ Scenario: An administrator can reset all reservation notices to initial defaults
   And I should see "Expired - Expired"
   And I should see "Expiring - Expiring"
   And I should see "Cancelled - Cancelled"
+
+@javascript
+Scenario: An administrator can edit a reservation notice
+  Given a library named "Widener"
+  And a logged in user of type "admin"
+  And a reservable_asset_type of "Carrel"
+  And I am on the reservation_notice "index" page
+  And I press "Expand"
+  Given a reservation_notice with status of "Declined"
+  And I click "Edit" in my reservation_notice
+  And I am on the reservation_notice "edit" page
+  And I fill in "Subject" with "Request Declined"
+#  And I fill in "Message*" with "Your request has been declined"
+  And I fill in "Reply to" with "foo@harvard.edu"
+  And I press "Update Reservation notice"
+  Then I should see " updated"
+  And I press "Expand"
+  And I follow "Declined - Request Declined"
+  Then I should see "Request Declined"
+#  And I should see "Your request has been declined"
+  And I should see "foo@harvard.edu"
+ 
