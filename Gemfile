@@ -19,7 +19,7 @@ gem 'dotenv-rails', '~> 0.9.0'
 # Switch this to Paranoia 1.3.x+ once x > 3
 #gem 'paranoia', :git => 'git://github.com/radar/paranoia.git', :ref => 'd8c9ce4b498c753efe5171e7014a99974e149f45'
 gem 'paranoia',     '~> 2.1.5'  # upgrade to rails 4
-gem 'foreigner',    '~> 1.6.1' # Gem providing foreign key support for ActiveRecord
+#gem 'foreigner',    '~> 1.6.1' # Gem providing foreign key support for ActiveRecord
 # removing assets group per http://railscasts.com/episodes/415-upgrading-to-rails-4
 gem 'sass-rails',   '~> 5.0.4'
 gem 'coffee-rails', '~> 4.1.1'
