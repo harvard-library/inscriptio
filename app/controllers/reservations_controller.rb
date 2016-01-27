@@ -16,9 +16,9 @@ class ReservationsController < ApplicationController
       rel = current_user.local_admin_permissions
     end
     rel = rel.includes(:reservable_asset_types => {:reservable_assets => {:reservations => :user}})
-    rel = rel.where("status_id IN (?)", Status[:pending, :expired, :approved, :expiring, :renewal_confirmation])
+    rel = rel.where("reservations.status_id IN (?)", Status[:pending, :expired, :approved, :expiring, :renewal_confirmation])
     rel = rel.where('reservations.deleted_at IS NULL')
-    @libraries = rel.order('libraries.id, reservable_asset_types.id, users.email')
+    @libraries = rel.order('libraries.id, reservable_asset_types.id, users.email').references(:reservations)
 
     # The output of the following nested reduce is a nested hash of arrays of Reservations,
     # keyed by [:library_id][:reservable_asset_type_id][:status_name]
