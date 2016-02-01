@@ -29,7 +29,7 @@ Inscriptio::Application.configure do
   config.assets.debug = true
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+#  config.active_record.mass_assignment_sanitizer = :strict  # removed per http://stackoverflow.com/questions/27556631/bug-when-switching-to-rails-4-1-method-missing-undefined-method-whitelist
 
   # Pry as development console
   silence_warnings do
