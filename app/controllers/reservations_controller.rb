@@ -161,7 +161,6 @@ class ReservationsController < ApplicationController
         params[:reservation][:status_id] = Status[:approved]
       end
     end
-
     @reservation.attributes = reservation_params
     respond_to do |format|
       if @reservation.save
@@ -265,6 +264,7 @@ class ReservationsController < ApplicationController
     r_params = params.require(:reservation).permit( :reservable_asset_id, :reservable_asset, :user_id, :user, :status_id,
                                          :start_date, :end_date, :tos, :slot)
     r_params[:user] = params[:reservation][:user]
+    r_params[:reservable_asset] = params[:reservation][:reservable_asset]
     r_params
   end
 end
