@@ -3,7 +3,7 @@ class FloorsController < ApplicationController
   load_and_authorize_resource :floor, :through => :library
 
   def create
-    @floor.attributes = params[:floor].except(:library_id)
+    @floor.attributes = floor_params
     @floor.library = @library
     respond_to do|format|
       if @floor.save
@@ -17,7 +17,7 @@ class FloorsController < ApplicationController
   end
 
   def update
-    @floor.attributes = params[:floor].except(:library_id)
+    @floor.attributes = floor_params
     @floor.library = @library
     respond_to do|format|
       if @floor.save
@@ -84,5 +84,12 @@ class FloorsController < ApplicationController
         render :json => output
       }
     end
+  end
+  private
+  def floor_params
+    # special handling for array params.  Also: subject_area_ids and reservable_asset_ids are via association
+    f_params = params.require(:floor).permit( :name, :floor_map, :position, :call_number_ids)
+    f_params[:call_number_ids] =  params[:floor][:call_number_ids]
+    f_params
   end
 end

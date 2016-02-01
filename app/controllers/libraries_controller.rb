@@ -24,7 +24,7 @@ class LibrariesController < ApplicationController
   end
 
   def update
-    @library.attributes = params[:library]
+    @library.attributes = library_params
     respond_to do|format|
       if @library.save
         flash.now[:notice] = %Q|#{@library} updated|
@@ -47,5 +47,10 @@ class LibrariesController < ApplicationController
       redirect_to :action => :index
     end
   end
-
+  private
+  def library_params
+    params.require(:library).permit( :name, :url, :address_1, :address_2,
+                   :city, :state, :zip, :latitude, :longitude,
+                   :contact_info, :description, :tos, :bcc,:from)
+  end
 end

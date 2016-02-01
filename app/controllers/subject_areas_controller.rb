@@ -40,7 +40,7 @@ class SubjectAreasController < ApplicationController
   end
 
   def update
-    @subject_area.attributes = params[:subject_area].except(:library_id).merge(:library_id => @subject_area.library_id)
+    @subject_area.attributes = subject_area_params
     respond_to do|format|
       if @subject_area.save
         flash[:notice] = %Q|#{@subject_area} updated|
@@ -50,6 +50,10 @@ class SubjectAreasController < ApplicationController
         format.html {render :action => :new}
       end
     end
+  end
+  private
+  def subject_area_params
+    params.require(:subject_area).permit(:name, :long_name, :description, :call_number_ids, :library_id)
   end
 
 end

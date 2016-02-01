@@ -16,7 +16,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(params[:post].except(:bulletin_board))
+    @post = Post.new(post_params)
     @post.bulletin_board = BulletinBoard.find(params[:post][:bulletin_board])
     @post.user = current_user
     authorize! :create, @post
@@ -43,9 +43,9 @@ class PostsController < ApplicationController
   end
 
   def update
+    @post.attributes = post_params
     params[:post][:bulletin_board] = BulletinBoard.find(params[:post][:bulletin_board])
     params[:post][:user] = User.find(current_user)
-    @post.attributes = params[:post]
     respond_to do|format|
       if @post.save
         flash[:notice] = %Q|#{@post.id} updated|
@@ -55,5 +55,9 @@ class PostsController < ApplicationController
         format.html {render :action => :new}
       end
     end
+  end
+  private
+  def post_params
+    params.require(:post).permit(:message,:media)
   end
 end

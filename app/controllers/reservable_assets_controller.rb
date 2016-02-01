@@ -53,7 +53,7 @@ class ReservableAssetsController < ApplicationController
   end
 
   def update
-    @reservable_asset.attributes = params[:reservable_asset]
+    @reservable_asset.attributes = reservable_asset_params
     respond_to do|format|
 
       if @reservable_asset.slots_equal_users?
@@ -115,5 +115,13 @@ class ReservableAssetsController < ApplicationController
       end
     end
     redirect_to reservable_asset_types_path
+  end
+  private
+  def reservable_asset_params
+    params.require(:reservable_asset).permit( :floor_id, :reservable_asset_type_id,
+                   :name, :description, :location, :access_code, :notes,
+                   :x1, :x2, :y1, :y2,:min_reservation_time, :max_reservation_time, :expiration_extension_time,
+                   :max_concurrent_users,:has_code, :has_bulletin_board, :require_moderation,
+                   :welcome_message,:photo,:slots )
   end
 end

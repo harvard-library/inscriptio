@@ -99,7 +99,7 @@ class ReservationsController < ApplicationController
       end
     end
 
-    @reservation.attributes = params[:reservation]
+    @reservation.attributes = reservation_params
     authorize! :create, @reservation
     @reservation.slot = @reservation.assign_slot
     respond_to do |format|
@@ -162,7 +162,7 @@ class ReservationsController < ApplicationController
       end
     end
 
-    @reservation.attributes = params[:reservation]
+    @reservation.attributes = reservation_params
     respond_to do |format|
       if @reservation.save
         flash[:notice] = %Q|Reservation updated|
@@ -259,5 +259,12 @@ class ReservationsController < ApplicationController
         end
       end
     end
+  end
+  private
+  def reservation_params
+    r_params = params.require(:reservation).permit( :reservable_asset_id, :reservable_asset, :user_id, :user, :status_id,
+                                         :start_date, :end_date, :tos, :slot)
+    r_params[:user] = params[:reservation][:user]
+    r_params
   end
 end

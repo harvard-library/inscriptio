@@ -1,13 +1,5 @@
 class ReservableAssetType < ActiveRecord::Base
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
-  attr_accessible( :library_id, :user_type_ids,
-                   :name,
-                   :min_reservation_time, :max_reservation_time, :expiration_extension_time,
-                   :max_concurrent_users,
-                   :has_code, :has_bulletin_board, :require_moderation,
-                   :welcome_message,
-                   :photo,
-                   :slots )
 
   mount_uploader :photo, AssetTypePhotoUploader
 

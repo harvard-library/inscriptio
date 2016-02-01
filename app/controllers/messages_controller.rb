@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
   end
 
   def update
-    @message.attributes = params[:message]
+    @message.attributes = message_params
     respond_to do|format|
       if @message.save
         flash[:notice] = %Q|#{@message.title} updated|
@@ -50,4 +50,10 @@ class MessagesController < ApplicationController
   def help
 
   end
+
+  private
+  def message_params
+    params.require(:message).permit( :title, :content, :description )
+  end
+
 end

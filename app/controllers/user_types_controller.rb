@@ -40,7 +40,7 @@ class UserTypesController < ApplicationController
   end
 
   def update
-    @user_type.attributes = params[:user_type]
+    @user_type.attributes = update_params
     respond_to do|format|
       if @user_type.save
         flash[:notice] = %Q|#{@user_type} (at #{@user_type.library}) updated|
@@ -51,4 +51,13 @@ class UserTypesController < ApplicationController
       end
     end
   end
+  private
+
+  def create_params
+    params.require(:user_type).permit( :name, :user_ids, :reservable_asset_type_ids, :library_id)
+  end
+  def update_params
+    params.require(:user_type).permit( :name, :user_ids, :reservable_asset_type_ids, :library_id)
+  end
+
 end

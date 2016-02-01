@@ -67,6 +67,10 @@ Given /^a user_type of "([^"]*)"$/ do |arg1|
   @user_type = UserType.where(:name => arg1, :library_id => @library.id).first_or_create
 end
 
+Given /^a school_affiliation named "([^"]*)"$/ do |arg1|
+  @school_affiliation = SchoolAffiliation.find_by!(name: arg1)
+end
+
 When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
   if object_type == 'library_floor'
     case page_name
@@ -146,6 +150,16 @@ When 'I am on the $object_type "$page_name" page' do|object_type,page_name|
       visit(edit_reservation_notice_path(@reservation_notice))
     end
 
+  elsif object_type == 'school_affiliation'
+    case page_name
+    when 'index'
+      visit(school_affiliations_path)
+    when 'new'
+      visit(new_school_affiliation_path)
+    when 'edit'
+      visit(edit_school_affiliation_path(@school_affiliation.id))
+    end
+ 
   elsif object_type == 'user_type'
     case page_name
     when 'index'

@@ -1,14 +1,5 @@
 class Library < ActiveRecord::Base
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
-  attr_accessible( :name, :url,
-                   :address_1, :address_2,
-                   :city, :state, :zip,
-                   :latitude, :longitude,
-                   :contact_info,
-                   :description,
-                   :tos,
-                   :bcc,:from,
-                   :floor_ids, :reservable_asset_type_ids, :reservation_notice_ids)
 
   has_many :floors,  -> { order "position" }, :dependent => :destroy
   has_many :user_types, :dependent => :destroy

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     excluded = [:admin, :password, :user_type_ids, :local_admin_permission_ids]
 
     if !@user
-      @user = User.new(params[:user].except(*excluded))
+      @user = User.new(user_params)
     end
 
     # Only admins can manage types or permissions
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     end
 
     # Set mass assigned attributes
-    @user.attributes = params[:user].except(*excluded)
+    @user.attributes = user_params
 
     # Special handling
     @user.user_type_ids = my_types if my_types
@@ -113,7 +113,6 @@ class UsersController < ApplicationController
   end
 
   def update
-
     respond_to do|format|
       if @user.save
         flash[:notice] = %Q|#{@user} updated|
@@ -163,6 +162,10 @@ class UsersController < ApplicationController
 
   def reservations
     @reservations = @user.reservations.status(Status::ACTIVE_IDS).group_by {|r| r.status.name}
+  end
+  private
+  def user_params
+    params.require(:user).permit(:email, :remember_me, :school_affiliation_id, :first_name, :last_name)
   end
 
 end

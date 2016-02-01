@@ -41,4 +41,8 @@ class EmailsController < ApplicationController
     flash[:notice] = "Message Sent!"
     redirect_to :back
   end
+  private
+  def email_params
+    params.require(:email).permit(:to, :from, :reply_to, :subject, :bcc, :body)
+  end
 end

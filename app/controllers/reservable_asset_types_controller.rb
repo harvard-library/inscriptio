@@ -46,7 +46,7 @@ class ReservableAssetTypesController < ApplicationController
 
   def update
     @reservable_asset_type = ReservableAssetType.find(params[:id])
-    @reservable_asset_type.attributes = params[:reservable_asset_type]
+    @reservable_asset_type.attributes = reservable_asset_type_params
     respond_to do|format|
       if @reservable_asset_type.slots_equal_users?
         if @reservable_asset_type.save
@@ -61,5 +61,15 @@ class ReservableAssetTypesController < ApplicationController
         format.html {render :action => :new}
       end
     end
+  end
+  private
+  def reservable_asset_type_params
+    # special handling for potential array
+    rat_params = params.require(:reservable_asset_type).permit(:library_id, :user_type_ids,
+                   :name,:min_reservation_time, :max_reservation_time, :expiration_extension_time,
+                   :max_concurrent_users, :has_code, :has_bulletin_board, :require_moderation,
+                   :welcome_message, :photo,  :slots )
+    rat_params[:user_type_ids] = params[:reservable_asset_type][:user_type_ids]
+    rat_params
   end
 end

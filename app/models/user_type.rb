@@ -1,6 +1,5 @@
 class UserType < ActiveRecord::Base
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
-  attr_accessible :name, :user_ids, :reservable_asset_type_ids, :library_id
 
   belongs_to :library
 

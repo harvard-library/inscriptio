@@ -55,7 +55,7 @@ class CallNumbersController < ApplicationController
   end
 
   def update
-    @call_number.attributes = params[:call_number]
+    @call_number.attributes = call_number_params
     respond_to do|format|
       if @call_number.save
         flash.now[:notice] = %Q|#{@call_number} updated|
@@ -65,6 +65,14 @@ class CallNumbersController < ApplicationController
         format.html {render :action => :new}
       end
     end
+  end
+
+  private
+  def call_number_params
+    # fox: the params.require().permit() doesn't handle symbols that represent arrays
+    cn_params =  params.require(:call_number).permit( :subject_area_id, :call_number, :long_name, :description, :floor_ids)
+    cn_params[:floor_ids] = params[:call_number][:floor_ids]
+    cn_params
   end
 
 end

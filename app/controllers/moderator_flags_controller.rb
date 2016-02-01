@@ -20,5 +20,8 @@ class ModeratorFlagsController < ApplicationController
       redirect_to @moderator_flag.post.bulletin_board
     end
   end
-
+  private
+  def moderator_flag_params
+    params.require(:moderator_flag).permit(:post_id, :user_id, :reason)
+  end
 end

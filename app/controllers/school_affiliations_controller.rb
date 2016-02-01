@@ -30,7 +30,7 @@ class SchoolAffiliationsController < ApplicationController
   end
 
   def update
-    @school_affiliation.attributes = params[:school_affiliation]
+    @school_affiliation.attributes = update_params
     respond_to do|format|
       if @school_affiliation.save
         flash[:notice] = %Q|#{@school_affiliation} updated|
@@ -41,4 +41,13 @@ class SchoolAffiliationsController < ApplicationController
       end
     end
   end
+
+  private
+  def create_params
+    params.require(:school_affiliation).permit(:name)
+  end
+  def update_params
+    params.require(:school_affiliation).permit(:name)
+  end
+
 end
