@@ -17,19 +17,11 @@ gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on rubyzip 0.9 interfa
 gem 'dotenv-rails', '~> 0.9.0'
 
 gem 'paranoia',     '~> 2.1.5'  # upgrade to rails 4
-#gem 'foreigner',    '~> 1.6.1' # Gem providing foreign key support for ActiveRecord
+
 # removing assets group per http://railscasts.com/episodes/415-upgrading-to-rails-4
 gem 'sass-rails',   '~> 5.0.4'
 gem 'coffee-rails', '~> 4.1.1'
 gem 'uglifier',     '~> 2.7.2'
-
-# *** ADDING THESE for transition
-#gem 'protected_attributes'
-gem 'rails-observers'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
-# ****
-
 
 
 group :test do
