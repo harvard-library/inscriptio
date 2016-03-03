@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '4.2.5'
+gem 'rails',        '4.2.5.2'
 gem 'pg',           '~> 0.18.4'
 gem 'formtastic',   '~> 3.1.3'
 gem 'acts_as_list', '~> 0.7.2'
