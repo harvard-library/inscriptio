@@ -72,8 +72,23 @@ class User < ActiveRecord::Base
       :reply_to => DEFAULT_MAILER_SENDER,
       :to => self.email,
       :subject => "Your Inscriptio Account Has Been Created",
-      :body => %Q|<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system.</p><p>Your login is: #{self.email}. Please visit <a href="#{ROOT_URL}/users/password/new">Inscriptio</a> to create a new password and log into your account.</p>|
+      :body => construct_body
     )
   end
 
+  def construct_body
+    body = <<BODY
+<p>Welcome to Inscriptio, the online library carrel and hold shelf reservation system!</p>
+ <p>In order to complete the registration process, you must perform the following steps:</p>
+ <ol><li> #{%Q(visit Inscriptio's "New user" page at   <a href="http://#{ROOT_URL}/users/password/new">http://#{ROOT_URL}/users/password/new</a>)} . 
+<ul><li>You will be prompted to enter your email address, #{self.email} , which is your login</li>
+<li>Then click on #{%Q("Send me set/reset password instructions")}</li></ul>
+<li> You will receive another email with the subject: #{%Q("Reset password instructions",  instructing you to click on "Change my password")}</li>
+<ul><li>You will be prompted to enter #{%Q("New password" and "Confirm password")}</li>
+<li> Click on #{%Q("Change my password")}</li>
+</ul></ol>
+<p>  You'll then be logged into your account.</p>
+<p>If you have any questions or experience any difficulties in accessing the system, please contact #{DEFAULT_MAILER_SENDER}</p>
+BODY
+  end
 end
