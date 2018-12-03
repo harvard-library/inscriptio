@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '4.2.5.2'
+gem 'rails',        '4.2.11'
 gem 'pg',           '~> 0.18.4'
 gem 'formtastic',   '~> 3.1.3'
 gem 'acts_as_list', '~> 0.7.2'
@@ -12,7 +12,7 @@ gem 'carrierwave',  '~> 0.9.0'
 gem 'mini_magick',  '~> 3.6.0'
 gem 'breadcrumbs',  '~> 0.1.6'
 gem 'rake',         '~> 10.2.0'
-gem 'rubyzip',      '~> 1.0.0'
+gem 'rubyzip',      '>= 1.2.1'
 gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on rubyzip 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
 
