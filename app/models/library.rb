@@ -1,4 +1,4 @@
-class Library < ActiveRecord::Base
+class Library < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   has_many :floors,  -> { order "position" }, :dependent => :destroy

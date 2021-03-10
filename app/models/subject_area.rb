@@ -1,4 +1,4 @@
-class SubjectArea < ActiveRecord::Base
+class SubjectArea < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   has_many :floors,  -> { order "name" }, :through => :call_numbers

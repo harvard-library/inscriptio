@@ -1,4 +1,4 @@
-class BulletinBoard < ActiveRecord::Base
+class BulletinBoard < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   has_many :posts, -> { order "created_at" }, :dependent => :destroy

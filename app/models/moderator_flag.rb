@@ -1,4 +1,4 @@
-class ModeratorFlag < ActiveRecord::Base
+class ModeratorFlag < ApplicationRecord
 
   belongs_to :post
   belongs_to :user

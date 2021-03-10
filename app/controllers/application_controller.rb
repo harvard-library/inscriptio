@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  before_filter :authenticate_user!
-  before_filter :add_initial_breadcrumbs
+  before_action :authenticate_user!
+  before_action :add_initial_breadcrumbs
 
   protect_from_forgery
 
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_credentials
-    user_signed_in?
+    user_signed_in? || redirect_to(root_url)
   end
 
   def add_initial_breadcrumbs

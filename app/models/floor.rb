@@ -1,4 +1,4 @@
-class Floor < ActiveRecord::Base
+class Floor < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   mount_uploader :floor_map, FloorMapUploader

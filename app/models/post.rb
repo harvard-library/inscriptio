@@ -1,4 +1,4 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
 #  attr_accessible :bulletin_board_id, :bulletin_board, :user_id, :user, :message, :media
 
   belongs_to :bulletin_board

@@ -1,6 +1,6 @@
 class ReservationsController < ApplicationController
-  before_filter :verify_credentials, :only => [:index, :new, :show, :create, :update, :destroy]
-  before_filter :process_dates, :only => [:create, :update]
+  before_action :verify_credentials, :only => [:index, :new, :show, :create, :update, :destroy]
+  before_action :process_dates, :only => [:create, :update]
   load_resource :only => [:new, :create, :expire]
 
   def process_dates

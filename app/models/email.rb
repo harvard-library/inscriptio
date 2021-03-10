@@ -1,4 +1,4 @@
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
   belongs_to :user, :primary_key => :email, :foreign_key => :to
   validates_presence_of :to, :from, :reply_to, :subject, :body
 

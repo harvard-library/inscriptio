@@ -1,4 +1,4 @@
-class SchoolAffiliation < ActiveRecord::Base
+class SchoolAffiliation < ApplicationRecord
 
   has_many :user
 

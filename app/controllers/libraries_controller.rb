@@ -1,6 +1,6 @@
 class LibrariesController < ApplicationController
   load_and_authorize_resource :except => [:index]
-  before_filter :add_breadcrumbs, :only => [:edit, :show] # MUST be after load_and_authorize_resource
+  before_action :add_breadcrumbs, :only => [:edit, :show] # MUST be after load_and_authorize_resource
 
   def index
     authorize! :read, Library

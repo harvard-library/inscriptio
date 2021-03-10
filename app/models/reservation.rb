@@ -1,4 +1,4 @@
-class Reservation < ActiveRecord::Base
+class Reservation < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   belongs_to :reservable_asset

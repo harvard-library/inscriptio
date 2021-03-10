@@ -1,5 +1,5 @@
 class ReservableAssetTypesController < ApplicationController
-  before_filter :fetch_permitted_libraries, :only => [:index]
+  before_action :fetch_permitted_libraries, :only => [:index]
   load_and_authorize_resource :except => [:new]
   load_resource :only => [:new]
 

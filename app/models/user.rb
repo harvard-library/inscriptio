@@ -18,7 +18,7 @@ class EmailValidator < ActiveModel::EachValidator
   end
 end
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers

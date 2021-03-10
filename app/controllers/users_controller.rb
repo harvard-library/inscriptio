@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   require 'csv'
-  before_filter :fetch_statuses, :only => [:show, :reservations]
-  before_filter :fetch_permitted_libraries, :only => [:new, :edit]
+  before_action :fetch_statuses, :only => [:show, :reservations]
+  before_action :fetch_permitted_libraries, :only => [:new, :edit]
   load_and_authorize_resource :except => [:import, :export, :create]
-  before_filter :process_special_params, :only => [:create, :update]
+  before_action :process_special_params, :only => [:create, :update]
 
   def fetch_statuses
     @statuses = Status.to_hash.select {|k| %w(Pending Expired Approved).include? k}

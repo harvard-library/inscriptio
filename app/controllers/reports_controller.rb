@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
     }
   }
 
-  before_filter :process_horizons, :only => REPORTS.keys
+  before_action :process_horizons, :only => REPORTS.keys
 
   def process_horizons
     begin
@@ -45,7 +45,7 @@ class ReportsController < ApplicationController
               csv << el
             end
           end
-          render :text => csv
+          render :plain => csv
         end
       end
     end

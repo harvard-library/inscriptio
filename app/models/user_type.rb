@@ -1,4 +1,4 @@
-class UserType < ActiveRecord::Base
+class UserType < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   belongs_to :library

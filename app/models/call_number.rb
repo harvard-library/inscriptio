@@ -1,4 +1,4 @@
-class CallNumber < ActiveRecord::Base
+class CallNumber < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
   has_and_belongs_to_many :floors, ->{ order "name"}
   belongs_to :subject_area

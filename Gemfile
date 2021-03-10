@@ -15,8 +15,8 @@ gem 'rake',         '~> 12.3.3'
 gem 'rubyzip',      '>= 1.2.1'
 gem 'zip-zip'       # rubyzip 1.x.x breaks gems depending on rubyzip 0.9 interface
 gem 'dotenv-rails', '~> 0.9.0'
-
 gem 'paranoia',     '~> 2.1.5'  # upgrade to rails 4
+gem 'puma'
 
 # removing assets group per http://railscasts.com/episodes/415-upgrading-to-rails-4
 gem 'sass-rails',   '~> 5.0.4'

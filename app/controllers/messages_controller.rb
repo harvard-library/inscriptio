@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  skip_before_filter :authenticate_user!, :only => [:help]
+  skip_before_action :authenticate_user!, :only => [:help]
   load_and_authorize_resource :except => [:help]
 
   def index

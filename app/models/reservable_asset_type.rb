@@ -1,4 +1,4 @@
-class ReservableAssetType < ActiveRecord::Base
+class ReservableAssetType < ApplicationRecord
   acts_as_paranoid # provided by Paranoia (https://github.com/radar/paranoia)
 
   mount_uploader :photo, AssetTypePhotoUploader
