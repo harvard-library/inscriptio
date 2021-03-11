@@ -1,11 +1,11 @@
 /*
 *= require jquery
 *= require jquery_ujs
-*= require jquery-ui/draggable
-*= require jquery-ui/resizable
-*= require jquery-ui/datepicker
-*= require jquery-ui/effect.all
-*= require jquery-ui/autocomplete
+*= require jquery-ui/widgets/draggable
+*= require jquery-ui/widgets/resizable
+*= require jquery-ui/widgets/datepicker
+*= require jquery-ui/effect
+*= require jquery-ui/widgets/autocomplete
 *= require_self
 *= require_tree .
 */
