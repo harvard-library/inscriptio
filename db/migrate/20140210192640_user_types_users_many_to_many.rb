@@ -1,4 +1,4 @@
-class UserTypesUsersManyToMany < ActiveRecord::Migration
+class UserTypesUsersManyToMany < ActiveRecord::Migration[4.2]
   class UserType < ActiveRecord::Base
     # Local class to avoid validations, etc.
     has_and_belongs_to_many :reservable_asset_types

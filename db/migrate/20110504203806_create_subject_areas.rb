@@ -1,4 +1,4 @@
-class CreateSubjectAreas < ActiveRecord::Migration
+class CreateSubjectAreas < ActiveRecord::Migration[4.2]
   def self.up
     create_table :subject_areas do |t|
       t.string :name, :null => false

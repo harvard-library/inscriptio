@@ -1,4 +1,4 @@
-class CreateReservationNotices < ActiveRecord::Migration
+class CreateReservationNotices < ActiveRecord::Migration[4.2]
   def self.up
     create_table :reservation_notices do |t|
       t.references :library

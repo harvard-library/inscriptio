@@ -1,4 +1,4 @@
-class CreateSchoolAffiliations < ActiveRecord::Migration
+class CreateSchoolAffiliations < ActiveRecord::Migration[4.2]
   def self.up
     create_table :school_affiliations do |t|
       t.string :name

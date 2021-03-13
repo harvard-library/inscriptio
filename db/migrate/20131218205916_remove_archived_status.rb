@@ -1,4 +1,4 @@
-class RemoveArchivedStatus < ActiveRecord::Migration
+class RemoveArchivedStatus < ActiveRecord::Migration[4.2]
   #empty classes to avoid validations/hooks
   class Status < ActiveRecord::Base
   end

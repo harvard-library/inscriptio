@@ -1,4 +1,4 @@
-class CreateReservableAssetTypes < ActiveRecord::Migration
+class CreateReservableAssetTypes < ActiveRecord::Migration[4.2]
   def self.up
     create_table :reservable_asset_types do |t|
       t.references :library

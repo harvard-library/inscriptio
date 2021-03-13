@@ -1,4 +1,4 @@
-class CreateBulletinBoards < ActiveRecord::Migration
+class CreateBulletinBoards < ActiveRecord::Migration[4.2]
   def self.up
     create_table :bulletin_boards do |t|
       t.references :reservable_asset

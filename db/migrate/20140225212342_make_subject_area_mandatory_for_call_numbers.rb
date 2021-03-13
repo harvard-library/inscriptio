@@ -1,4 +1,4 @@
-class MakeSubjectAreaMandatoryForCallNumbers < ActiveRecord::Migration
+class MakeSubjectAreaMandatoryForCallNumbers < ActiveRecord::Migration[4.2]
   class CallNumber < ActiveRecord::Base
     # empty class to avoid validation
   end

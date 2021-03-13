@@ -1,0 +1,30 @@
+version: '3'
+services:
+  inscriptio-app:
+    container_name: inscriptio-app
+    build:
+      context: ./
+      dockerfile: DockerfileLocal
+    env_file: .env
+    # Mount volumes for logs, uploads, and configs
+    # Note: Do not mount the vendor directory into the container as that causes an issue with the bower_components directory
+    volumes:
+      - ./app:/home/appuser/app
+      - ./config:/home/appuser/config
+      - ./db:/home/appuser/db
+      - ./log:/home/appuser/log
+      - ./public/uploads:/home/appuser/public/uploads
+      - ./Gemfile:/home/appuser/Gemfile
+      - ./Gemfile.lock:/home/appuser/Gemfile.lock
+    ports:
+      - "8199:3000"
+
+  postgreshost:
+    container_name: inscriptio_postgreshost
+    image: postgres
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

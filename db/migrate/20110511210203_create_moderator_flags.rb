@@ -1,4 +1,4 @@
-class CreateModeratorFlags < ActiveRecord::Migration
+class CreateModeratorFlags < ActiveRecord::Migration[4.2]
   def self.up
     create_table :moderator_flags do |t|
       t.references :post

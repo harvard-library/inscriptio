@@ -1,4 +1,4 @@
-class AddKeys < ActiveRecord::Migration
+class AddKeys < ActiveRecord::Migration[4.2]
   def change
     add_foreign_key "bulletin_boards", "reservable_assets", name: "bulletin_boards_reservable_asset_id_fk"
     add_foreign_key "call_numbers_floors", "call_numbers", name: "call_numbers_floors_call_number_id_fk"

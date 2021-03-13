@@ -1,4 +1,4 @@
-class CreateReservations < ActiveRecord::Migration
+class CreateReservations < ActiveRecord::Migration[4.2]
   def self.up
     create_table :reservations do |t|
       t.references :reservable_asset

@@ -1,4 +1,4 @@
-class AddLibraryIdToSubjectAreas < ActiveRecord::Migration
+class AddLibraryIdToSubjectAreas < ActiveRecord::Migration[4.2]
   class SubjectArea < ActiveRecord::Base
     # empty class to avoid validation
   end

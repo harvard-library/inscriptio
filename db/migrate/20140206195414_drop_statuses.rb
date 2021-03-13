@@ -1,4 +1,4 @@
-class DropStatuses < ActiveRecord::Migration
+class DropStatuses < ActiveRecord::Migration[4.2]
   def up
     drop_table :statuses
   end

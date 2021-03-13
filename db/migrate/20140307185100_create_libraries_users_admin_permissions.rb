@@ -1,4 +1,4 @@
-class CreateLibrariesUsersAdminPermissions < ActiveRecord::Migration
+class CreateLibrariesUsersAdminPermissions < ActiveRecord::Migration[4.2]
   def change
     create_table :libraries_users_admin_permissions, :id => false do |t|
       t.integer :user_id, :null => false    # fkey: users.id

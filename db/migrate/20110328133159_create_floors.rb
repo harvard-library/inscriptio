@@ -1,4 +1,4 @@
-class CreateFloors < ActiveRecord::Migration
+class CreateFloors < ActiveRecord::Migration[4.2]
   def self.up
     create_table :floors do |t|
       t.references :library

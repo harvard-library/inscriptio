@@ -1,4 +1,4 @@
-class CreateReservableAssets < ActiveRecord::Migration
+class CreateReservableAssets < ActiveRecord::Migration[4.2]
   def self.up
     create_table :reservable_assets do |t|
       t.references :floor

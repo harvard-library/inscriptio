@@ -1,4 +1,4 @@
-class AddSlotsReservableAsset < ActiveRecord::Migration
+class AddSlotsReservableAsset < ActiveRecord::Migration[4.2]
   def self.up
     add_column :reservable_assets, :slots, :string
   end

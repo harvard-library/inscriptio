@@ -1,4 +1,4 @@
-class CreateEmails < ActiveRecord::Migration
+class CreateEmails < ActiveRecord::Migration[4.2]
   def self.up
     create_table :emails do |t|
       t.string :to

@@ -1,4 +1,4 @@
-class CreateCallNumbers < ActiveRecord::Migration
+class CreateCallNumbers < ActiveRecord::Migration[4.2]
   def self.up
 
     create_table :call_numbers do |t|

@@ -1,4 +1,4 @@
-class DropFloorsSubjectAreas < ActiveRecord::Migration
+class DropFloorsSubjectAreas < ActiveRecord::Migration[4.2]
   def up
     # Check if there is data in floors_subject_areas that is not represented by call_number mapping
     endangered_records = query(<<-SQL)
