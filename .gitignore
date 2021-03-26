@@ -1,17 +1,30 @@
-.bundle
-db/*.sqlite3
-log/*.log
-tmp/
-config/database.yml
-*.swp
-public/uploads/*
-.project*
-*~
-.DS_Store
-.rvmrc*
-.sass-cache/
+# Ignore bundler config
+/.bundle
+
+# Ignore .env
 .env
-config/deploy.rb
-config/deploy/*.rb
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+.DS_Store
+.bash_history
+
+# Config files
+config/mailer.yml.erb
+config/database.yml
+
+# various editor/config files
 \#*
 .#*
+*.swp
+
+# Ignore cache files
+*cache
+
+# Ignore local postgresql database directory
+postgresql/
+data/
